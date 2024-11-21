@@ -1,0 +1,61 @@
+@import 'locomotive-scroll/dist/locomotive-scroll.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.link-hover-green {
+  @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-darkgreen after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer;
+}
+.link-hover-peach {
+  @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-peach after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer;
+}
+
+.react-slide {
+  padding: 20px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: #a7c957 !important;
+  font-size: 2rem !important;
+}
+
+.slick-prev:before {
+  margin-right: 10px;
+}
+.slick-dots .slick-active button::before {
+  color: #386641 !important;
+  opacity: 0.75 !important;
+}
+
+.slick-dots li button::before {
+  color: #6a994e !important;
+  opacity: 0.45 !important;
+  font-size: 10px !important;
+  margin-top: 20px !important;
+}
+@media (max-width: 768px) {
+  .slick-next:before,
+  .slick-prev:before {
+    display: none;
+  }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6c5ce7, #a29bfe); /* Thumb color */
+  border-radius: 10px; /* Rounded corners for the thumb */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #5a49c4; /* Hover state */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #dfe6e9; /* Track color */
+  border-radius: 10px; /* Rounded corners for the track */
+  margin: 5px; /* Optional: Space between track and content */
+}
