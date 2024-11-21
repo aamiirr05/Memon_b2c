@@ -1,0 +1,24 @@
+model Hotel {
+  hotel_id String @id @default(uuid())
+  admin Admin @relation(fields: [admin_id],references: [admin_id], onDelete: Cascade)
+  admin_id String
+  hotel_name String
+  hotel_country String
+  hotel_city String
+  hotel_description String
+  hotel_images String[]
+  hotel_distance String
+  created_at DateTime @default(now())
+  rooms Room[]
+}
+
+model Room{
+  room_id     String    @id @default(uuid())
+  hotel Hotel @relation(fields: [hotel_id],references: [hotel_id], onDelete: Cascade)
+  hotel_id String
+  quint_price Decimal
+  quad_price  Decimal
+  triple_price Decimal
+  double_price Decimal
+  created_at  DateTime  @default(now())
+}

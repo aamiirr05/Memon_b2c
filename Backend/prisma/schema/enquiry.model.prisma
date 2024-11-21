@@ -1,0 +1,76 @@
+enum Status {
+  Pending
+  Approved
+  Rejected
+}
+
+
+model EnquiryUmrah {
+  enquiry_id     String    @id @default(uuid())
+  user UserRegistration @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+  user_id String
+  salutation     String
+  first_name     String
+  last_name      String
+  email          String
+  package_type   String
+  package_name   String
+  contact        String
+  traveller_date DateTime
+  total_adults   Int
+  total_children Int
+  total_infants  Int
+  status         Status   @default(Pending) 
+  created_at     DateTime  @default(now())
+}
+
+
+
+model EnquiryVisa {
+  enquiry_id  String    @id @default(uuid())
+  user UserRegistration @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+  user_id String
+  salutation  String
+  first_name  String
+  last_name   String
+  email       String
+  contact     String
+  visa_country String
+  visa_type   String
+  status         Status   @default(Pending) 
+  created_at  DateTime  @default(now())
+}
+
+
+
+model EnquiryForex {
+  enquiry_id      String    @id @default(uuid())
+  user UserRegistration @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+  user_id String
+  salutation      String
+  first_name      String
+  last_name       String
+  email           String
+  contact         String
+  amount_required Decimal
+  country         String
+  address         String
+  status         Status   @default(Pending) 
+  created_at      DateTime  @default(now())
+}
+
+
+
+model EnquiryContact {
+  enquiry_id  String    @id @default(uuid())
+  user UserRegistration @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+  user_id String
+  salutation  String
+  first_name  String
+  last_name   String
+  email       String
+  contact     String
+  message     String
+  status         Status   @default(Pending) 
+  created_at  DateTime  @default(now())
+}

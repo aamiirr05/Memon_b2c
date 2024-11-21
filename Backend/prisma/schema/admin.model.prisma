@@ -1,0 +1,11 @@
+model Admin {
+  admin_id       String    @id @default(uuid())
+  admin_username String    @db.VarChar(50)
+  password       String    @db.VarChar(100)
+  email          String    @db.VarChar(100)
+  contact        String    @db.VarChar(15)
+  created_at     DateTime  @default(now())
+  packages Package[] 
+  hotels Hotel[]
+  visa Visa []
+}

@@ -1,0 +1,30 @@
+model Package {
+  package_id        String    @id @default(uuid())
+  admin Admin @relation(fields: [admin_id],references: [admin_id], onDelete: Cascade)
+  admin_id String
+  package_name      String  @db.VarChar(100)
+  description       String
+  group_dates       DateTime[]
+  total_days        Int
+  total_nights      Int
+  mak_hotel_name    String   @db.VarChar(100)
+  mak_hotel_images  String[]
+  med_hotel_name    String?   @db.VarChar(100)
+  med_hotel_images  String[]
+  created_at        DateTime  @default(now())
+  prices PackagePrice[] 
+}
+
+
+model PackagePrice {
+  price_id                String    @id @default(uuid())
+  package Package @relation(fields: [package_id],references: [package_id], onDelete: Cascade)
+  package_id String
+  quint_price             Decimal
+  quad_price              Decimal
+  triple_price            Decimal
+  double_price            Decimal
+  child_without_bed_price Decimal
+  infant_price            Decimal
+  created_at              DateTime  @default(now())
+}
