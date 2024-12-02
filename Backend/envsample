@@ -1,3 +1,12 @@
 DATABASE_URL="postgresql://postgres.lymjtwtdvhanmvjyfjgb:MemonUmrahTravels@aws-0-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=require"
 
 PORT = 3000
+
+ACCESS_TOKEN_SECRET=gfKaG2OtLshcQZCoxirQqfRfLpCaXSPJ
+ACCESS_TOKEN_EXPIRY=1d
+
+REFRESH_TOKEN_SECRET=n2cL1F1JNxKv7eE5dTDhAlUYox7W6itc
+REFRESH_TOKEN_EXPIRY=10d
+
+NODEMAILER_USER =memonhajumrah@gmail.com
+NODEMAILER_APP_PASSWORD =erev xiai szbf dhel

@@ -7,7 +7,7 @@ enum Status {
 
 model EnquiryUmrah {
   enquiry_id     String    @id @default(uuid())
-  user UserRegistration @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
   user_id String
   salutation     String
   first_name     String
@@ -28,7 +28,7 @@ model EnquiryUmrah {
 
 model EnquiryVisa {
   enquiry_id  String    @id @default(uuid())
-  user UserRegistration @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
   user_id String
   salutation  String
   first_name  String
@@ -45,7 +45,7 @@ model EnquiryVisa {
 
 model EnquiryForex {
   enquiry_id      String    @id @default(uuid())
-  user UserRegistration @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
   user_id String
   salutation      String
   first_name      String
@@ -63,7 +63,7 @@ model EnquiryForex {
 
 model EnquiryContact {
   enquiry_id  String    @id @default(uuid())
-  user UserRegistration @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+  user User @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
   user_id String
   salutation  String
   first_name  String

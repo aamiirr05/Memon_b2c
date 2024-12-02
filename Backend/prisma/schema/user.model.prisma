@@ -1,4 +1,4 @@
-model UserRegistration{
+model User{
     registration_id String @id @default(uuid())
     salutation String @db.VarChar(10)
     first_name String @db.VarChar(50) 
@@ -7,6 +7,7 @@ model UserRegistration{
     contact String @db.VarChar(15)
     password String @db.VarChar(100)
     created_at DateTime @default(now())
+    refresh_token String?
     enquiry_umrah EnquiryUmrah[] 
     enquiry_visa EnquiryVisa[]
     enquiry_forex EnquiryForex[]
