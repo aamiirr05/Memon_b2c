@@ -7,11 +7,19 @@
   @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-darkgreen after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer;
 }
 .link-hover-peach {
-  @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-peach after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer;
+  @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-peach after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer inline-block;
+}
+
+.skew-heading {
+  @apply after:content-[''] after:absolute after:-z-20 after:-skew-x-[20deg] after:rounded-md after:p-6 md:after:p-8 after:-top-2 xl:after:-top-3 after:-left-3 after:bg-darkgreen;
+}
+
+.skew-heading-peach {
+  @apply after:content-[''] after:absolute after:-z-20 after:-skew-x-[20deg] hover:after:skew-x-[20deg] after:transition-all after:duration-300 hover:text-peach hover:after:border-2 hover:after:bg-darkgreen  hover:after:border-peach after:rounded-md after:p-7 after:-top-2 after:-left-4 after:bg-peach;
 }
 
 .react-slide {
-  padding: 20px;
+  padding: 10px;
 }
 
 .slick-prev:before,
@@ -21,7 +29,7 @@
 }
 
 .slick-prev:before {
-  margin-right: 10px;
+  margin-right: 20px !important;
 }
 .slick-dots .slick-active button::before {
   color: #386641 !important;
@@ -34,28 +42,77 @@
   font-size: 10px !important;
   margin-top: 20px !important;
 }
+
+.slick-slide .slides-packed {
+  opacity: 1 !important;
+}
+
+@media (min-width: 769px) {
+  .slick-center {
+    @apply transition-all ease-in-out;
+  }
+
+  .slick-slide .slides-packed {
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+    opacity: 0.8 !important; /* Reduce opacity for non-active slides */
+    transform: scale(0.8);
+  }
+
+  .slick-center .slides-packed {
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+}
+
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2; /* Ensure the arrows are above the slides */
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.prev-arrow {
+  left: -60px;
+}
+
+.next-arrow {
+  right: -60px;
+}
+
+::-webkit-scrollbar {
+  @apply w-[10px];
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-mediumgreen bg-opacity-45;
+}
+
+/* Style the scrollbar thumb (scroll handle) */
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-darkgreen;
+}
+
+/* Hover effect for the thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6a994e;
+}
+
 @media (max-width: 768px) {
   .slick-next:before,
   .slick-prev:before {
     display: none;
   }
-}
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 10px; /* Width of the scrollbar */
-}
+  .prev-arrow {
+    left: -20px;
+  }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #6c5ce7, #a29bfe); /* Thumb color */
-  border-radius: 10px; /* Rounded corners for the thumb */
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #5a49c4; /* Hover state */
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #dfe6e9; /* Track color */
-  border-radius: 10px; /* Rounded corners for the track */
-  margin: 5px; /* Optional: Space between track and content */
+  .next-arrow {
+    right: -20px;
+  }
 }

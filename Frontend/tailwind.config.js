@@ -16,6 +16,21 @@ export default {
         jakarta: 'Plus Jakarta Sans, sans-serif',
         zodiak: 'Zodiak , serif ',
       },
+
+      keyframes: {
+        'shift-up': {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-3px)' },
+        },
+        'shift-down': {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-2px)' },
+        },
+      },
+      animation: {
+        'shift-up': 'shift-up 0.3s ease-out forwards',
+        'shift-down': 'shift-down 0.1s ease-out forwards',
+      },
     },
   },
   plugins: [],
