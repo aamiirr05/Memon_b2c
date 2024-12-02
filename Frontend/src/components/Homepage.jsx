@@ -438,9 +438,7 @@ const Homepage = () => {
             exploration, and a connection to the roots of Islam. Pilgrims return
             with a renewed sense of faith, a deeper understanding of Islamic
             history, and memories that will last a lifetime. As the cradle of
-            Islam, Makka and Madina beckon believers to embark on this
-            transformative pilgrimage, seeking spiritual elevation and closeness
-            to Allah.
+            Islam.
           </p>
         </div>
         <div className="help-box bg-mediumgreen lg:w-1/2 p-4 flex flex-col gap-3 text-peach rounded-xl shadow-xl mx-auto my-5 lg:my-0">
