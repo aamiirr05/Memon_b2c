@@ -4,23 +4,23 @@ import cors from "cors";
 import logger from "../src/utils/logger.js";
 import morgan from "morgan";
 
-// Express App Initialization
+// ******** Express App Initialization ********
 const app = express();
 
-// Cors
+// ******** Cors ********
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN,
   })
 );
 
-// Json & Cookie-Parser
+// ******** Json & Cookie-Parser ********
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-// Custom Logger
+// ******** Custom Logger ********
 const morganFormat = ":method :url :status :response-time ms";
 
 app.use(
@@ -39,23 +39,39 @@ app.use(
   })
 );
 
-//routes import
+// ******** Routes Import ********
 import userRoute from "./routes/user.routes.js";
+import enquiryRoute from "./routes/enquiry.routes.js";
 
-// route declaration
+// ******** Route Declaration ********
 app.use("/api/v1/users", userRoute);
+app.use("/api/v1/enquiry", enquiryRoute);
 
 app.use((err, req, res, next) => {
-  // Log the error for debugging purposes
   console.error(err.stack);
 
-  // Send a structured JSON response
+  // Prisma-specific error handling
+  if (err.code === "P2025") {
+    // Prisma error code for "Record not found"
+    return res.status(404).json({
+      success: false,
+      message: "Resource not found.",
+    });
+  }
+
+  if (err.name === "PrismaClientValidationError") {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid query parameters.",
+    });
+  }
+
+  // General error handling
   res.status(err.statusCode || 500).json({
-    success: err.success,
+    success: false,
     statusCode: err.statusCode || 500,
-    message: err.message,
-    errors: err.errors || [],
-    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+    message: err.message || "Internal Server Error",
+    // stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
   });
 });
 

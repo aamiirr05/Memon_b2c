@@ -16,7 +16,7 @@ model EnquiryUmrah {
   package_type   String
   package_name   String
   contact        String
-  traveller_date DateTime
+  traveller_date String
   total_adults   Int
   total_children Int
   total_infants  Int

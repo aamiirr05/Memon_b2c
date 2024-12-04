@@ -1,5 +1,7 @@
 import Joi from "joi";
 
+// Signup Form Validation
+
 function userSignupInputValidation(data) {
   const userSignupSchema = Joi.object({
     salutation: Joi.string().required(),
@@ -23,6 +25,8 @@ function userSignupInputValidation(data) {
 
   return error ? error.details : null;
 }
+
+// Login Form Validation
 
 function userLoginInputValidation(data) {
   const userLoginSchema = Joi.object({

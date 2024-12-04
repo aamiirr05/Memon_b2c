@@ -6,31 +6,25 @@ import {
   userLoginInputValidation,
   userSignupInputValidation,
 } from "../utils/validator/user.validator.js";
+import {
+  transporter,
+  generateOTP,
+  generateAccessToken,
+  generateRefreshToken,
+  convertIntoNumber,
+} from "../utils/utilityfunction.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
-import crypto from "crypto";
 import fs from "fs";
 import path from "path";
+import {
+  userContactEnquiryValidation,
+  userForexEnquiryValidation,
+  userUmrahEnquiryValidation,
+  userVisaEnquiryValidation,
+} from "../utils/validator/enquiry.validator.js";
 
-// Nodemailer OTP config
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  secure: true,
-  port: 465,
-  service: "gmail",
-  auth: {
-    user: process.env.NODEMAILER_USER,
-    pass: process.env.NODEMAILER_APP_PASSWORD,
-  },
-});
-
-// OTP Generation and Storing Logic
-
-const generateOTP = () => {
-  return crypto.randomInt(100000, 999999); // Generates a 6-digit OTP
-};
+// Store Otp
 
 const otpStorage = new Map();
 
@@ -39,53 +33,9 @@ const storeOTP = (email, otp) => {
   otpStorage.set(email, { otp, expiresAt });
 };
 
-// Access and Refresh Token Generation Function
+// ****************** All user auth routes ******************
 
-const generateAccessToken = async (registrationId, email) => {
-  try {
-    const accessToken = jwt.sign(
-      {
-        registrationId,
-        email,
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
-    );
-
-    return accessToken;
-  } catch (error) {
-    throw new ApiError(500, "Something went wrong while generating token");
-  }
-};
-
-const generateRefreshToken = async (registrationId) => {
-  try {
-    const refreshToken = jwt.sign(
-      {
-        registrationId,
-      },
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-      }
-    );
-
-    await prisma.user.update({
-      where: {
-        registration_id: registrationId,
-      },
-      data: {
-        refresh_token: refreshToken,
-      },
-    });
-
-    return refreshToken;
-  } catch (error) {
-    throw new ApiError(500, "Something went wrong while generating token");
-  }
-};
-
-// All user auth routes
+// Signup
 
 const registerUser = asyncHandler(async (req, res) => {
   const {
@@ -164,6 +114,8 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, newUser, "User created successfully"));
 });
 
+// Login
+
 const loginUser = asyncHandler(async (req, res) => {
   let { email, password } = req.body;
 
@@ -179,7 +131,6 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (validationError) {
-    console.log(validationError);
     throw new ApiError(400, `Validation Error: ${validationError[0].message}`);
   }
 
@@ -241,6 +192,8 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
+// SendOtp
+
 const sendOtp = asyncHandler(async (req, res) => {
   let { email, username } = req.body;
 
@@ -258,11 +211,7 @@ const sendOtp = asyncHandler(async (req, res) => {
 
   const parentDir = path.resolve(normalizedDirname, "..");
 
-  const templatePath = path.join(parentDir, "emailTemplate.html");
-
-  console.log("__dirname:", __dirname); // The current directory
-  console.log("parentDir:", parentDir); // The parent directory
-  console.log("templatePath:", templatePath); // The full path to the template
+  const templatePath = path.join(parentDir, "email/emailTemplate.html");
 
   let htmlContent = fs.readFileSync(templatePath, "utf8");
 
@@ -284,11 +233,11 @@ const sendOtp = asyncHandler(async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, "OTP sent successfully"));
   } catch (error) {
-    console.error("Error sending OTP:", error);
-
     throw new ApiError(500, "Failed to send OTP");
   }
 });
+
+// VerifyOtp
 
 const verifyOtp = asyncHandler(async (req, res) => {
   let { email, inputOtp } = req.body;
@@ -319,6 +268,8 @@ const verifyOtp = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, "Email Verified!"));
 });
 
+// Logout
+
 const logoutUser = asyncHandler(
   asyncHandler(async (req, res) => {
     const user = req.user;
@@ -341,6 +292,8 @@ const logoutUser = asyncHandler(
   })
 );
 
+// RefreshToken
+
 const refreshToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken =
     req.cookies.refreshToken || req.body.refreshToken;
@@ -354,19 +307,11 @@ const refreshToken = asyncHandler(async (req, res) => {
     process.env.REFRESH_TOKEN_SECRET
   );
 
-  console.log(decodedToken);
-
   const user = await prisma.user.findUnique({
     where: {
       registration_id: decodedToken?.registrationId,
     },
   });
-
-  console.log("User", user);
-
-  console.log("Incoming", incomingRefreshToken);
-
-  console.log("Old", user.refresh_token);
 
   if (!user) {
     throw new ApiError(401, "Invalid refresh token");
@@ -404,6 +349,324 @@ const refreshToken = asyncHandler(async (req, res) => {
     );
 });
 
+// CurrentUser
+
+const getCurrentUser = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  if (!user) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const registration_id = user.registration_id;
+  if (!registration_id) {
+    throw new ApiError(400, "Invalid registration ID.");
+  }
+
+  const currentUser = await prisma.user.findUnique({
+    where: {
+      registration_id: registration_id,
+    },
+    select: {
+      registration_id: true,
+      salutation: true,
+      first_name: true,
+      last_name: true,
+      email: true,
+      contact: true,
+      enquiry_contact: {
+        select: {
+          enquiry_id: true,
+          salutation: true,
+          first_name: true,
+          last_name: true,
+          message: true,
+          status: true,
+        },
+      },
+      enquiry_forex: true,
+      enquiry_umrah: {
+        select: {
+          enquiry_id: true,
+          salutation: true,
+          first_name: true,
+          last_name: true,
+          package_type: true,
+          package_name: true,
+          status: true,
+          created_at: true,
+        },
+      },
+      enquiry_visa: true,
+    },
+  });
+
+  if (!currentUser) {
+    throw new ApiError(404, "User not found.");
+  }
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, currentUser, "User fetched sucessfully"));
+});
+
+// Contact Enquiry
+
+const enquiryContact = asyncHandler(async (req, res) => {
+  const { salutation, firstname, lastname, email, contact, message } = req.body;
+
+  const user = req.user;
+
+  const enquiryInputError = userContactEnquiryValidation({
+    salutation,
+    firstname,
+    lastname,
+    email,
+    contact,
+    message,
+  });
+
+  if (enquiryInputError) {
+    throw new ApiError(
+      400,
+      `Validation Error: ${enquiryInputError[0].message}`
+    );
+  }
+
+  const currentUser = user?.registration_id;
+
+  if (!currentUser) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const createdEnquiry = await prisma.enquiryContact.create({
+    data: {
+      user_id: currentUser,
+      salutation,
+      first_name: firstname,
+      last_name: lastname,
+      email,
+      contact,
+      message,
+    },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, createdEnquiry, "Your Enquiry Sent Sucessfully")
+    );
+});
+
+// Enquiry Forex
+
+const enquiryForex = asyncHandler(async (req, res) => {
+  const {
+    salutation,
+    firstname,
+    lastname,
+    email,
+    contact,
+    amountrequired,
+    country,
+    address,
+  } = req.body;
+
+  const amountInNumber = convertIntoNumber(amountrequired);
+
+  const user = req.user;
+
+  const enquiryInputError = userForexEnquiryValidation({
+    salutation,
+    firstname,
+    lastname,
+    email,
+    contact,
+    amountrequired: amountInNumber,
+    country,
+    address,
+  });
+
+  if (enquiryInputError) {
+    throw new ApiError(
+      400,
+      `Validation Error: ${enquiryInputError[0].message}`
+    );
+  }
+
+  const currentUser = user?.registration_id;
+
+  if (!currentUser) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const createdForexEnquiry = await prisma.enquiryForex.create({
+    data: {
+      user_id: currentUser,
+      salutation,
+      first_name: firstname,
+      last_name: lastname,
+      email,
+      contact,
+      amount_required: amountInNumber,
+      country,
+      address,
+    },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        createdForexEnquiry,
+        "Your Forex Enquiry Sent Sucessfully"
+      )
+    );
+});
+
+// Enquiry Umrah
+
+const enquiryUmrah = asyncHandler(async (req, res) => {
+  const {
+    salutation,
+    firstname,
+    lastname,
+    email,
+    packagetype,
+    packagename,
+    contact,
+    travellerdate,
+    totaladults,
+    totalchildren,
+    totalinfants,
+  } = req.body;
+
+  const totalAdultCount = convertIntoNumber(totaladults);
+
+  const totalChildrenCount = convertIntoNumber(totalchildren);
+
+  const totalInfantCount = convertIntoNumber(totalinfants);
+
+  const user = req.user;
+
+  const enquiryInputError = userUmrahEnquiryValidation({
+    salutation,
+    firstname,
+    lastname,
+    email,
+    packagetype,
+    packagename,
+    contact,
+    travellerdate,
+    totaladults: totalAdultCount,
+    totalchildren: totalInfantCount,
+    totalinfants: totalChildrenCount,
+  });
+
+  if (enquiryInputError) {
+    throw new ApiError(
+      400,
+      `Validation Error: ${enquiryInputError[0].message}`
+    );
+  }
+
+  const currentUser = user?.registration_id;
+
+  if (!currentUser) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const createdUmrahEnquiry = await prisma.enquiryUmrah.create({
+    data: {
+      user_id: currentUser,
+      salutation,
+      first_name: firstname,
+      last_name: lastname,
+      email,
+      package_type: packagetype,
+      package_name: packagename,
+      contact,
+      traveller_date: travellerdate,
+      total_adults: totalAdultCount,
+      total_children: totalInfantCount,
+      total_infants: totalChildrenCount,
+    },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        createdUmrahEnquiry,
+        "Your Umrah Enquiry Sent Sucessfully"
+      )
+    );
+});
+
+// Enquiry Visa
+
+const enquiryVisa = asyncHandler(async (req, res) => {
+  const {
+    salutation,
+    firstname,
+    lastname,
+    email,
+    contact,
+    visacountry,
+    visatype,
+  } = req.body;
+
+  const user = req.user;
+
+  const enquiryInputError = userVisaEnquiryValidation({
+    salutation,
+    firstname,
+    lastname,
+    email,
+    contact,
+    visacountry,
+    visatype,
+  });
+
+  if (enquiryInputError) {
+    throw new ApiError(
+      400,
+      `Validation Error: ${enquiryInputError[0].message}`
+    );
+  }
+
+  const currentUser = user?.registration_id;
+
+  if (!currentUser) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const createdVisaEnquiry = await prisma.enquiryVisa.create({
+    data: {
+      user_id: currentUser,
+      salutation,
+      first_name: firstname,
+      last_name: lastname,
+      email,
+      contact,
+      visa_country: visacountry,
+      visa_type: visatype,
+    },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        createdVisaEnquiry,
+        "Your Visa Enquiry Sent Sucessfully"
+      )
+    );
+});
+
 export {
   registerUser,
   loginUser,
@@ -411,4 +674,9 @@ export {
   verifyOtp,
   logoutUser,
   refreshToken,
+  getCurrentUser,
+  enquiryContact,
+  enquiryForex,
+  enquiryUmrah,
+  enquiryVisa,
 };

@@ -2,6 +2,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient({ log: ["query"] });
 
+// ******** DB Connection ********
+
 const connectDB = async () => {
   try {
     await prisma.$connect();
