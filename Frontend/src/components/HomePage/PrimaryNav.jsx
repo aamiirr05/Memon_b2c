@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 /* eslint-disable react/prop-types */
 const PrimaryNav = ({ isMenuOpen }) => {
   return (
@@ -9,8 +11,13 @@ const PrimaryNav = ({ isMenuOpen }) => {
           <div className="link-hover-peach links">Support</div>
           <div className="link-hover-peach links">Contact</div>
           <div className="flex items-center links justify-center gap-1">
-            <div className="link-hover-peach">Login</div> /{' '}
-            <div className="link-hover-peach">Signup</div>
+            <NavLink to="/login" className="link-hover-peach">
+              Login
+            </NavLink>{' '}
+            /{' '}
+            <NavLink to="signup" className="link-hover-peach">
+              Signup
+            </NavLink>
           </div>
           <div className="link-hover-peach links">B2B Login</div>
         </div>

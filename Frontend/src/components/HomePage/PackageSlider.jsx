@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import PackageCard from './PackageCard';
 import Slider from 'react-slick';
 
-const PackageSlider = ({ isMenuOpen }) => {
+const PackageSlider = ({ isMenuOpen, heading }) => {
   const CustomPrevArrow = ({ onClick }) => (
     <div className="custom-arrow prev-arrow" onClick={onClick}>
       <ChevronLeft className="text-mediumgreen" size={35} />
@@ -62,8 +62,8 @@ const PackageSlider = ({ isMenuOpen }) => {
       <section
         className={`w-11/12 mx-auto slider-container ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
       >
-        <h1 className="xl:after:w-1/5 ml-8 md:ml-0 lg:after:w-[30%] md:after:w-[40%] after:w-[57%] skew-heading relative text-2xl font-zodiak text-peach md:text-4xl font-semibold mb-10">
-          Our Packages
+        <h1 className="xl:after:w-[35%] ml-8 md:ml-0 lg:after:w-[30%] md:after:w-[40%] after:w-[57%] skew-heading relative text-2xl font-zodiak text-peach md:text-4xl font-semibold mb-10">
+          {heading}
         </h1>
         <Slider
           {...settingsOne}

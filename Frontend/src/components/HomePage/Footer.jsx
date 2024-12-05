@@ -1,4 +1,9 @@
-import { Facebook, Mail, MessageCircle, MessageCircleMore } from 'lucide-react';
+import {
+  Instagram,
+  Mail,
+  MessageCircle,
+  MessageCircleMore,
+} from 'lucide-react';
 
 /* eslint-disable react/prop-types */
 const Footer = ({ isMenuOpen }) => {
@@ -49,7 +54,8 @@ const Footer = ({ isMenuOpen }) => {
             <div className="flex items-center gap-4">
               <Mail />
               <MessageCircle />
-              <Facebook />
+              {/* <Facebook /> */}
+              <Instagram />
             </div>
             <div className="flex items-center gap-3">
               <MessageCircleMore />

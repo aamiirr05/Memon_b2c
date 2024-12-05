@@ -2,7 +2,7 @@ import { CalendarDays, MapPinned } from 'lucide-react';
 
 const PackageCard = () => {
   return (
-    <div className=" w-10/12 lg:11/12 xl:w-[95%] mx-auto bg-white bg-opacity-10 shadow-lg overflow-hidden rounded-xl">
+    <div className=" w-10/12 z-50 lg:11/12 xl:w-[95%] mx-auto bg-white bg-opacity-80 shadow-lg overflow-hidden rounded-xl">
       <div className="w- overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1551041777-575d3855ca71?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -28,7 +28,7 @@ const PackageCard = () => {
           <h2 className="text-lg font-bold">$100</h2>
         </div>
         <button className="hover:animate-shift-up cursor-pointer rounded-md border border-darkgreen my-3 w-1/2 p-2 text-darkgreen font-zodiak hover:bg-darkgreen hover:text-white transition-colors">
-          Book Now
+          View Package
         </button>
       </div>
     </div>

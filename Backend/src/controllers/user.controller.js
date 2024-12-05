@@ -48,6 +48,17 @@ const registerUser = asyncHandler(async (req, res) => {
     confirmpassword,
   } = req.body;
 
+  const data = {
+    salutation,
+    firstname,
+    lastname,
+    email,
+    contact,
+    password,
+    confirmpassword,
+  };
+  console.log(data);
+
   if (
     [
       salutation,
@@ -111,7 +122,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, newUser, "User created successfully"));
+    .json(new ApiResponse(200, newUser, "Account Created Successfully"));
 });
 
 // Login
@@ -203,6 +214,16 @@ const sendOtp = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Email is required");
   }
 
+  const userExist = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  if (userExist) {
+    throw new ApiError(400, "User with this email already exists!");
+  }
+
   const otp = generateOTP();
 
   const normalizedDirname = __dirname.startsWith("/")
@@ -228,6 +249,7 @@ const sendOtp = asyncHandler(async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
+    console.log("gsetkgtihnjset");
 
     storeOTP(email, otp);
 

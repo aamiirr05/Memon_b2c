@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-
 import { useState } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -11,7 +9,6 @@ import Footer from './HomePage/Footer';
 import PrimaryNav from './HomePage/PrimaryNav';
 import SecondaryNav from './HomePage/SecondaryNav';
 import AboutUs from './HomePage/AboutUs';
-import BookNow from './HomePage/BookNow';
 import MainContent from './HomePage/MainContent';
 import Hamburger from './HomePage/Hamburger';
 import HamburgerLogo from './HomePage/HamburgerLogo';
@@ -223,13 +220,29 @@ const Homepage = () => {
 
       {/* Package Slider  */}
 
-      <PackageSlider isMenuOpen={isMenuOpen} />
+      <section className="h-full py-10 my-20 w-full bg-peach bg-opacity-30 shadow-sm">
+        <PackageSlider isMenuOpen={isMenuOpen} heading={'Our Umrah Packages'} />
+      </section>
 
       {/* A section to be added  */}
-      <section className="h-[100vh] my-20 w-full bg-darkgreen"></section>
+      <section className="h-full py-10 my-20 w-full">
+        <PackageSlider
+          isMenuOpen={isMenuOpen}
+          heading={'Our Holiday Packages'}
+        />
+      </section>
+
+      {/* Package Slider  */}
+
+      <section className="h-full py-10 my-20 w-full bg-peach bg-opacity-30 shadow-sm">
+        <PackageSlider
+          isMenuOpen={isMenuOpen}
+          heading={'Recommended Packages'}
+        />
+      </section>
 
       {/* Book Now Section  */}
-      <BookNow isMenuOpen={isMenuOpen} />
+      {/* <BookNow isMenuOpen={isMenuOpen} /> */}
       {/* Testimonials */}
       <TestimonialWrapper isMenuOpen={isMenuOpen} />
       {/* Footer  */}
