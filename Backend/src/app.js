@@ -43,10 +43,12 @@ app.use(
 // ******** Routes Import ********
 import userRoute from "./routes/user.routes.js";
 import enquiryRoute from "./routes/enquiry.routes.js";
+import adminRoute from "./routes/admin.routes.js";
 
 // ******** Route Declaration ********
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/enquiry", enquiryRoute);
+app.use("/api/v1/admin", adminRoute);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
