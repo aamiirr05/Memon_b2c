@@ -23,9 +23,9 @@ const generateOTP = () => {
   return crypto.randomInt(100000, 999999); // Generates a 6-digit OTP
 };
 
-// ****************** Access and Refresh Token Generation Function ******************
+// ****************** Users Access and Refresh Token Generation Function  ******************
 
-const generateAccessToken = async (registrationId, email) => {
+const generateAccessTokenForUser = async (registrationId, email) => {
   try {
     const accessToken = jwt.sign(
       {
@@ -42,7 +42,7 @@ const generateAccessToken = async (registrationId, email) => {
   }
 };
 
-const generateRefreshToken = async (registrationId) => {
+const generateRefreshTokenForUser = async (registrationId) => {
   try {
     const refreshToken = jwt.sign(
       {
@@ -75,10 +75,62 @@ const convertIntoNumber = (data) => {
   return parseInt(data, 10);
 };
 
+// ****************** Users Access and Refresh Token Generation Function  ******************
+
+const generateAccessTokenForAdmin = async (adminId, email, isAdmin) => {
+  try {
+    const accessToken = jwt.sign(
+      {
+        adminId,
+        email,
+        isAdmin,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
+    );
+
+    return accessToken;
+  } catch (error) {
+    throw new ApiError(500, "Something went wrong while generating token");
+  }
+};
+
+const generateRefreshTokenForAdmin = async (adminId, isAdmin) => {
+  try {
+    const refreshToken = jwt.sign(
+      {
+        adminId,
+        isAdmin,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+      }
+    );
+
+    await prisma.admin.update({
+      where: {
+        admin_id: adminId,
+      },
+      data: {
+        refresh_token: refreshToken,
+      },
+    });
+
+    return refreshToken;
+  } catch (error) {
+    throw new ApiError(500, "Something went wrong while generating token");
+  }
+};
+
+// ********** EXPORT *********
+
 export {
   transporter,
   generateOTP,
-  generateAccessToken,
-  generateRefreshToken,
+  generateAccessTokenForUser,
+  generateRefreshTokenForUser,
   convertIntoNumber,
+  generateAccessTokenForAdmin,
+  generateRefreshTokenForAdmin,
 };

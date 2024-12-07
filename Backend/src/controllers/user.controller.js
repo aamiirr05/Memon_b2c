@@ -5,13 +5,13 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import {
   userLoginInputValidation,
   userSignupInputValidation,
-} from "../utils/validator/user.validator.js";
+} from "../validator/user.validator.js";
 import {
   transporter,
   generateOTP,
-  generateAccessToken,
-  generateRefreshToken,
   convertIntoNumber,
+  generateAccessTokenForUser,
+  generateRefreshTokenForUser,
 } from "../utils/utilityfunction.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -22,7 +22,7 @@ import {
   userForexEnquiryValidation,
   userUmrahEnquiryValidation,
   userVisaEnquiryValidation,
-} from "../utils/validator/enquiry.validator.js";
+} from "../validator/enquiry.validator.js";
 
 // Store Otp
 
@@ -57,7 +57,6 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     confirmpassword,
   };
-  console.log(data);
 
   if (
     [
@@ -159,12 +158,14 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid user credentials");
   }
 
-  const accessToken = await generateAccessToken(
+  const accessToken = await generateAccessTokenForUser(
     userExist.registration_id,
     userExist.email
   );
 
-  const refreshToken = await generateRefreshToken(userExist.registration_id);
+  const refreshToken = await generateRefreshTokenForUser(
+    userExist.registration_id
+  );
 
   const loggedInUser = await prisma.user.findUnique({
     where: {
@@ -198,7 +199,7 @@ const loginUser = asyncHandler(async (req, res) => {
           accessToken,
           refreshToken,
         },
-        "User Logged in Successfully"
+        "Logged in Successfully"
       )
     );
 });
