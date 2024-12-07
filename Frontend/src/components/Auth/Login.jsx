@@ -8,14 +8,15 @@ import {
   MoveLeft,
   SquareChartGantt,
 } from 'lucide-react';
-import { NavLink, useLoaderData, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import axiosInstance from '../axios/AxiosInstance';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
+import { AuthContext } from '../../context';
 
 const schema = yup
   .object({
@@ -36,13 +37,8 @@ const Login = () => {
   const navigate = useNavigate();
   const [isPassVisible, setIsPassVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const isLoggedIn = useLoaderData();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      return navigate('/dashboard', { replace: true });
-    }
-  }, [isLoggedIn]);
+  const { setIsLoggedIn, setAccessToken, setRefreshToken } =
+    useContext(AuthContext);
 
   const handleSuccess = (val) => {
     toast.success(val, {
@@ -79,11 +75,15 @@ const Login = () => {
 
       const accesstoken = res.data.data.accessToken;
       const refreshtoken = res.data.data.refreshToken;
+      setAccessToken(accesstoken);
+      setRefreshToken(refreshtoken);
 
       Cookies.set('accessToken', accesstoken);
-      Cookies.set('refrehToken', refreshtoken);
+      Cookies.set('refreshToken', refreshtoken);
+      setIsLoggedIn(true);
+
       reset();
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       const errmsg = error.response.data.message;
       handleError(errmsg);
@@ -212,6 +212,7 @@ export default Login;
 
 export const loginLoader = () => {
   const accesstoken = Cookies.get('accessToken');
+
   if (accesstoken) {
     return true;
   } else {

@@ -34,6 +34,7 @@ const PackageSlider = ({ isMenuOpen, heading }) => {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
+          centerMode: false,
           slidesToScroll: 2,
           infinite: true,
           dots: true,

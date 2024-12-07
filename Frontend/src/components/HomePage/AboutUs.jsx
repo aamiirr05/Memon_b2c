@@ -1,7 +1,76 @@
 /* eslint-disable react/prop-types */
 import { MessageCircleMore } from 'lucide-react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 const AboutUs = ({ isMenuOpen }) => {
+  useGSAP(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    function PageTwoAnimation() {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.section-two',
+          scroller: 'body',
+          // markers: true,
+          start: 'top 45%',
+          end: 'top 5%',
+          scrub: 3,
+        },
+      });
+
+      tl.from(
+        '.section-two .heading-wel',
+        {
+          opacity: 0,
+          duration: 0.5,
+          x: -200,
+        },
+        'one'
+      );
+
+      tl.from(
+        '.section-two .heading-com-one',
+        {
+          opacity: 0,
+          duration: 0.5,
+          x: -200,
+          delay: 0.2,
+        },
+        'one'
+      );
+
+      tl.from(
+        '.section-two .heading-com-two',
+        {
+          opacity: 0,
+          duration: 0.5,
+          x: -200,
+          delay: 0.4,
+        },
+        'one'
+      );
+
+      tl.from(
+        '.section-two .help-box',
+        {
+          opacity: 0,
+          duration: 0.5,
+          x: 200,
+        },
+        'one'
+      );
+
+      tl.from('.section-two .para-one', {
+        opacity: 0,
+        duration: 0.5,
+        x: -200,
+      });
+    }
+
+    PageTwoAnimation();
+  });
   return (
     <>
       <section

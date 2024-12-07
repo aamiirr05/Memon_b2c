@@ -27,7 +27,7 @@ const PackageCard = () => {
           </h3>
           <h2 className="text-lg font-bold">$100</h2>
         </div>
-        <button className="hover:animate-shift-up cursor-pointer rounded-md border border-darkgreen my-3 w-1/2 p-2 text-darkgreen font-zodiak hover:bg-darkgreen hover:text-white transition-colors">
+        <button className="hover:animate-shift-up cursor-pointer rounded-md border border-darkgreen my-3 w-full lg:w-1/2 p-2 text-darkgreen font-zodiak hover:bg-darkgreen hover:text-white transition-colors">
           View Package
         </button>
       </div>
