@@ -3,15 +3,16 @@ model UmrahPackage {
   admin            Admin               @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
   admin_id         String
   package_name     String              @db.VarChar(200)
+  package_image    Json
   package_type     String              @db.VarChar(100)
   description      String
   group_dates      String
   total_days       Int
   total_nights     Int
   mak_hotel_name   String              @db.VarChar(200)
-  mak_hotel_images String[]
+  mak_hotel_images Json
   med_hotel_name   String              @db.VarChar(200)
-  med_hotel_images String[]
+  med_hotel_images Json
   created_at       DateTime            @default(now())
   prices           UmrahPackagePrice[]
 }

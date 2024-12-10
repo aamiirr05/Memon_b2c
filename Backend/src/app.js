@@ -44,11 +44,13 @@ app.use(
 import userRoute from "./routes/user.routes.js";
 import enquiryRoute from "./routes/enquiry.routes.js";
 import adminRoute from "./routes/admin.routes.js";
+import umrahPackageRoute from "./routes/umrah.package.routes.js";
 
 // ******** Route Declaration ********
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/enquiry", enquiryRoute);
 app.use("/api/v1/admin", adminRoute);
+app.use("/api/v1/packages", umrahPackageRoute);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -65,7 +67,7 @@ app.use((err, req, res, next) => {
   if (err.name === "PrismaClientValidationError") {
     return res.status(400).json({
       success: false,
-      message: "Invalid query parameters.",
+      message: "Validation Error",
     });
   }
 
