@@ -2,7 +2,10 @@ import { Router } from "express";
 import { verifyAdminJwt } from "../middlewares/admin.auth.middleware.js";
 import {
   createUmrahPackage,
+  deleteUmrahPackage,
   getAllUmrahPackages,
+  updateUmrahMakHotelImages,
+  updateUmrahMedHotelImages,
   updateUmrahPackageDetails,
   updateUmrahPackageImages,
 } from "../controllers/umrah.package.controller.js";
@@ -36,5 +39,25 @@ router
     upload.fields([{ name: "packageimage", maxCount: 5 }]),
     updateUmrahPackageImages
   );
+
+router
+  .route("/update-makhotel-image/:id")
+  .put(
+    verifyAdminJwt,
+    upload.fields([{ name: "makhotelimage", maxCount: 5 }]),
+    updateUmrahMakHotelImages
+  );
+
+router
+  .route("/update-medhotel-image/:id")
+  .put(
+    verifyAdminJwt,
+    upload.fields([{ name: "medhotelimage", maxCount: 5 }]),
+    updateUmrahMedHotelImages
+  );
+
+router
+  .route("/delete-umrah-package/:id")
+  .delete(verifyAdminJwt, deleteUmrahPackage);
 
 export default router;

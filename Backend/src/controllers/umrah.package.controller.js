@@ -166,6 +166,10 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.packageimage) &&
     req.files.packageimage.length > 0
   ) {
+    if (req.files.packageimage.length !== 5) {
+      deleteTempFiles();
+      throw new ApiError(400, "All 5 Package Images are required.");
+    }
     packageImagePath = req.files.packageimage.map((file) => file.path);
   }
 
@@ -174,6 +178,10 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.makkahhotelimage) &&
     req.files.makkahhotelimage.length > 0
   ) {
+    if (req.files.makkahhotelimage.length !== 5) {
+      deleteTempFiles();
+      throw new ApiError(400, "All 5 Makkah Hotel Images are required.");
+    }
     makkahHotelImagePath = req.files.makkahhotelimage.map((file) => file.path);
   }
 
@@ -182,6 +190,10 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.medinahotelimage) &&
     req.files.medinahotelimage.length > 0
   ) {
+    if (req.files.medinahotelimage.length !== 5) {
+      deleteTempFiles();
+      throw new ApiError(400, "All 5 Medina Hotel Images are required.");
+    }
     medinaHotelImagePath = req.files.medinahotelimage.map((file) => file.path);
   }
 
@@ -292,9 +304,13 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     },
   });
 
+  const fullCreatedPackage = [createdPackage, createdPackagePrice];
+
   res
     .status(200)
-    .json(new ApiResponse(200, createdPackage, createdPackagePrice));
+    .json(
+      new ApiResponse(200, fullCreatedPackage, "Package Created Sucessfully")
+    );
 });
 
 const getAllUmrahPackages = asyncHandler(async (req, res) => {
@@ -441,10 +457,37 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
         },
       },
     },
-    include: { prices: true },
+    select: {
+      package_name: true,
+      package_type: true,
+      description: true,
+      group_dates: true,
+      total_days: true,
+      total_nights: true,
+      mak_hotel_name: true,
+      med_hotel_name: true,
+      prices: {
+        select: {
+          quint_price: true,
+          quad_price: true,
+          triple_price: true,
+          double_price: true,
+          child_without_bed_price: true,
+          infant_price: true,
+        },
+      },
+    },
   });
 
-  res.status(200).json(new ApiResponse(200, updatedPackage, "Done"));
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        updatedPackage,
+        "Package Details Updated Sucessfully"
+      )
+    );
 });
 
 const updateUmrahPackageImages = asyncHandler(async (req, res) => {
@@ -520,7 +563,7 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   }
 
   for (const oldImgId of oldPackageImagePublicIds) {
-    deleteImageFromCloudinary(oldImgId);
+    await deleteImageFromCloudinary(oldImgId);
     console.log("Image Deleted From Cloudinary");
   }
 
@@ -538,7 +581,250 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedPackageImage, "Done"));
+    .json(
+      new ApiResponse(
+        200,
+        updatedPackageImage,
+        "Umrah Package Images Updated Sucessfully"
+      )
+    );
+});
+
+const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const packageId = req.params.id;
+
+  const existingPackage = await prisma.umrahPackage.findUnique({
+    where: { package_id: packageId },
+  });
+
+  if (!existingPackage) {
+    deleteTempFiles();
+    throw new ApiError(404, " No Package Found");
+  }
+
+  let makHotelImagePaths = [];
+
+  if (
+    req.files?.makhotelimage &&
+    Array.isArray(req.files.makhotelimage) &&
+    req.files.makhotelimage.length < 5
+  ) {
+    deleteTempFiles();
+    throw new ApiError(401, "All Makkah Hotel Images is Required");
+  } else {
+    makHotelImagePaths = req.files?.makhotelimage.map((file) => file.path);
+  }
+
+  if (
+    !makHotelImagePaths ||
+    makHotelImagePaths.length === 0 ||
+    makHotelImagePaths.length < 5
+  ) {
+    deleteTempFiles();
+    throw new ApiError(400, "At least 5 Makkah Hotel Images are required.");
+  }
+
+  for (const imagePath of makHotelImagePaths) {
+    if (!isValidImage(imagePath)) {
+      // Delete invalid file from the server
+
+      deleteTempFiles();
+
+      // Throw an error after cleanup
+      throw new ApiError(
+        400,
+        `Invalid file type! .jpg, .jpeg, .png are allowed.`
+      );
+    }
+  }
+
+  const oldMakHotelImagePublicIds = await Promise.all(
+    existingPackage.mak_hotel_images.map((image) => image.public_id)
+  );
+
+  const newMakHotelImages = await uploadImages(
+    "Makkah Hotel Image",
+    makHotelImagePaths
+  );
+
+  if (!newMakHotelImages || newMakHotelImages.length === 0) {
+    throw new ApiError(500, "Error While Uploading Images");
+  }
+
+  for (const oldImgId of oldMakHotelImagePublicIds) {
+    await deleteImageFromCloudinary(oldImgId);
+    console.log("Image Deleted From Cloudinary");
+  }
+
+  const makHotelImageArray = Object.values(newMakHotelImages)[0];
+
+  const updatedMakHotelImage = await prisma.umrahPackage.update({
+    where: { package_id: packageId },
+    data: { mak_hotel_images: makHotelImageArray },
+    select: { mak_hotel_images: true },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        updatedMakHotelImage,
+        "Makkah Hotel Images Updated Sucessfully"
+      )
+    );
+});
+
+const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const packageId = req.params.id;
+
+  const existingPackage = await prisma.umrahPackage.findUnique({
+    where: { package_id: packageId },
+  });
+
+  if (!existingPackage) {
+    deleteTempFiles();
+    throw new ApiError(404, "No Package Found");
+  }
+
+  let medHotelImagePaths = [];
+
+  if (
+    req.files?.medhotelimage &&
+    Array.isArray(req.files.medhotelimage) &&
+    req.files.medhotelimage.length < 5
+  ) {
+    deleteTempFiles();
+    throw new ApiError(401, "All Medina Hotel Images are Required");
+  } else {
+    medHotelImagePaths = req.files?.medhotelimage.map((file) => file.path);
+  }
+
+  if (
+    !medHotelImagePaths ||
+    medHotelImagePaths.length === 0 ||
+    medHotelImagePaths.length < 5
+  ) {
+    deleteTempFiles();
+    throw new ApiError(400, "At least 5 Medina Hotel Images are required.");
+  }
+
+  for (const imagePath of medHotelImagePaths) {
+    if (!isValidImage(imagePath)) {
+      // Delete invalid file from the server
+      deleteTempFiles();
+
+      // Throw an error after cleanup
+      throw new ApiError(
+        400,
+        `Invalid file type! .jpg, .jpeg, .png are allowed.`
+      );
+    }
+  }
+
+  const oldMedHotelImagePublicIds = await Promise.all(
+    existingPackage.med_hotel_images.map((image) => image.public_id)
+  );
+
+  const newMedHotelImages = await uploadImages(
+    "Medina Hotel Image",
+    medHotelImagePaths
+  );
+
+  if (!newMedHotelImages || newMedHotelImages.length === 0) {
+    throw new ApiError(500, "Error While Uploading Images");
+  }
+
+  for (const oldImgId of oldMedHotelImagePublicIds) {
+    await deleteImageFromCloudinary(oldImgId);
+    console.log("Image Deleted From Cloudinary");
+  }
+
+  const medHotelImageArray = Object.values(newMedHotelImages)[0];
+
+  const updatedMedHotelImage = await prisma.umrahPackage.update({
+    where: { package_id: packageId },
+    data: { med_hotel_images: medHotelImageArray },
+    select: { med_hotel_images: true },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        updatedMedHotelImage,
+        "Medina Hotel Images Updated Successfully"
+      )
+    );
+});
+
+const deleteUmrahPackage = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const packageId = req.params.id;
+  console.log("Package ID:", packageId);
+
+  const existingPackage = await prisma.umrahPackage.findUnique({
+    where: { package_id: packageId },
+  });
+
+  if (!existingPackage) {
+    throw new ApiError(404, "No Package Found");
+  }
+
+  let allImagesId = [];
+
+  await Promise.all(
+    existingPackage.package_image.map((image) =>
+      allImagesId.push(image.public_id)
+    )
+  );
+
+  await Promise.all(
+    existingPackage.mak_hotel_images.map((image) =>
+      allImagesId.push(image.public_id)
+    )
+  );
+
+  await Promise.all(
+    existingPackage.med_hotel_images.map((image) =>
+      allImagesId.push(image.public_id)
+    )
+  );
+
+  if (!allImagesId || allImagesId.length === 0) {
+    throw new ApiError(500, "Error While Deleting Package");
+  }
+
+  for (const imageId of allImagesId) {
+    await deleteImageFromCloudinary(imageId);
+    console.log("Deleted");
+  }
+
+  await prisma.umrahPackage.delete({
+    where: { package_id: packageId },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Package Deletd Sucessfully"));
 });
 
 export {
@@ -546,4 +832,7 @@ export {
   getAllUmrahPackages,
   updateUmrahPackageDetails,
   updateUmrahPackageImages,
+  updateUmrahMakHotelImages,
+  updateUmrahMedHotelImages,
+  deleteUmrahPackage,
 };
