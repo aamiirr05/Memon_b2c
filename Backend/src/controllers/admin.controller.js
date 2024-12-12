@@ -28,6 +28,8 @@ const registerAdmin = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields must be filled");
   }
 
+  console.log(username, password, email, contact);
+
   const inputError = adminSignupInputValidation({
     username,
     password,
@@ -132,7 +134,10 @@ const loginAdmin = asyncHandler(async (req, res) => {
     },
   });
 
-  const options = { secure: true, httpOnly: true };
+  const options = {
+    secure: true,
+    // httpOnly: true
+  };
 
   return res
     .status(200)
@@ -152,7 +157,7 @@ const logoutAdmin = asyncHandler(async (req, res) => {
   });
 
   const options = {
-    httpOnly: true,
+    // httpOnly: true,
     secure: true,
   };
 
@@ -202,7 +207,7 @@ const refreshToken = asyncHandler(async (req, res) => {
 
   const options = {
     secure: true,
-    httpOnly: true,
+    // httpOnly: true,
   };
 
   return res

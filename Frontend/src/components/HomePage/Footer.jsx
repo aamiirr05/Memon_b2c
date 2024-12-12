@@ -28,7 +28,7 @@ const Footer = ({ isMenuOpen }) => {
 
       <div className="w-full p-0 md:p-5 lg:p-0 flex flex-col my-5 justify-start lg:flex-row lg:w-11/12 mx-auto lg:justify-start xl:gap-32 lg:items-end">
         <div className="p-6">
-          <h3 className="text-3xl font-bold font-zodiak skew-heading-peach relative text-darkgreen after:w-[95vw] md:after:w-[55vw] lg:after:w-[40vw] xl:after:w-[28vw]">
+          <h3 className="text-3xl font-bold font-zodiak skew-heading-peach relative text-darkgreen after:w-[95vw] md:after:w-[55vw] lg:after:w-[40vw] xl:after:w-[28vw] hover:animate-shift-up hover:duration-700 hover:shadow-xl">
             Memon Tours & Travels.
           </h3>
           <div className="inline-flex flex-col font-semibold gap-4 mt-10 font-jakarta">

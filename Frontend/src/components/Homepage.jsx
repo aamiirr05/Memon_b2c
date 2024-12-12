@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -11,11 +11,17 @@ import Hamburger from './HomePage/Hamburger';
 import HamburgerLogo from './HomePage/HamburgerLogo';
 import PackageSlider from './HomePage/PackageSlider';
 import TestimonialWrapper from './HomePage/TestimonialWrapper';
+import Cookies from 'js-cookie';
 
 const Homepage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMore, setIsMore] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const cookies = Cookies.get();
+    console.log('All cookies:', cookies);
+  }, []);
   return (
     <div className="relative overflow-x-hidden">
       {/* Primary Navbar */}

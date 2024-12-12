@@ -12,6 +12,10 @@ export default {
         lightpeach: '#EBE6D8',
       },
 
+      transitionTimingFunction: {
+        custom: 'cubic-bezier(0.7, 0, 0.84, 0)',
+      },
+
       fontFamily: {
         jakarta: 'Plus Jakarta Sans, sans-serif',
         zodiak: 'Zodiak , serif ',

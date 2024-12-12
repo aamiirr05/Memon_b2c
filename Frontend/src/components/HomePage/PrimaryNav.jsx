@@ -6,7 +6,8 @@ import Cookies from 'js-cookie';
 import axiosInstance from '../axios/AxiosInstance';
 
 const PrimaryNav = ({ isMenuOpen }) => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+  const { isLoggedIn, setIsLoggedIn, setAccessToken, setRefreshToken } =
+    useContext(AuthContext);
 
   const handleLogout = async () => {
     try {
@@ -16,7 +17,10 @@ const PrimaryNav = ({ isMenuOpen }) => {
       // Clear cookies and update state
       Cookies.remove('accessToken');
       Cookies.remove('refreshToken');
+      localStorage.removeItem('isLoggedIn');
       setIsLoggedIn(false);
+      setAccessToken(null);
+      setRefreshToken(null);
     } catch (error) {
       console.error('Logout Error:', error.response?.data || error.message);
     }
