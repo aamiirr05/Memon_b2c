@@ -15,9 +15,29 @@ function umrahPackageValidation(data) {
     description: Joi.string().required().messages({
       "any.required": '"description" is required',
     }),
-    groupdates: Joi.string().required().messages({
+    makkahitinerary: Joi.array().items(Joi.object()).required().messages({
+      "array.base": '"makkah_itinerary" must be an array',
+      "any.required": '"makkah_itinerary" is required',
+    }),
+    medinaitinerary: Joi.array().items(Joi.object()).required().messages({
+      "array.base": '"medina_itinerary" must be an array',
+      "any.required": '"medina_itinerary" is required',
+    }),
+    inclusion: Joi.array()
+      .items(Joi.string())
+      .required()
+      .messages({ "any.required": '"inclusion" is required' }),
+    exclusion: Joi.array()
+      .items(Joi.string())
+      .required()
+      .messages({ "any.required": '"exclusion" is required' }),
+    groupdates: Joi.array().items(Joi.string()).required().messages({
+      "array.base": '"group dates" must be an array',
       "any.required": '"group dates" is required',
     }),
+    bookingdeadline: Joi.string()
+      .required()
+      .messages({ "any.required": '"booking deadline" is required' }),
     totaldays: Joi.number().integer().positive().required().messages({
       "number.base": '"total days" must be a number',
       "number.positive": '"total days" must be greater than 0',
@@ -35,6 +55,40 @@ function umrahPackageValidation(data) {
     medhotelname: Joi.string().max(200).required().messages({
       "string.max": '"med hotel name" cannot exceed 200 characters',
       "any.required": '"med hotel name" is required',
+    }),
+    cancellationpolicy: Joi.array().items(Joi.string()).required().messages({
+      "array.base": '"cancellation_policy" must be an array',
+      "any.required": '"cancellation_policy" is required',
+    }),
+    termcondition: Joi.array().items(Joi.string()).required().messages({
+      "array.base": '"term_condition" must be an array',
+      "any.required": '"term_condition" is required',
+    }),
+    bookingterms: Joi.array().items(Joi.string()).required().messages({
+      "array.base": '"booking_terms" must be an array',
+      "any.required": '"booking_terms" is required',
+    }),
+    departurecity: Joi.string()
+      .required()
+      .messages({ "any.required": '"departure city" is required' }),
+    arrivalcity: Joi.string()
+      .required()
+      .messages({ "any.required": '"arrival city" is required' }),
+    isactive: Joi.boolean()
+      .required()
+      .messages({ "any.required": '"is active" is required' }),
+    featured: Joi.boolean()
+      .required()
+      .messages({ "any.required": '"featured" is required' }),
+    baseprice: Joi.number().integer().positive().required().messages({
+      "number.base": '"base price" must be a number',
+      "number.positive": '"base price" must be greater than 0',
+      "any.required": '"base price" is required',
+    }),
+    discount: Joi.number().integer().min(0).messages({
+      "number.base": '"discount" must be a number',
+      "number.positive": '"discount" must be greater than 0',
+      "number.min": '"discount" cannot be less than 0',
     }),
     quintprice: Joi.number().positive().required().messages({
       "number.base": '"quint price" must be a number',

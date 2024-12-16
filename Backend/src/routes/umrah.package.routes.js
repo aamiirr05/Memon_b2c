@@ -16,12 +16,12 @@ const router = Router();
 router.route("/create-package").post(
   verifyAdminJwt,
   upload.fields([
-    { name: "packageimage", maxCount: 5 },
+    { name: "packageimage", maxCount: 3 },
     {
       name: "makkahhotelimage",
-      maxCount: 5,
+      maxCount: 8,
     },
-    { name: "medinahotelimage", maxCount: 5 },
+    { name: "medinahotelimage", maxCount: 8 },
   ]),
   createUmrahPackage
 );
@@ -36,7 +36,7 @@ router
   .route("/update-package-image/:id")
   .put(
     verifyAdminJwt,
-    upload.fields([{ name: "packageimage", maxCount: 5 }]),
+    upload.fields([{ name: "packageimage", maxCount: 3 }]),
     updateUmrahPackageImages
   );
 
@@ -44,7 +44,7 @@ router
   .route("/update-makhotel-image/:id")
   .put(
     verifyAdminJwt,
-    upload.fields([{ name: "makhotelimage", maxCount: 5 }]),
+    upload.fields([{ name: "makhotelimage", maxCount: 8 }]),
     updateUmrahMakHotelImages
   );
 
@@ -52,7 +52,7 @@ router
   .route("/update-medhotel-image/:id")
   .put(
     verifyAdminJwt,
-    upload.fields([{ name: "medhotelimage", maxCount: 5 }]),
+    upload.fields([{ name: "medhotelimage", maxCount: 8 }]),
     updateUmrahMedHotelImages
   );
 

@@ -1,31 +1,52 @@
+enum StatusPackage {
+  true
+  false
+}
+
 model UmrahPackage {
-  package_id       String              @id @default(uuid())
-  admin            Admin               @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
-  admin_id         String
-  package_name     String              @db.VarChar(200)
-  package_image    Json
-  package_type     String              @db.VarChar(100)
-  description      String
-  group_dates      String
-  total_days       Int
-  total_nights     Int
-  mak_hotel_name   String              @db.VarChar(200)
-  mak_hotel_images Json
-  med_hotel_name   String              @db.VarChar(200)
-  med_hotel_images Json
-  created_at       DateTime            @default(now())
-  prices           UmrahPackagePrice[]
+  package_id          String              @id @default(uuid())
+  admin               Admin               @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
+  admin_id            String
+  package_name        String              @db.VarChar(200)
+  package_image       Json
+  package_type        String              @db.VarChar(100)
+  description         String
+  makkah_itinerary    Json
+  medina_itinerary    Json
+  inclusion           String[]
+  exclusion           String[]
+  group_dates         String[]
+  booking_deadline    String
+  total_days          Int
+  total_nights        Int
+  mak_hotel_name      String              @db.VarChar(200)
+  mak_hotel_images    Json
+  med_hotel_name      String              @db.VarChar(200)
+  med_hotel_images    Json
+  cancellation_policy String[]
+  term_condition      String[]
+  booking_terms       String[]
+  departure_city      String
+  arrival_city        String
+  is_active           StatusPackage       @default(true)
+  featured            StatusPackage       @default(false)
+  base_price          Int
+  discount            Int                 @default(0)
+  final_price         Int
+  you_saved           Int
+  created_at          DateTime            @default(now())
+  prices              UmrahPackagePrice[]
 }
 
 model UmrahPackagePrice {
   price_id                String       @id @default(uuid())
   package                 UmrahPackage @relation(fields: [package_id], references: [package_id], onDelete: Cascade)
   package_id              String
-  quint_price             Decimal
-  quad_price              Decimal
-  triple_price            Decimal
-  double_price            Decimal
-  child_without_bed_price Decimal
-  infant_price            Decimal
+  quint_price             Decimal      @db.Decimal(10, 2)
+  quad_price              Decimal      @db.Decimal(10, 2)
+  triple_price            Decimal      @db.Decimal(10, 2)
+  double_price            Decimal      @db.Decimal(10, 2)
+  child_without_bed_price Decimal      @db.Decimal(10, 2)
+  infant_price            Decimal      @db.Decimal(10, 2)
   created_at              DateTime     @default(now())
 }

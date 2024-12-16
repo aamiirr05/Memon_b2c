@@ -102,11 +102,25 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     packagename,
     packagetype,
     description,
+    makkahitinerary,
+    medinaitinerary,
+    inclusion,
+    exclusion,
     groupdates,
+    bookingdeadline,
     totaldays,
     totalnights,
     makhotelname,
     medhotelname,
+    cancellationpolicy,
+    termcondition,
+    bookingterms,
+    departurecity,
+    arrivalcity,
+    isactive,
+    featured,
+    baseprice,
+    discount,
     quintprice,
     quadprice,
     tripleprice,
@@ -115,16 +129,63 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     infantprice,
   } = req.body;
 
+  const data = {
+    packagename,
+    packagetype,
+    description,
+    makkahitinerary,
+    medinaitinerary,
+    inclusion,
+    exclusion,
+    groupdates,
+    bookingdeadline,
+    totaldays,
+    totalnights,
+    makhotelname,
+    medhotelname,
+    cancellationpolicy,
+    termcondition,
+    bookingterms,
+    departurecity,
+    arrivalcity,
+    isactive,
+    featured,
+    baseprice,
+    discount,
+    quintprice,
+    quadprice,
+    tripleprice,
+    doubleprice,
+    childwithoutbedprice,
+    infantprice,
+  };
+
+  console.log("Data:", data);
+
   if (
     [
       packagename,
       packagetype,
       description,
+      makkahitinerary,
+      medinaitinerary,
+      inclusion,
+      exclusion,
       groupdates,
+      bookingdeadline,
       totaldays,
       totalnights,
       makhotelname,
       medhotelname,
+      cancellationpolicy,
+      termcondition,
+      bookingterms,
+      departurecity,
+      arrivalcity,
+      isactive,
+      featured,
+      baseprice,
+      discount,
       quintprice,
       quadprice,
       tripleprice,
@@ -136,15 +197,65 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields must be filled");
   }
 
+  const makItineraryArray = JSON.parse(makkahitinerary);
+  const medItineraryArray = JSON.parse(medinaitinerary);
+  const inclusionArray = JSON.parse(inclusion);
+  const exclusionArray = JSON.parse(exclusion);
+  const groupsDatesArray = JSON.parse(groupdates);
+  const cancellationPolicyArray = JSON.parse(cancellationpolicy);
+  const termCondArray = JSON.parse(termcondition);
+  const bookingTermArray = JSON.parse(bookingterms);
+
+  const intBasePrice = convertIntoNumber(baseprice);
+  const intDiscount = convertIntoNumber(discount);
+  const intTotalDays = convertIntoNumber(totaldays);
+  const intTotalNights = convertIntoNumber(totalnights);
+  const intQuintPrice = convertIntoNumber(quintprice);
+  const intQuadPrice = convertIntoNumber(quadprice);
+  const intTriplePrice = convertIntoNumber(tripleprice);
+  const intDoublePrice = convertIntoNumber(doubleprice);
+  const intChildWithoutBedPrice = convertIntoNumber(childwithoutbedprice);
+  const intInfantPrice = convertIntoNumber(infantprice);
+
+  const finalPrice = baseprice - (baseprice * discount) / 100;
+  const youSaved = baseprice - finalPrice;
+
+  console.log(
+    makItineraryArray,
+    medItineraryArray,
+    inclusionArray,
+    exclusionArray,
+    groupsDatesArray,
+    cancellationPolicyArray,
+    termCondArray,
+    bookingTermArray,
+    finalPrice,
+    youSaved
+  );
+
   const inputError = umrahPackageValidation({
     packagename,
     packagetype,
     description,
-    groupdates,
+    makkahitinerary: makItineraryArray,
+    medinaitinerary: medItineraryArray,
+    inclusion: inclusionArray,
+    exclusion: exclusionArray,
+    groupdates: groupsDatesArray,
+    bookingdeadline,
     totaldays,
     totalnights,
     makhotelname,
     medhotelname,
+    cancellationpolicy: cancellationPolicyArray,
+    termcondition: termCondArray,
+    bookingterms: bookingTermArray,
+    departurecity,
+    arrivalcity,
+    isactive,
+    featured,
+    baseprice,
+    discount,
     quintprice,
     quadprice,
     tripleprice,
@@ -166,9 +277,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.packageimage) &&
     req.files.packageimage.length > 0
   ) {
-    if (req.files.packageimage.length !== 5) {
+    if (req.files.packageimage.length !== 3) {
       deleteTempFiles();
-      throw new ApiError(400, "All 5 Package Images are required.");
+      throw new ApiError(400, "All 3 Package Images are required.");
     }
     packageImagePath = req.files.packageimage.map((file) => file.path);
   }
@@ -178,9 +289,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.makkahhotelimage) &&
     req.files.makkahhotelimage.length > 0
   ) {
-    if (req.files.makkahhotelimage.length !== 5) {
+    if (req.files.makkahhotelimage.length !== 8) {
       deleteTempFiles();
-      throw new ApiError(400, "All 5 Makkah Hotel Images are required.");
+      throw new ApiError(400, "All 8 Makkah Hotel Images are required.");
     }
     makkahHotelImagePath = req.files.makkahhotelimage.map((file) => file.path);
   }
@@ -190,9 +301,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.medinahotelimage) &&
     req.files.medinahotelimage.length > 0
   ) {
-    if (req.files.medinahotelimage.length !== 5) {
+    if (req.files.medinahotelimage.length !== 8) {
       deleteTempFiles();
-      throw new ApiError(400, "All 5 Medina Hotel Images are required.");
+      throw new ApiError(400, "All 8 Medina Hotel Images are required.");
     }
     medinaHotelImagePath = req.files.medinahotelimage.map((file) => file.path);
   }
@@ -265,9 +376,6 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
 
   const makkahHotelImageArray = Object.values(uploadedMakkahHotelImage)[0];
 
-  const intTotalDays = convertIntoNumber(totaldays);
-  const intTotalNights = convertIntoNumber(totalnights);
-
   const createdPackage = await prisma.umrahPackage.create({
     data: {
       admin_id: adminId,
@@ -275,7 +383,23 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
       package_image: packageImageArray,
       package_type: packagetype,
       description: description,
-      group_dates: groupdates,
+      makkah_itinerary: makItineraryArray,
+      medina_itinerary: medItineraryArray,
+      inclusion: inclusionArray,
+      exclusion: exclusionArray,
+      booking_deadline: bookingdeadline,
+      cancellation_policy: cancellationPolicyArray,
+      term_condition: termCondArray,
+      booking_terms: bookingTermArray,
+      departure_city: departurecity,
+      arrival_city: arrivalcity,
+      is_active: isactive,
+      featured: featured,
+      base_price: intBasePrice,
+      discount: intDiscount,
+      final_price: finalPrice,
+      you_saved: youSaved,
+      group_dates: groupsDatesArray,
       total_days: intTotalDays,
       total_nights: intTotalNights,
       mak_hotel_name: makhotelname,
@@ -284,13 +408,6 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
       med_hotel_images: medinaHotelImageArray,
     },
   });
-
-  const intQuintPrice = convertIntoNumber(quintprice);
-  const intQuadPrice = convertIntoNumber(quadprice);
-  const intTriplePrice = convertIntoNumber(tripleprice);
-  const intDoublePrice = convertIntoNumber(doubleprice);
-  const intChildWithoutBedPrice = convertIntoNumber(childwithoutbedprice);
-  const intInfantPrice = convertIntoNumber(infantprice);
 
   const createdPackagePrice = await prisma.umrahPackagePrice.create({
     data: {
