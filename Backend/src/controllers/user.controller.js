@@ -9,7 +9,7 @@ import {
 import {
   transporter,
   generateOTP,
-  convertIntoNumber,
+  safeConvertToNumber,
   generateAccessTokenForUser,
   generateRefreshTokenForUser,
 } from "../utils/utilityfunction.js";
@@ -495,7 +495,7 @@ const enquiryForex = asyncHandler(async (req, res) => {
     address,
   } = req.body;
 
-  const amountInNumber = convertIntoNumber(amountrequired);
+  const amountInNumber = safeConvertToNumber(amountrequired);
 
   const user = req.user;
 
@@ -565,11 +565,11 @@ const enquiryUmrah = asyncHandler(async (req, res) => {
     totalinfants,
   } = req.body;
 
-  const totalAdultCount = convertIntoNumber(totaladults);
+  const totalAdultCount = safeConvertToNumber(totaladults);
 
-  const totalChildrenCount = convertIntoNumber(totalchildren);
+  const totalChildrenCount = safeConvertToNumber(totalchildren);
 
-  const totalInfantCount = convertIntoNumber(totalinfants);
+  const totalInfantCount = safeConvertToNumber(totalinfants);
 
   const user = req.user;
 

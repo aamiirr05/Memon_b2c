@@ -23,6 +23,24 @@ const generateOTP = () => {
   return crypto.randomInt(100000, 999999); // Generates a 6-digit OTP
 };
 
+// ********** Helper function to safely parse JSON **********
+
+const safeParseJSON = (data, defaultValue = []) => {
+  try {
+    return JSON.parse(data);
+  } catch (error) {
+    console.error("JSON Parsing Error:", error.message);
+    return defaultValue;
+  }
+};
+
+// ********** Helper function to safely convert to a number **********
+
+const safeConvertToNumber = (value, defaultValue = 0) => {
+  const num = Number(value);
+  return isNaN(num) ? defaultValue : num;
+};
+
 // ****************** Users Access and Refresh Token Generation Function  ******************
 
 const generateAccessTokenForUser = async (registrationId, email) => {
@@ -67,12 +85,6 @@ const generateRefreshTokenForUser = async (registrationId) => {
   } catch (error) {
     throw new ApiError(500, "Something went wrong while generating token");
   }
-};
-
-// ****** String To Number Conversion ******
-
-const convertIntoNumber = (data) => {
-  return parseInt(data, 10);
 };
 
 // ****************** Users Access and Refresh Token Generation Function  ******************
@@ -128,9 +140,10 @@ const generateRefreshTokenForAdmin = async (adminId, isAdmin) => {
 export {
   transporter,
   generateOTP,
+  safeParseJSON,
+  safeConvertToNumber,
   generateAccessTokenForUser,
   generateRefreshTokenForUser,
-  convertIntoNumber,
   generateAccessTokenForAdmin,
   generateRefreshTokenForAdmin,
 };

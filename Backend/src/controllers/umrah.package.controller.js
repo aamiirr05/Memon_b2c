@@ -7,9 +7,12 @@ import {
   deleteImageFromCloudinary,
   uploadOnCloudinary,
 } from "../utils/cloudinary.js";
+import {
+  safeParseJSON,
+  safeConvertToNumber,
+} from "../utils/utilityfunction.js";
 import fs from "fs";
 import path from "path";
-import { convertIntoNumber } from "../utils/utilityfunction.js";
 
 const isValidImage = (fileName) => {
   const validExtensions = [".jpg", ".jpeg", ".png"];
@@ -129,39 +132,6 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     infantprice,
   } = req.body;
 
-  const data = {
-    packagename,
-    packagetype,
-    description,
-    makkahitinerary,
-    medinaitinerary,
-    inclusion,
-    exclusion,
-    groupdates,
-    bookingdeadline,
-    totaldays,
-    totalnights,
-    makhotelname,
-    medhotelname,
-    cancellationpolicy,
-    termcondition,
-    bookingterms,
-    departurecity,
-    arrivalcity,
-    isactive,
-    featured,
-    baseprice,
-    discount,
-    quintprice,
-    quadprice,
-    tripleprice,
-    doubleprice,
-    childwithoutbedprice,
-    infantprice,
-  };
-
-  console.log("Data:", data);
-
   if (
     [
       packagename,
@@ -197,41 +167,30 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields must be filled");
   }
 
-  const makItineraryArray = JSON.parse(makkahitinerary);
-  const medItineraryArray = JSON.parse(medinaitinerary);
-  const inclusionArray = JSON.parse(inclusion);
-  const exclusionArray = JSON.parse(exclusion);
-  const groupsDatesArray = JSON.parse(groupdates);
-  const cancellationPolicyArray = JSON.parse(cancellationpolicy);
-  const termCondArray = JSON.parse(termcondition);
-  const bookingTermArray = JSON.parse(bookingterms);
+  console.log(makkahitinerary);
 
-  const intBasePrice = convertIntoNumber(baseprice);
-  const intDiscount = convertIntoNumber(discount);
-  const intTotalDays = convertIntoNumber(totaldays);
-  const intTotalNights = convertIntoNumber(totalnights);
-  const intQuintPrice = convertIntoNumber(quintprice);
-  const intQuadPrice = convertIntoNumber(quadprice);
-  const intTriplePrice = convertIntoNumber(tripleprice);
-  const intDoublePrice = convertIntoNumber(doubleprice);
-  const intChildWithoutBedPrice = convertIntoNumber(childwithoutbedprice);
-  const intInfantPrice = convertIntoNumber(infantprice);
+  const makItineraryArray = safeParseJSON(makkahitinerary);
+  const medItineraryArray = safeParseJSON(medinaitinerary);
+  const inclusionArray = safeParseJSON(inclusion);
+  const exclusionArray = safeParseJSON(exclusion);
+  const groupsDatesArray = safeParseJSON(groupdates);
+  const cancellationPolicyArray = safeParseJSON(cancellationpolicy);
+  const termCondArray = safeParseJSON(termcondition);
+  const bookingTermArray = safeParseJSON(bookingterms);
+
+  const intBasePrice = safeConvertToNumber(baseprice);
+  const intDiscount = safeConvertToNumber(discount);
+  const intTotalDays = safeConvertToNumber(totaldays);
+  const intTotalNights = safeConvertToNumber(totalnights);
+  const intQuintPrice = safeConvertToNumber(quintprice);
+  const intQuadPrice = safeConvertToNumber(quadprice);
+  const intTriplePrice = safeConvertToNumber(tripleprice);
+  const intDoublePrice = safeConvertToNumber(doubleprice);
+  const intChildWithoutBedPrice = safeConvertToNumber(childwithoutbedprice);
+  const intInfantPrice = safeConvertToNumber(infantprice);
 
   const finalPrice = baseprice - (baseprice * discount) / 100;
   const youSaved = baseprice - finalPrice;
-
-  console.log(
-    makItineraryArray,
-    medItineraryArray,
-    inclusionArray,
-    exclusionArray,
-    groupsDatesArray,
-    cancellationPolicyArray,
-    termCondArray,
-    bookingTermArray,
-    finalPrice,
-    youSaved
-  );
 
   const inputError = umrahPackageValidation({
     packagename,
@@ -484,11 +443,25 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
     packagename,
     packagetype,
     description,
+    makkahitinerary,
+    medinaitinerary,
+    inclusion,
+    exclusion,
     groupdates,
+    bookingdeadline,
     totaldays,
     totalnights,
     makhotelname,
     medhotelname,
+    cancellationpolicy,
+    termcondition,
+    bookingterms,
+    departurecity,
+    arrivalcity,
+    isactive,
+    featured,
+    baseprice,
+    discount,
     quintprice,
     quadprice,
     tripleprice,
@@ -502,52 +475,95 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
       packagename,
       packagetype,
       description,
+      makkahitinerary,
+      medinaitinerary,
+      inclusion,
+      exclusion,
       groupdates,
+      bookingdeadline,
       totaldays,
       totalnights,
       makhotelname,
       medhotelname,
+      cancellationpolicy,
+      termcondition,
+      bookingterms,
+      departurecity,
+      arrivalcity,
+      isactive,
+      featured,
+      baseprice,
+      discount,
       quintprice,
       quadprice,
       tripleprice,
       doubleprice,
       childwithoutbedprice,
       infantprice,
-    ].some((fields) => fields?.trim() == "")
+    ].some((fields) => typeof fields === "string" && fields?.trim() === "")
   ) {
     throw new ApiError(400, "All fields must be filled");
   }
+
+  console.log(req.body);
+
+  const intBasePrice = safeConvertToNumber(baseprice);
+  const intDiscount = safeConvertToNumber(discount);
+  const intTotalDays = safeConvertToNumber(totaldays);
+  const intTotalNights = safeConvertToNumber(totalnights);
+  const intQuintPrice = safeConvertToNumber(quintprice);
+  const intQuadPrice = safeConvertToNumber(quadprice);
+  const intTriplePrice = safeConvertToNumber(tripleprice);
+  const intDoublePrice = safeConvertToNumber(doubleprice);
+  const intChildWithoutBedPrice = safeConvertToNumber(childwithoutbedprice);
+  const intInfantPrice = safeConvertToNumber(infantprice);
+
+  const makItineraryArray = safeParseJSON(makkahitinerary);
+  const medItineraryArray = safeParseJSON(medinaitinerary);
+  const inclusionArray = safeParseJSON(inclusion);
+  const exclusionArray = safeParseJSON(exclusion);
+  const groupsDatesArray = safeParseJSON(groupdates);
+  const cancellationPolicyArray = safeParseJSON(cancellationpolicy);
+  const termCondArray = safeParseJSON(termcondition);
+  const bookingTermArray = safeParseJSON(bookingterms);
+
+  const finalPrice = baseprice - (baseprice * discount) / 100;
+  const youSaved = baseprice - finalPrice;
 
   const inputError = umrahPackageValidation({
     packagename,
     packagetype,
     description,
-    groupdates,
+    bookingdeadline,
     totaldays,
     totalnights,
     makhotelname,
     medhotelname,
+    departurecity,
+    arrivalcity,
+    isactive,
+    featured,
+    baseprice,
+    discount,
     quintprice,
     quadprice,
     tripleprice,
     doubleprice,
     childwithoutbedprice,
     infantprice,
+    makkahitinerary: makItineraryArray,
+    medinaitinerary: medItineraryArray,
+    inclusion: inclusionArray,
+    exclusion: exclusionArray,
+    groupdates: groupsDatesArray,
+    cancellationpolicy: cancellationPolicyArray,
+    termcondition: termCondArray,
+    bookingterms: bookingTermArray,
   });
 
   if (inputError) {
     throw new ApiError(400, `Validation Error: ${inputError[0].message}`);
   }
-
-  const intTotalDays = convertIntoNumber(totaldays);
-  const intTotalNights = convertIntoNumber(totalnights);
-
-  const intQuintPrice = convertIntoNumber(quintprice);
-  const intQuadPrice = convertIntoNumber(quadprice);
-  const intTriplePrice = convertIntoNumber(tripleprice);
-  const intDoublePrice = convertIntoNumber(doubleprice);
-  const intChildWithoutBedPrice = convertIntoNumber(childwithoutbedprice);
-  const intInfantPrice = convertIntoNumber(infantprice);
 
   const updatedPackage = await prisma.umrahPackage.update({
     where: { package_id: packageId },
@@ -555,11 +571,27 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
       package_name: packagename,
       package_type: packagetype,
       description: description,
-      group_dates: groupdates,
+      makkah_itinerary: makItineraryArray,
+      medina_itinerary: medItineraryArray,
+      inclusion: inclusionArray,
+      exclusion: exclusionArray,
+      booking_deadline: bookingdeadline,
+      cancellation_policy: cancellationPolicyArray,
+      term_condition: termCondArray,
+      booking_terms: bookingTermArray,
+      departure_city: departurecity,
+      arrival_city: arrivalcity,
+      is_active: isactive,
+      featured: featured,
+      base_price: intBasePrice,
+      discount: intDiscount,
+      final_price: finalPrice,
+      you_saved: youSaved,
+      group_dates: groupsDatesArray,
       total_days: intTotalDays,
       total_nights: intTotalNights,
       mak_hotel_name: makhotelname,
-      med_hotel_name: medhotelname,
+      med_hotel_images: medhotelname,
       prices: {
         update: {
           where: { price_id: priceID },
@@ -575,9 +607,26 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
       },
     },
     select: {
+      admin_id: true,
       package_name: true,
       package_type: true,
       description: true,
+      makkah_itinerary: true,
+      medina_itinerary: true,
+      inclusion: true,
+      exclusion: true,
+      booking_deadline: true,
+      cancellation_policy: true,
+      term_condition: true,
+      booking_terms: true,
+      departure_city: true,
+      arrival_city: true,
+      is_active: true,
+      featured: true,
+      base_price: true,
+      discount: true,
+      final_price: true,
+      you_saved: true,
       group_dates: true,
       total_days: true,
       total_nights: true,
@@ -635,7 +684,7 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   if (
     req.files?.packageimage &&
     Array.isArray(req.files.packageimage) &&
-    req.files.packageimage.length < 5
+    req.files.packageimage.length < 3
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Package Images is Required");
@@ -646,10 +695,10 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   if (
     !packageImagePath ||
     packageImagePath.length === 0 ||
-    packageImagePath.length < 5
+    packageImagePath.length < 3
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "At least 5 Package Images are required.");
+    throw new ApiError(400, "At least 3 Package Images are required.");
   }
 
   for (const imagePath of packageImagePath) {
@@ -730,7 +779,7 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
   if (
     req.files?.makhotelimage &&
     Array.isArray(req.files.makhotelimage) &&
-    req.files.makhotelimage.length < 5
+    req.files.makhotelimage.length < 8
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Makkah Hotel Images is Required");
@@ -741,10 +790,10 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
   if (
     !makHotelImagePaths ||
     makHotelImagePaths.length === 0 ||
-    makHotelImagePaths.length < 5
+    makHotelImagePaths.length < 8
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "At least 5 Makkah Hotel Images are required.");
+    throw new ApiError(400, "At least 8 Makkah Hotel Images are required.");
   }
 
   for (const imagePath of makHotelImagePaths) {
@@ -821,7 +870,7 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
   if (
     req.files?.medhotelimage &&
     Array.isArray(req.files.medhotelimage) &&
-    req.files.medhotelimage.length < 5
+    req.files.medhotelimage.length < 8
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Medina Hotel Images are Required");
@@ -832,10 +881,10 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
   if (
     !medHotelImagePaths ||
     medHotelImagePaths.length === 0 ||
-    medHotelImagePaths.length < 5
+    medHotelImagePaths.length < 8
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "At least 5 Medina Hotel Images are required.");
+    throw new ApiError(400, "At least 8 Medina Hotel Images are required.");
   }
 
   for (const imagePath of medHotelImagePaths) {
