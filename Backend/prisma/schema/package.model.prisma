@@ -50,3 +50,37 @@ model UmrahPackagePrice {
   infant_price            Decimal      @db.Decimal(10, 2)
   created_at              DateTime     @default(now())
 }
+
+model HolidayPackage {
+  admin               Admin         @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
+  admin_id            String
+  package_id          String        @id @default(uuid())
+  package_name        String        @db.VarChar(200)
+  package_images      Json
+  package_type        String        @db.VarChar(100)
+  description         String
+  country             String        @db.VarChar(100)
+  city                String        @db.VarChar(100)
+  hotel_name          String        @db.VarChar(200)
+  hotel_images        Json
+  itinerary           Json
+  group_dates         String[]
+  total_days          Int
+  total_nights        Int
+  base_price          Int
+  discount            Int           @default(0)
+  final_price         Int
+  you_saved           Int
+  inclusion           String[]
+  exclusion           String[]
+  booking_deadline    String
+  cancellation_policy String[]
+  term_condition      String[]
+  booking_terms       String[]
+  departure_city      String
+  arrival_city        String
+  transport_mode      String
+  is_active           StatusPackage @default(true)
+  featured            StatusPackage @default(false)
+  created_at          DateTime      @default(now())
+}

@@ -15,7 +15,7 @@ import {
 
 // ****************** All Admin Auth Routes ******************
 
-// Register
+// ********** Register **********
 
 const registerAdmin = asyncHandler(async (req, res) => {
   const { username, password, email, contact } = req.body;
@@ -75,7 +75,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, newAdmin, "Account Created Sucessfully"));
 });
 
-// Login
+// ********** Login **********
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -146,7 +146,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, loggedInAdmin, "Logged In Sucessfully"));
 });
 
-// Logout
+// ********** Logout **********
 
 const logoutAdmin = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -168,7 +168,7 @@ const logoutAdmin = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "User logged out sucessfully"));
 });
 
-// Refresh Token
+// ********** Refresh Token **********
 
 const refreshToken = asyncHandler(async (req, res) => {
   const incomingToken = req.cookies.refreshToken || req.body.refreshToken;
@@ -226,7 +226,7 @@ const refreshToken = asyncHandler(async (req, res) => {
     );
 });
 
-// Get Current Admin
+// ********** Get Current Admin **********
 
 const getAdmin = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -237,5 +237,7 @@ const getAdmin = asyncHandler(async (req, res) => {
 
   res.status(200).json(new ApiResponse(200, admin, "User fetched sucessfully"));
 });
+
+// *************** Export Controller ***************
 
 export { registerAdmin, loginAdmin, logoutAdmin, refreshToken, getAdmin };

@@ -3,6 +3,8 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import jwt from "jsonwebtoken";
 import prisma from "../db/db.config.js";
 
+// *************** Verifies Admins Jwt ***************
+
 export const verifyAdminJwt = asyncHandler(async (req, _, next) => {
   try {
     const token = req.cookies?.accessToken;

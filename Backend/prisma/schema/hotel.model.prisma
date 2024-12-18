@@ -6,7 +6,7 @@ model Hotel {
   hotel_country     String
   hotel_city        String
   hotel_description String
-  hotel_images      String[]
+  hotel_images      Json
   hotel_distance    String
   created_at        DateTime @default(now())
   rooms             Room[]

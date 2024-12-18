@@ -13,7 +13,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
-router.route("/create-package").post(
+router.route("/create-umrah-package").post(
   verifyAdminJwt,
   upload.fields([
     { name: "packageimage", maxCount: 3 },
@@ -29,11 +29,11 @@ router.route("/create-package").post(
 router.route("/fetch-umrah-packages").get(verifyAdminJwt, getAllUmrahPackages);
 
 router
-  .route("/update-package/:id")
+  .route("/update-umrah-package/:id")
   .put(verifyAdminJwt, updateUmrahPackageDetails);
 
 router
-  .route("/update-package-image/:id")
+  .route("/update-umrah-package-image/:id")
   .put(
     verifyAdminJwt,
     upload.fields([{ name: "packageimage", maxCount: 3 }]),
@@ -41,7 +41,7 @@ router
   );
 
 router
-  .route("/update-makhotel-image/:id")
+  .route("/update-umrah-makhotel-image/:id")
   .put(
     verifyAdminJwt,
     upload.fields([{ name: "makhotelimage", maxCount: 8 }]),
@@ -49,7 +49,7 @@ router
   );
 
 router
-  .route("/update-medhotel-image/:id")
+  .route("/update-umrah-medhotel-image/:id")
   .put(
     verifyAdminJwt,
     upload.fields([{ name: "medhotelimage", maxCount: 8 }]),

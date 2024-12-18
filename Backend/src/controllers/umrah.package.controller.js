@@ -3,94 +3,16 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiErrors.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { umrahPackageValidation } from "../validator/package.validator.js";
-import {
-  deleteImageFromCloudinary,
-  uploadOnCloudinary,
-} from "../utils/cloudinary.js";
+import { deleteImageFromCloudinary } from "../utils/cloudinary.js";
 import {
   safeParseJSON,
   safeConvertToNumber,
+  isValidImage,
+  deleteTempFiles,
+  uploadImages,
 } from "../utils/utilityfunction.js";
-import fs from "fs";
-import path from "path";
 
-const isValidImage = (fileName) => {
-  const validExtensions = [".jpg", ".jpeg", ".png"];
-  const fileExtension = path.extname(fileName).toLowerCase();
-  return validExtensions.includes(fileExtension);
-};
-
-const deleteTempFiles = () => {
-  const directoryPath = path.resolve("public", "temp"); // Ensure path is correct for `public\\temp\\`
-
-  try {
-    if (!fs.existsSync(directoryPath)) {
-      console.log("Directory does not exist:", directoryPath);
-      return;
-    }
-
-    const files = fs.readdirSync(directoryPath); // Read all files in the directory
-
-    for (const file of files) {
-      const filePath = path.join(directoryPath, file); // Get the full file path
-
-      if (filePath === path.join(directoryPath, ".gitkeep")) {
-        continue;
-      }
-
-      if (fs.lstatSync(filePath).isFile()) {
-        fs.unlinkSync(filePath); // Delete the file
-        console.log(`Deleted file: ${filePath}`);
-      }
-    }
-
-    console.log(
-      "All files have been deleted from the directory:",
-      directoryPath
-    );
-  } catch (error) {
-    console.error("Error deleting files:", error.message);
-  }
-};
-
-const uploadImages = async (imageCategory, imagePaths) => {
-  const uploadedImages = [];
-  try {
-    if (!imagePaths || imagePaths.length === 0) {
-      throw new ApiError(400, "No Images Found");
-    }
-
-    for (const image of imagePaths) {
-      const uploadedImage = await uploadOnCloudinary(image);
-
-      if (uploadedImage?.error) {
-        throw new ApiError(
-          500,
-          `Error While Uploading Image: ${image} - ${uploadedImage.error}`
-        );
-      }
-
-      uploadedImages.push({
-        public_id: uploadedImage.public_id,
-        secure_url: uploadedImage.secure_url,
-      });
-    }
-    return { [imageCategory]: uploadedImages };
-  } catch (error) {
-    if (uploadedImages > 0) {
-      await Promise.all(
-        uploadedImages.map((img) => deleteImageFromCloudinary(img.public_id))
-      );
-    }
-
-    deleteTempFiles();
-
-    throw new ApiError(
-      500,
-      `Error While Uploading Images: ${error.message || error}`
-    );
-  }
-};
+// ********** Create Umrah Package **********
 
 const createUmrahPackage = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -318,15 +240,15 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
   );
 
   if (!uploadedPackageImage || uploadedPackageImage.length === 0) {
-    throw new ApiError(500, "Error While Uploading Files");
+    throw new ApiError(500, "Error While Uploading Images");
   }
 
   if (!uploadedMakkahHotelImage || uploadedMakkahHotelImage.length === 0) {
-    throw new ApiError(500, "Error While Uploading Files");
+    throw new ApiError(500, "Error While Uploading Images");
   }
 
   if (!uploadedMedinaHotelImage || uploadedMedinaHotelImage.length === 0) {
-    throw new ApiError(500, "Error While Uploading Files");
+    throw new ApiError(500, "Error While Uploading Images");
   }
 
   const packageImageArray = Object.values(uploadedPackageImage)[0];
@@ -389,6 +311,8 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     );
 });
 
+// ********** Get All Umrah Package **********
+
 const getAllUmrahPackages = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -414,6 +338,8 @@ const getAllUmrahPackages = asyncHandler(async (req, res) => {
       )
     );
 });
+
+// ********** Update Umrah Package Details **********
 
 const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -656,6 +582,8 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
     );
 });
 
+// ********** Update Umrah Package Image **********
+
 const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -756,6 +684,8 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
     );
 });
 
+// ********** Update Umrah Package Makkah Hotel Image **********
+
 const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -847,6 +777,8 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
     );
 });
 
+// ********** Update Umrah Package Medina Hotel Image **********
+
 const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -937,6 +869,8 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
     );
 });
 
+// ********** Delete Umrah Package **********
+
 const deleteUmrahPackage = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -992,6 +926,8 @@ const deleteUmrahPackage = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, "Package Deletd Sucessfully"));
 });
+
+// *************** Export Controller ***************
 
 export {
   createUmrahPackage,

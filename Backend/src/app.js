@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import logger from "../src/utils/logger.js";
 import morgan from "morgan";
+import { deleteTempFiles } from "./utils/utilityfunction.js";
 
 // ******** Express App Initialization ********
 const app = express();
@@ -45,12 +46,13 @@ import userRoute from "./routes/user.routes.js";
 import enquiryRoute from "./routes/enquiry.routes.js";
 import adminRoute from "./routes/admin.routes.js";
 import umrahPackageRoute from "./routes/umrah.package.routes.js";
+import holidayPackageRoute from "./routes/holiday.package.routes.js";
 
 // ******** Route Declaration ********
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/enquiry", enquiryRoute);
 app.use("/api/v1/admin", adminRoute);
-app.use("/api/v1/packages", umrahPackageRoute);
+app.use("/api/v1/packages", [umrahPackageRoute, holidayPackageRoute]);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -70,6 +72,8 @@ app.use((err, req, res, next) => {
       message: "Validation Error",
     });
   }
+
+  deleteTempFiles();
 
   // General error handling
   res.status(err.statusCode || 500).json({

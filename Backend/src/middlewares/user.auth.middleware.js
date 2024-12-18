@@ -3,12 +3,14 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import jwt from "jsonwebtoken";
 import prisma from "../db/db.config.js";
 
+// *************** Verifies User Jwt ***************
+
 export const verifyJwt = asyncHandler(async (req, _, next) => {
   try {
     const token = req.cookies?.accessToken;
 
     if (!token) {
-      throw new ApiError(401, "Unauthorized request");
+      return next();
     }
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);

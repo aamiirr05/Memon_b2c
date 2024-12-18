@@ -35,7 +35,7 @@ const storeOTP = (email, otp) => {
 
 // ****************** All user auth routes ******************
 
-// Signup
+// *************** Signup ***************
 
 const registerUser = asyncHandler(async (req, res) => {
   const {
@@ -47,16 +47,6 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     confirmpassword,
   } = req.body;
-
-  const data = {
-    salutation,
-    firstname,
-    lastname,
-    email,
-    contact,
-    password,
-    confirmpassword,
-  };
 
   if (
     [
@@ -124,7 +114,7 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, newUser, "Account Created Successfully"));
 });
 
-// Login
+// *************** Login ***************
 
 const loginUser = asyncHandler(async (req, res) => {
   let { email, password } = req.body;
@@ -204,7 +194,7 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
-// SendOtp
+// *************** SendOtp ***************
 
 const sendOtp = asyncHandler(async (req, res) => {
   let { email, username } = req.body;
@@ -260,7 +250,7 @@ const sendOtp = asyncHandler(async (req, res) => {
   }
 });
 
-// VerifyOtp
+// *************** VerifyOtp ***************
 
 const verifyOtp = asyncHandler(async (req, res) => {
   let { email, inputOtp } = req.body;
@@ -291,7 +281,7 @@ const verifyOtp = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, "Email Verified!"));
 });
 
-// Logout
+// *************** Logout ***************
 
 const logoutUser = asyncHandler(
   asyncHandler(async (req, res) => {
@@ -315,7 +305,7 @@ const logoutUser = asyncHandler(
   })
 );
 
-// RefreshToken
+// *************** RefreshToken ***************
 
 const refreshToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken =
@@ -372,7 +362,7 @@ const refreshToken = asyncHandler(async (req, res) => {
     );
 });
 
-// CurrentUser
+// *************** CurrentUser ***************
 
 const getCurrentUser = asyncHandler(async (req, res) => {
   const user = req.user;
@@ -433,8 +423,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, currentUser, "User fetched sucessfully"));
 });
 
-// Contact Enquiry
-
+// *************** Contact Enquiry ***************
 const enquiryContact = asyncHandler(async (req, res) => {
   const { salutation, firstname, lastname, email, contact, message } = req.body;
 
@@ -458,10 +447,6 @@ const enquiryContact = asyncHandler(async (req, res) => {
 
   const currentUser = user?.registration_id;
 
-  if (!currentUser) {
-    throw new ApiError(401, "Unauthorized Request");
-  }
-
   const createdEnquiry = await prisma.enquiryContact.create({
     data: {
       user_id: currentUser,
@@ -481,7 +466,7 @@ const enquiryContact = asyncHandler(async (req, res) => {
     );
 });
 
-// Enquiry Forex
+// *************** Enquiry Forex ***************
 
 const enquiryForex = asyncHandler(async (req, res) => {
   const {
@@ -519,10 +504,6 @@ const enquiryForex = asyncHandler(async (req, res) => {
 
   const currentUser = user?.registration_id;
 
-  if (!currentUser) {
-    throw new ApiError(401, "Unauthorized Request");
-  }
-
   const createdForexEnquiry = await prisma.enquiryForex.create({
     data: {
       user_id: currentUser,
@@ -548,7 +529,7 @@ const enquiryForex = asyncHandler(async (req, res) => {
     );
 });
 
-// Enquiry Umrah
+// *************** Enquiry Umrah ***************
 
 const enquiryUmrah = asyncHandler(async (req, res) => {
   const {
@@ -596,10 +577,6 @@ const enquiryUmrah = asyncHandler(async (req, res) => {
 
   const currentUser = user?.registration_id;
 
-  if (!currentUser) {
-    throw new ApiError(401, "Unauthorized Request");
-  }
-
   const createdUmrahEnquiry = await prisma.enquiryUmrah.create({
     data: {
       user_id: currentUser,
@@ -628,7 +605,7 @@ const enquiryUmrah = asyncHandler(async (req, res) => {
     );
 });
 
-// Enquiry Visa
+// *************** Enquiry Visa ***************
 
 const enquiryVisa = asyncHandler(async (req, res) => {
   const {
@@ -662,10 +639,6 @@ const enquiryVisa = asyncHandler(async (req, res) => {
 
   const currentUser = user?.registration_id;
 
-  if (!currentUser) {
-    throw new ApiError(401, "Unauthorized Request");
-  }
-
   const createdVisaEnquiry = await prisma.enquiryVisa.create({
     data: {
       user_id: currentUser,
@@ -689,6 +662,8 @@ const enquiryVisa = asyncHandler(async (req, res) => {
       )
     );
 });
+
+// *************** Export Controller ***************
 
 export {
   registerUser,
