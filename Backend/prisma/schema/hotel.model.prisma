@@ -1,24 +1,36 @@
+enum StatusHotelPackage {
+  true
+  false
+}
+
 model Hotel {
-  hotel_id          String   @id @default(uuid())
-  admin             Admin    @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
-  admin_id          String
-  hotel_name        String
-  hotel_country     String
-  hotel_city        String
-  hotel_description String
-  hotel_images      Json
-  hotel_distance    String
-  created_at        DateTime @default(now())
-  rooms             Room[]
+  hotel_id            String             @id @default(uuid())
+  admin               Admin              @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
+  admin_id            String
+  hotel_name          String
+  hotel_images        Json
+  hotel_country       String
+  hotel_city          String
+  hotel_description   String
+  hotel_distance      String
+  amenities           String[]
+  star                String
+  is_active           StatusHotelPackage @default(true)
+  featured            StatusHotelPackage @default(false)
+  term_condition      String[]
+  booking_terms       String[]
+  cancellation_policy String[]
+  created_at          DateTime           @default(now())
+  rooms               Room[]
 }
 
 model Room {
   room_id      String   @id @default(uuid())
   hotel        Hotel    @relation(fields: [hotel_id], references: [hotel_id], onDelete: Cascade)
   hotel_id     String
-  quint_price  Decimal
-  quad_price   Decimal
-  triple_price Decimal
-  double_price Decimal
+  quint_price  Decimal  @db.Decimal(10, 2)
+  quad_price   Decimal  @db.Decimal(10, 2)
+  triple_price Decimal  @db.Decimal(10, 2)
+  double_price Decimal  @db.Decimal(10, 2)
   created_at   DateTime @default(now())
 }

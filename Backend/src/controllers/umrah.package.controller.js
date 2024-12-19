@@ -89,8 +89,6 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields must be filled");
   }
 
-  console.log(makkahitinerary);
-
   const makItineraryArray = safeParseJSON(makkahitinerary);
   const medItineraryArray = safeParseJSON(medinaitinerary);
   const inclusionArray = safeParseJSON(inclusion);
@@ -431,8 +429,6 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields must be filled");
   }
 
-  console.log(req.body);
-
   const intBasePrice = safeConvertToNumber(baseprice);
   const intDiscount = safeConvertToNumber(discount);
   const intTotalDays = safeConvertToNumber(totaldays);
@@ -610,15 +606,15 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   let packageImagePath = [];
 
   if (
-    req.files?.packageimage &&
-    Array.isArray(req.files.packageimage) &&
+    !req.files?.packageimage &&
+    !Array.isArray(req.files.packageimage) &&
     req.files.packageimage.length < 3
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Package Images is Required");
-  } else {
-    packageImagePath = req.files?.packageimage.map((file) => file.path);
   }
+
+  packageImagePath = req.files?.packageimage.map((file) => file.path);
 
   if (
     !packageImagePath ||
@@ -658,8 +654,8 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldPackageImagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
-    console.log("Image Deleted From Cloudinary");
   }
+  console.log("Images Deleted From Cloudinary");
 
   const packageImageArray = Object.values(newUploadedImages)[0];
 
@@ -668,10 +664,6 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
     data: { package_image: packageImageArray },
     select: { package_image: true },
   });
-
-  console.log(newUploadedImages);
-  console.log(packageImagePath);
-  console.log(oldPackageImagePublicIds);
 
   return res
     .status(200)

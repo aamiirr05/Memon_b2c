@@ -5,8 +5,8 @@ import Joi from "joi";
 function adminSignupInputValidation(data) {
   const adminSignupSchema = Joi.object({
     username: Joi.string().max(50).required().messages({
-      "string.max": '"admin_username" cannot exceed 50 characters',
-      "any.required": '"admin_username" is required',
+      "string.max": '"admin username" cannot exceed 50 characters',
+      "any.required": '"admin username" is required',
     }),
     password: Joi.string()
       .pattern(

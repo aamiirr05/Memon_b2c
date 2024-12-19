@@ -41,10 +41,10 @@ function userForexEnquiryValidation(data) {
       "any.required": '"salutation" is required',
     }),
     firstname: Joi.string().max(50).required().messages({
-      "any.required": '"first_name" is required',
+      "any.required": '"first name" is required',
     }),
     lastname: Joi.string().max(50).required().messages({
-      "any.required": '"last_name" is required',
+      "any.required": '"last name" is required',
     }),
     email: Joi.string().email().required().messages({
       "string.email": '"email" must be a valid email address',
@@ -58,9 +58,9 @@ function userForexEnquiryValidation(data) {
         "any.required": '"contact" is required',
       }),
     amountrequired: Joi.number().positive().required().messages({
-      "number.base": '"amount_required" must be a number',
-      "number.positive": '"amount_required" must be a positive number',
-      "any.required": '"amount_required" should not be empty',
+      "number.base": '"amount required" must be a number',
+      "number.positive": '"amount required" must be a positive number',
+      "any.required": '"amount required" should not be empty',
     }),
     country: Joi.string().max(100).required().messages({
       "any.required": '"country" is required',
@@ -83,24 +83,24 @@ function userUmrahEnquiryValidation(data) {
       "any.required": '"salutation" is required',
     }),
     firstname: Joi.string().max(50).required().messages({
-      "string.max": '"first_name" cannot exceed 50 characters',
-      "any.required": '"first_name" is required',
+      "string.max": '"first name" cannot exceed 50 characters',
+      "any.required": '"first name" is required',
     }),
     lastname: Joi.string().max(50).required().messages({
-      "string.max": '"last_name" cannot exceed 50 characters',
-      "any.required": '"last_name" is required',
+      "string.max": '"last name" cannot exceed 50 characters',
+      "any.required": '"last name" is required',
     }),
     email: Joi.string().email().required().messages({
       "string.email": '"email" must be a valid email address',
       "any.required": '"email" is required',
     }),
     packagetype: Joi.string().max(200).required().messages({
-      "string.max": '"package_type" cannot exceed 200 characters',
-      "any.required": '"package_type" is required',
+      "string.max": '"package type" cannot exceed 200 characters',
+      "any.required": '"package type" is required',
     }),
     packagename: Joi.string().max(200).required().messages({
-      "string.max": '"package_name" cannot exceed 200 characters',
-      "any.required": '"package_name" is required',
+      "string.max": '"package name" cannot exceed 200 characters',
+      "any.required": '"package name" is required',
     }),
     contact: Joi.string()
       .pattern(/^[0-9]{10,15}$/)
@@ -110,23 +110,23 @@ function userUmrahEnquiryValidation(data) {
         "any.required": '"contact" is required',
       }),
     travellerdate: Joi.string().required().messages({
-      "date.base": '"traveller_date" must be a valid date',
-      "any.required": '"traveller_date" is required',
+      "date.base": '"traveller date" must be a valid date',
+      "any.required": '"traveller date" is required',
     }),
     totaladults: Joi.number().integer().min(1).required().messages({
-      "number.base": '"total_adults" must be a number',
-      "number.min": '"total_adults" must be at least 1',
-      "any.required": '"total_adults" is required',
+      "number.base": '"total adults" must be a number',
+      "number.min": '"total adults" must be at least 1',
+      "any.required": '"total adults" is required',
     }),
     totalchildren: Joi.number().integer().min(0).messages({
-      "number.base": '"total_children" must be a number',
-      "number.integer": '"total_children" must be an integer',
-      "number.min": '"total_children" cannot be less than 0',
+      "number.base": '"total children" must be a number',
+      "number.integer": '"total children" must be an integer',
+      "number.min": '"total children" cannot be less than 0',
     }),
     totalinfants: Joi.number().integer().min(0).messages({
-      "number.base": '"total_infants" must be a number',
-      "number.integer": '"total_infants" must be an integer',
-      "number.min": '"total_infants" cannot be less than 0',
+      "number.base": '"total infants" must be a number',
+      "number.integer": '"total infants" must be an integer',
+      "number.min": '"total infants" cannot be less than 0',
     }),
   });
 
@@ -144,12 +144,12 @@ function userVisaEnquiryValidation(data) {
       "any.required": '"salutation" is required',
     }),
     firstname: Joi.string().max(50).required().messages({
-      "string.max": '"first_name" cannot exceed 50 characters',
-      "any.required": '"first_name" is required',
+      "string.max": '"first name" cannot exceed 50 characters',
+      "any.required": '"first name" is required',
     }),
     lastname: Joi.string().max(50).required().messages({
-      "string.max": '"last_name" cannot exceed 50 characters',
-      "any.required": '"last_name" is required',
+      "string.max": '"last name" cannot exceed 50 characters',
+      "any.required": '"last name" is required',
     }),
     email: Joi.string().email().required().messages({
       "string.email": '"email" must be a valid email address',
@@ -163,12 +163,12 @@ function userVisaEnquiryValidation(data) {
         "any.required": '"contact" is required',
       }),
     visacountry: Joi.string().max(100).required().messages({
-      "string.max": '"visa_country" cannot exceed 100 characters',
-      "any.required": '"visa_country" is required',
+      "string.max": '"visa country" cannot exceed 100 characters',
+      "any.required": '"visa country" is required',
     }),
     visatype: Joi.string().max(50).required().messages({
-      "string.max": '"visa_type" cannot exceed 50 characters',
-      "any.required": '"visa_type" is required',
+      "string.max": '"visa type" cannot exceed 50 characters',
+      "any.required": '"visa type" is required',
     }),
   });
 

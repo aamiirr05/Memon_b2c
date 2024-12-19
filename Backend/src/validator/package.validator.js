@@ -5,8 +5,8 @@ import Joi from "joi";
 function umrahPackageValidation(data) {
   const umrahPackageSchema = Joi.object({
     packagename: Joi.string().max(200).required().messages({
-      "string.max": '"package_name" cannot exceed 200 characters',
-      "any.required": '"package_name" is required',
+      "string.max": '"package name" cannot exceed 200 characters',
+      "any.required": '"package name" is required',
     }),
     packagetype: Joi.string().max(100).required().messages({
       "string.max": '"package type" cannot exceed 100 characters',
@@ -16,12 +16,12 @@ function umrahPackageValidation(data) {
       "any.required": '"description" is required',
     }),
     makkahitinerary: Joi.array().items(Joi.object()).required().messages({
-      "array.base": '"makkah_itinerary" must be an array',
-      "any.required": '"makkah_itinerary" is required',
+      "array.base": '"makkah itinerary" must be an array',
+      "any.required": '"makkah itinerary" is required',
     }),
     medinaitinerary: Joi.array().items(Joi.object()).required().messages({
-      "array.base": '"medina_itinerary" must be an array',
-      "any.required": '"medina_itinerary" is required',
+      "array.base": '"medina itinerary" must be an array',
+      "any.required": '"medina itinerary" is required',
     }),
     inclusion: Joi.array()
       .items(Joi.string())
@@ -57,16 +57,16 @@ function umrahPackageValidation(data) {
       "any.required": '"med hotel name" is required',
     }),
     cancellationpolicy: Joi.array().items(Joi.string()).required().messages({
-      "array.base": '"cancellation_policy" must be an array',
-      "any.required": '"cancellation_policy" is required',
+      "array.base": '"cancellation policy" must be an array',
+      "any.required": '"cancellation policy" is required',
     }),
     termcondition: Joi.array().items(Joi.string()).required().messages({
-      "array.base": '"term_condition" must be an array',
-      "any.required": '"term_condition" is required',
+      "array.base": '"term condition" must be an array',
+      "any.required": '"term condition" is required',
     }),
     bookingterms: Joi.array().items(Joi.string()).required().messages({
-      "array.base": '"booking_terms" must be an array',
-      "any.required": '"booking_terms" is required',
+      "array.base": '"booking terms" must be an array',
+      "any.required": '"booking terms" is required',
     }),
     departurecity: Joi.string()
       .required()
