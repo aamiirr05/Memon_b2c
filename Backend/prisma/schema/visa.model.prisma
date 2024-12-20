@@ -11,7 +11,7 @@ model Visa {
   validity             String
   stay_period          Int
   entry                String
-  document_requirement Json
+  document_requirement String[]
   basic_requirement    String[]
   term_condition       String[]
   booking_terms        String[]

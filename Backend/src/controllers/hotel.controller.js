@@ -140,8 +140,6 @@ const createHotel = asyncHandler(async (req, res) => {
 
   const hotelImageArray = Object.values(uploadedHotelImage)[0];
 
-  console.log(hotelImageArray);
-
   const createdHotel = await prisma.hotel.create({
     data: {
       admin_id: adminId,
