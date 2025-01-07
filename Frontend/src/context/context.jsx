@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 
 // Create the context
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  // States for Signup and Logging Purpose
   const [signupData, setSignupData] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     const storedValue = localStorage.getItem('isLoggedIn');
@@ -17,19 +18,25 @@ export const AuthProvider = ({ children }) => {
     const storedValue = localStorage.getItem('isAdminLoggedIn');
     return storedValue ? JSON.parse(storedValue) : false;
   });
+
+  // States for tokens
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
 
-  console.log(isLoggedIn);
-  console.log(isAdminLoggedIn);
+  // States& functions for saving form data
+  const [packageData, setPackageData] = useState({
+    details: JSON.parse(localStorage.getItem('packageDetails')) || {},
+    images: [],
+  });
 
-  // useEffect(() => {
-  //   if (!isAdminLoggedIn) {
-  //     localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
-  //   } else {
-  //     localStorage.removeItem('isLoggedIn');
-  //   }
-  // }, [isLoggedIn, isAdminLoggedIn]);
+  const updatePackageData = (data) => {
+    setPackageData((prev) => ({ ...prev, data }));
+    localStorage.setItem('packagedetails', JSON.stringify(data));
+  };
+
+  const updatePackageImages = (images) => {
+    setPackageData((prev) => ({ ...prev, images }));
+  };
 
   useEffect(() => {
     const storedAccessToken = Cookies.get('accessToken');
@@ -62,6 +69,10 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn,
         setAccessToken,
         setRefreshToken,
+        packageData,
+        setPackageData,
+        updatePackageData,
+        updatePackageImages,
       }}
     >
       {children}

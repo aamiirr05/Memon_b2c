@@ -1,47 +1,43 @@
 /* eslint-disable no-unused-vars */
-import { ChevronDown, Plus, X } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { ChevronDown, Loader, Plus, X } from 'lucide-react';
+import { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/context';
-import umrahSchema from '../schema/UmrahSchema';
+import toast from 'react-hot-toast';
+import {
+  NavLink,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
+import umrahSchema from '../../schema/UmrahSchema';
+import axiosInstance from '../../../components/axios/AxiosInstance';
 
-const CreatePackagesForm = () => {
+const UpdateUmrahDetails = () => {
+  const umrahPackage = useOutletContext();
+  const { updateid } = useParams();
+
+  console.log(umrahPackage);
+
   const options = ['Clock Tower', 'Aska Al Safa', 'Durrat Al Madina'];
-  const [groupDates, setGroupDate] = useState(['']);
+  const [groupDates, setGroupDate] = useState(
+    umrahPackage?.group_dates || ['']
+  );
   const [inclusion, setInclusion] = useState(['']);
   const [exclusion, setExclusion] = useState(['']);
   const [bookingterms, setBookingTerms] = useState(['']);
   const [cancelpolicy, setCancelPolicy] = useState(['']);
   const [termcondition, setTermCondition] = useState(['']);
   const [meccahotel, setMeccaHotel] = useState(false);
+  const [meccahotelName, setMeccaHotelName] = useState('');
   const [madinahotel, setMadinaHotel] = useState(false);
-  const [meccaItenaries, setMeccaItenaries] = useState([
-    { day: 'Day 1', itenary: '' },
-  ]);
-  const [madinaItenaries, setMadinaItenaries] = useState([
-    { day: 'Day 1', itenary: '' },
-  ]);
-
+  const [madinahotelName, setMadinaHotelName] = useState('');
+  const [meccaItenaries, setMeccaItenaries] = useState([]);
+  const [madinaItenaries, setMadinaItenaries] = useState([]);
+  const [isloading, setIsLoading] = useState(false);
   // Is active and is featured states & functions
-  const [isActive, setIsActive] = useState(true);
-  const [isFeatured, setIsFeatured] = useState(false);
-
-  const handleisActive = () => {
-    setIsActive(!isActive);
-  };
-  const handleisFeatured = () => {
-    setIsFeatured(!isFeatured);
-  };
-
-  // navigate
-  const navigate = useNavigate();
-
-  // Context States
-  const { packageData, setPackageData, updatePackageData } =
-    useContext(AuthContext);
+  const [isActive, setIsActive] = useState();
+  const [isFeatured, setIsFeatured] = useState();
 
   // useForm
 
@@ -50,6 +46,7 @@ const CreatePackagesForm = () => {
     handleSubmit,
     control,
     reset,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(umrahSchema),
@@ -66,6 +63,54 @@ const CreatePackagesForm = () => {
       exclusion: exclusion,
     },
   });
+
+  useEffect(() => {
+    if (umrahPackage?.is_active) setIsActive(umrahPackage.is_active);
+    if (umrahPackage?.featured) setIsFeatured(umrahPackage.featured);
+    if (umrahPackage?.mak_hotel_name) {
+      setValue('meccahotelname', umrahPackage.mak_hotel_name);
+      setMeccaHotelName(umrahPackage.mak_hotel_name);
+    }
+
+    if (umrahPackage?.med_hotel_name) {
+      setValue('madinahotelname', umrahPackage.med_hotel_name);
+      setMadinaHotelName(umrahPackage?.med_hotel_name);
+    }
+
+    if (umrahPackage?.makkah_itinerary) {
+      setMeccaItenaries(umrahPackage.makkah_itinerary);
+    }
+
+    if (umrahPackage?.medina_itinerary) {
+      setMadinaItenaries(umrahPackage.medina_itinerary);
+    }
+
+    if (umrahPackage?.group_dates) setGroupDate(umrahPackage?.group_dates);
+    if (umrahPackage?.exclusion) {
+      setExclusion(umrahPackage?.exclusion);
+    }
+    if (umrahPackage?.inclusion) {
+      setInclusion(umrahPackage?.inclusion);
+    }
+
+    if (umrahPackage?.booking_terms)
+      setBookingTerms(umrahPackage?.booking_terms);
+    if (umrahPackage?.cancellation_policy)
+      setCancelPolicy(umrahPackage?.cancellation_policy);
+
+    if (umrahPackage?.term_condition)
+      setTermCondition(umrahPackage?.term_condition);
+  }, [umrahPackage, setValue]);
+
+  const handleisActive = () => {
+    setIsActive(!isActive);
+  };
+  const handleisFeatured = () => {
+    setIsFeatured(!isFeatured);
+  };
+
+  // navigate
+  const navigate = useNavigate();
 
   // Functions for handling dates
   const addDates = () => {
@@ -207,13 +252,63 @@ const CreatePackagesForm = () => {
   };
 
   // Functions for form submission
-  const onFormSubmit = (data) => {
+  const onFormSubmit = async (data) => {
     console.log('Form submitted');
     console.log(data);
-    updatePackageData(data);
-    navigate('/admin/umrahpackages/createpackage-images');
+    try {
+      setIsLoading(true);
+      const res = await axiosInstance.put(
+        `/packages/update-umrah-package/${updateid}`,
+        {
+          packagename: data.packagename,
+          packagetype: data.packagename,
+          description: data.packagedesc,
+          makkahitinerary: data.meccaitenaries,
+          medinaitinerary: data.madinaitenaries,
+          inclusion: data.inclusion,
+          exclusion: data.exclusion,
+          groupdates: data.groupDates,
+          bookingdeadline: data.bookingdeadline,
+          totaldays: data.totaldays,
+          totalnights: data.totalnights,
+          makhotelname: data.meccahotelname,
+          medhotelname: data.madinahotelname,
+          cancellationpolicy: data.cancellationpolicy,
+          termcondition: data.termcondition,
+          bookingterms: data.bookingterms,
+          departurecity: data.departurecity,
+          arrivalcity: data.arrivalcity,
+          isactive: data.isactive,
+          featured: data.isfeatured,
+          baseprice: data.baseprice,
+          discount: data.discount,
+          quintprice: data.quintprice,
+          quadprice: data.quadprice,
+          tripleprice: data.tripleprice,
+          doubleprice: data.doubleprice,
+          childwithoutbedprice: data.childwithoutbedprice,
+          infantprice: data.infantprice,
+        }
+      );
+      console.log(res);
+      toast.success('Package updated successfully!');
+    } catch (error) {
+      console.error(error);
+      const errMsg = error?.response?.data.message || 'An error occurred.';
+      toast.error(errMsg);
+    } finally {
+      setIsLoading(false);
+    }
     reset();
   };
+
+  if (!umrahPackage) {
+    return (
+      <div className="">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <form
@@ -232,6 +327,7 @@ const CreatePackagesForm = () => {
             <input
               type="text"
               name="packagename"
+              defaultValue={umrahPackage?.package_name}
               id="packagename"
               className="custom-input"
               placeholder="Enter Package Name"
@@ -250,6 +346,7 @@ const CreatePackagesForm = () => {
               type="text"
               name="packagetype"
               id="packagetype"
+              defaultValue={umrahPackage?.package_type}
               className="custom-input"
               placeholder="Enter Package Type"
               {...register('packagetype')}
@@ -272,6 +369,7 @@ const CreatePackagesForm = () => {
             rows="5"
             className="w-full custom-input"
             placeholder="Enter Package Description"
+            defaultValue={umrahPackage?.description}
             {...register('packagedesc')}
           ></textarea>
           <span className="text-sm text-red-600 my-2">
@@ -293,6 +391,7 @@ const CreatePackagesForm = () => {
               min={0}
               className="custom-input"
               placeholder="Enter Base Price"
+              defaultValue={umrahPackage?.base_price}
               {...register('baseprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -311,6 +410,7 @@ const CreatePackagesForm = () => {
               min="0"
               className="custom-input"
               placeholder="Enter  Discount"
+              defaultValue={umrahPackage?.discount}
               {...register('discount')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -448,6 +548,7 @@ const CreatePackagesForm = () => {
             name="bookingdeadline"
             id="bookingdeadline"
             className="w-full lg:w-1/3 custom-input"
+            defaultValue={umrahPackage?.booking_deadline}
             {...register('bookingdeadline')}
           />
           <span className="text-sm text-red-600 my-2">
@@ -469,6 +570,7 @@ const CreatePackagesForm = () => {
               id="totaldays"
               className="custom-input"
               placeholder="Enter Total Days"
+              defaultValue={umrahPackage?.total_days}
               {...register('totaldays')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -487,6 +589,7 @@ const CreatePackagesForm = () => {
               id="totalnights"
               className="custom-input"
               placeholder="Enter Total Nights"
+              defaultValue={umrahPackage?.total_nights}
               {...register('totalnights')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -507,6 +610,7 @@ const CreatePackagesForm = () => {
               id="arrivalcity"
               className="custom-input"
               placeholder="Enter Arrival City"
+              defaultValue={umrahPackage?.arrival_city}
               {...register('arrivalcity')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -524,6 +628,7 @@ const CreatePackagesForm = () => {
               id="departurecity"
               className="custom-input"
               placeholder="Enter  Departure City"
+              defaultValue={umrahPackage?.departure_city}
               {...register('departurecity')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -547,14 +652,13 @@ const CreatePackagesForm = () => {
             <Controller
               name="meccahotelname"
               control={control}
-              defaultValue=""
               render={({ field }) => (
                 <>
                   <div
                     className="border w-full font-jakarta cursor-pointer border-darkgreen rounded-xl p-3 gap-1 flex items-center justify-between"
                     onClick={() => setMeccaHotel(!meccahotel)}
                   >
-                    <div>{field.value || 'Select'}</div>
+                    <div>{field.value || meccahotelName}</div>
                     <ChevronDown />
                   </div>
                   <div
@@ -593,14 +697,13 @@ const CreatePackagesForm = () => {
             <Controller
               name="madinahotelname"
               control={control}
-              defaultValue=""
               render={({ field }) => (
                 <>
                   <div
                     className="border w-full font-jakarta cursor-pointer border-darkgreen rounded-xl p-3 gap-1 flex items-center justify-between"
                     onClick={() => setMadinaHotel(!madinahotel)}
                   >
-                    <div>{field.value || 'Select'}</div>
+                    <div>{field.value || madinahotelName}</div>
                     <ChevronDown />
                   </div>
                   <div
@@ -646,6 +749,7 @@ const CreatePackagesForm = () => {
               id="doubleprice"
               className="custom-input"
               placeholder="Enter Double Price"
+              defaultValue={umrahPackage?.prices[0].double_price}
               {...register('doubleprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -664,6 +768,7 @@ const CreatePackagesForm = () => {
               id="tripleprice"
               className="custom-input"
               placeholder="Enter Triple Price"
+              defaultValue={umrahPackage?.prices[0].triple_price}
               {...register('tripleprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -685,6 +790,7 @@ const CreatePackagesForm = () => {
               id="packagename"
               className="custom-input"
               placeholder="Enter Quint Price"
+              defaultValue={umrahPackage?.prices[0].quint_price}
               {...register('quintprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -703,6 +809,7 @@ const CreatePackagesForm = () => {
               id="quadprice"
               className="custom-input"
               placeholder="Enter Quad Price"
+              defaultValue={umrahPackage?.prices[0].quad_price}
               {...register('quadprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -724,6 +831,7 @@ const CreatePackagesForm = () => {
               id="packagename"
               className="custom-input"
               placeholder="Enter Child Without Bed Price"
+              defaultValue={umrahPackage?.prices[0].child_without_bed_price}
               {...register('childwithoutbedprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -742,6 +850,7 @@ const CreatePackagesForm = () => {
               id="infantprice"
               className="custom-input"
               placeholder="Enter Infant Price"
+              defaultValue={umrahPackage?.prices[0].infant_price}
               {...register('infantprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -781,7 +890,7 @@ const CreatePackagesForm = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itinerary}
+                value={val.itenary}
                 onChange={(e) => handleMeccaItenaries(e.target.value, index)}
               />
             </div>
@@ -825,7 +934,7 @@ const CreatePackagesForm = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itinerary}
+                value={val.itenary}
                 onChange={(e) => handleMadinaItenaries(e.target.value, index)}
               />
             </div>
@@ -1041,13 +1150,13 @@ const CreatePackagesForm = () => {
         </NavLink>
         <button
           type="submit"
-          className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
+          className={`  w-full lg:w-1/3 p-2  rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center ${isloading ? 'bg-peach text-darkgreen border border-darkgreen' : 'bg-darkgreen text-peach'}`}
         >
-          Next
+          {isloading ? 'Updating...' : 'Update'}
         </button>
       </div>
     </form>
   );
 };
 
-export default CreatePackagesForm;
+export default UpdateUmrahDetails;

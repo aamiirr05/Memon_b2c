@@ -54,6 +54,8 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     infantprice,
   } = req.body;
 
+  console.log(req.body);
+
   if (
     [
       packagename,
@@ -84,7 +86,7 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
       doubleprice,
       childwithoutbedprice,
       infantprice,
-    ].some((fields) => fields?.trim() == "")
+    ].some((field) => typeof field === "string" && field.trim() === "")
   ) {
     throw new ApiError(400, "All fields must be filled");
   }
@@ -108,6 +110,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
   const intDoublePrice = safeConvertToNumber(doubleprice);
   const intChildWithoutBedPrice = safeConvertToNumber(childwithoutbedprice);
   const intInfantPrice = safeConvertToNumber(infantprice);
+
+  console.log(req.body.makkahitinerary);
+  // Expected: Array of parsed objects
 
   const finalPrice = baseprice - (baseprice * discount) / 100;
   const youSaved = baseprice - finalPrice;
@@ -393,6 +398,8 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
     childwithoutbedprice,
     infantprice,
   } = req.body;
+
+  console.log(req.body);
 
   if (
     [
@@ -916,7 +923,7 @@ const deleteUmrahPackage = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "Package Deletd Sucessfully"));
+    .json(new ApiResponse(200, "Package Deleted Sucessfully"));
 });
 
 // *************** Export Controller ***************

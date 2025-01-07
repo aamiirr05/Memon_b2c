@@ -5,25 +5,50 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/context';
-import umrahSchema from '../schema/UmrahSchema';
+import { AuthContext } from '../../../context';
+import useFormData from '../../../custom hooks/customhooks';
 
-const CreatePackagesForm = () => {
-  const options = ['Clock Tower', 'Aska Al Safa', 'Durrat Al Madina'];
+const schema = yup.object().shape({
+  packagename: yup.string().required('Package Name is required'),
+  packagetype: yup.string().required('Package Type is required'),
+  packagedesc: yup.string().required('Package Description is required'),
+  city: yup.string().required('City is required'),
+  country: yup.string().required('Country is required'),
+  transportmode: yup.string().required('Transport Mode is required'),
+  arrivalcity: yup.string().required('Arrival City is required'),
+  hotelname: yup.string().required('Hotel Name is required'),
+  departurecity: yup.string().required('Departure City is required'),
+  bookingdeadline: yup.string().required('Booking Deadline is required.'),
+  totaldays: yup
+    .number()
+    .typeError('Total Days must be a number')
+    .required('Total Days is required')
+    .min(1, 'Total Days must be at least 1'),
+  baseprice: yup
+    .number()
+    .typeError('Base Price must be a number')
+    .required('Base Price is required')
+    .min(1, 'Base Price must be at least 1'),
+  discount: yup
+    .number()
+    .typeError('Discount must be a number')
+    .required('Discount is required')
+    .min(1, 'Discount must be at least 1'),
+  totalnights: yup
+    .number()
+    .typeError('Total Nights must be a number')
+    .required('Total Nights is required')
+    .min(1, 'Total Nights must be at least 1'),
+});
+
+const CreateHolidayForm = () => {
   const [groupDates, setGroupDate] = useState(['']);
   const [inclusion, setInclusion] = useState(['']);
   const [exclusion, setExclusion] = useState(['']);
   const [bookingterms, setBookingTerms] = useState(['']);
   const [cancelpolicy, setCancelPolicy] = useState(['']);
   const [termcondition, setTermCondition] = useState(['']);
-  const [meccahotel, setMeccaHotel] = useState(false);
-  const [madinahotel, setMadinaHotel] = useState(false);
-  const [meccaItenaries, setMeccaItenaries] = useState([
-    { day: 'Day 1', itenary: '' },
-  ]);
-  const [madinaItenaries, setMadinaItenaries] = useState([
-    { day: 'Day 1', itenary: '' },
-  ]);
+  const [Itenaries, setItenaries] = useState([{ day: 'Day 1', itenary: '' }]);
 
   // Is active and is featured states & functions
   const [isActive, setIsActive] = useState(true);
@@ -40,25 +65,22 @@ const CreatePackagesForm = () => {
   const navigate = useNavigate();
 
   // Context States
-  const { packageData, setPackageData, updatePackageData } =
-    useContext(AuthContext);
+  const { packageData, updatePackageData } = useContext(AuthContext);
 
   // useForm
 
   const {
     register,
     handleSubmit,
-    control,
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(umrahSchema),
+    resolver: yupResolver(schema),
     values: {
       groupDates: groupDates,
       isactive: isActive,
       isfeatured: isFeatured,
-      meccaitenaries: meccaItenaries,
-      madinaitenaries: madinaItenaries,
+      itenaries: Itenaries,
       cancellationpolicy: cancelpolicy,
       bookingterms: bookingterms,
       termcondition: termcondition,
@@ -85,48 +107,26 @@ const CreatePackagesForm = () => {
 
   // Functions for handling itenaries
 
-  const addMeccaItenaries = () => {
-    const nextday = `Day ${meccaItenaries.length + 1}`;
-    setMeccaItenaries([...meccaItenaries, { day: nextday, itenary: '' }]);
+  const addItenaries = () => {
+    const nextday = `Day ${Itenaries.length + 1}`;
+    setItenaries([...Itenaries, { day: nextday, itenary: '' }]);
   };
 
-  const addMadinaItenaries = () => {
-    const nextday = `Day ${madinaItenaries.length + 1}`;
-    setMadinaItenaries([...madinaItenaries, { day: nextday, itenary: '' }]);
-  };
-
-  const handleMeccaItenaries = (val, index) => {
-    const updatedItenaries = [...meccaItenaries];
+  const handleItenaries = (val, index) => {
+    const updatedItenaries = [...Itenaries];
     updatedItenaries[index].itenary = val;
-    setMeccaItenaries(updatedItenaries);
+    setItenaries(updatedItenaries);
   };
 
-  const handleMadinaItenaries = (val, index) => {
-    const updatedItenaries = [...madinaItenaries];
-    updatedItenaries[index].itenary = val;
-    setMadinaItenaries(updatedItenaries);
-  };
-
-  const removeMeccaItenaries = (index) => {
-    const updatedItenaries = meccaItenaries.filter((_, i) => i !== index);
+  const removeItenaries = (index) => {
+    const updatedItenaries = Itenaries.filter((_, i) => i !== index);
     const reassignedItenaries = updatedItenaries.map((itenary, i) => ({
       ...itenary,
       day: `Day ${i + 1}`,
     }));
 
-    setMeccaItenaries(reassignedItenaries);
+    setItenaries(reassignedItenaries);
   };
-
-  const removeMadinaItenaries = (index) => {
-    const updatedItenaries = madinaItenaries.filter((_, i) => i !== index);
-    const reassignedItenaries = updatedItenaries.map((itenary, i) => ({
-      ...itenary,
-      day: `Day ${i + 1}`,
-    }));
-
-    setMadinaItenaries(reassignedItenaries);
-  };
-
   // Functions for handling inclusions and exclusions
 
   const addInclusion = () => {
@@ -206,13 +206,16 @@ const CreatePackagesForm = () => {
     setCancelPolicy(updatedPolicy);
   };
 
+  //
+
+  const { getFormData, resetFormData, updateFormData } = useFormData();
+
   // Functions for form submission
   const onFormSubmit = (data) => {
     console.log('Form submitted');
-    console.log(data);
     updatePackageData(data);
-    navigate('/admin/umrahpackages/createpackage-images');
-    reset();
+
+    // navigate('/admin/umrahpackages/createpackage-images');
   };
 
   return (
@@ -423,7 +426,7 @@ const CreatePackagesForm = () => {
                 />
                 {index === 0 ? null : (
                   <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
+                    className="absolute top-2 right-7 md:right-24 lg:right-8 xl:right-16  cursor-pointer"
                     onClick={() => removeDates(index)}
                   />
                 )}
@@ -432,7 +435,7 @@ const CreatePackagesForm = () => {
           })}
         </div>
         <div
-          className="absolute top-0 md:top-2 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
+          className="absolute top-0 md:top-3 right-4 md:right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
           onClick={addDates}
         >
           <Plus />
@@ -447,7 +450,7 @@ const CreatePackagesForm = () => {
             type="date"
             name="bookingdeadline"
             id="bookingdeadline"
-            className="w-full lg:w-1/3 custom-input"
+            className="w-full lg:w-1/4 custom-input"
             {...register('bookingdeadline')}
           />
           <span className="text-sm text-red-600 my-2">
@@ -494,6 +497,43 @@ const CreatePackagesForm = () => {
             </span>
           </div>
         </div>
+        {/* Country and  City */}
+        <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
+          {/* Country */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="country" className="custom-label">
+              Country
+            </label>
+            <input
+              type="text"
+              name="country"
+              id="country"
+              className="custom-input"
+              placeholder="Enter Country"
+              {...register('country')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.country?.message}
+            </span>
+          </div>
+          {/*  City */}
+          <div className="flex gap-3 w-full flex-col">
+            <label htmlFor="city" className="custom-label">
+              City
+            </label>
+            <input
+              type="text"
+              name="city"
+              id="city"
+              className="custom-input"
+              placeholder="Enter City"
+              {...register('city')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.city?.message}
+            </span>
+          </div>
+        </div>
         {/* Arrival City and Dept City */}
         <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
           {/* Arrival City */}
@@ -510,10 +550,10 @@ const CreatePackagesForm = () => {
               {...register('arrivalcity')}
             />
             <span className="text-sm text-red-600 my-2">
-              {errors?.packagename?.message}
+              {errors?.arrivalcity?.message}
             </span>
           </div>
-          {/* Package Type */}
+          {/* Dept City */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="packagetype" className="custom-label">
               Departure City
@@ -527,7 +567,44 @@ const CreatePackagesForm = () => {
               {...register('departurecity')}
             />
             <span className="text-sm text-red-600 my-2">
-              {errors?.packagetype?.message}
+              {errors?.departurecity?.message}
+            </span>
+          </div>
+        </div>
+        {/* Transport Mode and Hotel Name */}
+        <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
+          {/* Hotel Name */}
+          <div className="flex gap-3 w-full flex-col">
+            <label htmlFor="hotelname" className="custom-label">
+              Hotel Name
+            </label>
+            <input
+              type="text"
+              name="hotelname"
+              id="hotelname"
+              className="custom-input"
+              placeholder="Enter Hotel Name"
+              {...register('hotelname')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.hotelname?.message}
+            </span>
+          </div>
+          {/* Transport Mode */}
+          <div className="flex gap-3 w-full flex-col">
+            <label htmlFor="transportmode" className="custom-label">
+              Transport Mode
+            </label>
+            <input
+              type="text"
+              name="transportmode"
+              id="transportmode"
+              className="custom-input"
+              placeholder="Enter Transport Mode"
+              {...register('transportmode')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.transportmode?.message}
             </span>
           </div>
         </div>
@@ -535,230 +612,14 @@ const CreatePackagesForm = () => {
 
       {/*  */}
 
-      {/* Section Three For Hotels */}
-      <div className="w-full my-10 bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
-        <div className="flex flex-col gap-5 md:flex-row items-center w-full">
-          {/* Mecca Hotel Name */}
-          <div className="w-full relative mt-10 flex flex-col gap-2">
-            <label htmlFor="meccahotelname" className="custom-label">
-              Makkah Hotel Name
-            </label>
-
-            <Controller
-              name="meccahotelname"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <>
-                  <div
-                    className="border w-full font-jakarta cursor-pointer border-darkgreen rounded-xl p-3 gap-1 flex items-center justify-between"
-                    onClick={() => setMeccaHotel(!meccahotel)}
-                  >
-                    <div>{field.value || 'Select'}</div>
-                    <ChevronDown />
-                  </div>
-                  <div
-                    className={`absolute top-24 bg-peach z-30 w-full border border-darkgreen rounded-lg ${
-                      meccahotel ? 'block' : 'hidden'
-                    }`}
-                  >
-                    <ul className="p-2 font-jakarta">
-                      {options.map((sal, index) => (
-                        <li
-                          key={index}
-                          className="mt-2 p-2 hover:cursor-pointer rounded-lg hover:bg-darkgreen hover:text-peach"
-                          onClick={() => {
-                            field.onChange(sal);
-                            setMeccaHotel(false);
-                          }}
-                        >
-                          {sal}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </>
-              )}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.meccahotelname?.message}
-            </span>
-          </div>
-          {/* Madina Hotel Name */}
-          <div className="w-full relative mt-10 flex flex-col gap-2">
-            <label htmlFor="madinahotelname" className="custom-label">
-              Madina Hotel Name
-            </label>
-
-            <Controller
-              name="madinahotelname"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <>
-                  <div
-                    className="border w-full font-jakarta cursor-pointer border-darkgreen rounded-xl p-3 gap-1 flex items-center justify-between"
-                    onClick={() => setMadinaHotel(!madinahotel)}
-                  >
-                    <div>{field.value || 'Select'}</div>
-                    <ChevronDown />
-                  </div>
-                  <div
-                    className={`absolute top-24 bg-peach z-30 w-full border border-darkgreen rounded-lg ${
-                      madinahotel ? 'block' : 'hidden'
-                    }`}
-                  >
-                    <ul className="p-2 font-jakarta">
-                      {options.map((sal, index) => (
-                        <li
-                          key={index}
-                          className="mt-2 p-2 hover:cursor-pointer rounded-lg hover:bg-darkgreen hover:text-peach"
-                          onClick={() => {
-                            field.onChange(sal);
-                            setMadinaHotel(false);
-                          }}
-                        >
-                          {sal}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </>
-              )}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.madinahotelname?.message}
-            </span>
-          </div>
-        </div>
-        {/* Price Section for hotels*/}
-
-        <div className="flex mt-10 flex-col gap-5 md:flex-row items-center w-full">
-          {/* Double Price */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="doubleprice" className="custom-label">
-              Double Price
-            </label>
-            <input
-              type="number"
-              name="doubleprice"
-              min="0"
-              id="doubleprice"
-              className="custom-input"
-              placeholder="Enter Double Price"
-              {...register('doubleprice')}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.doubleprice?.message}
-            </span>
-          </div>
-          {/* Triple Price */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="tripleprice" className="custom-label">
-              Triple Price
-            </label>
-            <input
-              type="number"
-              name="tripleprice"
-              min="0"
-              id="tripleprice"
-              className="custom-input"
-              placeholder="Enter Triple Price"
-              {...register('tripleprice')}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.tripleprice?.message}
-            </span>
-          </div>
-        </div>
-
-        <div className="flex mt-10 flex-col gap-5 md:flex-row items-center w-full">
-          {/* Quint Price */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="quintprice" className="custom-label">
-              Quint Price
-            </label>
-            <input
-              type="number"
-              name="quintprice"
-              min="0"
-              id="packagename"
-              className="custom-input"
-              placeholder="Enter Quint Price"
-              {...register('quintprice')}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.quintprice?.message}
-            </span>
-          </div>
-          {/* Quad Price */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="quadprice" className="custom-label">
-              Quad Price
-            </label>
-            <input
-              type="number"
-              name="quadprice"
-              min="0"
-              id="quadprice"
-              className="custom-input"
-              placeholder="Enter Quad Price"
-              {...register('quadprice')}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.quadprice?.message}
-            </span>
-          </div>
-        </div>
-
-        <div className="flex mt-10 flex-col gap-5 md:flex-row items-center w-full">
-          {/* Child Without Bed Price */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="quintprice" className="custom-label">
-              Child Without Bed
-            </label>
-            <input
-              type="number"
-              name="childwithoutbedprice"
-              min="0"
-              id="packagename"
-              className="custom-input"
-              placeholder="Enter Child Without Bed Price"
-              {...register('childwithoutbedprice')}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.childwithoutbedprice?.message}
-            </span>
-          </div>
-          {/* Infant Price */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="quadprice" className="custom-label">
-              Infant Price
-            </label>
-            <input
-              type="number"
-              name="infantprice"
-              min="0"
-              id="infantprice"
-              className="custom-input"
-              placeholder="Enter Infant Price"
-              {...register('infantprice')}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.infantprice?.message}
-            </span>
-          </div>
-        </div>
-      </div>
-
       {/* Section four for itenaries ,  */}
 
       <div className="relative w-full my-10 bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
-        <label htmlFor="meccaitenaries" className="custom-label">
-          Makkah Itenaries
+        <label htmlFor="itenaries" className="custom-label">
+          Itenaries
         </label>
-        <div className="w-full mt-16 md:mt-10 flex flex-col gap-10">
-          {meccaItenaries.map((val, index) => (
+        <div className="w-full mt-20 md:mt-10 flex flex-col gap-10">
+          {Itenaries.map((val, index) => (
             <div
               className="relative flex flex-col md:flex-row gap-5 w-full"
               key={index}
@@ -774,7 +635,7 @@ const CreatePackagesForm = () => {
               {!(index === 0) && (
                 <X
                   className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
-                  onClick={() => removeMeccaItenaries(index)}
+                  onClick={() => removeItenaries(index)}
                 />
               )}
               <input
@@ -782,58 +643,14 @@ const CreatePackagesForm = () => {
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
                 value={val.itinerary}
-                onChange={(e) => handleMeccaItenaries(e.target.value, index)}
+                onChange={(e) => handleItenaries(e.target.value, index)}
               />
             </div>
           ))}
         </div>
         <div
-          className="absolute  top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
-          onClick={addMeccaItenaries}
-        >
-          <Plus />
-          Add Itinerary
-        </div>
-      </div>
-
-      {/* Madina Itenaries */}
-      <div className="relative w-full my-10 bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
-        <label htmlFor="meccaitenaries" className="custom-label">
-          Madina Itenaries
-        </label>
-        <div className="w-full mt-16 md:mt-10 flex flex-col gap-10">
-          {madinaItenaries.map((val, index) => (
-            <div
-              className="relative flex flex-col md:flex-row gap-5 w-full"
-              key={index}
-            >
-              <input
-                type="text"
-                name="days"
-                value={val.day}
-                disabled
-                style={{ backgroundColor: '#386641', color: '#f2e8cf' }}
-                className="custom-input w-9/12 md:w-[15%] font-semibold text-center"
-              />
-              {!(index === 0) && (
-                <X
-                  className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
-                  onClick={() => removeMadinaItenaries(index)}
-                />
-              )}
-              <input
-                type="text"
-                className="custom-input w-full md:w-9/12"
-                placeholder={`Itinerary for ${val.day}`}
-                value={val.itinerary}
-                onChange={(e) => handleMadinaItenaries(e.target.value, index)}
-              />
-            </div>
-          ))}
-        </div>
-        <div
-          className="absolute  top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
-          onClick={addMadinaItenaries}
+          className="absolute top-0 md:top-2 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
+          onClick={addItenaries}
         >
           <Plus />
           Add Itinerary
@@ -846,7 +663,7 @@ const CreatePackagesForm = () => {
         <label htmlFor="inclusion" className="custom-label">
           Inclusion
         </label>
-        <div className="flex flex-wrap mt-5 justify-start w-full">
+        <div className="flex flex-wrap mt-10 md:mt-5 justify-start w-full">
           {inclusion.map((val, index) => {
             return (
               <div className="w-full relative" key={index}>
@@ -862,7 +679,7 @@ const CreatePackagesForm = () => {
                 />
                 {index === 0 ? null : (
                   <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
+                    className="absolute top-[10px] right-0 md:right-10 lg:right-20 xl:right-36 cursor-pointer"
                     onClick={() => removeInclusion(index)}
                   />
                 )}
@@ -871,7 +688,7 @@ const CreatePackagesForm = () => {
           })}
         </div>
         <div
-          className="absolute top-0 md:top-2 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
+          className="absolute top-0 md:top-3 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
           onClick={addInclusion}
         >
           <Plus />
@@ -900,7 +717,7 @@ const CreatePackagesForm = () => {
                 />
                 {index === 0 ? null : (
                   <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
+                    className="absolute top-[10px] right-0 md:right-10 lg:right-20 xl:right-36 cursor-pointer"
                     onClick={() => removeExclusion(index)}
                   />
                 )}
@@ -909,7 +726,7 @@ const CreatePackagesForm = () => {
           })}
         </div>
         <div
-          className="absolute top-0 md:top-2 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
+          className="absolute top-0 md:top-3 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
           onClick={addExclusion}
         >
           <Plus />
@@ -938,7 +755,7 @@ const CreatePackagesForm = () => {
                 />
                 {index === 0 ? null : (
                   <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
+                    className="absolute top-[10px] right-0 md:right-10 lg:right-20 xl:right-36 cursor-pointer"
                     onClick={() => removeBookingTerms(index)}
                   />
                 )}
@@ -947,7 +764,7 @@ const CreatePackagesForm = () => {
           })}
         </div>
         <div
-          className="absolute top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
+          className="absolute top-8 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
           onClick={addBookingTerms}
         >
           <Plus />
@@ -976,7 +793,7 @@ const CreatePackagesForm = () => {
                 />
                 {index === 0 ? null : (
                   <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
+                    className="absolute top-[10px] right-0 md:right-10 lg:right-20 xl:right-36 cursor-pointer"
                     onClick={() => removeTerms(index)}
                   />
                 )}
@@ -985,7 +802,7 @@ const CreatePackagesForm = () => {
           })}
         </div>
         <div
-          className="absolute  top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
+          className="absolute top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
           onClick={addTermsCondition}
         >
           <Plus />
@@ -1014,7 +831,7 @@ const CreatePackagesForm = () => {
                 />
                 {index === 0 ? null : (
                   <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
+                    className="absolute top-[10px] right-0 md:right-10 lg:right-20 xl:right-36 cursor-pointer"
                     onClick={() => removePolicy(index)}
                   />
                 )}
@@ -1023,7 +840,7 @@ const CreatePackagesForm = () => {
           })}
         </div>
         <div
-          className="absolute  top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
+          className="absolute top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
           onClick={addPolicy}
         >
           <Plus />
@@ -1034,7 +851,7 @@ const CreatePackagesForm = () => {
 
       <div className="mt-10 w-full lg:w-2/3 mx-auto flex gap-5 lg:gap-60 items-center justify-center">
         <NavLink
-          to="/admin/umrahpackages"
+          to="/admin/holidays"
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >
           Back
@@ -1050,4 +867,4 @@ const CreatePackagesForm = () => {
   );
 };
 
-export default CreatePackagesForm;
+export default CreateHolidayForm;

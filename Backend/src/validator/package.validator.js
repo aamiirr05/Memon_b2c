@@ -15,11 +15,11 @@ function umrahPackageValidation(data) {
     description: Joi.string().required().messages({
       "any.required": '"description" is required',
     }),
-    makkahitinerary: Joi.array().items(Joi.object()).required().messages({
+    makkahitinerary: Joi.array().required().messages({
       "array.base": '"makkah itinerary" must be an array',
       "any.required": '"makkah itinerary" is required',
     }),
-    medinaitinerary: Joi.array().items(Joi.object()).required().messages({
+    medinaitinerary: Joi.array().required().messages({
       "array.base": '"medina itinerary" must be an array',
       "any.required": '"medina itinerary" is required',
     }),

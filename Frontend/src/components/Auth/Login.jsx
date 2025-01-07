@@ -17,6 +17,7 @@ import axiosInstance from '../axios/AxiosInstance';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
 import { AuthContext } from '../../context';
+import logo from '../../assets/img/logo.png';
 
 const schema = yup
   .object({
@@ -46,7 +47,7 @@ const Login = () => {
     });
   };
   const handleError = (val) => {
-    toast.error(val, {
+    toast.error(val || 'Something Went Wrong', {
       duration: 4000,
     });
   };
@@ -86,7 +87,8 @@ const Login = () => {
       navigate('/');
       localStorage.setItem('isLoggedIn', isLoggedIn || true);
     } catch (error) {
-      const errmsg = error.response.data.message;
+      const errmsg = error.response.data.message || 'Something went Wrong';
+      console.log(errmsg);
       handleError(errmsg);
 
       console.log(error);
@@ -106,11 +108,7 @@ const Login = () => {
         </div>
         <div className="my-10 lg:my-0 p-5">
           <div className="flex items-center justify-start gap-2">
-            <img
-              src={`https://s3-alpha-sig.figma.com/img/c029/3f5e/a0f869bd9b509ab0e5a07d2db64fe0ef?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=FyHhVHPWHXYnOudBET4nLxatw3g1VCCrVzxYE~oCZ5amjue5uGPcDyzdZ0MSy3jJ8saw38lvetJY8o9ifBBfUQ0uWPZiJEitv4~kfn086J319C~B3EnUeeiFbhzaGR97-jskZCEherdi57TDwC6MiWrsSnafp6pacCcOh8kBnClmvypRJ43ItaccXSJ-va7KM0zFAidXwKrQtHyYKmCqzNg3-8hx8YlKWCPCRiA9He0V0iLjJTVenIf-X~MSeqhmBDUUsvC7zkv6LOOfQyHrUF7lLuLCc1WJ5QbBgj2nKvTepUF0Vqyb2cT9k2RVv6wvs~7eZBX-ZXx0yFDdEDTZQA__`}
-              alt=""
-              className="w-12 h-12"
-            />
+            <img src={logo} alt="" className="w-12 h-12" />
             <h2 className="text-3xl font-semibold text-darkgreen font-zodiak">
               Welcome Back, Traveler!
             </h2>

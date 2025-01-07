@@ -6,9 +6,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
-import { AuthContext } from '../../context';
-import axiosInstance from '../../components/axios/AxiosInstance';
-import Loader from '../../Utils/Loader';
+import { AuthContext } from '../../../context';
+import axiosInstance from '../../../components/axios/AxiosInstance';
 
 // const MAX_FILES = 5;
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
@@ -108,7 +107,7 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES }) => {
   );
 };
 
-const CreatePackageImgs = () => {
+const CreateHotelImg = () => {
   // Context States
   const { packageData, setPackageData, updatePackageImages } =
     useContext(AuthContext);
@@ -118,9 +117,7 @@ const CreatePackageImgs = () => {
     formState: { errors },
   } = useForm();
 
-  const [packageImages, setPackageImages] = useState([]);
-  const [meccaHotelImages, setMeccaHotelImages] = useState([]);
-  const [medinaHotelImages, setMedinaHotelImages] = useState([]);
+  const [hotelImages, setHotelImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [previewData, setPreviewData] = useState(() => {
@@ -144,73 +141,35 @@ const CreatePackageImgs = () => {
 
   const formData = new FormData();
 
-  formData.append('packagename', previewData?.packageDetails.packagename);
-  formData.append('packagetype', previewData?.packageDetails.packagetype);
-  formData.append('arrivalcity', previewData?.packageDetails.arrivalcity);
-  formData.append('departurecity', previewData?.packageDetails.departurecity);
-  formData.append('description', previewData?.packageDetails.packagedesc);
+  formData.append('hotelname', previewData?.packageDetails.hotelname);
+  formData.append('hotelcity', previewData?.packageDetails.hotelcity);
+  formData.append('hotelcountry', previewData?.packageDetails.hotelcountry);
+  formData.append(
+    'hoteldescription',
+    previewData?.packageDetails.hoteldescription
+  );
   //
   formData.append('isactive', previewData?.packageDetails.isactive);
   formData.append('featured', previewData?.packageDetails.isfeatured);
-  formData.append('baseprice', previewData?.packageDetails.baseprice);
-  formData.append('discount', previewData?.packageDetails.discount);
-  if (Array.isArray(previewData?.packageDetails.groupDates)) {
-    previewData.packageDetails.groupDates.forEach((date, index) => {
-      formData.append(`groupdates[${index}]`, date);
-    });
-  }
-  formData.append(
-    'bookingdeadline',
-    previewData?.packageDetails.bookingdeadline
-  );
   //
-  formData.append('totaldays', previewData?.packageDetails.totaldays);
-  formData.append('totalnights', previewData?.packageDetails.totalnights);
-  //
-  formData.append('makhotelname', previewData?.packageDetails.meccahotelname);
-  formData.append('medhotelname', previewData?.packageDetails.madinahotelname);
+  formData.append('star', previewData?.packageDetails.star);
+  formData.append('hoteldistance', previewData?.packageDetails.hoteldistance);
   //
   formData.append('quintprice', previewData?.packageDetails.quintprice);
   formData.append('quadprice', previewData?.packageDetails.quadprice);
   formData.append('tripleprice', previewData?.packageDetails.tripleprice);
   formData.append('doubleprice', previewData?.packageDetails.doubleprice);
-  formData.append(
-    'childwithoutbedprice',
-    previewData?.packageDetails.childwithoutbed
-  );
-  formData.append('infantprice', previewData?.packageDetails.infantprice);
-  //
 
-  // Append to FormData as JSON strings
+  const amenities = previewData?.packageDetails.amenities;
 
-  const meccaitenaries = previewData?.packageDetails.meccaitenaries || '[]';
-
-  meccaitenaries.forEach((item, index) => {
-    formData.append(`makkahitinerary[${index}]`, JSON.stringify(item));
-  });
-
-  const madinaitenaries = previewData?.packageDetails.madinaitenaries;
-
-  madinaitenaries.forEach((item, index) => {
-    formData.append(`medinaitinerary[${index}]`, JSON.stringify(item));
+  amenities.forEach((item, index) => {
+    formData.append(`amenities[${index}]`, item);
   });
 
   const formattedCancelPolicy = previewData?.packageDetails.cancellationpolicy;
 
   formattedCancelPolicy.forEach((item, index) => {
     formData.append(`cancellationpolicy[${index}]`, item);
-  });
-
-  const inclusion = previewData?.packageDetails.inclusion;
-
-  inclusion.forEach((item, i) => {
-    formData.append(`inclusion[${i}]`, item);
-  });
-
-  const exclusion = previewData?.packageDetails.exclusion;
-
-  exclusion.forEach((item, index) => {
-    formData.append(`exclusion[${index}]`, item);
   });
 
   const termcondition = previewData?.packageDetails.termcondition;
@@ -227,16 +186,8 @@ const CreatePackageImgs = () => {
 
   // Package Images
 
-  packageImages.forEach((image, index) => {
-    formData.append(`packageimage`, image.file);
-  });
-
-  meccaHotelImages.forEach((image, index) => {
-    formData.append(`makkahhotelimage`, image.file);
-  });
-
-  medinaHotelImages.forEach((image, index) => {
-    formData.append(`medinahotelimage`, image.file);
+  hotelImages.forEach((image, index) => {
+    formData.append(`hotelimage`, image.file);
   });
 
   const onSubmit = async (data) => {
@@ -253,21 +204,17 @@ const CreatePackageImgs = () => {
     );
     try {
       setLoading(true);
-      const res = await axiosInstance.post(
-        '/packages/create-umrah-package',
-        formData,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
+      const res = await axiosInstance.post('/hotel/create-hotel', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
       console.log(res);
       toast.dismiss(toastId);
 
-      const resMsg = res.data?.message || 'Package Created Successfully';
+      const resMsg = res.data?.message || 'Hotel Added Successfully';
       console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
-      navigate('/admin/umrahpackages/createpackage-preview');
+      navigate('/admin/hotel/createhotel-preview');
       localStorage.removeItem('packagedetails');
       localStorage.removeItem('packageimages');
     } catch (error) {
@@ -289,25 +236,11 @@ const CreatePackageImgs = () => {
       className={`w-10/12 mx-auto flex flex-col ${loading ? 'blur-sm' : 'blur-0'}`}
     >
       <Dropzone
-        images={packageImages}
-        setImages={setPackageImages}
-        label="Package Images"
-        error={errors.packageImages}
-        MAX_FILES={3}
-      />
-      <Dropzone
-        images={meccaHotelImages}
-        setImages={setMeccaHotelImages}
-        label="Mecca Hotel Images"
-        error={errors.meccaHotelImages}
-        MAX_FILES={8}
-      />
-      <Dropzone
-        images={medinaHotelImages}
-        setImages={setMedinaHotelImages}
-        label="Medina Hotel Images"
-        error={errors.medinaHotelImages}
-        MAX_FILES={8}
+        images={hotelImages}
+        setImages={setHotelImages}
+        label="Hotel Images"
+        error={errors.hotelImages}
+        MAX_FILES={20}
       />
 
       <div className="mt-20 w-full md:w-2/3 mx-auto flex gap-2 lg:gap-10  items-center justify-between md:justify-center">
@@ -334,4 +267,4 @@ const CreatePackageImgs = () => {
   );
 };
 
-export default CreatePackageImgs;
+export default CreateHotelImg;

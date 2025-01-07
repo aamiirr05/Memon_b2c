@@ -33,9 +33,53 @@ const generateOTP = () => {
 
 const safeParseJSON = (data) => {
   try {
-    return JSON.parse(data);
+    console.log("Data before parsing:", data);
+
+    // If it's already an object or array, return as is
+    if (typeof data === "object" && data !== null) {
+      // If the data is an array, check if it contains nested JSON strings
+      if (Array.isArray(data)) {
+        return data.map((item) => {
+          // Recursively parse if the item is a JSON string
+          if (
+            typeof item === "string" &&
+            (item.startsWith("{") || item.startsWith("["))
+          ) {
+            return safeParseJSON(item);
+          }
+          return item;
+        });
+      }
+      return data;
+    }
+
+    // If it's a JSON string, parse it
+    if (typeof data === "string") {
+      if (data.startsWith("[") || data.startsWith("{")) {
+        const parsed = JSON.parse(data);
+
+        // Check if the parsed value is an array of JSON strings or objects
+        if (Array.isArray(parsed)) {
+          return parsed.map((item) => {
+            // Recursively parse nested strings or objects
+            if (
+              typeof item === "string" &&
+              (item.startsWith("{") || item.startsWith("["))
+            ) {
+              return safeParseJSON(item);
+            }
+            return item;
+          });
+        }
+
+        return parsed;
+      }
+      throw new Error("Invalid JSON format");
+    }
+
+    throw new Error("Unsupported data type for JSON parsing");
   } catch (error) {
-    throw new ApiError(500, `JSON Parsing Error:${error.message}`);
+    throw new ApiError(500, `JSON Parsing Error: ${error.message}`);
   }
 };
 
@@ -44,6 +88,8 @@ const safeParseJSON = (data) => {
 const safeConvertToNumber = (value, defaultValue = 0) => {
   try {
     const num = Number(value);
+    console.log(num);
+
     if (isNaN(num)) {
       throw new Error("Invalid number");
     }

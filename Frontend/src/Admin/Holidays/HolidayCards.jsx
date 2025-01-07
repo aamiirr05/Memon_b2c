@@ -1,19 +1,10 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Pencil, Trash2 } from 'lucide-react';
 import axiosInstance from '../../components/axios/AxiosInstance';
 import toast from 'react-hot-toast';
 import trash from '../../assets/img/trash.png';
-import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 
-const PackageCards = ({
-  data,
-  getPackages,
-  isChildLoading,
-  setIsChildLoading,
-}) => {
-  const [isloading, setIsLoading] = useState(false);
+const HolidayCards = ({ data, getPackages }) => {
   const deletePackage = async (id) => {
     const toastId = toast.loading(
       'Deleting package. This may take some time...',
@@ -27,10 +18,8 @@ const PackageCards = ({
       }
     );
     try {
-      setIsChildLoading(true);
-      setIsLoading(true);
       const res = await axiosInstance.delete(
-        `/packages/delete-umrah-package/${id}`
+        `/packages/delete-holiday-package/${id}`
       );
       console.log(res);
       toast.dismiss(toastId);
@@ -42,9 +31,6 @@ const PackageCards = ({
       toast.dismiss(toastId);
       const errmsg = error.response.data.message;
       toast.error(errmsg);
-    } finally {
-      setIsLoading(false);
-      setIsChildLoading(false);
     }
   };
 
@@ -60,12 +46,10 @@ const PackageCards = ({
   });
   return (
     <>
-      <div
-        className={`w-full md:w-2/5 lg:w-1/4 xl:w-1/4 p-3 rounded-xl shadow-lg`}
-      >
+      <div className=" w-full md:w-2/5 lg:w-1/4 xl:w-1/4 p-3 rounded-xl shadow-lg">
         <div className="">
           <img
-            src={data?.mak_hotel_images[0].secure_url}
+            src={data?.package_images[0].secure_url}
             alt=""
             className="aspect-[2/1] rounded-md"
           />
@@ -81,15 +65,10 @@ const PackageCards = ({
             Created on : {formattedDate}
           </div>
           <div className="flex flex-col gap-3 absolute top-14 right-0">
-            <NavLink
-              to={`/admin/umrahpackages/update/${data.package_id}`}
-              className={`rounded-full border border-darkgreen cursor-pointer hover:bg-darkgreen hover:text-peach transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center ${isChildLoading ? 'opacity-50' : 'opacity-100'}`}
-            >
+            <div className="rounded-full border border-darkgreen cursor-pointer hover:bg-darkgreen hover:text-peach transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center">
               <Pencil size={15} />
-            </NavLink>
-            <div
-              className={`rounded-full border border-red-600 text-red-600 cursor-pointer hover:bg-red-600 hover:text-white transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center ${isChildLoading ? 'opacity-50' : 'opacity-100'}`}
-            >
+            </div>
+            <div className="rounded-full border border-red-600 text-red-600 cursor-pointer hover:bg-red-600 hover:text-white transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center">
               <Trash2
                 size={15}
                 onClick={() => {
@@ -128,4 +107,4 @@ const PackageCards = ({
   );
 };
 
-export default PackageCards;
+export default HolidayCards;

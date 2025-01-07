@@ -4,10 +4,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useContext, useState } from 'react';
-import axiosInstance from '../components/axios/AxiosInstance';
+import axiosInstance from '../../components/axios/AxiosInstance';
 import toast from 'react-hot-toast';
 import Cookies from 'js-cookie';
-import { AuthContext } from '../context';
+import { AuthContext } from '../../context';
 import { jwtDecode } from 'jwt-decode';
 
 const schema = yup

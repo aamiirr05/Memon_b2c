@@ -132,7 +132,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
   });
 
   if (inputError) {
-    throw new ApiResponse(401, `Validation Error: ${inputError[0].message}`);
+    throw new ApiError(401, `Validation Error: ${inputError[0].message}`);
   }
 
   let packageImagePath = [],
@@ -259,7 +259,10 @@ const getAllHolidayPackage = asyncHandler(async (req, res) => {
   const allHolidayPackage = await prisma.holidayPackage.findMany();
 
   if (allHolidayPackage.length === 0) {
-    throw new ApiError(404, "No Umrah Packages Found");
+    throw new ApiError(
+      404,
+      `${allHolidayPackage.length} Holiday Packages Found`
+    );
   }
 
   return res

@@ -6,9 +6,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
-import { AuthContext } from '../../context';
-import axiosInstance from '../../components/axios/AxiosInstance';
-import Loader from '../../Utils/Loader';
+import { AuthContext } from '../../../context';
+import axiosInstance from '../../../components/axios/AxiosInstance';
 
 // const MAX_FILES = 5;
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
@@ -108,7 +107,7 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES }) => {
   );
 };
 
-const CreatePackageImgs = () => {
+const CreateHolidayImg = () => {
   // Context States
   const { packageData, setPackageData, updatePackageImages } =
     useContext(AuthContext);
@@ -119,8 +118,7 @@ const CreatePackageImgs = () => {
   } = useForm();
 
   const [packageImages, setPackageImages] = useState([]);
-  const [meccaHotelImages, setMeccaHotelImages] = useState([]);
-  const [medinaHotelImages, setMedinaHotelImages] = useState([]);
+  const [hotelImages, setHotelImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [previewData, setPreviewData] = useState(() => {
@@ -142,18 +140,24 @@ const CreatePackageImgs = () => {
 
   // Appending all the data to form Data
 
+  console.log(previewData);
+
   const formData = new FormData();
 
   formData.append('packagename', previewData?.packageDetails.packagename);
   formData.append('packagetype', previewData?.packageDetails.packagetype);
   formData.append('arrivalcity', previewData?.packageDetails.arrivalcity);
   formData.append('departurecity', previewData?.packageDetails.departurecity);
+  formData.append('country', previewData?.packageDetails.country);
+  formData.append('city', previewData?.packageDetails.city);
   formData.append('description', previewData?.packageDetails.packagedesc);
+  formData.append('hotelname', previewData?.packageDetails.hotelname);
   //
   formData.append('isactive', previewData?.packageDetails.isactive);
   formData.append('featured', previewData?.packageDetails.isfeatured);
   formData.append('baseprice', previewData?.packageDetails.baseprice);
   formData.append('discount', previewData?.packageDetails.discount);
+  formData.append('transportmode', previewData?.packageDetails.transportmode);
   if (Array.isArray(previewData?.packageDetails.groupDates)) {
     previewData.packageDetails.groupDates.forEach((date, index) => {
       formData.append(`groupdates[${index}]`, date);
@@ -166,33 +170,13 @@ const CreatePackageImgs = () => {
   //
   formData.append('totaldays', previewData?.packageDetails.totaldays);
   formData.append('totalnights', previewData?.packageDetails.totalnights);
-  //
-  formData.append('makhotelname', previewData?.packageDetails.meccahotelname);
-  formData.append('medhotelname', previewData?.packageDetails.madinahotelname);
-  //
-  formData.append('quintprice', previewData?.packageDetails.quintprice);
-  formData.append('quadprice', previewData?.packageDetails.quadprice);
-  formData.append('tripleprice', previewData?.packageDetails.tripleprice);
-  formData.append('doubleprice', previewData?.packageDetails.doubleprice);
-  formData.append(
-    'childwithoutbedprice',
-    previewData?.packageDetails.childwithoutbed
-  );
-  formData.append('infantprice', previewData?.packageDetails.infantprice);
-  //
 
   // Append to FormData as JSON strings
 
-  const meccaitenaries = previewData?.packageDetails.meccaitenaries || '[]';
+  const itenaries = previewData?.packageDetails.itenaries || '[]';
 
-  meccaitenaries.forEach((item, index) => {
-    formData.append(`makkahitinerary[${index}]`, JSON.stringify(item));
-  });
-
-  const madinaitenaries = previewData?.packageDetails.madinaitenaries;
-
-  madinaitenaries.forEach((item, index) => {
-    formData.append(`medinaitinerary[${index}]`, JSON.stringify(item));
+  itenaries.forEach((item, index) => {
+    formData.append(`itinerary[${index}]`, JSON.stringify(item));
   });
 
   const formattedCancelPolicy = previewData?.packageDetails.cancellationpolicy;
@@ -231,14 +215,15 @@ const CreatePackageImgs = () => {
     formData.append(`packageimage`, image.file);
   });
 
-  meccaHotelImages.forEach((image, index) => {
-    formData.append(`makkahhotelimage`, image.file);
+  hotelImages.forEach((image, index) => {
+    formData.append(`hotelimage`, image.file);
   });
 
-  medinaHotelImages.forEach((image, index) => {
-    formData.append(`medinahotelimage`, image.file);
-  });
+  for (const [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+  }
 
+  //  OnSubmit Form
   const onSubmit = async (data) => {
     const toastId = toast.loading(
       'Creating package. This may take some time...',
@@ -254,7 +239,7 @@ const CreatePackageImgs = () => {
     try {
       setLoading(true);
       const res = await axiosInstance.post(
-        '/packages/create-umrah-package',
+        '/packages/create-holiday-package',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -264,12 +249,10 @@ const CreatePackageImgs = () => {
       console.log(res);
       toast.dismiss(toastId);
 
-      const resMsg = res.data?.message || 'Package Created Successfully';
+      const resMsg = res.data?.data.message || 'Package Created Successfully';
       console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
-      navigate('/admin/umrahpackages/createpackage-preview');
-      localStorage.removeItem('packagedetails');
-      localStorage.removeItem('packageimages');
+      navigate('/admin/holidays/createholiday-preview');
     } catch (error) {
       console.error(error);
 
@@ -286,7 +269,7 @@ const CreatePackageImgs = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={`w-10/12 mx-auto flex flex-col ${loading ? 'blur-sm' : 'blur-0'}`}
+      className="w-10/12 mx-auto flex flex-col"
     >
       <Dropzone
         images={packageImages}
@@ -296,24 +279,16 @@ const CreatePackageImgs = () => {
         MAX_FILES={3}
       />
       <Dropzone
-        images={meccaHotelImages}
-        setImages={setMeccaHotelImages}
-        label="Mecca Hotel Images"
-        error={errors.meccaHotelImages}
-        MAX_FILES={8}
-      />
-      <Dropzone
-        images={medinaHotelImages}
-        setImages={setMedinaHotelImages}
-        label="Medina Hotel Images"
-        error={errors.medinaHotelImages}
+        images={hotelImages}
+        setImages={setHotelImages}
+        label=" Hotel Images"
+        error={errors.hotelImages}
         MAX_FILES={8}
       />
 
       <div className="mt-20 w-full md:w-2/3 mx-auto flex gap-2 lg:gap-10  items-center justify-between md:justify-center">
         <NavLink
           to="/admin/umrahpackages/createpackage-form"
-          aria-disabled={loading}
           className="bg-darkgreen w-full p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base"
           onClick={() => {
             localStorage.removeItem('packagedetails');
@@ -325,7 +300,7 @@ const CreatePackageImgs = () => {
         <button
           type="submit"
           disabled={loading}
-          className={` w-full p-2  rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base ${loading ? 'hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen' : 'bg-darkgreen text-peach'}`}
+          className="bg-darkgreen w-full p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base"
         >
           {loading ? 'Creating Package...' : 'Create Package'}
         </button>
@@ -334,4 +309,4 @@ const CreatePackageImgs = () => {
   );
 };
 
-export default CreatePackageImgs;
+export default CreateHolidayImg;

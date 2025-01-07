@@ -100,9 +100,12 @@
 }
 
 ::-webkit-scrollbar {
-  @apply w-[10px];
+  @apply w-[10px] md:h-[2px];
 }
 
+::-webkit-scrollbar {
+  height: 2px; /* Adjust height for x-axis scrollbar */
+}
 ::-webkit-scrollbar-track {
   @apply bg-mediumgreen bg-opacity-45;
 }
@@ -185,4 +188,12 @@
   .next-arrow {
     right: -20px;
   }
+}
+
+.custom-label {
+  @apply font-zodiak font-medium text-darkgreen lg:text-lg;
+}
+
+.custom-input {
+  @apply outline-none border border-darkgreen rounded-lg p-2 px-5 font-jakarta placeholder:text-darkgreen placeholder:text-sm placeholder:text-opacity-65 bg-transparent;
 }
