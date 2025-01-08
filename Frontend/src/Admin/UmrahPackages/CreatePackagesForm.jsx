@@ -715,7 +715,7 @@ const CreatePackagesForm = () => {
           {/* Child Without Bed Price */}
           <div className="flex gap-3  w-full flex-col">
             <label htmlFor="quintprice" className="custom-label">
-              Child Without Bed
+              Child Without Bed Price
             </label>
             <input
               type="number"

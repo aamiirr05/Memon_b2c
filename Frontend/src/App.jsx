@@ -63,6 +63,7 @@ const App = () => {
       element: <AdminSignup />,
     },
 
+    //  Admin Routes
     {
       path: 'admin',
       element: <AdminLayout />,

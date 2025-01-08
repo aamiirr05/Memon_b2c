@@ -1,0 +1,22 @@
+Add a card section in Landing Page 
+
+Add Navigation for enquiry when logged in 
+
+Refactor the existing package sections (Responsiveness)
+
+View Packages Section
+  Ref : https://dribbble.com/shots/25030203-Lordsky-Destination-Details-Page
+
+  Package Section Attributes 
+   1. Overview 
+   2. Hotels including location , itenaries & images
+   3. What's Included (Inclusion & Exclusion)
+   4. FAQ's 
+   5. Booking Terms 
+   6. Cancellation Policy 
+   7. Terms & Condition
+
+Create Form for enquiries 
+   Refer Postman 
+
+
