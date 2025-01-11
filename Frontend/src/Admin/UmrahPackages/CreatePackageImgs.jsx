@@ -18,7 +18,7 @@ const ACCEPTED_FILE_TYPES = {
 };
 
 // Dropzone Component
-const Dropzone = ({ images, setImages, label, error, MAX_FILES }) => {
+const Dropzone = ({ images, setImages, label, error, MAX_FILES, loading }) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => handleFileDrop(acceptedFiles),
     accept: ACCEPTED_FILE_TYPES,
@@ -63,7 +63,9 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES }) => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div
+      className={`w-full h-full ${loading ? 'pointer-events-none' : 'pointer-events-auto'}`}
+    >
       <label className="ml-5 mt-20 font-zodiak text-lg">{label}</label>
       <div
         {...getRootProps({
@@ -118,12 +120,14 @@ const CreatePackageImgs = () => {
     formState: { errors },
   } = useForm();
 
+  const [id, setId] = useState('');
+  console.log(id);
   const [packageImages, setPackageImages] = useState([]);
   const [meccaHotelImages, setMeccaHotelImages] = useState([]);
   const [medinaHotelImages, setMedinaHotelImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [previewData, setPreviewData] = useState(() => {
+  const [previewData] = useState(() => {
     const safeParseJSON = (item) => {
       try {
         return JSON.parse(item);
@@ -240,6 +244,23 @@ const CreatePackageImgs = () => {
   });
 
   const onSubmit = async (data) => {
+    const packageData = {
+      ...data,
+      packageImages: packageImages.map((item) => ({
+        name: item.file.name,
+        data: item.preview,
+      })),
+      meccaHotelImages: meccaHotelImages.map((item) => ({
+        name: item.file.name,
+        data: item.preview,
+      })),
+      medinaHotelImages: medinaHotelImages.map((item) => ({
+        name: item.file.name,
+        data: item.preview,
+      })),
+    };
+
+    localStorage.setItem('packageimages', JSON.stringify(packageData));
     const toastId = toast.loading(
       'Creating package. This may take some time...',
       {
@@ -262,15 +283,17 @@ const CreatePackageImgs = () => {
       );
 
       console.log(res);
+
+      const extractedId = res.data.data[0].package_id;
+
+      setId(extractedId);
+
       toast.dismiss(toastId);
 
       const resMsg = res.data?.message || 'Package Created Successfully';
       console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
-      navigate('/admin/umrahpackages');
-
-      localStorage.removeItem('packagedetails');
-      localStorage.removeItem('packageimages');
+      navigate(`/admin/umrahpackages/createpackage-preview/${id}`);
     } catch (error) {
       console.error(error);
 
@@ -292,23 +315,26 @@ const CreatePackageImgs = () => {
       <Dropzone
         images={packageImages}
         setImages={setPackageImages}
-        label="Package Images"
+        label="Package Images (3)"
         error={errors.packageImages}
         MAX_FILES={3}
+        loading={loading}
       />
       <Dropzone
         images={meccaHotelImages}
         setImages={setMeccaHotelImages}
-        label="Mecca Hotel Images"
+        label="Mecca Hotel Images (8)"
         error={errors.meccaHotelImages}
         MAX_FILES={8}
+        loading={loading}
       />
       <Dropzone
         images={medinaHotelImages}
         setImages={setMedinaHotelImages}
-        label="Medina Hotel Images"
+        label="Medina Hotel Images (8)"
         error={errors.medinaHotelImages}
         MAX_FILES={8}
+        loading={loading}
       />
 
       <div className="mt-20 w-full md:w-2/3 mx-auto flex gap-2 lg:gap-10  items-center justify-between md:justify-center">
@@ -316,10 +342,6 @@ const CreatePackageImgs = () => {
           to="/admin/umrahpackages/createpackage-form"
           aria-disabled={loading}
           className="bg-darkgreen w-full p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base"
-          onClick={() => {
-            localStorage.removeItem('packagedetails');
-            setPackageData();
-          }}
         >
           Back
         </NavLink>

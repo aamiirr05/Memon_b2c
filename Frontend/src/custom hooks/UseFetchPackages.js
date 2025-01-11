@@ -1,28 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import axiosInstance from '../components/axios/AxiosInstance';
 
 const useFetchPackages = (url) => {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+
+  const fetchPackages = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get(url);
+      setData(response.data);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchPackages = async () => {
-      try {
-        setLoading(true);
-        const res = await axiosInstance.get(url);
-        setData(res.data.data);
-      } catch (error) {
-        console.log(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (url) fetchPackages();
+    fetchPackages();
   }, [url]);
 
-  return { data, error, loading };
+  return { data, loading, error, refresh: fetchPackages };
 };
 
 export default useFetchPackages;

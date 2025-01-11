@@ -327,9 +327,9 @@ const getAllUmrahPackages = asyncHandler(async (req, res) => {
     include: { prices: true },
   });
 
-  if (allUmrahPackages.length === 0) {
-    throw new ApiError(404, "No Umrah Packages Found");
-  }
+  // if (allUmrahPackages.length === 0) {
+  //   throw new ApiError(404, "No Umrah Packages Found");
+  // }
 
   return res
     .status(200)

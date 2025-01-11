@@ -9,25 +9,50 @@ import { AuthContext } from '../../context/context';
 import umrahSchema from '../schema/UmrahSchema';
 
 const CreatePackagesForm = () => {
-  const options = ['Clock Tower', 'Aska Al Safa', 'Durrat Al Madina'];
-  const [groupDates, setGroupDate] = useState(['']);
-  const [inclusion, setInclusion] = useState(['']);
-  const [exclusion, setExclusion] = useState(['']);
-  const [bookingterms, setBookingTerms] = useState(['']);
-  const [cancelpolicy, setCancelPolicy] = useState(['']);
-  const [termcondition, setTermCondition] = useState(['']);
-  const [meccahotel, setMeccaHotel] = useState(false);
-  const [madinahotel, setMadinaHotel] = useState(false);
-  const [meccaItenaries, setMeccaItenaries] = useState([
-    { day: 'Day 1', itenary: '' },
-  ]);
-  const [madinaItenaries, setMadinaItenaries] = useState([
-    { day: 'Day 1', itenary: '' },
-  ]);
+  const [previewData] = useState(() => {
+    const packageImage =
+      JSON.parse(localStorage.getItem('packageimages')) || {};
+    const packageDetails =
+      JSON.parse(localStorage.getItem('packagedetails')) || {};
+    return { packageImage, packageDetails };
+  });
+  const [groupDates, setGroupDate] = useState(
+    previewData?.packageDetails.groupDates || ['']
+  );
+  const [inclusion, setInclusion] = useState(
+    previewData?.packageDetails.inclusion || ['']
+  );
+  const [exclusion, setExclusion] = useState(
+    previewData?.packageDetails.exclusion || ['']
+  );
+  const [bookingterms, setBookingTerms] = useState(
+    previewData?.packageDetails.bookingterms || ['']
+  );
+  const [cancelpolicy, setCancelPolicy] = useState(
+    previewData?.packageDetails.cancellationpolicy || ['']
+  );
+  const [termcondition, setTermCondition] = useState(
+    previewData?.packageDetails.termcondition || ['']
+  );
+
+  const [meccaItenaries, setMeccaItenaries] = useState(
+    previewData?.packageDetails.meccaitenaries || [
+      { day: 'Day 1', itenary: '' },
+    ]
+  );
+  const [madinaItenaries, setMadinaItenaries] = useState(
+    previewData?.packageDetails.madinaitenaries || [
+      { day: 'Day 1', itenary: '' },
+    ]
+  );
 
   // Is active and is featured states & functions
-  const [isActive, setIsActive] = useState(true);
-  const [isFeatured, setIsFeatured] = useState(false);
+  const [isActive, setIsActive] = useState(
+    previewData?.packageDetails.isactive || true
+  );
+  const [isFeatured, setIsFeatured] = useState(
+    previewData?.packageDetails.isfeatured || false
+  );
 
   const handleisActive = () => {
     setIsActive(!isActive);
@@ -40,8 +65,7 @@ const CreatePackagesForm = () => {
   const navigate = useNavigate();
 
   // Context States
-  const { packageData, setPackageData, updatePackageData } =
-    useContext(AuthContext);
+  const { updatePackageData } = useContext(AuthContext);
 
   // useForm
 
@@ -235,6 +259,7 @@ const CreatePackagesForm = () => {
               id="packagename"
               className="custom-input"
               placeholder="Enter Package Name"
+              defaultValue={previewData?.packageDetails.packagename}
               {...register('packagename')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -252,6 +277,7 @@ const CreatePackagesForm = () => {
               id="packagetype"
               className="custom-input"
               placeholder="Enter Package Type"
+              defaultValue={previewData?.packageDetails.packagetype}
               {...register('packagetype')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -273,6 +299,7 @@ const CreatePackagesForm = () => {
             className="w-full custom-input"
             placeholder="Enter Package Description"
             {...register('packagedesc')}
+            defaultValue={previewData?.packageDetails.packagedesc}
           ></textarea>
           <span className="text-sm text-red-600 my-2">
             {errors?.packagedesc?.message}
@@ -294,6 +321,7 @@ const CreatePackagesForm = () => {
               className="custom-input"
               placeholder="Enter Base Price"
               {...register('baseprice')}
+              defaultValue={previewData?.packageDetails.baseprice}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.baseprice?.message}
@@ -311,6 +339,7 @@ const CreatePackagesForm = () => {
               min="0"
               className="custom-input"
               placeholder="Enter  Discount"
+              defaultValue={previewData?.packageDetails.discount}
               {...register('discount')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -416,6 +445,7 @@ const CreatePackagesForm = () => {
                   type="date"
                   name=""
                   value={date}
+                  defaultValue={date}
                   onChange={(e) => handleDateChange(e.target.value, index)}
                   id="packagename"
                   className="w-9/12 mb-5 custom-input"
@@ -449,6 +479,7 @@ const CreatePackagesForm = () => {
             id="bookingdeadline"
             className="w-full lg:w-1/3 custom-input"
             {...register('bookingdeadline')}
+            defaultValue={previewData?.packageDetails.bookingdeadline}
           />
           <span className="text-sm text-red-600 my-2">
             {errors?.bookingdeadline?.message}
@@ -470,6 +501,7 @@ const CreatePackagesForm = () => {
               className="custom-input"
               placeholder="Enter Total Days"
               {...register('totaldays')}
+              defaultValue={previewData?.packageDetails.totaldays}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.totaldays?.message}
@@ -487,6 +519,7 @@ const CreatePackagesForm = () => {
               id="totalnights"
               className="custom-input"
               placeholder="Enter Total Nights"
+              defaultValue={previewData?.packageDetails.totalnights}
               {...register('totalnights')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -508,6 +541,7 @@ const CreatePackagesForm = () => {
               className="custom-input"
               placeholder="Enter Arrival City"
               {...register('arrivalcity')}
+              defaultValue={previewData?.packageDetails.arrivalcity}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.packagename?.message}
@@ -525,6 +559,7 @@ const CreatePackagesForm = () => {
               className="custom-input"
               placeholder="Enter  Departure City"
               {...register('departurecity')}
+              defaultValue={previewData?.packageDetails.departurecity}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.packagetype?.message}
@@ -544,41 +579,14 @@ const CreatePackagesForm = () => {
               Makkah Hotel Name
             </label>
 
-            <Controller
+            <input
+              type="text"
               name="meccahotelname"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <>
-                  <div
-                    className="border w-full font-jakarta cursor-pointer border-darkgreen rounded-xl p-3 gap-1 flex items-center justify-between"
-                    onClick={() => setMeccaHotel(!meccahotel)}
-                  >
-                    <div>{field.value || 'Select'}</div>
-                    <ChevronDown />
-                  </div>
-                  <div
-                    className={`absolute top-24 bg-peach z-30 w-full border border-darkgreen rounded-lg ${
-                      meccahotel ? 'block' : 'hidden'
-                    }`}
-                  >
-                    <ul className="p-2 font-jakarta">
-                      {options.map((sal, index) => (
-                        <li
-                          key={index}
-                          className="mt-2 p-2 hover:cursor-pointer rounded-lg hover:bg-darkgreen hover:text-peach"
-                          onClick={() => {
-                            field.onChange(sal);
-                            setMeccaHotel(false);
-                          }}
-                        >
-                          {sal}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </>
-              )}
+              id="meccahotelname"
+              className="custom-input"
+              placeholder="Enter Mecca Hotel"
+              {...register('meccahotelname')}
+              defaultValue={previewData?.packageDetails.meccahotelname}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.meccahotelname?.message}
@@ -589,43 +597,16 @@ const CreatePackagesForm = () => {
             <label htmlFor="madinahotelname" className="custom-label">
               Madina Hotel Name
             </label>
-
-            <Controller
+            <input
+              type="text"
               name="madinahotelname"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <>
-                  <div
-                    className="border w-full font-jakarta cursor-pointer border-darkgreen rounded-xl p-3 gap-1 flex items-center justify-between"
-                    onClick={() => setMadinaHotel(!madinahotel)}
-                  >
-                    <div>{field.value || 'Select'}</div>
-                    <ChevronDown />
-                  </div>
-                  <div
-                    className={`absolute top-24 bg-peach z-30 w-full border border-darkgreen rounded-lg ${
-                      madinahotel ? 'block' : 'hidden'
-                    }`}
-                  >
-                    <ul className="p-2 font-jakarta">
-                      {options.map((sal, index) => (
-                        <li
-                          key={index}
-                          className="mt-2 p-2 hover:cursor-pointer rounded-lg hover:bg-darkgreen hover:text-peach"
-                          onClick={() => {
-                            field.onChange(sal);
-                            setMadinaHotel(false);
-                          }}
-                        >
-                          {sal}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </>
-              )}
+              id="madinahotelname"
+              className="custom-input"
+              placeholder="Enter Madina Hotel"
+              {...register('madinahotelname')}
+              defaultValue={previewData?.packageDetails.madinahotelname}
             />
+
             <span className="text-sm text-red-600 my-2">
               {errors?.madinahotelname?.message}
             </span>
@@ -647,6 +628,7 @@ const CreatePackagesForm = () => {
               className="custom-input"
               placeholder="Enter Double Price"
               {...register('doubleprice')}
+              defaultValue={previewData?.packageDetails.doubleprice}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.doubleprice?.message}
@@ -665,6 +647,7 @@ const CreatePackagesForm = () => {
               className="custom-input"
               placeholder="Enter Triple Price"
               {...register('tripleprice')}
+              defaultValue={previewData?.packageDetails.tripleprice}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.tripleprice?.message}
@@ -686,6 +669,7 @@ const CreatePackagesForm = () => {
               className="custom-input"
               placeholder="Enter Quint Price"
               {...register('quintprice')}
+              defaultValue={previewData?.packageDetails.quintprice}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.quintprice?.message}
@@ -703,6 +687,7 @@ const CreatePackagesForm = () => {
               id="quadprice"
               className="custom-input"
               placeholder="Enter Quad Price"
+              defaultValue={previewData?.packageDetails.quadprice}
               {...register('quadprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -725,6 +710,7 @@ const CreatePackagesForm = () => {
               className="custom-input"
               placeholder="Enter Child Without Bed Price"
               {...register('childwithoutbedprice')}
+              defaultValue={previewData?.packageDetails.childwithoutbedprice}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.childwithoutbedprice?.message}
@@ -742,6 +728,7 @@ const CreatePackagesForm = () => {
               id="infantprice"
               className="custom-input"
               placeholder="Enter Infant Price"
+              defaultValue={previewData?.packageDetails.infantprice}
               {...register('infantprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -781,7 +768,7 @@ const CreatePackagesForm = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itinerary}
+                value={val.itenary}
                 onChange={(e) => handleMeccaItenaries(e.target.value, index)}
               />
             </div>
@@ -825,7 +812,7 @@ const CreatePackagesForm = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itinerary}
+                value={val.itenary}
                 onChange={(e) => handleMadinaItenaries(e.target.value, index)}
               />
             </div>
@@ -1036,6 +1023,10 @@ const CreatePackagesForm = () => {
         <NavLink
           to="/admin/umrahpackages"
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
+          onClick={() => {
+            localStorage.removeItem('packagedetails');
+            localStorage.removeItem('packageimages');
+          }}
         >
           Back
         </NavLink>

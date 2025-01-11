@@ -9,7 +9,8 @@ const UmrahPackages = () => {
   const [getUmrahpackages, setUmrahPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isChildLoading, setIsChildLoading] = useState(false);
-  const { updateid } = useParams();
+  const { updateid, id } = useParams();
+  console.log(updateid, id);
 
   const location = useLocation();
 
@@ -17,10 +18,17 @@ const UmrahPackages = () => {
 
   useEffect(() => {
     if (getPackages.data) {
-      setUmrahPackages(getPackages.data);
+      console.log(getPackages.data.data);
+      setUmrahPackages(getPackages.data.data);
+      setLoading(false);
+    }
+
+    if (getUmrahpackages.length == 0) {
       setLoading(false);
     }
   }, [getPackages.data]);
+
+  console.log(getUmrahpackages);
 
   if (loading) {
     return (
@@ -36,8 +44,9 @@ const UmrahPackages = () => {
   const isDetailForm =
     currentPath === '/admin/umrahpackages/createpackage-form';
   const isImgForm = currentPath === '/admin/umrahpackages/createpackage-images';
-  const isPreview =
-    currentPath === '/admin/umrahpackages/createpackage-preview';
+  const isPreview = currentPath.includes(
+    '/admin/umrahpackages/createpackage-preview/'
+  );
 
   return (
     <div
@@ -64,7 +73,7 @@ const UmrahPackages = () => {
                 <PackageCards
                   data={i}
                   key={i.package_id}
-                  getPackages={getPackages}
+                  refreshPackages={getPackages.refresh}
                   isChildLoading={isChildLoading}
                   setIsChildLoading={setIsChildLoading}
                 />
@@ -162,7 +171,7 @@ const UmrahPackages = () => {
       )}
       {/* Outlet */}
       <div className="mt-5">
-        <Outlet />
+        <Outlet context={{ refreshPackages: getPackages.refresh }} />
       </div>
     </div>
   );

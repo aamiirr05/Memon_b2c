@@ -126,7 +126,7 @@ const App = () => {
               element: <CreatePackageImgs />,
             },
             {
-              path: 'createpackage-preview',
+              path: 'createpackage-preview/:id',
               element: <CreatePreview />,
             },
           ],
