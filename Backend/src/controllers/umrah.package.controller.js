@@ -327,10 +327,6 @@ const getAllUmrahPackages = asyncHandler(async (req, res) => {
     include: { prices: true },
   });
 
-  if (allUmrahPackages.length === 0) {
-    throw new ApiError(404, "No Umrah Packages Found");
-  }
-
   return res
     .status(200)
     .json(
@@ -646,8 +642,8 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
     }
   }
 
-  const oldPackageImagePublicIds = await Promise.all(
-    existingPackage.package_image.map((image) => image.public_id)
+  const oldPackageImagePublicIds = existingPackage.package_image.map(
+    (image) => image.public_id
   );
 
   const newUploadedImages = await uploadImages(
@@ -739,8 +735,8 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
     }
   }
 
-  const oldMakHotelImagePublicIds = await Promise.all(
-    existingPackage.mak_hotel_images.map((image) => image.public_id)
+  const oldMakHotelImagePublicIds = existingPackage.mak_hotel_images.map(
+    (image) => image.public_id
   );
 
   const newMakHotelImages = await uploadImages(
@@ -831,8 +827,8 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
     }
   }
 
-  const oldMedHotelImagePublicIds = await Promise.all(
-    existingPackage.med_hotel_images.map((image) => image.public_id)
+  const oldMedHotelImagePublicIds = existingPackage.med_hotel_images.map(
+    (image) => image.public_id
   );
 
   const newMedHotelImages = await uploadImages(
@@ -890,23 +886,17 @@ const deleteUmrahPackage = asyncHandler(async (req, res) => {
 
   let allImagesId = [];
 
-  await Promise.all(
-    existingPackage.package_image.map((image) =>
-      allImagesId.push(image.public_id)
-    )
+  existingPackage.package_image.forEach((image) =>
+    allImagesId.push(image.public_id)
   );
 
-  await Promise.all(
-    existingPackage.mak_hotel_images.map((image) =>
-      allImagesId.push(image.public_id)
-    )
+  existingPackage.mak_hotel_images.forEach((image) =>
+    allImagesId.push(image.public_id)
   );
 
-  await Promise.all(
-    existingPackage.med_hotel_images.map((image) =>
-      allImagesId.push(image.public_id)
-    )
-  );
+  existingPackage.med_hotel_images.forEach((image) => {
+    allImagesId.push(image.public_id);
+  });
 
   if (!allImagesId || allImagesId.length === 0) {
     throw new ApiError(500, "Error While Deleting Package");
