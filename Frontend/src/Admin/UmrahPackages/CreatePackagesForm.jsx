@@ -20,7 +20,7 @@ const CreatePackagesForm = () => {
     previewData?.packageDetails.groupDates || ['']
   );
   const [inclusion, setInclusion] = useState(
-    previewData?.packageDetails.inclusion || ['']
+    previewData?.packageDetails.inclusion || ['food', 'wifi']
   );
   const [exclusion, setExclusion] = useState(
     previewData?.packageDetails.exclusion || ['']

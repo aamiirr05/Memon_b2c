@@ -294,7 +294,7 @@ const CreatePackageImgs = () => {
       const resMsg = res.data?.message || 'Package Created Successfully';
       console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
-      navigate(`/admin/umrahpackages/createpackage-preview/${id}`);
+      navigate(`/admin/umrahpackages/createpackage-preview/${extractedId}`);
     } catch (error) {
       console.error(error);
 
