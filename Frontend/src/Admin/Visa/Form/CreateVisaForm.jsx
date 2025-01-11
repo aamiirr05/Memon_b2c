@@ -276,7 +276,7 @@ const CreateVisaForm = () => {
     });
 
     const toastId = toast.loading(
-      'Creating package. This may take some time...',
+      'Creating Visa. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
