@@ -9,7 +9,7 @@ const UpdateUmrahPackage = () => {
 
   useEffect(() => {
     if (getUmrahPackages.data) {
-      setAllPackages(getUmrahPackages.data);
+      setAllPackages(getUmrahPackages.data.data);
     }
   }, [getUmrahPackages.data]);
 

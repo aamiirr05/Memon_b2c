@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 
 const PackageCards = ({
   data,
-  getPackages,
+  refreshPackages,
   isChildLoading,
   setIsChildLoading,
 }) => {
@@ -36,7 +36,7 @@ const PackageCards = ({
       toast.dismiss(toastId);
       const msg = res.data.data;
       toast.success(msg);
-      getPackages();
+      refreshPackages();
     } catch (error) {
       console.log(error);
       toast.dismiss(toastId);
@@ -82,7 +82,7 @@ const PackageCards = ({
           </div>
           <div className="flex flex-col gap-3 absolute top-14 right-0">
             <NavLink
-              to={`/admin/umrahpackages/update/${data.package_id}`}
+              to={`/admin/umrahpackages/update/${data.package_id}/details`}
               className={`rounded-full border border-darkgreen cursor-pointer hover:bg-darkgreen hover:text-peach transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center ${isChildLoading ? 'opacity-50' : 'opacity-100'}`}
             >
               <Pencil size={15} />

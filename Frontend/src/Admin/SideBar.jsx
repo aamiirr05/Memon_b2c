@@ -52,6 +52,7 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
       const res = await axiosInstance.post('/admin/logout');
       console.log(res);
       const msg = res.data.data;
+      localStorage.clear();
       toast.success(msg);
       navigate('/admin-login');
     } catch (error) {
