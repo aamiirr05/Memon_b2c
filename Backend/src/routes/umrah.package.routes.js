@@ -26,7 +26,7 @@ router.route("/create-umrah-package").post(
   createUmrahPackage
 );
 
-router.route("/fetch-umrah-packages").get(verifyAdminJwt, getAllUmrahPackages);
+router.route("/fetch-umrah-packages").get(getAllUmrahPackages);
 
 router
   .route("/update-umrah-package/:id")
