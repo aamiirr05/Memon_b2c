@@ -176,7 +176,7 @@ const CreatePackageImgs = () => {
   formData.append('doubleprice', previewData?.packageDetails.doubleprice);
   formData.append(
     'childwithoutbedprice',
-    previewData?.packageDetails.childwithoutbed
+    previewData?.packageDetails.childwithoutbedprice
   );
   formData.append('infantprice', previewData?.packageDetails.infantprice);
   //
@@ -267,7 +267,8 @@ const CreatePackageImgs = () => {
       const resMsg = res.data?.message || 'Package Created Successfully';
       console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
-      navigate('/admin/umrahpackages/createpackage-preview');
+      navigate('/admin/umrahpackages');
+
       localStorage.removeItem('packagedetails');
       localStorage.removeItem('packageimages');
     } catch (error) {

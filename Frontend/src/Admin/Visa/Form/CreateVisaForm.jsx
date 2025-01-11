@@ -276,7 +276,7 @@ const CreateVisaForm = () => {
     });
 
     const toastId = toast.loading(
-      'Creating package. This may take some time...',
+      'Creating Visa. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
@@ -321,6 +321,16 @@ const CreateVisaForm = () => {
         onSubmit={handleSubmit(onFormSubmit)}
       >
         <h1 className="text-3xl font-zodiak mb-5 pl-2">Create Visa Form</h1>
+
+        <div className="w-full bg-peach bg-opacity-20 mb-10 shadow-md rounded-xl p-5 md:p-10">
+          <Dropzone
+            images={image}
+            setImages={setImage}
+            label="Visa Image"
+            error={errors.image}
+            MAX_FILES={1}
+          />
+        </div>
         {/* Section One */}
         <div className="w-full bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
           <div className="flex flex-col gap-5 md:flex-row items-center w-full">
@@ -669,14 +679,6 @@ const CreateVisaForm = () => {
             Add Cancellation Policy
           </div>
         </div>
-
-        <Dropzone
-          images={image}
-          setImages={setImage}
-          label="Visa Image"
-          error={errors.image}
-          MAX_FILES={1}
-        />
 
         {/*  */}
 
