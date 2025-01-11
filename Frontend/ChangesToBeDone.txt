@@ -2,6 +2,9 @@ Add a card section in Landing Page
 
 Add Navigation for enquiry when logged in 
 
+Add sliding btns for Send Enquiry & Whatsapp 
+   Ref : https://www.atlastravels.com
+
 Refactor the existing package sections (Responsiveness)
 
 View Packages Section
@@ -19,4 +22,9 @@ View Packages Section
 Create Form for enquiries 
    Refer Postman 
 
+
+
+Create admin Context 
+
+Refactor naming &  of user component folder 
 

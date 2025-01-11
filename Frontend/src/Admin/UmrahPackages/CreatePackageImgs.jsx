@@ -285,6 +285,7 @@ const CreatePackageImgs = () => {
       console.log(res);
 
       const extractedId = res.data.data[0].package_id;
+      console.log(extractedId);
 
       setId(extractedId);
 
