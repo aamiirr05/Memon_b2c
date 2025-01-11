@@ -1,8 +1,5 @@
 import { ApiError } from "./ApiErrors.js";
-import {
-  uploadOnCloudinary,
-  deleteImageFromCloudinary,
-} from "../utils/cloudinary.js";
+import { uploadOnCloudinary, deleteImageFromCloudinary } from "./cloudinary.js";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
