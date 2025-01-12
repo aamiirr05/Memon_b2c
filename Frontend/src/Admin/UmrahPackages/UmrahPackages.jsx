@@ -1,9 +1,9 @@
 import { Check, Plus } from 'lucide-react';
 import PackageCards from './PackageCards';
 import { useEffect, useState } from 'react';
-import Loader from '../../Utils/Loader';
+import Loader from '../../components/Loader';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
-import useFetchPackages from '../../custom hooks/UseFetchPackages';
+import useFetchPackages from '../hooks/UseFetchPackages';
 
 const UmrahPackages = () => {
   const [getUmrahpackages, setUmrahPackages] = useState([]);

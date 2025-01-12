@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
-import useFetchPackages from '../../custom hooks/UseFetchPackages';
+import useFetchPackages from '../hooks/UseFetchPackages';
 
 const UpdateUmrahPackage = () => {
   const [getAllPackages, setAllPackages] = useState([]);

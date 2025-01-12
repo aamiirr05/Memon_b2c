@@ -3,7 +3,7 @@ import { Check, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import axiosInstance from '../../components/axios/AxiosInstance';
+import axiosInstance from '../../lib/axios';
 import HotelCards from './HotelCards';
 import Loader from '../../Utils/Loader';
 

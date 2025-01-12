@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { Pencil, Trash2 } from 'lucide-react';
-import axiosInstance from '../../components/axios/AxiosInstance';
+import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import trash from '../../assets/img/trash.png';
 import { useState } from 'react';

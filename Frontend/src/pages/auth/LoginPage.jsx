@@ -12,12 +12,10 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useContext, useState } from 'react';
-import axiosInstance from '../axios/AxiosInstance';
-import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
-import { AuthContext } from '../../context';
+import { useState } from 'react';
+
 import logo from '../../assets/img/logo.png';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const schema = yup
   .object({
@@ -34,23 +32,11 @@ const schema = yup
       .required('Password is required'),
   })
   .required();
-const Login = () => {
+
+const LoginPage = () => {
   const navigate = useNavigate();
   const [isPassVisible, setIsPassVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { setIsLoggedIn, isLoggedIn, setAccessToken, setRefreshToken } =
-    useContext(AuthContext);
-
-  const handleSuccess = (val) => {
-    toast.success(val, {
-      duration: 4000,
-    });
-  };
-  const handleError = (val) => {
-    toast.error(val || 'Something Went Wrong', {
-      duration: 4000,
-    });
-  };
+  const { isLoggingIn, login } = useAuthStore();
 
   const {
     register,
@@ -63,38 +49,8 @@ const Login = () => {
   });
 
   const onSubmit = async (data) => {
-    try {
-      setIsLoading(true);
-      setIsLoggedIn(true);
-      const res = await axiosInstance.post('/users/login', {
-        email: data.email,
-        password: data.password,
-      });
-
-      const successmsg = res.data.message;
-      handleSuccess(successmsg);
-      console.log(res);
-
-      const accesstoken = res.data.data.accessToken;
-      const refreshtoken = res.data.data.refreshToken;
-      setAccessToken(accesstoken);
-      setRefreshToken(refreshtoken);
-
-      Cookies.set('accessToken', accesstoken);
-      Cookies.set('refreshToken', refreshtoken);
-
-      reset();
-      navigate('/');
-      localStorage.setItem('isLoggedIn', isLoggedIn || true);
-    } catch (error) {
-      const errmsg = error.response.data.message || 'Something went Wrong';
-      console.log(errmsg);
-      handleError(errmsg);
-
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+    await login(data, navigate);
+    reset();
   };
 
   return (
@@ -191,7 +147,7 @@ const Login = () => {
             </div>
 
             <button className="my-10 w-1/2 flex items-center justify-center font-jakarta bg-darkgreen text-peach p-3 mx-auto rounded-xl font-semibold">
-              {isLoading ? 'Logging In...' : 'Log In'}
+              {isLoggingIn ? 'Logging In...' : 'Log In'}
             </button>
 
             <div className="text-center flex items-center justify-center gap-1 font-jakarta tracking-tight">
@@ -207,4 +163,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

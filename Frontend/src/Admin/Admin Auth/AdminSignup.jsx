@@ -16,7 +16,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 import toast from 'react-hot-toast';
-import axiosInstance from '../../components/axios/AxiosInstance';
+import axiosInstance from '../../lib/axios';
 
 //  Schema validation
 const schema = yup

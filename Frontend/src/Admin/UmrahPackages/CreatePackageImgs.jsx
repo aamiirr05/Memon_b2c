@@ -6,9 +6,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
-import { AuthContext } from '../../context';
-import axiosInstance from '../../components/axios/AxiosInstance';
-import Loader from '../../Utils/Loader';
+import { AuthContext } from '../context';
+import axiosInstance from '../../lib/axios';
 
 // const MAX_FILES = 5;
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
@@ -294,7 +293,7 @@ const CreatePackageImgs = () => {
       const resMsg = res.data?.message || 'Package Created Successfully';
       console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
-      navigate(`/admin/umrahpackages/createpackage-preview/${id}`);
+      navigate(`/admin/umrahpackages/createpackage-preview/${extractedId}`);
     } catch (error) {
       console.error(error);
 

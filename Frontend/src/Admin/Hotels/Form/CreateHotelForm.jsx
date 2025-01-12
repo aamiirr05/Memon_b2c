@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context';
+import { AuthContext } from '../../context';
 
 const schema = yup.object().shape({
   hotelname: yup.string().required('Hotel Name is required'),

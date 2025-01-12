@@ -170,7 +170,7 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   const options = {
-    // httpOnly: true,
+    httpOnly: true,
     secure: true,
   };
 
@@ -292,7 +292,7 @@ const logoutUser = asyncHandler(
     });
 
     const options = {
-      // httpOnly: true,
+      httpOnly: true,
       secure: true,
     };
 
@@ -300,7 +300,7 @@ const logoutUser = asyncHandler(
       .status(200)
       .clearCookie("accessToken", options)
       .clearCookie("refreshToken", options)
-      .json(new ApiResponse(200, "User logged out sucessfully"));
+      .json(new ApiResponse(200, "", "User logged out sucessfully"));
   })
 );
 
@@ -342,7 +342,7 @@ const refreshToken = asyncHandler(async (req, res) => {
 
   const options = {
     secure: true,
-    // httpOnly: true,
+    httpOnly: true,
   };
 
   return res

@@ -18,8 +18,8 @@ import * as yup from 'yup';
 import { useContext, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import { AuthContext } from '../../context';
-import axiosInstance from '../axios/AxiosInstance';
+import { AuthContext } from '../../Admin/context';
+import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import logo from '../../assets/img/logo.png';
 
