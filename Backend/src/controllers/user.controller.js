@@ -8,6 +8,7 @@ import {
 } from "../validator/user.validator.js";
 import {
   transporter,
+  sendOtp,
   generateOTP,
   safeConvertToNumber,
   generateAccessTokenForUser,
@@ -23,15 +24,6 @@ import {
   userUmrahEnquiryValidation,
   userVisaEnquiryValidation,
 } from "../validator/enquiry.validator.js";
-
-// Store Otp
-
-const otpStorage = new Map();
-
-const storeOTP = (email, otp) => {
-  const expiresAt = Date.now() + 5 * 60 * 1000; // OTP valid for 5 minutes
-  otpStorage.set(email, { otp, expiresAt });
-};
 
 // ****************** All user auth routes ******************
 
@@ -105,9 +97,14 @@ const registerUser = asyncHandler(async (req, res) => {
       last_name: true,
       email: true,
       contact: true,
+      isVerified: true,
       created_at: true,
     },
   });
+
+  const username = newUser.first_name + " " + newUser.last_name;
+
+  await sendOtp(newUser.email, username);
 
   return res
     .status(200)
@@ -196,7 +193,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // *************** SendOtp ***************
 
-const sendOtp = asyncHandler(async (req, res) => {
+const resendOtp = asyncHandler(async (req, res) => {
   let { email, username } = req.body;
 
   const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -275,6 +272,8 @@ const verifyOtp = asyncHandler(async (req, res) => {
   if (otp !== parseInt(inputOtp, 10)) {
     throw new ApiError(400, "Invalid OTP");
   }
+
+  await prisma.user.update({ where: { email }, data: { isVerified: true } });
 
   otpStorage.delete(email); // OTP verified, clean up
 
@@ -668,7 +667,7 @@ const enquiryVisa = asyncHandler(async (req, res) => {
 export {
   registerUser,
   loginUser,
-  sendOtp,
+  resendOtp,
   verifyOtp,
   logoutUser,
   refreshToken,

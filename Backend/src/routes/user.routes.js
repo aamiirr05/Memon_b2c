@@ -5,7 +5,7 @@ import {
   logoutUser,
   refreshToken,
   registerUser,
-  sendOtp,
+  resendOtp,
   verifyOtp,
 } from "../controllers/user.controller.js";
 import { verifyJwt } from "../middlewares/user.auth.middleware.js";
@@ -14,7 +14,7 @@ const router = Router();
 
 router.route("/signup").post(registerUser);
 router.route("/login").post(loginUser);
-router.route("/send-otp").post(sendOtp);
+router.route("/send-otp").post(resendOtp);
 router.route("/verify-otp").post(verifyOtp);
 
 // ********** Protected Routes **********
