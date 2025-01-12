@@ -108,7 +108,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, newUser, "Account Created Successfully"));
+    .json(new ApiResponse(200, newUser, "OTP has been sent to your email"));
 });
 
 // *************** Login ***************
@@ -193,7 +193,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // *************** Check Auth ***************
 
-const checkAuth = asyncHandler(async (req, _, next) => {
+const checkAuth = asyncHandler(async (req, res) => {
   try {
     const token = req.cookies?.accessToken;
 
@@ -346,8 +346,8 @@ const logoutUser = asyncHandler(
 // *************** RefreshToken ***************
 
 const refreshToken = asyncHandler(async (req, res) => {
-  const incomingRefreshToken =
-    req.cookies.refreshToken || req.body.refreshToken;
+  console.log("Refresh");
+  const incomingRefreshToken = req.cookies.refreshToken;
 
   if (!incomingRefreshToken) {
     throw new ApiError(401, "Unauthorized request");
@@ -372,12 +372,14 @@ const refreshToken = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Refresh token expired or used");
   }
 
-  const accessToken = await generateAccessToken(
+  const accessToken = await generateAccessTokenForUser(
     user.registration_id,
     user.email
   );
 
-  const newRefreshToken = await generateRefreshToken(user.registration_id);
+  const newRefreshToken = await generateRefreshTokenForUser(
+    user.registration_id
+  );
 
   const options = {
     secure: true,

@@ -15,7 +15,7 @@ const router = Router();
 
 router.route("/signup").post(registerUser);
 router.route("/login").post(loginUser);
-router.route("check-auth").get(checkAuth);
+router.route("/check-auth").get(checkAuth);
 router.route("/send-otp").post(resendOtp);
 router.route("/verify-otp").post(verifyOtp);
 

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import axiosInstance from '../../lib/axios';
 import HotelCards from './HotelCards';
-import Loader from '../../Utils/Loader';
+import Loader from '../../components/Loader';
 
 const Hotels = () => {
   const [hotels, setHotels] = useState([]);
