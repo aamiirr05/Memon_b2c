@@ -36,9 +36,9 @@ import { useAuthStore } from './store/useAuthStore';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, []);
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
       <Routes>

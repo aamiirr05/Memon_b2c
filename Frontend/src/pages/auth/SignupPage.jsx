@@ -22,6 +22,7 @@ import { AuthContext } from '../../Admin/context';
 import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import logo from '../../assets/img/logo.png';
+import { useAuthStore } from '../../store/useAuthStore';
 
 //  Schema validation
 const schema = yup
@@ -53,7 +54,14 @@ const schema = yup
       .oneOf([yup.ref('password'), null], 'Passwords must match.'),
   })
   .required();
+
 const Signup = () => {
+  const navigate = useNavigate();
+  const salutationOps = ['Mr', 'Ms', 'Mrs'];
+  const [salOption, setSalOption] = useState(false);
+  const [isPassVisible, setIsPassVisible] = useState(false);
+  const [isConfPassVisible, setIsConfPassVisible] = useState(false);
+
   //  UseForm Hook
   const {
     register,
@@ -65,8 +73,9 @@ const Signup = () => {
     resolver: yupResolver(schema),
   });
 
-  const { setSignupData } = useContext(AuthContext);
+  // const { setSignupData } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const { signup, isSigningUp } = useAuthStore();
 
   const handleSuccess = (val) => {
     toast.success(val, {
@@ -80,47 +89,39 @@ const Signup = () => {
   };
 
   const onSubmit = async (data) => {
-    const username = data.fname + ' ' + data.lname;
-    try {
-      setLoading(true);
-      const res = await axiosInstance.post('/users/send-otp', {
-        email: data.email,
-        username: username,
-      });
-
-      console.log(res);
-      console.log(username);
-      setSignupData({
-        salutation: data.salutation,
-        firstname: data.fname,
-        lastname: data.lname,
-        username: username,
-        email: data.email,
-        contact: data.phone,
-        password: data.password,
-        confirmpassword: data.confpassword,
-      });
-
-      const message = res.data.data;
-      handleSuccess(message);
-
-      setTimeout(() => {
-        navigate('/verify');
-      }, 4000);
-      reset();
-    } catch (error) {
-      const message = error.response.data.message;
-      handleError(message);
-
-      setSignupData({});
-      setLoading(false);
-    }
+    await signup(data, navigate);
+    // const username = data.fname + ' ' + data.lname;
+    // try {
+    //   setLoading(true);
+    //   const res = await axiosInstance.post('/users/send-otp', {
+    //     email: data.email,
+    //     username: username,
+    //   });
+    //   console.log(res);
+    //   console.log(username);
+    //   setSignupData({
+    //     salutation: data.salutation,
+    //     firstname: data.fname,
+    //     lastname: data.lname,
+    //     username: username,
+    //     email: data.email,
+    //     contact: data.phone,
+    //     password: data.password,
+    //     confirmpassword: data.confpassword,
+    //   });
+    //   const message = res.data.data;
+    //   handleSuccess(message);
+    //   setTimeout(() => {
+    //     navigate('/verify');
+    //   }, 4000);
+    //   reset();
+    // } catch (error) {
+    //   const message = error.response.data.message;
+    //   handleError(message);
+    //   setSignupData({});
+    //   setLoading(false);
+    // }
   };
-  const navigate = useNavigate();
-  const salutationOps = ['Mr', 'Ms', 'Mrs'];
-  const [salOption, setSalOption] = useState(false);
-  const [isPassVisible, setIsPassVisible] = useState(false);
-  const [isConfPassVisible, setIsConfPassVisible] = useState(false);
 
   return (
     <>
@@ -365,7 +366,7 @@ const Signup = () => {
               // onClick={() => navigate('/verify')}
               className="my-5 w-1/2 flex items-center justify-center font-jakarta bg-darkgreen text-peach p-3 mx-auto rounded-xl font-semibold"
             >
-              {loading ? 'Signing In...' : 'Sign In'}
+              {loading ? 'Signing up' : 'Sign up'}
             </button>
 
             <div className="text-center flex items-center justify-center gap-1 font-jakarta tracking-tight">

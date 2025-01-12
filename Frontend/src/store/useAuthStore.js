@@ -6,17 +6,33 @@ import axiosInstance from '../lib/axios';
 export const useAuthStore = create((set) => ({
   authUser: null,
   isLoggingIn: false,
-  isSigninUp: false,
+  isSigningUp: false,
   isCheckingAuth: false,
 
-  signup: async (data) => {
-    set({ isSigninUp: true });
+  signup: async (data, navigate) => {
+    set({ isSigningUp: true });
     try {
-      const res = await axiosInstance.post('/');
+      console.log(data);
+      const signupData = {
+        salutation: data.salutation,
+        firstname: data.fname,
+        lastname: data.lastname,
+        email: data.email,
+        contact: data.phone,
+        password: data.password,
+        confirmpassword: data.confpassword,
+      };
+
+      const res = await axiosInstance.post('/users/signup', signupData);
+      set({ authUser: res.data.data.user });
+
+      toast.success(res.data.message);
+      navigate('/verify');
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     } finally {
-      set({ isSigninUp: false });
+      set({ isSigningUp: false });
     }
   },
 
