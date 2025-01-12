@@ -191,6 +191,45 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
+// *************** Check Auth ***************
+
+const checkAuth = asyncHandler(async (req, _, next) => {
+  try {
+    const token = req.cookies?.accessToken;
+
+    if (!token) {
+      throw new ApiError(401, "Token not found");
+    }
+
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    const user = await prisma.user.findUnique({
+      where: {
+        registration_id: decodedToken?.registrationId,
+      },
+      select: {
+        registration_id: true,
+        salutation: true,
+        first_name: true,
+        last_name: true,
+        email: true,
+        contact: true,
+        isVerified: true,
+      },
+    });
+
+    if (!user) {
+      throw new ApiError(404, "Invalid Token");
+    }
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user, "User Authenticated"));
+  } catch (error) {
+    throw new ApiError(401, error?.message || "Invalid Access Token");
+  }
+});
+
 // *************** SendOtp ***************
 
 const resendOtp = asyncHandler(async (req, res) => {
@@ -667,6 +706,7 @@ const enquiryVisa = asyncHandler(async (req, res) => {
 export {
   registerUser,
   loginUser,
+  checkAuth,
   resendOtp,
   verifyOtp,
   logoutUser,
