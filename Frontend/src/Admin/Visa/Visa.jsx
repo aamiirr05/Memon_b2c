@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react';
-import Loader from '../../Utils/Loader';
+import Loader from '../../components/Loader';
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import axiosInstance from '../../lib/axios';

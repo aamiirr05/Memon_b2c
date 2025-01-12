@@ -24,7 +24,7 @@ const OtpPage = () => {
   };
 
   const inputsRef = useRef([]);
-  const { signupData } = useContext(AuthContext);
+  // const { signupData } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   console.log(signupData);
   const userEmail = signupData.email;
