@@ -1,13 +1,13 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { Homepage } from './components';
-import Login from './components/Auth/Login';
-import Signup from './components/Auth/Signup';
-import Otp from './components/Auth/Otp';
+import { Routes, Route } from 'react-router-dom';
+import Homepage from './pages/HomePage';
+import LoginPage from './pages/auth/LoginPage';
+import Signup from './pages/auth/SignupPage';
+import OtpPage from './pages/auth/OtpPage';
 
-import ErrorPage from './components/Error/ErrorPage';
+import ErrorPage from './pages/ErrorPage';
 import { Toaster } from 'react-hot-toast';
 
-import AdminLayout, { AdminLoader } from './Admin/AdminLayout';
+import AdminLayout from './Admin/AdminLayout';
 import Enquiry from './Admin/Enquiry/Enquiry';
 import Hotels from './Admin/Hotels/Hotels';
 import UmrahPackages from './Admin/UmrahPackages/UmrahPackages';
@@ -31,151 +31,74 @@ import UpdateUmrahDetails from './Admin/UmrahPackages/Update/UpdateUmrahDetails'
 import UpdateUmrahPackImgs from './Admin/UmrahPackages/Update/UpdateUmrahPackImgs';
 import UpdateUmrahMeccaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMeccaImgs';
 import UpdateUmrahMadinaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMadinaImgs';
+import { useEffect } from 'react';
+import { useAuthStore } from './store/useAuthStore';
 
 const App = () => {
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <Homepage />,
-      errorElement: <ErrorPage />,
-    },
-    // Login & Signup Routes
-    {
-      path: 'login',
-      element: <Login />,
-      // loader: loginLoader,
-    },
-    {
-      path: 'signup',
-      element: <Signup />,
-    },
-    {
-      path: 'verify',
-      element: <Otp />,
-    },
-
-    {
-      path: 'admin-login',
-      element: <AdminLogin />,
-    },
-    {
-      path: 'admin-signup',
-      element: <AdminSignup />,
-    },
-
-    //  Admin Routes
-    {
-      path: 'admin',
-      element: <AdminLayout />,
-      loader: AdminLoader,
-      children: [
-        {
-          path: 'enquiry',
-          element: <Enquiry />,
-        },
-        {
-          path: 'hotel',
-          element: <Hotels />,
-          children: [
-            {
-              path: 'createhotel-form',
-              element: <CreateHotelForm />,
-            },
-            {
-              path: 'createhotel-package',
-              element: <CreateHotelImg />,
-            },
-            {
-              path: 'createhotel-preview',
-              element: <CreateHotelPreview />,
-            },
-          ],
-        },
-        {
-          path: 'umrahpackages',
-          element: <UmrahPackages />,
-          children: [
-            {
-              path: 'update/:updateid',
-              element: <UpdateUmrahPackage />,
-              children: [
-                {
-                  path: 'details',
-                  element: <UpdateUmrahDetails />,
-                },
-                {
-                  path: 'packageimages',
-                  element: <UpdateUmrahPackImgs />,
-                },
-                {
-                  path: 'meccaimages',
-                  element: <UpdateUmrahMeccaImgs />,
-                },
-                {
-                  path: 'madinaimages',
-                  element: <UpdateUmrahMadinaImgs />,
-                },
-              ],
-            },
-            {
-              path: 'createpackage-form',
-              element: <CreatePackagesForm />,
-            },
-            {
-              path: 'createpackage-images',
-              element: <CreatePackageImgs />,
-            },
-            {
-              path: 'createpackage-preview/:id',
-              element: <CreatePreview />,
-            },
-          ],
-        },
-        {
-          path: 'holidays',
-          element: <HolidayPackages />,
-          children: [
-            {
-              path: 'createholiday-form',
-              element: <CreateHolidayForm />,
-            },
-            {
-              path: 'createholiday-package',
-              element: <CreateHolidayImg />,
-            },
-            {
-              path: 'createholiday-preview',
-              element: <CreateHolidayPreview />,
-            },
-          ],
-        },
-        {
-          path: 'visa',
-          element: <Visa />,
-          children: [
-            {
-              path: 'createvisa-form',
-              element: <CreateVisaForm />,
-            },
-          ],
-        },
-      ],
-    },
-  ]);
-
+  const { checkAuth } = useAuthStore();
+  useEffect(() => {
+    checkAuth();
+  }, []);
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
-      <RouterProvider
-        router={router}
-        future={{
-          v7_relativeSplatPath: true,
-          v7_startTransition: true,
-          v7_fetcherPersist: true,
-          v7_normalizeFormMethod: true,
-          v7_partialHydration: true,
-          v7_skipActionErrorRevalidation: true,
-        }}
-      />
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Homepage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="verify" element={<OtpPage />} />
+
+        {/* Admin Routes */}
+        <Route path="admin-login" element={<AdminLogin />} />
+        <Route path="admin-signup" element={<AdminSignup />} />
+
+        <Route path="admin" element={<AdminLayout />}>
+          <Route path="enquiry" element={<Enquiry />} />
+          <Route path="hotel" element={<Hotels />}>
+            <Route path="createhotel-form" element={<CreateHotelForm />} />
+            <Route path="createhotel-package" element={<CreateHotelImg />} />
+            <Route
+              path="createhotel-preview"
+              element={<CreateHotelPreview />}
+            />
+          </Route>
+          <Route path="umrahpackages" element={<UmrahPackages />}>
+            <Route path="update/:updateid" element={<UpdateUmrahPackage />}>
+              <Route path="details" element={<UpdateUmrahDetails />} />
+              <Route path="packageimages" element={<UpdateUmrahPackImgs />} />
+              <Route path="meccaimages" element={<UpdateUmrahMeccaImgs />} />
+              <Route path="madinaimages" element={<UpdateUmrahMadinaImgs />} />
+            </Route>
+            <Route path="createpackage-form" element={<CreatePackagesForm />} />
+            <Route
+              path="createpackage-images"
+              element={<CreatePackageImgs />}
+            />
+            <Route
+              path="createpackage-preview/:id"
+              element={<CreatePreview />}
+            />
+          </Route>
+          <Route path="holidays" element={<HolidayPackages />}>
+            <Route path="createholiday-form" element={<CreateHolidayForm />} />
+            <Route
+              path="createholiday-package"
+              element={<CreateHolidayImg />}
+            />
+            <Route
+              path="createholiday-preview"
+              element={<CreateHolidayPreview />}
+            />
+          </Route>
+          <Route path="visa" element={<Visa />}>
+            <Route path="createvisa-form" element={<CreateVisaForm />} />
+          </Route>
+        </Route>
+
+        {/* Catch all error route */}
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+
       <Toaster
         toastOptions={{
           className: '',

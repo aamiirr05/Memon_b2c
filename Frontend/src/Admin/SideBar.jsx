@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 
 import { NavLink, useNavigate } from 'react-router-dom';
-import axiosInstance from '../components/axios/AxiosInstance';
+import axiosInstance from '../lib/axios';
 import toast from 'react-hot-toast';
 import logo from '../assets/img/logo.png';
 import logoname from '../assets/img/logoname.png';

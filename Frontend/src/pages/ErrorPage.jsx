@@ -1,4 +1,4 @@
-import errorImg from '../../assets/img/error.svg';
+import errorImg from '../assets/img/error.svg';
 
 const ErrorPage = () => {
   return (

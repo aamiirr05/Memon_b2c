@@ -1,27 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import Footer from './HomePage/Footer';
-import PrimaryNav from './HomePage/PrimaryNav';
-import SecondaryNav from './HomePage/SecondaryNav';
-import AboutUs from './HomePage/AboutUs';
-import MainContent from './HomePage/MainContent';
-import Hamburger from './HomePage/Hamburger';
-import HamburgerLogo from './HomePage/HamburgerLogo';
-import PackageSlider from './HomePage/PackageSlider';
-import TestimonialWrapper from './HomePage/TestimonialWrapper';
-import Cookies from 'js-cookie';
+import Footer from '../components/HomePage/Footer';
+import PrimaryNav from '../components/HomePage/PrimaryNav';
+import SecondaryNav from '../components/HomePage/SecondaryNav';
+import AboutUs from '../components/HomePage/AboutUs';
+import MainContent from '../components/HomePage/MainContent';
+import Hamburger from '../components/HomePage/Hamburger';
+import HamburgerLogo from '../components/HomePage/HamburgerLogo';
+import PackageSlider from '../components/HomePage/PackageSlider';
+import TestimonialWrapper from '../components/HomePage/TestimonialWrapper';
 
 const Homepage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMore, setIsMore] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    const cookies = Cookies.get();
-    console.log('All cookies:', cookies);
-  }, []);
   return (
     <div className="relative overflow-x-hidden">
       {/* Primary Navbar */}

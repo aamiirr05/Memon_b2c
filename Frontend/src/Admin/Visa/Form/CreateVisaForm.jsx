@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { ChevronDown, Plus, X } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { useContext, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context';
-import useFormData from '../../../custom hooks/customhooks';
+import { AuthContext } from '../../context';
 import toast from 'react-hot-toast';
 import { useDropzone } from 'react-dropzone';
-import axiosInstance from '../../../components/axios/AxiosInstance';
+import axiosInstance from '../../../lib/axios';
 
 const schema = yup.object().shape({
   visacountry: yup.string().required('Visa Country is required'),
@@ -275,17 +274,14 @@ const CreateVisaForm = () => {
       formData.append('visaimage', item.file);
     });
 
-    const toastId = toast.loading(
-      'Creating Visa. This may take some time...',
-      {
-        icon: (
-          <div className="relative w-10 h-10">
-            <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
-          </div>
-        ),
-        className: 'text-center flex item-center',
-      }
-    );
+    const toastId = toast.loading('Creating Visa. This may take some time...', {
+      icon: (
+        <div className="relative w-10 h-10">
+          <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
+        </div>
+      ),
+      className: 'text-center flex item-center',
+    });
 
     try {
       setIsLoading(true);

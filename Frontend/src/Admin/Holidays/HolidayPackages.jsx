@@ -2,7 +2,7 @@ import { Check, Plus } from 'lucide-react';
 import Loader from '../../Utils/Loader';
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import axiosInstance from '../../components/axios/AxiosInstance';
+import axiosInstance from '../../lib/axios';
 import HolidayCards from './HolidayCards';
 
 const HolidayPackages = () => {

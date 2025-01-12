@@ -31,7 +31,7 @@ const MainContent = ({ isMenuOpen }) => {
       <section
         className={`relative mb-52 w-full h-full flex mt-[4.5rem] lg:mt-0 transition-all ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1729931421786-7bbd6c7d78f6?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+          backgroundImage: `url('./hero-bg.jpg')`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',

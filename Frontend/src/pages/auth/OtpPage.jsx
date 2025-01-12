@@ -1,11 +1,11 @@
 import { useContext, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import mailsent from '../../assets/img/letter.svg';
-import { AuthContext } from '../../context';
-import axiosInstance from '../axios/AxiosInstance';
+// import { AuthContext } from '../../context';
+import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 
-const Otp = () => {
+const OtpPage = () => {
   const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       otp: Array(6).fill(''),
@@ -154,4 +154,4 @@ const Otp = () => {
   );
 };
 
-export default Otp;
+export default OtpPage;

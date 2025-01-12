@@ -1,28 +1,16 @@
 /* eslint-disable react/prop-types */
-import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../../context';
-import Cookies from 'js-cookie';
-import axiosInstance from '../axios/AxiosInstance';
+
+import { useAuthStore } from '../../store/useAuthStore';
 
 const PrimaryNav = ({ isMenuOpen }) => {
-  const { isLoggedIn, setIsLoggedIn, setAccessToken, setRefreshToken } =
-    useContext(AuthContext);
+  const { authUser, logout } = useAuthStore();
 
   const handleLogout = async () => {
     try {
-      const res = await axiosInstance.post('/users/logout');
-      console.log('Logout successful:', res.data);
-
-      // Clear cookies and update state
-      Cookies.remove('accessToken');
-      Cookies.remove('refreshToken');
-      localStorage.removeItem('isLoggedIn');
-      setIsLoggedIn(false);
-      setAccessToken(null);
-      setRefreshToken(null);
+      await logout();
     } catch (error) {
-      console.error('Logout Error:', error.response?.data || error.message);
+      console.error('Logout Error:', error);
     }
   };
 
@@ -36,7 +24,7 @@ const PrimaryNav = ({ isMenuOpen }) => {
         <div className="link-hover-peach links">Support</div>
         <div className="link-hover-peach links">Contact</div>
         <div className="flex items-center links justify-center gap-1">
-          {isLoggedIn ? (
+          {authUser ? (
             <div className="link-hover-peach links" onClick={handleLogout}>
               Logout
             </div>

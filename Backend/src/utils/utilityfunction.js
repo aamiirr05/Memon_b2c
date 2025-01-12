@@ -1,4 +1,5 @@
 import { ApiError } from "./ApiErrors.js";
+
 import { uploadOnCloudinary, deleteImageFromCloudinary } from "./cloudinary.js";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
@@ -25,6 +26,60 @@ const transporter = nodemailer.createTransport({
 const generateOTP = () => {
   return crypto.randomInt(100000, 999999); // Generates a 6-digit OTP
 };
+
+// ******************** Store Otp *******************
+
+const otpStorage = new Map();
+
+const storeOTP = (email, otp) => {
+  const expiresAt = Date.now() + 5 * 60 * 1000; // OTP valid for 5 minutes
+  otpStorage.set(email, { otp, expiresAt });
+};
+
+// ******************* Send OTP *******************
+
+async function sendOtp(email, username) {
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+  if (!email || !username) {
+    throw new ApiError(400, "Email and username are required");
+  }
+
+  const otp = generateOTP();
+
+  const normalizedDirname = __dirname.startsWith("/")
+    ? __dirname.slice(1)
+    : __dirname;
+
+  const parentDir = path.resolve(normalizedDirname, "..");
+  const templatePath = path.join(parentDir, "email/emailTemplate.html");
+
+  let htmlContent;
+  try {
+    htmlContent = fs.readFileSync(templatePath, "utf8");
+  } catch (error) {
+    throw new ApiError(500, "Failed to read email template");
+  }
+
+  htmlContent = htmlContent
+    .replace("{{userName}}", username)
+    .replace("{{otp}}", otp);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your OTP Verification Code",
+    html: htmlContent,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    storeOTP(email, otp);
+  } catch (error) {
+    console.log(error);
+    throw new ApiError(500, "Failed to send OTP");
+  }
+}
 
 // ********** Helper function to safely parse JSON **********
 
@@ -279,6 +334,7 @@ const uploadImages = async (imageCategory, imagePaths) => {
 export {
   transporter,
   generateOTP,
+  sendOtp,
   safeParseJSON,
   safeConvertToNumber,
   generateAccessTokenForUser,

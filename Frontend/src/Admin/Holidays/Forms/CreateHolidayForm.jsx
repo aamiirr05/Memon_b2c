@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { ChevronDown, Plus, X } from 'lucide-react';
-import { useContext, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { Plus, X } from 'lucide-react';
+import { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../context';
-import useFormData from '../../../custom hooks/customhooks';
+import * as yup from 'yup';
+import { AuthContext } from '../../context';
+import useFormData from '../../hooks/customhooks';
 
 const schema = yup.object().shape({
   packagename: yup.string().required('Package Name is required'),

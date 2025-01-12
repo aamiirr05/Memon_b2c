@@ -11,7 +11,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import umrahSchema from '../../schema/UmrahSchema';
-import axiosInstance from '../../../components/axios/AxiosInstance';
+import axiosInstance from '../../../lib/axios';
 
 const UpdateUmrahDetails = () => {
   const umrahPackage = useOutletContext();
