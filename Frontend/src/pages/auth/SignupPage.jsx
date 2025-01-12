@@ -74,7 +74,7 @@ const Signup = () => {
 
   const onSubmit = async (data) => {
     await signup(data, navigate);
-    reset();
+    // reset();
   };
 
   return (

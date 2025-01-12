@@ -9,6 +9,7 @@ import {
 import {
   transporter,
   sendOtp,
+  verifyOtpFunc,
   generateOTP,
   safeConvertToNumber,
   generateAccessTokenForUser,
@@ -106,8 +107,24 @@ const registerUser = asyncHandler(async (req, res) => {
 
   await sendOtp(newUser.email, username);
 
+  const accessToken = await generateAccessTokenForUser(
+    newUser.registration_id,
+    newUser.email
+  );
+
+  const refreshToken = await generateRefreshTokenForUser(
+    newUser.registration_id
+  );
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
   return res
     .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
     .json(new ApiResponse(200, newUser, "OTP has been sent to your email"));
 });
 
@@ -165,6 +182,7 @@ const loginUser = asyncHandler(async (req, res) => {
       last_name: true,
       email: true,
       contact: true,
+      isVerified: true,
       created_at: true,
     },
   });
@@ -241,16 +259,6 @@ const resendOtp = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Email is required");
   }
 
-  const userExist = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
-
-  if (userExist) {
-    throw new ApiError(400, "User with this email already exists!");
-  }
-
   const otp = generateOTP();
 
   const normalizedDirname = __dirname.startsWith("/")
@@ -291,32 +299,26 @@ const resendOtp = asyncHandler(async (req, res) => {
 const verifyOtp = asyncHandler(async (req, res) => {
   let { email, inputOtp } = req.body;
 
-  if (!email || !inputOtp) {
-    throw new ApiError(400, "Email and Otp is required");
-  }
+  await verifyOtpFunc(email, inputOtp);
 
-  const record = await otpStorage.get(email);
+  const updatedUser = await prisma.user.update({
+    where: { email },
+    data: { isVerified: true },
+    select: {
+      salutation: true,
+      registration_id: true,
+      first_name: true,
+      last_name: true,
+      email: true,
+      contact: true,
+      isVerified: true,
+      created_at: true,
+    },
+  });
 
-  if (!record) {
-    throw new ApiError(404, "No OTP request found for this email.");
-  }
-
-  const { otp, expiresAt } = record;
-
-  if (Date.now() > expiresAt) {
-    otpStorage.delete(email);
-    throw new ApiError(400, "OTP expired");
-  }
-
-  if (otp !== parseInt(inputOtp, 10)) {
-    throw new ApiError(400, "Invalid OTP");
-  }
-
-  await prisma.user.update({ where: { email }, data: { isVerified: true } });
-
-  otpStorage.delete(email); // OTP verified, clean up
-
-  return res.status(200).json(new ApiResponse(200, "Email Verified!"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedUser, "Email Verified!"));
 });
 
 // *************** Logout ***************

@@ -39,6 +39,7 @@ const App = () => {
   useEffect(() => {
     checkAuth();
   }, []);
+
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
       <Routes>

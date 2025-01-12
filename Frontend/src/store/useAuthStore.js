@@ -7,6 +7,7 @@ export const useAuthStore = create((set, get) => ({
   isLoggingIn: false,
   isSigningUp: false,
   isCheckingAuth: false,
+  isVerifyingOtp: false,
 
   setAuthUserAccessToken: (accessToken) =>
     set((state) => ({
@@ -15,11 +16,22 @@ export const useAuthStore = create((set, get) => ({
 
   signup: async (data, navigate) => {
     set({ isSigningUp: true });
+    const signupData = {
+      salutation: data.salutation,
+      firstname: data.fname,
+      lastname: data.lname,
+      email: data.email,
+      contact: data.phone,
+      password: data.password,
+      confirmpassword: data.confpassword,
+    };
+    console.log(signupData);
     try {
-      const res = await axiosInstance.post('/users/signup', data);
-      set({ authUser: res.data.data.user });
-      toast.success(res.data.message);
+      const res = await axiosInstance.post('/users/signup', signupData);
 
+      set({ authUser: res.data.data });
+
+      toast.success(res.data.message);
       setTimeout(() => {
         navigate('/verify');
       }, 3000);
@@ -81,39 +93,58 @@ export const useAuthStore = create((set, get) => ({
       throw error;
     }
   },
+
+  verifyOtp: async (data, navigate) => {
+    console.log(data);
+    set({ isVerifyingOtp: false });
+    try {
+      const res = await axiosInstance.post('/users/verify-otp', data);
+      console.log(res.data);
+      toast.success(res.data.message);
+
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isVerifyingOtp: false });
+    }
+  },
 }));
 
-// Axios interceptor for token refresh
-let refreshPromise = null;
+// // Axios interceptor for token refresh
+// let refreshPromise = null;
 
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+// axiosInstance.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
 
-    // Handle 401 errors
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+//     // Handle 401 errors
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
 
-      try {
-        if (!refreshPromise) {
-          // Start refresh process if not already in progress
-          refreshPromise = useAuthStore.getState().refreshToken();
-          await refreshPromise;
-          refreshPromise = null;
-        } else {
-          // Wait for the ongoing refresh process
-          await refreshPromise;
-        }
+//       try {
+//         if (!refreshPromise) {
+//           // Start refresh process if not already in progress
+//           refreshPromise = useAuthStore.getState().refreshToken();
+//           await refreshPromise;
+//           refreshPromise = null;
+//         } else {
+//           // Wait for the ongoing refresh process
+//           await refreshPromise;
+//         }
 
-        // Retry the original request
-        return axiosInstance(originalRequest);
-      } catch (refreshError) {
-        useAuthStore.getState().logout();
-        return Promise.reject(refreshError);
-      }
-    }
+//         // Retry the original request
+//         return axiosInstance(originalRequest);
+//       } catch (refreshError) {
+//         useAuthStore.getState().logout();
+//         return Promise.reject(refreshError);
+//       }
+//     }
 
-    return Promise.reject(error);
-  }
-);
+//     return Promise.reject(error);
+//   }
+// );

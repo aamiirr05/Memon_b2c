@@ -39,32 +39,40 @@ const storeOTP = (email, otp) => {
 // ******************* Send OTP *******************
 
 async function sendOtp(email, username) {
-  const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
+  // Validate input
   if (!email || !username) {
     throw new ApiError(400, "Email and username are required");
   }
 
-  const otp = generateOTP();
+  // Generate OTP
+  const generatedOtp = generateOTP();
 
-  const normalizedDirname = __dirname.startsWith("/")
-    ? __dirname.slice(1)
-    : __dirname;
-
-  const parentDir = path.resolve(normalizedDirname, "..");
-  const templatePath = path.join(parentDir, "email/emailTemplate.html");
+  // Resolve the directory for the email template
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "emailTemplate.html"
+  );
 
   let htmlContent;
   try {
+    // Read the email template
     htmlContent = fs.readFileSync(templatePath, "utf8");
   } catch (error) {
     throw new ApiError(500, "Failed to read email template");
   }
 
+  // Replace placeholders in the email template
   htmlContent = htmlContent
     .replace("{{userName}}", username)
-    .replace("{{otp}}", otp);
+    .replace("{{otp}}", generatedOtp);
 
+  // Email options
   const mailOptions = {
     from: process.env.NODEMAILER_USER,
     to: email,
@@ -73,12 +81,41 @@ async function sendOtp(email, username) {
   };
 
   try {
+    // Send the email
     await transporter.sendMail(mailOptions);
-    storeOTP(email, otp);
+
+    // Store the OTP securely
+    storeOTP(email, generatedOtp);
   } catch (error) {
-    console.log(error);
+    console.error("Error sending OTP email:", error);
     throw new ApiError(500, "Failed to send OTP");
   }
+}
+
+// ******************* Verify OTP *****************
+
+async function verifyOtpFunc(email, inputOtp) {
+  if (!email || !inputOtp) {
+    throw new ApiError(400, "Email and Otp is required");
+  }
+
+  const record = await otpStorage.get(email);
+
+  if (!record) {
+    throw new ApiError(404, "No OTP request found for this email.");
+  }
+
+  const { otp: storedOtp, expiresAt } = record;
+
+  if (Date.now() > expiresAt) {
+    otpStorage.delete(email);
+    throw new ApiError(400, "OTP expired");
+  }
+
+  if (storedOtp !== parseInt(inputOtp, 10)) {
+    throw new ApiError(400, "Invalid OTP");
+  }
+  otpStorage.delete(email);
 }
 
 // ********** Helper function to safely parse JSON **********
@@ -335,6 +372,7 @@ export {
   transporter,
   generateOTP,
   sendOtp,
+  verifyOtpFunc,
   safeParseJSON,
   safeConvertToNumber,
   generateAccessTokenForUser,
