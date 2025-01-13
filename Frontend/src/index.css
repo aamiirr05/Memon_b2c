@@ -197,3 +197,20 @@
 .custom-input {
   @apply outline-none border border-darkgreen rounded-lg p-2 px-5 font-jakarta placeholder:text-darkgreen placeholder:text-sm placeholder:text-opacity-65 bg-transparent;
 }
+
+/* forex form styles */
+.forex-input-fields {
+  @apply block w-full text-md h-[50px] px-4 text-peach bg-darkgreen/10 rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0  overflow-ellipsis overflow-hidden text-nowrap pr-[48px] placeholder:text-peach/50 caret-peach;
+}
+
+.forex-input-labels {
+  @apply peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-[14px] leading-[150%] duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-2 z-10 origin-[0] bg-peach text-darkgreen rounded-full  px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem];
+}
+
+/* .forex-input-fields {
+  @apply block w-full text-md h-[50px] px-4 text-peach bg-darkgreen/10 rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0  overflow-ellipsis overflow-hidden text-nowrap pr-[48px] placeholder:text-peach/50 caret-peach;
+}
+
+.forex-input-labels {
+  @apply absolute !text-[12px] !font-medium leading-tight left-3 top-3 text-peach transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-peach/50 peer-focus:-top-3 peer-focus:text-base  peer-focus:text-darkgreen peer-focus:bg-peach peer-focus:px-3 peer-focus:rounded-full;
+} */
