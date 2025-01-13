@@ -10,8 +10,11 @@ export default {
         mediumgreen: '#6A994E',
         lightgreen: '#A7C957',
         lightpeach: '#EBE6D8',
+        'brand-500-secondary': '#386641',
       },
-
+      fontSize: {
+        md: '16px',
+      },
       transitionTimingFunction: {
         custom: 'cubic-bezier(0.7, 0, 0.84, 0)',
       },
