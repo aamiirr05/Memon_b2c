@@ -173,9 +173,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.makkahhotelimage) &&
     req.files.makkahhotelimage.length > 0
   ) {
-    if (req.files.makkahhotelimage.length !== 8) {
+    if (req.files.makkahhotelimage.length !== 5) {
       deleteTempFiles();
-      throw new ApiError(400, "All 8 Makkah Hotel Images are required.");
+      throw new ApiError(400, "All 5 Makkah Hotel Images are required.");
     }
     makkahHotelImagePath = req.files.makkahhotelimage.map((file) => file.path);
   }
@@ -185,9 +185,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.medinahotelimage) &&
     req.files.medinahotelimage.length > 0
   ) {
-    if (req.files.medinahotelimage.length !== 8) {
+    if (req.files.medinahotelimage.length !== 5) {
       deleteTempFiles();
-      throw new ApiError(400, "All 8 Medina Hotel Images are required.");
+      throw new ApiError(400, "All 5 Medina Hotel Images are required.");
     }
     medinaHotelImagePath = req.files.medinahotelimage.map((file) => file.path);
   }
@@ -704,7 +704,7 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
   if (
     req.files?.makhotelimage &&
     Array.isArray(req.files.makhotelimage) &&
-    req.files.makhotelimage.length < 8
+    req.files.makhotelimage.length < 5
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Makkah Hotel Images is Required");
@@ -715,10 +715,10 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
   if (
     !makHotelImagePaths ||
     makHotelImagePaths.length === 0 ||
-    makHotelImagePaths.length < 8
+    makHotelImagePaths.length < 5
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "At least 8 Makkah Hotel Images are required.");
+    throw new ApiError(400, "At least 5 Makkah Hotel Images are required.");
   }
 
   for (const imagePath of makHotelImagePaths) {
@@ -797,7 +797,7 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
   if (
     req.files?.medhotelimage &&
     Array.isArray(req.files.medhotelimage) &&
-    req.files.medhotelimage.length < 8
+    req.files.medhotelimage.length < 5
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Medina Hotel Images are Required");
@@ -808,10 +808,10 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
   if (
     !medHotelImagePaths ||
     medHotelImagePaths.length === 0 ||
-    medHotelImagePaths.length < 8
+    medHotelImagePaths.length < 5
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "At least 8 Medina Hotel Images are required.");
+    throw new ApiError(400, "At least 5 Medina Hotel Images are required.");
   }
 
   for (const imagePath of medHotelImagePaths) {
@@ -874,7 +874,6 @@ const deleteUmrahPackage = asyncHandler(async (req, res) => {
   }
 
   const packageId = req.params.id;
-  console.log("Package ID:", packageId);
 
   const existingPackage = await prisma.umrahPackage.findUnique({
     where: { package_id: packageId },

@@ -162,10 +162,6 @@ const getAllVisa = asyncHandler(async (req, res) => {
 
   const allVisas = await prisma.visa.findMany({});
 
-  if (allVisas.length === 0) {
-    throw new ApiError(404, "No Visa Found");
-  }
-
   return res
     .status(200)
     .json(

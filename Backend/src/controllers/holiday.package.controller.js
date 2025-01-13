@@ -155,9 +155,9 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files.hotelimage) &&
     req.files.hotelimage.length > 0
   ) {
-    if (req.files.hotelimage.length !== 8) {
+    if (req.files.hotelimage.length !== 5) {
       deleteTempFiles();
-      throw new ApiError(400, "All 8 Hotel Images are required.");
+      throw new ApiError(400, "All 5 Hotel Images are required.");
     }
     hotelImagePath = req.files.hotelimage.map((file) => file.path);
   }
@@ -243,7 +243,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json(
-      new ApiResponse(200, createdHolidayPackage, "Package Created Sucessfully")
+      new ApiResponse(201, createdHolidayPackage, "Package Created Sucessfully")
     );
 });
 
@@ -257,13 +257,6 @@ const getAllHolidayPackage = asyncHandler(async (req, res) => {
   }
 
   const allHolidayPackage = await prisma.holidayPackage.findMany();
-
-  if (allHolidayPackage.length === 0) {
-    throw new ApiError(
-      404,
-      `${allHolidayPackage.length} Holiday Packages Found`
-    );
-  }
 
   return res
     .status(200)
@@ -501,7 +494,7 @@ const updateHolidayPackageImage = asyncHandler(async (req, res) => {
     req.files.packageimage.length < 3
   ) {
     deleteTempFiles();
-    throw new ApiError(401, "All Package Images is Required");
+    throw new ApiError(400, "All Package Images is Required");
   } else {
     packageImagePath = req.files?.packageimage?.map((file) => file.path);
   }
@@ -596,10 +589,10 @@ const updateHolidayPackageHotelImage = asyncHandler(async (req, res) => {
   if (
     req.files?.hotelimage &&
     Array.isArray(req.files.hotelimage) &&
-    req.files.hotelimage.length < 8
+    req.files.hotelimage.length < 5
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "All 8 Hotel Images are Required");
+    throw new ApiError(400, "All 5 Hotel Images are Required");
   } else {
     hotelImagePath = req.files?.hotelimage?.map((file) => file.path);
   }
@@ -607,10 +600,10 @@ const updateHolidayPackageHotelImage = asyncHandler(async (req, res) => {
   if (
     !hotelImagePath ||
     hotelImagePath.length === 0 ||
-    hotelImagePath.length < 8
+    hotelImagePath.length < 5
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "At least 8 Hotel Images are required.");
+    throw new ApiError(400, "At least 5 Hotel Images are required.");
   }
 
   for (const imagePath of hotelImagePath) {
@@ -713,7 +706,7 @@ const deleteHolidayPackage = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "Package Deletd Sucessfully"));
+    .json(new ApiResponse(200, "Package Deleted Sucessfully"));
 });
 
 // *************** Export Controller ***************

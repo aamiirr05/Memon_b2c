@@ -49,14 +49,16 @@ import umrahPackageRoute from "./routes/umrah.package.routes.js";
 import holidayPackageRoute from "./routes/holiday.package.routes.js";
 import hotelRoute from "./routes/hotel.routes.js";
 import visaRoute from "./routes/visa.routes.js";
+import adminEnquiryRoutes from "./routes/adminenquiry.routes.js";
 
 // ******** Route Declaration ********
 app.use("/api/v1/users", userRoute);
-app.use("/api/v1/enquiry", enquiryRoute);
+app.use("/api/v1/users/enquiry", enquiryRoute);
 app.use("/api/v1/admin", adminRoute);
-app.use("/api/v1/packages", [umrahPackageRoute, holidayPackageRoute]);
-app.use("/api/v1/hotel", hotelRoute);
-app.use("/api/v1/visa", visaRoute);
+app.use("/api/v1/admin/packages", [umrahPackageRoute, holidayPackageRoute]);
+app.use("/api/v1/admin/hotel", hotelRoute);
+app.use("/api/v1/admin/visa", visaRoute);
+app.use("/api/v1/admin/enquiry", adminEnquiryRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

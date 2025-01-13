@@ -1,7 +1,7 @@
-import prisma from ".././db/db.config.js";
-import { asyncHandler } from "../utils/AsyncHandler.js";
-import { ApiError } from "../utils/ApiErrors.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
+import prisma from "./../db/db.config.js";
+import { asyncHandler } from "./../utils/AsyncHandler.js";
+import { ApiError } from "./../utils/ApiErrors.js";
+import { ApiResponse } from "./../utils/ApiResponse.js";
 import {
   userLoginInputValidation,
   userSignupInputValidation,
