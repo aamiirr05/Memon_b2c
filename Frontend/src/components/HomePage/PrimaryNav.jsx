@@ -20,7 +20,7 @@ const PrimaryNav = ({ isMenuOpen }) => {
         isMenuOpen ? 'hidden blur-sm' : 'blur-0'
       }`}
     >
-      <div className="primary-nav-items text-peach flex items-center md:gap-10 justify-between md:justify-end p-4 lg:p-6 font-semibold">
+      <div className="primary-nav-items text-peach flex items-center md:gap-10 justify-between md:justify-end p-4 lg:p-4 font-semibold">
         <div className="link-hover-peach links">Support</div>
         <div className="link-hover-peach links">Contact</div>
         <div className="flex items-center links justify-center gap-1">

@@ -522,6 +522,21 @@ const enquiryForex = asyncHandler(async (req, res) => {
     address,
   } = req.body;
 
+  // if (
+  //   [
+  //     salutation,
+  //     firstname,
+  //     lastname,
+  //     email,
+  //     contact,
+  //     amountrequired,
+  //     country,
+  //     address,
+  //   ].some((field) => !field || field.trim() === "")
+  // ) {
+  //   throw new ApiError(400, "All fields must be filled");
+  // }
+
   const amountInNumber = safeConvertToNumber(amountrequired);
 
   const user = req.user;
