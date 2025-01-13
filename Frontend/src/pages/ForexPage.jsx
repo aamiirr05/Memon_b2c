@@ -47,7 +47,7 @@ const ForexInquiryForm = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-darkgreen flex flex-row">
+    <div className="h-full w-full lg:h-screen lg:w-screen bg-darkgreen flex flex-col lg:flex-row">
       <div className="relative flex-1 bg-peach m-4 rounded-xl flex flex-col items-center justify-center">
         <Link
           to="/"
@@ -56,26 +56,37 @@ const ForexInquiryForm = () => {
           <ArrowLeft size={18} />
           <span className="mt-[-2px] mr-1">Back to home</span>
         </Link>
+
         <div className="flex justify-center items-center flex-col">
-          <img src="/forex.png" alt="forex" className="w-48 h-48 mb-12" />
-          <h3 className="font-bold text-xl text-darkgreen">
-            Simlify Your Hajj & Umrah Payments
-          </h3>
-          <p className="max-w-md text-center text-darkgreen tracking-tight leading-tight mt-2">
-            Exchange currencies effortlessly for your Hajj or Umrah journey.
-            Complete the form on the right to get the best forex rates and a
-            seamless payment experience.
-          </p>
+          <img
+            src="/forex.png"
+            alt="forex"
+            className="w-36 h-36 lg:w-48 lg:h-48 mt-24 lg:mt-0 mb-8 lg:mb-12"
+          />
+          <div className="text-darkgreen px-4">
+            <h3 className="font-bold text-center text-xl">
+              Simlify Your Hajj & Umrah Payments
+            </h3>
+            <p className="max-w-md text-center tracking-tight leading-tight mt-2 mb-4">
+              Exchange currencies effortlessly for your Hajj or Umrah journey.
+              Complete the form <span className="lg:hidden">below</span>
+              <span className="hidden lg:inline">on the right</span> to get the
+              best forex rates and a seamless payment experience.
+            </p>
+          </div>
         </div>
       </div>
 
       {/* form */}
-      <div className="flex-1 flex flex-col gap-12 justify-center items-center">
-        <h1 className="text-3xl font-semibold text-peach font-jakarta tracking-tight">
+      <div className="flex-1 flex flex-col gap-12 justify-center items-center bg-darkgreen">
+        <h1 className="text-3xl font-semibold text-peach font-jakarta tracking-tight mt-4 lg:mt-0">
           FOREX FORM
         </h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-          <div className="grid md:grid-cols-2 gap-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full sm:w-fit px-4 sm:px-0 flex flex-col gap-6 mb-12"
+        >
+          <div className="grid sm:grid-cols-2 gap-4 ">
             <div id="input" className="relative">
               <select
                 {...register('salutation')}
@@ -93,13 +104,13 @@ const ForexInquiryForm = () => {
               >
                 Salutation
               </label>
-              <p className="text-red-600 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.salutation?.message}
               </p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4">
             {/* First Name */}
             <div id="input" className="relative">
               <input
@@ -112,7 +123,7 @@ const ForexInquiryForm = () => {
               <label htmlFor="firstname" className="forex-input-labels">
                 Firstname
               </label>
-              <p className="text-red-600 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.firstname?.message}
               </p>
             </div>
@@ -129,13 +140,13 @@ const ForexInquiryForm = () => {
               <label htmlFor="lastname" className="forex-input-labels">
                 Lastname
               </label>
-              <p className="text-red-600 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.lastname?.message}
               </p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4">
             {/* Email */}
             <div id="input" className="relative">
               <input
@@ -148,7 +159,7 @@ const ForexInquiryForm = () => {
               <label htmlFor="email" className="forex-input-labels">
                 Email
               </label>
-              <p className="text-red-600 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.email?.message}
               </p>
             </div>
@@ -165,13 +176,13 @@ const ForexInquiryForm = () => {
               <label htmlFor="contact" className="forex-input-labels">
                 Contact
               </label>
-              <p className="text-red-600 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.contact?.message}
               </p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-4">
             {/* Amount Required */}
             <div id="input" className="relative">
               <input
@@ -184,7 +195,7 @@ const ForexInquiryForm = () => {
               <label htmlFor="amountrequired" className="forex-input-labels">
                 Amount Required
               </label>
-              <p className="text-red-600 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.amountrequired?.message}
               </p>
             </div>
@@ -201,7 +212,7 @@ const ForexInquiryForm = () => {
               <label htmlFor="country" className="forex-input-labels">
                 Country
               </label>
-              <p className="text-red-600 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.country?.message}
               </p>
             </div>
@@ -220,7 +231,7 @@ const ForexInquiryForm = () => {
               <label htmlFor="country" className="forex-input-labels">
                 Address
               </label>
-              <p className="text-red-600 text-sm mt-1">
+              <p className="text-red-400 text-sm mt-1">
                 {errors.address?.message}
               </p>
             </div>
