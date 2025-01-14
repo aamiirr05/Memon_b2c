@@ -93,10 +93,18 @@ const ForexInquiryForm = () => {
                 id="salutation"
                 className="block w-full text-sm h-[50px] px-4 text-peach bg-darkgreen rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
               >
-                <option value="">Select Salutation</option>
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Ms">Ms</option>
+                <option value="" className="text-peach/60">
+                  Select Salutation
+                </option>
+                <option value="Mr " className="text-peach">
+                  Mr
+                </option>
+                <option value="Mrs" className="text-peach">
+                  Mrs
+                </option>
+                <option value="Ms" className="text-peach">
+                  Ms
+                </option>
               </select>
               <label
                 htmlFor="salutation"

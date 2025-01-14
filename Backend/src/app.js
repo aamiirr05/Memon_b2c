@@ -35,7 +35,7 @@ app.use(
           status: message?.split(" ")[2],
           responseTime: message?.split(" ")[3],
         };
-        console.log(message);
+
         logger.info(JSON.stringify(logObject));
       },
     },
