@@ -1,0 +1,25 @@
+enum StatusCustomizedPackage {
+    Pending
+    Approved
+    Rejected
+}
+
+model CustomizedPackage {
+    custom_package_id String                  @id @default(uuid())
+    user              User?                   @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+    user_id           String?
+    first_name        String
+    last_name         String
+    email             String
+    contact           String
+    booking_type      String
+    travel_class      String
+    makkah_hotel_name String?
+    medina_hotel_name String?
+    room_type         String?
+    adults            Int
+    kids              Int?                    @default(0)
+    status            StatusCustomizedPackage @default(Pending)
+    additional_info   String?                 @db.VarChar(300)
+    created_at        DateTime                @default(now())
+}

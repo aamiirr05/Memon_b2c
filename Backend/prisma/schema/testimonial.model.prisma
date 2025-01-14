@@ -1,0 +1,9 @@
+model Testimonial {
+    testimonial_id String   @id @default(uuid())
+    full_name      String
+    city           String
+    country        String
+    stars          Int
+    review         String   @db.VarChar(300)
+    created_at     DateTime @default(now())
+}
