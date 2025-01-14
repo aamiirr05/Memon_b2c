@@ -20,7 +20,7 @@ const schema = yup.object().shape({
     .matches(/^\d+$/, 'Contact must be a number')
     .required('Contact is required'),
   amountrequired: yup
-    .number()
+    .string()
     .typeError('Amount required must be a number')
     .positive('Amount required must be positive')
     .required('Amount required is required'),
