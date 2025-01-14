@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  checkAuthAdmin,
   getAdmin,
   loginAdmin,
   logoutAdmin,
@@ -14,6 +15,7 @@ const router = Router();
 
 router.route("/signup").post(registerAdmin);
 router.route("/login").post(loginAdmin);
+router.route("/check-auth-admin").get(checkAuthAdmin);
 
 // ************************** PROTECTED ROUTES *******************************
 

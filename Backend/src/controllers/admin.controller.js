@@ -75,6 +75,45 @@ const registerAdmin = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, newAdmin, "Account Created Sucessfully"));
 });
 
+// *************** Check Auth ***************
+
+const checkAuthAdmin = asyncHandler(async (req, res) => {
+  try {
+    const token = req.cookies?.accessToken;
+
+    if (!token) {
+      throw new ApiError(401, "Token not found");
+    }
+
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    const admin = await prisma.admin.findUnique({
+      where: {
+        admin_id: decodedToken.adminId,
+      },
+      select: {
+        admin_id: true,
+        admin_username: true,
+        password: true,
+        email: true,
+        contact: true,
+        refresh_token: true,
+        created_at: true,
+      },
+    });
+
+    if (!admin) {
+      throw new ApiError(404, "Invalid Token");
+    }
+
+    return res
+      .status(200)
+      .json(new ApiResponse(200, admin, "User Authenticated"));
+  } catch (error) {
+    throw new ApiError(401, error?.message || "Invalid Access Token");
+  }
+});
+
 // ********** Login **********
 
 const loginAdmin = asyncHandler(async (req, res) => {
@@ -240,4 +279,11 @@ const getAdmin = asyncHandler(async (req, res) => {
 
 // *************** Export Controller ***************
 
-export { registerAdmin, loginAdmin, logoutAdmin, refreshToken, getAdmin };
+export {
+  registerAdmin,
+  checkAuthAdmin,
+  loginAdmin,
+  logoutAdmin,
+  refreshToken,
+  getAdmin,
+};
