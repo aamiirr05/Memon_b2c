@@ -22,7 +22,6 @@ const schema = yup.object().shape({
   amountrequired: yup
     .string()
     .typeError('Amount required must be a number')
-    .positive('Amount required must be positive')
     .required('Amount required is required'),
   country: yup.string().required('Country is required'),
   address: yup.string().required('Address is required'),
@@ -84,7 +83,7 @@ const ForexInquiryForm = () => {
         </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full sm:w-fit px-4 sm:px-0 flex flex-col gap-6 mb-12"
+          className="w-full sm:w-fit px-4 sm:px-0 flex flex-col gap-2 mb-4"
         >
           <div className="grid sm:grid-cols-2 gap-4 ">
             <div id="input" className="relative">
@@ -113,7 +112,11 @@ const ForexInquiryForm = () => {
               >
                 Salutation
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm  min-h-[1rem] mt-1 ${
+                  errors.salutation ? 'visible' : 'invisible'
+                } `}
+              >
                 {errors.salutation?.message}
               </p>
             </div>
@@ -132,7 +135,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="firstname" className="forex-input-labels">
                 Firstname
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.firstname ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.firstname?.message}
               </p>
             </div>
@@ -149,7 +156,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="lastname" className="forex-input-labels">
                 Lastname
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.lastname ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.lastname?.message}
               </p>
             </div>
@@ -168,7 +179,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="email" className="forex-input-labels">
                 Email
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.email ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.email?.message}
               </p>
             </div>
@@ -185,7 +200,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="contact" className="forex-input-labels">
                 Contact
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.contact ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.contact?.message}
               </p>
             </div>
@@ -204,7 +223,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="amountrequired" className="forex-input-labels">
                 Amount Required
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.amountrequired ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.amountrequired?.message}
               </p>
             </div>
@@ -221,14 +244,18 @@ const ForexInquiryForm = () => {
               <label htmlFor="country" className="forex-input-labels">
                 Country
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.country ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.country?.message}
               </p>
             </div>
           </div>
 
           <div className="">
-            {/* Country */}
+            {/* Address */}
             <div id="input" className="relative">
               <input
                 type="text"
@@ -240,7 +267,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="country" className="forex-input-labels">
                 Address
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.address ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.address?.message}
               </p>
             </div>
