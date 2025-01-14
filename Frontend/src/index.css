@@ -212,5 +212,5 @@
 }
 
 .forex-input-labels {
-  @apply absolute !text-[12px] !font-medium leading-tight left-3 top-3 text-peach transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-peach/50 peer-focus:-top-3 peer-focus:text-base  peer-focus:text-darkgreen peer-focus:bg-peach peer-focus:px-3 peer-focus:rounded-full;
+  @apply absolute !text-[12px] !font-medium !leading-tight !px-2 !py-0.5 left-2 top-3 text-peach transition-all peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-peach/50 peer-focus:-top-3 peer-focus:text-base peer-focus:text-darkgreen peer-focus:bg-peach peer-focus:px-3 peer-focus:rounded-full;
 }
