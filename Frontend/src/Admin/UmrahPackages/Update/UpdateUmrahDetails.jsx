@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { ChevronDown, Loader, Plus, X } from 'lucide-react';
-import { useContext, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Plus, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast from 'react-hot-toast';
 import {
@@ -12,14 +12,15 @@ import {
 } from 'react-router-dom';
 import umrahSchema from '../../schema/UmrahSchema';
 import axiosInstance from '../../../lib/axios';
+import Loader from '../../../components/Loader';
 
 const UpdateUmrahDetails = () => {
-  const umrahPackage = useOutletContext();
+  const { umrahPackage, refreshPackages } = useOutletContext();
+  console.log(refreshPackages);
   const { updateid } = useParams();
 
   console.log(umrahPackage);
 
-  const options = ['Clock Tower', 'Aska Al Safa', 'Durrat Al Madina'];
   const [groupDates, setGroupDate] = useState(
     umrahPackage?.group_dates || ['']
   );
@@ -28,16 +29,15 @@ const UpdateUmrahDetails = () => {
   const [bookingterms, setBookingTerms] = useState(['']);
   const [cancelpolicy, setCancelPolicy] = useState(['']);
   const [termcondition, setTermCondition] = useState(['']);
-  const [meccahotel, setMeccaHotel] = useState(false);
-  const [meccahotelName, setMeccaHotelName] = useState('');
-  const [madinahotel, setMadinaHotel] = useState(false);
-  const [madinahotelName, setMadinaHotelName] = useState('');
+
   const [meccaItenaries, setMeccaItenaries] = useState([]);
   const [madinaItenaries, setMadinaItenaries] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   // Is active and is featured states & functions
-  const [isActive, setIsActive] = useState();
-  const [isFeatured, setIsFeatured] = useState();
+  const [isActive, setIsActive] = useState(true);
+  const [isFeatured, setIsFeatured] = useState(false);
+
+  console.log(typeof isActive, typeof isFeatured);
 
   // useForm
 
@@ -65,17 +65,8 @@ const UpdateUmrahDetails = () => {
   });
 
   useEffect(() => {
-    if (umrahPackage?.is_active) setIsActive(umrahPackage.is_active);
-    if (umrahPackage?.featured) setIsFeatured(umrahPackage.featured);
-    if (umrahPackage?.mak_hotel_name) {
-      setValue('meccahotelname', umrahPackage.mak_hotel_name);
-      setMeccaHotelName(umrahPackage.mak_hotel_name);
-    }
-
-    if (umrahPackage?.med_hotel_name) {
-      setValue('madinahotelname', umrahPackage.med_hotel_name);
-      setMadinaHotelName(umrahPackage?.med_hotel_name);
-    }
+    if (umrahPackage?.is_active) setIsActive(umrahPackage.is_active === 'true');
+    if (umrahPackage?.featured) setIsFeatured(umrahPackage.featured === 'true');
 
     if (umrahPackage?.makkah_itinerary) {
       setMeccaItenaries(umrahPackage.makkah_itinerary);
@@ -292,6 +283,8 @@ const UpdateUmrahDetails = () => {
       );
       console.log(res);
       toast.success('Package updated successfully!');
+      refreshPackages();
+      navigate('/admin/umrahpackages');
     } catch (error) {
       console.error(error);
       const errMsg = error?.response?.data.message || 'An error occurred.';
@@ -648,41 +641,15 @@ const UpdateUmrahDetails = () => {
             <label htmlFor="meccahotelname" className="custom-label">
               Makkah Hotel Name
             </label>
-
-            <Controller
+            <input
+              type="text"
               name="meccahotelname"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <div
-                    className="border w-full font-jakarta cursor-pointer border-darkgreen rounded-xl p-3 gap-1 flex items-center justify-between"
-                    onClick={() => setMeccaHotel(!meccahotel)}
-                  >
-                    <div>{field.value || meccahotelName}</div>
-                    <ChevronDown />
-                  </div>
-                  <div
-                    className={`absolute top-24 bg-peach z-30 w-full border border-darkgreen rounded-lg ${
-                      meccahotel ? 'block' : 'hidden'
-                    }`}
-                  >
-                    <ul className="p-2 font-jakarta">
-                      {options.map((sal, index) => (
-                        <li
-                          key={index}
-                          className="mt-2 p-2 hover:cursor-pointer rounded-lg hover:bg-darkgreen hover:text-peach"
-                          onClick={() => {
-                            field.onChange(sal);
-                            setMeccaHotel(false);
-                          }}
-                        >
-                          {sal}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </>
-              )}
+              min="0"
+              id="meccahotelname"
+              className="custom-input"
+              placeholder="Enter Mecca Hotel Name"
+              defaultValue={umrahPackage?.mak_hotel_name}
+              {...register('meccahotelname')}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.meccahotelname?.message}
@@ -694,41 +661,17 @@ const UpdateUmrahDetails = () => {
               Madina Hotel Name
             </label>
 
-            <Controller
+            <input
+              type="text"
               name="madinahotelname"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <div
-                    className="border w-full font-jakarta cursor-pointer border-darkgreen rounded-xl p-3 gap-1 flex items-center justify-between"
-                    onClick={() => setMadinaHotel(!madinahotel)}
-                  >
-                    <div>{field.value || madinahotelName}</div>
-                    <ChevronDown />
-                  </div>
-                  <div
-                    className={`absolute top-24 bg-peach z-30 w-full border border-darkgreen rounded-lg ${
-                      madinahotel ? 'block' : 'hidden'
-                    }`}
-                  >
-                    <ul className="p-2 font-jakarta">
-                      {options.map((sal, index) => (
-                        <li
-                          key={index}
-                          className="mt-2 p-2 hover:cursor-pointer rounded-lg hover:bg-darkgreen hover:text-peach"
-                          onClick={() => {
-                            field.onChange(sal);
-                            setMadinaHotel(false);
-                          }}
-                        >
-                          {sal}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </>
-              )}
+              min="0"
+              id="madinahotelname"
+              className="custom-input"
+              placeholder="Enter Madina Hotel Name"
+              defaultValue={umrahPackage?.med_hotel_name}
+              {...register('madinahotelname')}
             />
+
             <span className="text-sm text-red-600 my-2">
               {errors?.madinahotelname?.message}
             </span>

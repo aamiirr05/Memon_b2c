@@ -119,8 +119,6 @@ const CreatePackageImgs = () => {
     formState: { errors },
   } = useForm();
 
-  const [id, setId] = useState('');
-  console.log(id);
   const [packageImages, setPackageImages] = useState([]);
   const [meccaHotelImages, setMeccaHotelImages] = useState([]);
   const [medinaHotelImages, setMedinaHotelImages] = useState([]);
@@ -281,22 +279,14 @@ const CreatePackageImgs = () => {
         }
       );
 
-      console.log(res);
-
       const extractedId = res.data.data[0].package_id;
-      console.log(extractedId);
-
-      setId(extractedId);
 
       toast.dismiss(toastId);
 
       const resMsg = res.data?.message || 'Package Created Successfully';
-      console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
       navigate(`/admin/umrahpackages/createpackage-preview/${extractedId}`);
     } catch (error) {
-      console.error(error);
-
       const errorMsg =
         error.response?.data.message ||
         'Something went wrong. Please try again.';

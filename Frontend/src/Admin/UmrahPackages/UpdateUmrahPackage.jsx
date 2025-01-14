@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useOutletContext, useParams } from 'react-router-dom';
 import useFetchPackages from '../hooks/UseFetchPackages';
+import Loader from '../../components/Loader';
 
 const UpdateUmrahPackage = () => {
   const [getAllPackages, setAllPackages] = useState([]);
   const getUmrahPackages = useFetchPackages('/packages/fetch-umrah-packages');
   const { updateid } = useParams();
+  const { refreshPackages } = useOutletContext();
 
   useEffect(() => {
     if (getUmrahPackages.data) {
@@ -18,6 +20,10 @@ const UpdateUmrahPackage = () => {
   const umrahPackage = getAllPackages.find(
     (item) => item.package_id === updateid
   );
+
+  if (!getUmrahPackages) {
+    return <Loader />;
+  }
 
   console.log(umrahPackage);
   return (
@@ -72,7 +78,7 @@ const UpdateUmrahPackage = () => {
       {/*  */}
 
       <div className="mt-10">
-        <Outlet context={umrahPackage} />
+        <Outlet context={{ umrahPackage, refreshPackages }} />
       </div>
     </>
   );
