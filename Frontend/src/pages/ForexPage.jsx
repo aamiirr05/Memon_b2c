@@ -80,7 +80,7 @@ const ForexInquiryForm = () => {
       {/* form */}
       <div className="flex-1 flex flex-col gap-12 justify-center items-center bg-darkgreen">
         <h1 className="text-3xl font-semibold text-peach font-jakarta tracking-tight mt-4 lg:mt-0">
-          FOREX FORM
+          FOREX ENQUIRY
         </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -118,7 +118,7 @@ const ForexInquiryForm = () => {
                 {...register('firstname')}
                 id="firstname"
                 className="forex-input-fields peer"
-                placeholder="Firstname"
+                placeholder=" "
               />
               <label htmlFor="firstname" className="forex-input-labels">
                 Firstname
@@ -135,7 +135,7 @@ const ForexInquiryForm = () => {
                 {...register('lastname')}
                 id="lastname"
                 className="forex-input-fields peer"
-                placeholder="Lastname"
+                placeholder=" "
               />
               <label htmlFor="lastname" className="forex-input-labels">
                 Lastname
@@ -154,7 +154,7 @@ const ForexInquiryForm = () => {
                 {...register('email')}
                 id="email"
                 className="forex-input-fields peer"
-                placeholder="Email"
+                placeholder=" "
               />
               <label htmlFor="email" className="forex-input-labels">
                 Email
@@ -171,7 +171,7 @@ const ForexInquiryForm = () => {
                 {...register('contact')}
                 id="contact"
                 className="forex-input-fields peer"
-                placeholder="Contact"
+                placeholder=" "
               />
               <label htmlFor="contact" className="forex-input-labels">
                 Contact
@@ -190,7 +190,7 @@ const ForexInquiryForm = () => {
                 {...register('amountrequired')}
                 id="amountrequired"
                 className="forex-input-fields peer"
-                placeholder="Amount Required"
+                placeholder=" "
               />
               <label htmlFor="amountrequired" className="forex-input-labels">
                 Amount Required
@@ -207,7 +207,7 @@ const ForexInquiryForm = () => {
                 {...register('country')}
                 id="country"
                 className="forex-input-fields peer"
-                placeholder="Country"
+                placeholder=" "
               />
               <label htmlFor="country" className="forex-input-labels">
                 Country
@@ -226,7 +226,7 @@ const ForexInquiryForm = () => {
                 {...register('address')}
                 id="address"
                 className="forex-input-fields peer"
-                placeholder="Address"
+                placeholder=" "
               />
               <label htmlFor="country" className="forex-input-labels">
                 Address

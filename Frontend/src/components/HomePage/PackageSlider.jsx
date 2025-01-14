@@ -63,7 +63,7 @@ const PackageSlider = ({ isMenuOpen, heading }) => {
       <section
         className={`w-11/12 mx-auto slider-container ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
       >
-        <h1 className="xl:after:w-[35%] ml-8 md:ml-0 lg:after:w-[30%] md:after:w-[40%] after:w-[57%] skew-heading relative text-2xl font-zodiak text-peach md:text-4xl font-semibold mb-10">
+        <h1 className="xl:after:w-[35%] ml-8 md:ml-0 lg:after:w-[41%] md:after:w-[50%] sm:after:w-[50%] after:w-[calc(100%-3rem)] skew-heading relative text-2xl font-zodiak text-peach md:text-4xl font-semibold mb-10">
           {heading}
         </h1>
         <Slider
