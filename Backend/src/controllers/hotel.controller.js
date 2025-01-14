@@ -41,8 +41,6 @@ const createHotel = asyncHandler(async (req, res) => {
     doubleprice,
   } = req.body;
 
-  console.log(req.body);
-
   if (
     [
       hotelname,
@@ -103,19 +101,19 @@ const createHotel = asyncHandler(async (req, res) => {
 
   if (
     !req.files?.hotelimage ||
-    !Array.isArray(req.files.hotelimage) ||
-    req.files.hotelimage.length === 0
+    !Array.isArray(req.files?.hotelimage) ||
+    req.files?.hotelimage.length === 0
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "All 20 Hotel Images are required");
+    throw new ApiError(400, "All 5 Hotel Images are required");
   }
 
-  if (req.files.hotelimage.length !== 20) {
+  if (req.files?.hotelimage.length !== 5) {
     deleteTempFiles();
-    throw new ApiError(400, "All 20 Hotel Images are required");
+    throw new ApiError(400, "All 5 Hotel Images are required");
   }
 
-  hotelImagesPath.push(...req.files.hotelimage.map((file) => file.path));
+  hotelImagesPath.push(...req.files?.hotelimage?.map((file) => file.path));
 
   if (hotelImagesPath.length === 0) {
     deleteTempFiles();
@@ -173,7 +171,7 @@ const createHotel = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, fullCreatedHotel, "Hotel Created Sucessfully"));
+    .json(new ApiResponse(201, fullCreatedHotel, "Hotel Created Sucessfully"));
 });
 
 // ********** Get All Hotels  **********
@@ -186,10 +184,6 @@ const getAllHotels = asyncHandler(async (req, res) => {
   }
 
   const allHotels = await prisma.hotel.findMany({ include: { rooms: true } });
-
-  if (allHotels.length === 0) {
-    throw new ApiError(404, "No Hotels Found");
-  }
 
   return res
     .status(200)
@@ -388,22 +382,22 @@ const updateHotelImages = asyncHandler(async (req, res) => {
 
   if (
     !req.files?.hotelimage &&
-    !Array.isArray(req.files.hotelimage) &&
-    req.files.hotelimage.length !== 20
+    !Array.isArray(req.files?.hotelimage) &&
+    req.files?.hotelimage.length !== 5
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Hotel Images is Required");
   }
 
-  hotelImagesPath.push(...req.files?.hotelimage.map((file) => file.path));
+  hotelImagesPath.push(...req.files?.hotelimage?.map((file) => file.path));
 
   if (
     !hotelImagesPath ||
     hotelImagesPath.length === 0 ||
-    hotelImagesPath.length < 20
+    hotelImagesPath.length < 5
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "At least 20 Hotel Images are required");
+    throw new ApiError(400, "At least 5 Hotel Images are required");
   }
 
   for (const imagePath of hotelImagesPath) {
@@ -418,7 +412,7 @@ const updateHotelImages = asyncHandler(async (req, res) => {
   }
 
   const oldHotelImagePublicIds = await Promise.all(
-    existingHotel.hotel_images.map((image) => image.public_id)
+    existingHotel.hotel_images?.map((image) => image.public_id)
   );
 
   const newUploadedImages = await uploadImages("Hotel Image", hotelImagesPath);
@@ -474,7 +468,7 @@ const deleteHotel = asyncHandler(async (req, res) => {
   let allImagesId = [];
 
   allImagesId.push(
-    ...existingHotel.hotel_images.map((image) => image.public_id)
+    ...existingHotel.hotel_images?.map((image) => image.public_id)
   );
 
   if (!allImagesId || allImagesId.length === 0) {
@@ -483,8 +477,8 @@ const deleteHotel = asyncHandler(async (req, res) => {
 
   for (const imageId of allImagesId) {
     await deleteImageFromCloudinary(imageId);
+    console.log("Deleted");
   }
-  console.log("Deleted");
 
   await prisma.hotel.delete({
     where: { hotel_id: hotelId },

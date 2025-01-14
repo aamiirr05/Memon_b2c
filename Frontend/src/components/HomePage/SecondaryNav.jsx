@@ -2,6 +2,7 @@
 
 import logoname from '../../assets/img/logoname.png';
 import logo from '../../assets/img/logo.png';
+import { Link } from 'react-router-dom';
 const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
   return (
     <>
@@ -37,15 +38,33 @@ const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
             <div className="link-hover-peach">Ramadan Packages</div>
             <div className="link-hover-peach">Customized Umrah</div>
           </div>
-          <div className="link-hover-green">Haj 2025</div>
-          <div className="link-hover-green">Ziyarat</div>
-          <div className="link-hover-green">Holidays</div>
-          <div className="link-hover-green">Hotels</div>
-          <div className="link-hover-green">Visa</div>
-          <div className="link-hover-green">Forex</div>
-          <div className="link-hover-green hidden xl:block">Our Partners</div>
-          <div className="link-hover-green hidden xl:block">Nusuk</div>
-          <div className="link-hover-green hidden xl:block">Contact Us</div>
+          <Link to="/hajj-2025" className="link-hover-green">
+            Hajj 2025
+          </Link>
+          <Link to="/ziyarat" className="link-hover-green">
+            Ziyarat
+          </Link>
+          <Link to="/holidays" className="link-hover-green">
+            Holidays
+          </Link>
+          <Link to="/hotels" className="link-hover-green">
+            Hotels
+          </Link>
+          <Link to="/visa" className="link-hover-green">
+            Visa
+          </Link>
+          <Link to="/forex" className="link-hover-green">
+            Forex
+          </Link>
+          <Link to="/" className="link-hover-green hidden xl:block">
+            Our Partners
+          </Link>
+          <Link to="/" className="link-hover-green hidden xl:block">
+            Nusuk
+          </Link>
+          <Link to="/" className="link-hover-green hidden xl:block">
+            Contact Us
+          </Link>
           <div
             className="xl:hidden"
             onMouseEnter={() => setIsMore(true)}

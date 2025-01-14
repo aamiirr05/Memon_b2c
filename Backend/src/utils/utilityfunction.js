@@ -39,32 +39,40 @@ const storeOTP = (email, otp) => {
 // ******************* Send OTP *******************
 
 async function sendOtp(email, username) {
-  const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
+  // Validate input
   if (!email || !username) {
     throw new ApiError(400, "Email and username are required");
   }
 
-  const otp = generateOTP();
+  // Generate OTP
+  const generatedOtp = generateOTP();
 
-  const normalizedDirname = __dirname.startsWith("/")
-    ? __dirname.slice(1)
-    : __dirname;
-
-  const parentDir = path.resolve(normalizedDirname, "..");
-  const templatePath = path.join(parentDir, "email/emailTemplate.html");
+  // Resolve the directory for the email template
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "emailTemplate.html"
+  );
 
   let htmlContent;
   try {
+    // Read the email template
     htmlContent = fs.readFileSync(templatePath, "utf8");
   } catch (error) {
     throw new ApiError(500, "Failed to read email template");
   }
 
+  // Replace placeholders in the email template
   htmlContent = htmlContent
     .replace("{{userName}}", username)
-    .replace("{{otp}}", otp);
+    .replace("{{otp}}", generatedOtp);
 
+  // Email options
   const mailOptions = {
     from: process.env.NODEMAILER_USER,
     to: email,
@@ -73,10 +81,13 @@ async function sendOtp(email, username) {
   };
 
   try {
+    // Send the email
     await transporter.sendMail(mailOptions);
-    storeOTP(email, otp);
+
+    // Store the OTP securely
+    storeOTP(email, generatedOtp);
   } catch (error) {
-    console.log(error);
+    console.error("Error sending OTP email:", error);
     throw new ApiError(500, "Failed to send OTP");
   }
 }
@@ -137,10 +148,9 @@ const safeParseJSON = (data) => {
 
 // ********** Helper function to safely convert to a number **********
 
-const safeConvertToNumber = (value, defaultValue = 0) => {
+const safeConvertToNumber = (value) => {
   try {
     const num = Number(value);
-    console.log(num);
 
     if (isNaN(num)) {
       throw new Error("Invalid number");
@@ -260,7 +270,6 @@ const deleteTempFiles = () => {
 
   try {
     if (!fs.existsSync(directoryPath)) {
-      console.log("Directory does not exist:", directoryPath);
       return;
     }
 
@@ -278,11 +287,6 @@ const deleteTempFiles = () => {
         console.log(`Deleted file: ${filePath}`);
       }
     }
-
-    console.log(
-      "All files have been deleted from the directory:",
-      directoryPath
-    );
   } catch (error) {
     console.error("Error deleting files:", error.message);
   }
@@ -307,7 +311,7 @@ const uploadImages = async (imageCategory, imagePaths) => {
         );
       }
 
-      uploadedImages.push({
+      uploadedImages?.push({
         public_id: uploadedImage.public_id,
         secure_url: uploadedImage.secure_url,
       });
@@ -334,6 +338,8 @@ const uploadImages = async (imageCategory, imagePaths) => {
 export {
   transporter,
   generateOTP,
+  storeOTP,
+  otpStorage,
   sendOtp,
   safeParseJSON,
   safeConvertToNumber,

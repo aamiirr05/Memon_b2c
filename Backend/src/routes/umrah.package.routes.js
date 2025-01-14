@@ -19,9 +19,9 @@ router.route("/create-umrah-package").post(
     { name: "packageimage", maxCount: 3 },
     {
       name: "makkahhotelimage",
-      maxCount: 8,
+      maxCount: 5,
     },
-    { name: "medinahotelimage", maxCount: 8 },
+    { name: "medinahotelimage", maxCount: 5 },
   ]),
   createUmrahPackage
 );
@@ -44,7 +44,7 @@ router
   .route("/update-umrah-makhotel-image/:id")
   .put(
     verifyAdminJwt,
-    upload.fields([{ name: "makhotelimage", maxCount: 8 }]),
+    upload.fields([{ name: "makhotelimage", maxCount: 5 }]),
     updateUmrahMakHotelImages
   );
 
@@ -52,7 +52,7 @@ router
   .route("/update-umrah-medhotel-image/:id")
   .put(
     verifyAdminJwt,
-    upload.fields([{ name: "medhotelimage", maxCount: 8 }]),
+    upload.fields([{ name: "medhotelimage", maxCount: 5 }]),
     updateUmrahMedHotelImages
   );
 

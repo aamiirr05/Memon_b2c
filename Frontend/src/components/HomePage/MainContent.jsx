@@ -29,21 +29,23 @@ const MainContent = ({ isMenuOpen }) => {
   return (
     <>
       <section
-        className={`relative mb-52 w-full h-full flex mt-[4.5rem] lg:mt-0 transition-all ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
+        className={`relative mb-52 w-full flex mt-[4.5rem] lg:mt-0 transition- h-[calc(100vh-120px)] md:h-[calc(100vh-132px)] ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
         style={{
-          backgroundImage: `url('./hero-bg.jpg')`,
+          backgroundImage: `url('/hero-bg.jpg')`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          height: '80vh',
           width: '100%',
         }}
       >
-        <div className="section-one-heading p-5 md:p-0 flex flex-col gap-5 mt-10 text-white md:w-11/12 mx-auto">
-          <h1 className="text-5xl font-bold font-zodiak">
+        <div className="section-one-heading p-5 md:p-0 flex flex-col gap-5 mt-10 md:w-11/12 mx-auto items-center text-[#386641]">
+          <q className="font-bold font-sans">
+            إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ
+          </q>
+          <h1 className="text-5xl text-center font-bold font-zodiak">
             Search, Book and Relax
           </h1>
-          <p className="font-jakarta font-semibold">
+          <p className="font-jakarta font-semibold max-w-md text-center">
             No hidden fees or gimmicks, just straight forward and hassle-free
             booking for all your travel needs.
           </p>

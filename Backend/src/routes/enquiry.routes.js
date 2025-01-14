@@ -9,8 +9,6 @@ import {
 
 const router = Router();
 
-// ********** Protected Routes **********
-
 router.route("/contact").post(verifyJwt, enquiryContact);
 router.route("/forex").post(verifyJwt, enquiryForex);
 router.route("/umrah").post(verifyJwt, enquiryUmrah);

@@ -1,15 +1,17 @@
-import prisma from ".././db/db.config.js";
-import { asyncHandler } from "../utils/AsyncHandler.js";
-import { ApiError } from "../utils/ApiErrors.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
+import prisma from "../db/db.config.js";
+import { asyncHandler } from "./../utils/AsyncHandler.js";
+import { ApiError } from "./../utils/ApiErrors.js";
+import { ApiResponse } from "./../utils/ApiResponse.js";
 import {
   userLoginInputValidation,
   userSignupInputValidation,
 } from "../validator/user.validator.js";
 import {
   transporter,
-  sendOtp,
   generateOTP,
+  storeOTP,
+  otpStorage,
+  sendOtp,
   safeConvertToNumber,
   generateAccessTokenForUser,
   generateRefreshTokenForUser,
@@ -49,7 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
       contact,
       password,
       confirmpassword,
-    ].some((field) => !field || field.trim() === "")
+    ].some((field) => !field || field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields must be filled");
   }
@@ -68,7 +70,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, `Validation Error: ${error[0].message}`);
   }
 
-  const normalizedEmail = email.toLowerCase();
+  const normalizedEmail = email?.toLowerCase();
 
   const userExists = await prisma.user.findUnique({
     where: {
@@ -97,7 +99,7 @@ const registerUser = asyncHandler(async (req, res) => {
       last_name: true,
       email: true,
       contact: true,
-      isVerified: true,
+      is_verified: true,
       created_at: true,
     },
   });
@@ -106,9 +108,25 @@ const registerUser = asyncHandler(async (req, res) => {
 
   await sendOtp(newUser.email, username);
 
+  const accessToken = await generateAccessTokenForUser(
+    newUser.registration_id,
+    newUser.email
+  );
+
+  const refreshToken = await generateRefreshTokenForUser(
+    newUser.registration_id
+  );
+
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
   return res
     .status(200)
-    .json(new ApiResponse(200, newUser, "OTP has been sent to your email"));
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(new ApiResponse(201, newUser, "OTP has been sent to your email"));
 });
 
 // *************** Login ***************
@@ -120,7 +138,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Email and Password is required");
   }
 
-  let normalizedEmail = email.toLowerCase();
+  let normalizedEmail = email?.toLowerCase();
 
   let validationError = userLoginInputValidation({
     email: normalizedEmail,
@@ -165,6 +183,7 @@ const loginUser = asyncHandler(async (req, res) => {
       last_name: true,
       email: true,
       contact: true,
+      is_verified: true,
       created_at: true,
     },
   });
@@ -214,7 +233,7 @@ const checkAuth = asyncHandler(async (req, res) => {
         last_name: true,
         email: true,
         contact: true,
-        isVerified: true,
+        is_verified: true,
       },
     });
 
@@ -241,20 +260,10 @@ const resendOtp = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Email is required");
   }
 
-  const userExist = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
-
-  if (userExist) {
-    throw new ApiError(400, "User with this email already exists!");
-  }
-
   const otp = generateOTP();
 
   const normalizedDirname = __dirname.startsWith("/")
-    ? __dirname.slice(1)
+    ? __dirname?.slice(1)
     : __dirname;
 
   const parentDir = path.resolve(normalizedDirname, "..");
@@ -301,22 +310,36 @@ const verifyOtp = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No OTP request found for this email.");
   }
 
-  const { otp, expiresAt } = record;
+  const { otp: storedOtp, expiresAt } = record;
 
   if (Date.now() > expiresAt) {
     otpStorage.delete(email);
     throw new ApiError(400, "OTP expired");
   }
 
-  if (otp !== parseInt(inputOtp, 10)) {
+  if (storedOtp !== parseInt(inputOtp, 10)) {
     throw new ApiError(400, "Invalid OTP");
   }
+  otpStorage.delete(email);
 
-  await prisma.user.update({ where: { email }, data: { isVerified: true } });
+  const updatedUser = await prisma.user.update({
+    where: { email },
+    data: { is_verified: true },
+    select: {
+      salutation: true,
+      registration_id: true,
+      first_name: true,
+      last_name: true,
+      email: true,
+      contact: true,
+      is_verified: true,
+      created_at: true,
+    },
+  });
 
-  otpStorage.delete(email); // OTP verified, clean up
-
-  return res.status(200).json(new ApiResponse(200, "Email Verified!"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedUser, "Email Verified!"));
 });
 
 // *************** Logout ***************
@@ -346,7 +369,6 @@ const logoutUser = asyncHandler(
 // *************** RefreshToken ***************
 
 const refreshToken = asyncHandler(async (req, res) => {
-  console.log("Refresh");
   const incomingRefreshToken = req.cookies.refreshToken;
 
   if (!incomingRefreshToken) {
@@ -467,6 +489,14 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 const enquiryContact = asyncHandler(async (req, res) => {
   const { salutation, firstname, lastname, email, contact, message } = req.body;
 
+  if (
+    [salutation, firstname, lastname, email, contact, message].some(
+      (field) => !field || field.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
+
   const user = req.user;
 
   const enquiryInputError = userContactEnquiryValidation({
@@ -502,7 +532,7 @@ const enquiryContact = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, createdEnquiry, "Your Enquiry Sent Sucessfully")
+      new ApiResponse(201, createdEnquiry, "Your Enquiry Sent Sucessfully")
     );
 });
 
@@ -519,6 +549,21 @@ const enquiryForex = asyncHandler(async (req, res) => {
     country,
     address,
   } = req.body;
+
+  if (
+    [
+      salutation,
+      firstname,
+      lastname,
+      email,
+      contact,
+      amountrequired,
+      country,
+      address,
+    ].some((field) => !field || field.trim() === "")
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const amountInNumber = safeConvertToNumber(amountrequired);
 
@@ -562,7 +607,7 @@ const enquiryForex = asyncHandler(async (req, res) => {
     .status(200)
     .json(
       new ApiResponse(
-        200,
+        201,
         createdForexEnquiry,
         "Your Forex Enquiry Sent Sucessfully"
       )
@@ -585,6 +630,24 @@ const enquiryUmrah = asyncHandler(async (req, res) => {
     totalchildren,
     totalinfants,
   } = req.body;
+
+  if (
+    [
+      salutation,
+      firstname,
+      lastname,
+      email,
+      packagetype,
+      packagename,
+      contact,
+      travellerdate,
+      totaladults,
+      totalchildren,
+      totalinfants,
+    ].some((field) => !field || field.trim() === "")
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const totalAdultCount = safeConvertToNumber(totaladults);
 
@@ -638,7 +701,7 @@ const enquiryUmrah = asyncHandler(async (req, res) => {
     .status(200)
     .json(
       new ApiResponse(
-        200,
+        201,
         createdUmrahEnquiry,
         "Your Umrah Enquiry Sent Sucessfully"
       )
@@ -657,6 +720,20 @@ const enquiryVisa = asyncHandler(async (req, res) => {
     visacountry,
     visatype,
   } = req.body;
+
+  if (
+    [
+      salutation,
+      firstname,
+      lastname,
+      email,
+      contact,
+      visacountry,
+      visatype,
+    ].some((field) => !field || field.trim() === "")
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const user = req.user;
 
@@ -696,7 +773,7 @@ const enquiryVisa = asyncHandler(async (req, res) => {
     .status(200)
     .json(
       new ApiResponse(
-        200,
+        201,
         createdVisaEnquiry,
         "Your Visa Enquiry Sent Sucessfully"
       )

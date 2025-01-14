@@ -4,6 +4,8 @@ import mailsent from '../../assets/img/letter.svg';
 // import { AuthContext } from '../../context';
 import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 const OtpPage = () => {
   const { control, handleSubmit, setValue } = useForm({
@@ -12,57 +14,51 @@ const OtpPage = () => {
     },
   });
 
-  const handleSuccess = (val) => {
-    toast.success(val, {
-      duration: 4000,
-    });
-  };
-  const handleError = (val) => {
-    toast.error(val, {
-      duration: 4000,
-    });
-  };
+  const { authUser, verifyOtp, isVerifyingOtp } = useAuthStore();
+  console.log(authUser);
 
   const inputsRef = useRef([]);
   // const { signupData } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  console.log(signupData);
-  const userEmail = signupData.email;
-
+  // console.log(signupData);
+  // const userEmail = signupData.email;
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     const otpValue = data.otp.join('');
-    console.log(otpValue, userEmail);
-    try {
-      setLoading(true);
-      // Req for OTP Verification
-      const res = await axiosInstance.post('/users/verify-otp', {
-        email: userEmail,
-        inputOtp: otpValue,
-      });
-      const message = res.data.data || 'verified';
-      handleSuccess(message);
-      console.log(res);
 
-      //  Req for registering the user
-      const resForRegister = await axiosInstance.post('/users/signup', {
-        salutation: signupData.salutation,
-        firstname: signupData.firstname,
-        lastname: signupData.lastname,
-        email: signupData.email,
-        contact: signupData.contact,
-        password: signupData.password,
-        confirmpassword: signupData.confirmpassword,
-      });
-      const messagetwo = resForRegister.data.message || 'user created';
-      handleSuccess(messagetwo);
-      console.log(resForRegister, 'htu6uw6u');
-    } catch (error) {
-      console.log(error);
-      const message = error?.response.data.message || 'Something went wrong';
-      handleError(message);
-    } finally {
-      setLoading(false);
-    }
+    verifyOtp({ email: authUser?.email, inputOtp: otpValue }, navigate);
+
+    // console.log(otpValue, userEmail);
+    // try {
+    //   setLoading(true);
+    //   // Req for OTP Verification
+    //   const res = await axiosInstance.post('/users/verify-otp', {
+    //     email: userEmail,
+    //     inputOtp: otpValue,
+    //   });
+    //   const message = res.data.data || 'verified';
+    //   handleSuccess(message);
+    //   console.log(res);
+    //   //  Req for registering the user
+    //   const resForRegister = await axiosInstance.post('/users/signup', {
+    //     salutation: signupData.salutation,
+    //     firstname: signupData.firstname,
+    //     lastname: signupData.lastname,
+    //     email: signupData.email,
+    //     contact: signupData.contact,
+    //     password: signupData.password,
+    //     confirmpassword: signupData.confirmpassword,
+    //   });
+    //   const messagetwo = resForRegister.data.message || 'user created';
+    //   handleSuccess(messagetwo);
+    //   console.log(resForRegister, 'htu6uw6u');
+    // } catch (error) {
+    //   console.log(error);
+    //   const message = error?.response.data.message || 'Something went wrong';
+    //   handleError(message);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const handlePaste = (e) => {
@@ -97,7 +93,7 @@ const OtpPage = () => {
             <h3 className="font-jakarta text-center">
               Enter The Verification Code Sent To{' '}
               <span className="text-darkgreen cursor-pointer font-zodiak">
-                {signupData?.email}
+                {authUser?.email}
               </span>
             </h3>
             <div
@@ -145,7 +141,7 @@ const OtpPage = () => {
               type="submit"
               className="mt-10 mb-5 px-6 py-2 bg-darkgreen text-peach hover:text-darkgreen hover:bg-peach transition-colors animate-shift-up hover:border hover:border-darkgreen rounded-md font-jakarta font-semibold"
             >
-              {loading ? 'Verifying...' : 'Verify OTP'}
+              {isVerifyingOtp ? 'Verifying...' : 'Verify OTP'}
             </button>
           </form>
         </div>

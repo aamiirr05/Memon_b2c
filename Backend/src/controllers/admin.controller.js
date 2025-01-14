@@ -41,7 +41,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
     throw new ApiError(400, `Validation Error: ${inputError[0].message}`);
   }
 
-  const normalizedEmail = email.toLowerCase();
+  const normalizedEmail = email?.toLowerCase();
 
   const adminExists = await prisma.admin.findUnique({
     where: {
@@ -72,7 +72,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, newAdmin, "Account Created Sucessfully"));
+    .json(new ApiResponse(201, newAdmin, "Account Created Sucessfully"));
 });
 
 // ********** Login **********
@@ -84,7 +84,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields must be filled");
   }
 
-  const normalizedEmail = email.toLowerCase();
+  const normalizedEmail = email?.toLowerCase();
 
   const inputError = adminLoginInputValidation({
     email: normalizedEmail,
@@ -136,7 +136,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
   const options = {
     secure: true,
-    // httpOnly: true
+    httpOnly: true,
   };
 
   return res
@@ -157,7 +157,7 @@ const logoutAdmin = asyncHandler(async (req, res) => {
   });
 
   const options = {
-    // httpOnly: true,
+    httpOnly: true,
     secure: true,
   };
 
@@ -207,7 +207,7 @@ const refreshToken = asyncHandler(async (req, res) => {
 
   const options = {
     secure: true,
-    // httpOnly: true,
+    httpOnly: true,
   };
 
   return res
