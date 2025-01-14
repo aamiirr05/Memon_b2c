@@ -148,10 +148,9 @@ const safeParseJSON = (data) => {
 
 // ********** Helper function to safely convert to a number **********
 
-const safeConvertToNumber = (value, defaultValue = 0) => {
+const safeConvertToNumber = (value) => {
   try {
     const num = Number(value);
-    console.log(num);
 
     if (isNaN(num)) {
       throw new Error("Invalid number");
@@ -271,7 +270,6 @@ const deleteTempFiles = () => {
 
   try {
     if (!fs.existsSync(directoryPath)) {
-      console.log("Directory does not exist:", directoryPath);
       return;
     }
 
@@ -289,11 +287,6 @@ const deleteTempFiles = () => {
         console.log(`Deleted file: ${filePath}`);
       }
     }
-
-    console.log(
-      "All files have been deleted from the directory:",
-      directoryPath
-    );
   } catch (error) {
     console.error("Error deleting files:", error.message);
   }
@@ -318,7 +311,7 @@ const uploadImages = async (imageCategory, imagePaths) => {
         );
       }
 
-      uploadedImages.push({
+      uploadedImages?.push({
         public_id: uploadedImage.public_id,
         secure_url: uploadedImage.secure_url,
       });

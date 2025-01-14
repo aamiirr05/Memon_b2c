@@ -87,16 +87,6 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
   const termConditionArray = safeParseJSON(termcondition);
   const bookingTermArray = safeParseJSON(bookingterms);
 
-  console.log(
-    itineraryArray,
-    groupDatesArray,
-    inclusionArray,
-    exclusionArray,
-    cancellationPolicyArray,
-    termConditionArray,
-    bookingTermArray
-  );
-
   const intTotalDays = safeConvertToNumber(totaldays);
   const intTotalNights = safeConvertToNumber(totalnights);
   const intBasePrice = safeConvertToNumber(baseprice);
@@ -132,7 +122,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
   });
 
   if (inputError) {
-    throw new ApiError(401, `Validation Error: ${inputError[0].message}`);
+    throw new ApiError(400, `Validation Error: ${inputError[0].message}`);
   }
 
   let packageImagePath = [],
@@ -140,26 +130,26 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
 
   if (
     req.files?.packageimage &&
-    Array.isArray(req.files.packageimage) &&
-    req.files.packageimage.length > 0
+    Array.isArray(req.files?.packageimage) &&
+    req.files?.packageimage.length > 0
   ) {
-    if (req.files.packageimage.length !== 3) {
+    if (req.files?.packageimage.length !== 3) {
       deleteTempFiles();
       throw new ApiError(400, "All 3 Package Images are required.");
     }
-    packageImagePath = req.files.packageimage.map((file) => file.path);
+    packageImagePath = req.files?.packageimage?.map((file) => file.path);
   }
 
   if (
     req.files?.hotelimage &&
-    Array.isArray(req.files.hotelimage) &&
-    req.files.hotelimage.length > 0
+    Array.isArray(req.files?.hotelimage) &&
+    req.files?.hotelimage.length > 0
   ) {
-    if (req.files.hotelimage.length !== 5) {
+    if (req.files?.hotelimage.length !== 5) {
       deleteTempFiles();
       throw new ApiError(400, "All 5 Hotel Images are required.");
     }
-    hotelImagePath = req.files.hotelimage.map((file) => file.path);
+    hotelImagePath = req.files?.hotelimage?.map((file) => file.path);
   }
 
   if (packageImagePath.length === 0) {
@@ -472,7 +462,7 @@ const updateHolidayPackageImage = asyncHandler(async (req, res) => {
 
   const packageId = req.params.id;
 
-  if (!packageId || packageId.trim() === "") {
+  if (!packageId || packageId?.trim() === "") {
     throw new ApiError(400, "Package ID is required and cannot be empty");
   }
 
@@ -490,8 +480,8 @@ const updateHolidayPackageImage = asyncHandler(async (req, res) => {
 
   if (
     req.files?.packageimage &&
-    Array.isArray(req.files.packageimage) &&
-    req.files.packageimage.length < 3
+    Array.isArray(req.files?.packageimage) &&
+    req.files?.packageimage.length < 3
   ) {
     deleteTempFiles();
     throw new ApiError(400, "All Package Images is Required");
@@ -523,7 +513,7 @@ const updateHolidayPackageImage = asyncHandler(async (req, res) => {
   }
 
   const oldPackageImagePublicIds = await Promise.all(
-    existingPackage.package_images.map((image) => image.public_id)
+    existingPackage.package_images?.map((image) => image.public_id)
   );
 
   const newUploadedImages = await uploadImages(
@@ -570,7 +560,7 @@ const updateHolidayPackageHotelImage = asyncHandler(async (req, res) => {
 
   const packageId = req.params.id;
 
-  if (!packageId || packageId.trim() === "") {
+  if (!packageId || packageId?.trim() === "") {
     throw new ApiError(400, "Package ID is required and cannot be empty");
   }
 
@@ -588,8 +578,8 @@ const updateHolidayPackageHotelImage = asyncHandler(async (req, res) => {
 
   if (
     req.files?.hotelimage &&
-    Array.isArray(req.files.hotelimage) &&
-    req.files.hotelimage.length < 5
+    Array.isArray(req.files?.hotelimage) &&
+    req.files?.hotelimage.length < 5
   ) {
     deleteTempFiles();
     throw new ApiError(400, "All 5 Hotel Images are Required");
@@ -620,7 +610,7 @@ const updateHolidayPackageHotelImage = asyncHandler(async (req, res) => {
   }
 
   const oldHotelImagePublicIds = await Promise.all(
-    existingPackage.hotel_images.map((image) => image.public_id)
+    existingPackage.hotel_images?.map((image) => image.public_id)
   );
 
   const newUploadedImages = await uploadImages("Hotel Image", hotelImagePath);
@@ -664,7 +654,7 @@ const deleteHolidayPackage = asyncHandler(async (req, res) => {
 
   const packageId = req.params.id;
 
-  if (!packageId || packageId.trim() === "") {
+  if (!packageId || packageId?.trim() === "") {
     throw new ApiError(400, "Package ID is required and cannot be empty");
   }
 
@@ -680,13 +670,13 @@ const deleteHolidayPackage = asyncHandler(async (req, res) => {
   let allImagesId = [];
 
   await Promise.all(
-    existingPackage.package_images.map((image) =>
+    existingPackage.package_images?.map((image) =>
       allImagesId.push(image.public_id)
     )
   );
 
   await Promise.all(
-    existingPackage.hotel_images.map((image) =>
+    existingPackage.hotel_images?.map((image) =>
       allImagesId.push(image.public_id)
     )
   );
@@ -694,8 +684,6 @@ const deleteHolidayPackage = asyncHandler(async (req, res) => {
   if (!allImagesId || allImagesId.length === 0) {
     throw new ApiError(500, "Error While Deleting Package");
   }
-
-  console.log(allImagesId);
 
   for (const imageId of allImagesId) {
     await deleteImageFromCloudinary(imageId);

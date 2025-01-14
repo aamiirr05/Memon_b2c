@@ -30,11 +30,12 @@ app.use(
     stream: {
       write: (message) => {
         const logObject = {
-          method: message.split(" ")[0],
-          url: message.split(" ")[1],
-          status: message.split(" ")[2],
-          responseTime: message.split(" ")[3],
+          method: message?.split(" ")[0],
+          url: message?.split(" ")[1],
+          status: message?.split(" ")[2],
+          responseTime: message?.split(" ")[3],
         };
+        console.log(message);
         logger.info(JSON.stringify(logObject));
       },
     },

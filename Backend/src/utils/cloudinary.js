@@ -17,10 +17,6 @@ const uploadOnCloudinary = async (localFilePath) => {
       resource_type: "auto",
     });
 
-    // file uploaded
-
-    console.log("File has been uploaded on cloudinary:", response.url);
-
     if (fs.existsSync(localFilePath)) {
       fs.unlinkSync(localFilePath);
     }
@@ -41,8 +37,6 @@ const deleteImageFromCloudinary = async (publicId) => {
 
     return response;
   } catch (error) {
-    console.log("Error deleting image from Cloudinary:", error);
-
     return { error: "Error deleting image from Cloudinary", details: error };
   }
 };

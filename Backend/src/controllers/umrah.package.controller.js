@@ -54,8 +54,6 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     infantprice,
   } = req.body;
 
-  console.log(req.body);
-
   if (
     [
       packagename,
@@ -111,9 +109,6 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
   const intChildWithoutBedPrice = safeConvertToNumber(childwithoutbedprice);
   const intInfantPrice = safeConvertToNumber(infantprice);
 
-  console.log(req.body.makkahitinerary);
-  // Expected: Array of parsed objects
-
   const finalPrice = baseprice - (baseprice * discount) / 100;
   const youSaved = baseprice - finalPrice;
 
@@ -158,38 +153,42 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
 
   if (
     req.files?.packageimage &&
-    Array.isArray(req.files.packageimage) &&
-    req.files.packageimage.length > 0
+    Array.isArray(req.files?.packageimage) &&
+    req.files?.packageimage.length > 0
   ) {
-    if (req.files.packageimage.length !== 3) {
+    if (req.files?.packageimage.length !== 3) {
       deleteTempFiles();
       throw new ApiError(400, "All 3 Package Images are required.");
     }
-    packageImagePath = req.files.packageimage.map((file) => file.path);
+    packageImagePath = req.files?.packageimage?.map((file) => file.path);
   }
 
   if (
     req.files?.makkahhotelimage &&
-    Array.isArray(req.files.makkahhotelimage) &&
-    req.files.makkahhotelimage.length > 0
+    Array.isArray(req.files?.makkahhotelimage) &&
+    req.files?.makkahhotelimage.length > 0
   ) {
-    if (req.files.makkahhotelimage.length !== 5) {
+    if (req.files?.makkahhotelimage.length !== 5) {
       deleteTempFiles();
       throw new ApiError(400, "All 5 Makkah Hotel Images are required.");
     }
-    makkahHotelImagePath = req.files.makkahhotelimage.map((file) => file.path);
+    makkahHotelImagePath = req.files?.makkahhotelimage?.map(
+      (file) => file.path
+    );
   }
 
   if (
     req.files?.medinahotelimage &&
-    Array.isArray(req.files.medinahotelimage) &&
-    req.files.medinahotelimage.length > 0
+    Array.isArray(req.files?.medinahotelimage) &&
+    req.files?.medinahotelimage.length > 0
   ) {
-    if (req.files.medinahotelimage.length !== 5) {
+    if (req.files?.medinahotelimage.length !== 5) {
       deleteTempFiles();
       throw new ApiError(400, "All 5 Medina Hotel Images are required.");
     }
-    medinaHotelImagePath = req.files.medinahotelimage.map((file) => file.path);
+    medinaHotelImagePath = req.files?.medinahotelimage?.map(
+      (file) => file.path
+    );
   }
 
   if (packageImagePath.length === 0) {
@@ -310,7 +309,7 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json(
-      new ApiResponse(200, fullCreatedPackage, "Package Created Sucessfully")
+      new ApiResponse(201, fullCreatedPackage, "Package Created Sucessfully")
     );
 });
 
@@ -394,8 +393,6 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
     childwithoutbedprice,
     infantprice,
   } = req.body;
-
-  console.log(req.body);
 
   if (
     [
@@ -610,14 +607,14 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
 
   if (
     !req.files?.packageimage &&
-    !Array.isArray(req.files.packageimage) &&
-    req.files.packageimage.length < 3
+    !Array.isArray(req.files?.packageimage) &&
+    req.files?.packageimage.length < 3
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Package Images is Required");
   }
 
-  packageImagePath = req.files?.packageimage.map((file) => file.path);
+  packageImagePath = req.files?.packageimage?.map((file) => file.path);
 
   if (
     !packageImagePath ||
@@ -642,7 +639,7 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
     }
   }
 
-  const oldPackageImagePublicIds = existingPackage.package_image.map(
+  const oldPackageImagePublicIds = existingPackage.package_image?.map(
     (image) => image.public_id
   );
 
@@ -657,8 +654,8 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldPackageImagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
+    console.log("Images Deleted From Cloudinary");
   }
-  console.log("Images Deleted From Cloudinary");
 
   const packageImageArray = Object.values(newUploadedImages)[0];
 
@@ -703,13 +700,13 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
 
   if (
     req.files?.makhotelimage &&
-    Array.isArray(req.files.makhotelimage) &&
-    req.files.makhotelimage.length < 5
+    Array.isArray(req.files?.makhotelimage) &&
+    req.files?.makhotelimage.length < 5
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Makkah Hotel Images is Required");
   } else {
-    makHotelImagePaths = req.files?.makhotelimage.map((file) => file.path);
+    makHotelImagePaths = req.files?.makhotelimage?.map((file) => file.path);
   }
 
   if (
@@ -735,7 +732,7 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
     }
   }
 
-  const oldMakHotelImagePublicIds = existingPackage.mak_hotel_images.map(
+  const oldMakHotelImagePublicIds = existingPackage.mak_hotel_images?.map(
     (image) => image.public_id
   );
 
@@ -796,13 +793,13 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
 
   if (
     req.files?.medhotelimage &&
-    Array.isArray(req.files.medhotelimage) &&
-    req.files.medhotelimage.length < 5
+    Array.isArray(req.files?.medhotelimage) &&
+    req.files?.medhotelimage.length < 5
   ) {
     deleteTempFiles();
     throw new ApiError(401, "All Medina Hotel Images are Required");
   } else {
-    medHotelImagePaths = req.files?.medhotelimage.map((file) => file.path);
+    medHotelImagePaths = req.files?.medhotelimage?.map((file) => file.path);
   }
 
   if (
@@ -827,7 +824,7 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
     }
   }
 
-  const oldMedHotelImagePublicIds = existingPackage.med_hotel_images.map(
+  const oldMedHotelImagePublicIds = existingPackage.med_hotel_images?.map(
     (image) => image.public_id
   );
 
@@ -885,15 +882,15 @@ const deleteUmrahPackage = asyncHandler(async (req, res) => {
 
   let allImagesId = [];
 
-  existingPackage.package_image.forEach((image) =>
+  existingPackage.package_image?.forEach((image) =>
     allImagesId.push(image.public_id)
   );
 
-  existingPackage.mak_hotel_images.forEach((image) =>
+  existingPackage.mak_hotel_images?.forEach((image) =>
     allImagesId.push(image.public_id)
   );
 
-  existingPackage.med_hotel_images.forEach((image) => {
+  existingPackage.med_hotel_images?.forEach((image) => {
     allImagesId.push(image.public_id);
   });
 

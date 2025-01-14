@@ -92,7 +92,7 @@ const createVisa = asyncHandler(async (req, res) => {
   if (
     !req.files?.visaimage ||
     !Array.isArray(req.files?.visaimage) ||
-    req.files.visaimage.length === 0
+    req.files?.visaimage.length === 0
   ) {
     deleteTempFiles();
     throw new ApiError(400, "Visa Image is Required");
@@ -103,9 +103,7 @@ const createVisa = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Visa Image is Required");
   }
 
-  visaImagePath.push(...req.files?.visaimage.map((file) => file.path));
-
-  console.log(visaImagePath);
+  visaImagePath.push(...req.files?.visaimage?.map((file) => file.path));
 
   if (visaImagePath.length === 0) {
     deleteTempFiles();
@@ -148,7 +146,7 @@ const createVisa = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, createdVisa, "Visa Created Sucessfully"));
+    .json(new ApiResponse(201, createdVisa, "Visa Created Sucessfully"));
 });
 
 // ********** Get All Visas  **********
@@ -323,14 +321,14 @@ const updateVisaImage = asyncHandler(async (req, res) => {
 
   if (
     !req.files?.visaimage &&
-    !Array.isArray(req.files.visaimage) &&
-    req.files.visaimage.length === 0
+    !Array.isArray(req.files?.visaimage) &&
+    req.files?.visaimage.length === 0
   ) {
     deleteTempFiles();
     throw new ApiError(401, "Visa Image is Required");
   }
 
-  visaImagePath.push(...req.files?.visaimage.map((file) => file.path));
+  visaImagePath.push(...req.files?.visaimage?.map((file) => file.path));
 
   if (
     !visaImagePath ||
@@ -353,7 +351,7 @@ const updateVisaImage = asyncHandler(async (req, res) => {
   }
 
   const oldvisaimagePublicIds = await Promise.all(
-    existingVisa.visa_image.map((image) => image.public_id)
+    existingVisa.visa_image?.map((image) => image.public_id)
   );
 
   const newUploadedImages = await uploadImages("Visa Image", visaImagePath);
@@ -364,8 +362,8 @@ const updateVisaImage = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldvisaimagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
+    console.log("Images Deleted From Cloudinary");
   }
-  console.log("Images Deleted From Cloudinary");
 
   const visaimageArray = Object.values(newUploadedImages)[0];
 
@@ -406,8 +404,8 @@ const deleteVisa = asyncHandler(async (req, res) => {
 
   // Collect all public IDs of images
   if (existingVisa.visa_image && Array.isArray(existingVisa.visa_image)) {
-    allImagesId.push(
-      ...existingVisa.visa_image.map((image) => image.public_id)
+    allImagesId?.push(
+      ...existingVisa.visa_image?.map((image) => image.public_id)
     );
   }
 

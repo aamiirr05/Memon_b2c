@@ -52,7 +52,7 @@ const updateUmrahEnquiry = asyncHandler(async (req, res) => {
 
   const validStatuses = ["pending", "rejected", "approved"];
 
-  if (!status || !validStatuses.includes(status.toLowerCase())) {
+  if (!status || !validStatuses.includes(status?.toLowerCase())) {
     throw new ApiError(
       400,
       "Invalid or missing status. Allowed values are: Pending, Rejected, Approved."
@@ -146,7 +146,7 @@ const updateForexEnquiry = asyncHandler(async (req, res) => {
 
   const validStatuses = ["pending", "rejected", "approved"];
 
-  if (!status || !validStatuses.includes(status.toLowerCase())) {
+  if (!status || !validStatuses.includes(status?.toLowerCase())) {
     throw new ApiError(
       400,
       "Invalid or missing status. Allowed values are: Pending, Rejected, Approved."
@@ -240,7 +240,7 @@ const updateVisaEnquiry = asyncHandler(async (req, res) => {
 
   const validStatuses = ["pending", "rejected", "approved"];
 
-  if (!status || !validStatuses.includes(status.toLowerCase())) {
+  if (!status || !validStatuses.includes(status?.toLowerCase())) {
     throw new ApiError(
       400,
       "Invalid or missing status. Allowed values are: Pending, Rejected, Approved."
@@ -334,7 +334,7 @@ const updateContactEnquiry = asyncHandler(async (req, res) => {
 
   const validStatuses = ["pending", "rejected", "approved"];
 
-  if (!status || !validStatuses.includes(status.toLowerCase())) {
+  if (!status || !validStatuses.includes(status?.toLowerCase())) {
     throw new ApiError(
       400,
       "Invalid or missing status. Allowed values are: Pending, Rejected, Approved."
