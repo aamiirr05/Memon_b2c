@@ -1,16 +1,29 @@
 import { Check, Plus } from 'lucide-react';
 import PackageCards from './PackageCards';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Loader from '../../components/Loader';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import useFetchPackages from '../hooks/UseFetchPackages';
+import useUmrahStore from '../store/Umrah/UseUmrahStore';
 
 const UmrahPackages = () => {
-  const [getUmrahpackages, setUmrahPackages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isChildLoading, setIsChildLoading] = useState(false);
-  const { updateid, id } = useParams();
-  console.log(updateid, id);
+  // const [getUmrahpackages, setUmrahPackages] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [isChildLoading, setIsChildLoading] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { updateid } = useParams();
+  const {
+    umrahPackages,
+    loading,
+    isChildLoading,
+    isModalOpen,
+    setUmrahPackages,
+    setLoading,
+    setIsChildLoading,
+    setIsModalOpen,
+    refreshPackages,
+  } = useUmrahStore();
 
   const location = useLocation();
 
@@ -22,13 +35,9 @@ const UmrahPackages = () => {
       setUmrahPackages(getPackages.data.data);
       setLoading(false);
     }
+  }, [getPackages.data, setUmrahPackages, setLoading]);
 
-    if (getUmrahpackages.length == 0) {
-      setLoading(false);
-    }
-  }, [getPackages.data]);
-
-  console.log(getUmrahpackages);
+  console.log(umrahPackages);
 
   if (loading) {
     return (
@@ -56,7 +65,7 @@ const UmrahPackages = () => {
         <>
           <NavLink
             to="/admin/umrahpackages/createpackage-form"
-            className="flex w-2/3 md:w-1/2 lg:w-1/4 items-center justify-center outline-none border border-darkgreen hover:bg-peach hover:bg-opacity-40 font-semibold font-jakarta hover:text-darkgreen transition-colors hover:animate-shift-up gap-1 bg-darkgreen text-peach p-3 rounded-lg"
+            className={`flex w-2/3 md:w-1/2 lg:w-1/4 items-center justify-center outline-none border border-darkgreen hover:bg-peach hover:bg-opacity-40 font-semibold font-jakarta hover:text-darkgreen transition-colors hover:animate-shift-up gap-1 bg-darkgreen text-peach p-3 rounded-lg ${isModalOpen ? 'blur-sm pointer-events-none' : 'blur-0'}`}
           >
             <Plus />
             Add New Packages
@@ -64,18 +73,20 @@ const UmrahPackages = () => {
 
           {/* All packages */}
           <div className="my-10 w-full mx-auto flex items-center justify-center gap-5 lg:gap-10 flex-wrap">
-            {getUmrahpackages.length == 0 ? (
+            {umrahPackages.length == 0 ? (
               <h1 className="text-center text-3xl mt-40 lg:mt-52 opacity-60 font-zodiak">
                 No Umrah Packages
               </h1>
             ) : (
-              getUmrahpackages.map((i) => (
+              umrahPackages.map((i) => (
                 <PackageCards
                   data={i}
                   key={i.package_id}
-                  refreshPackages={getPackages.refresh}
+                  refreshPackages={() => refreshPackages(getPackages.refresh)}
                   isChildLoading={isChildLoading}
                   setIsChildLoading={setIsChildLoading}
+                  isModalOpen={isModalOpen}
+                  setIsModalOpen={setIsModalOpen}
                 />
               ))
             )}

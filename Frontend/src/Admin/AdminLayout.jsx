@@ -17,7 +17,7 @@ const AdminLayout = () => {
   return (
     <>
       <div
-        className={`overflow-x-hidden relative w-full h-screen bg-peach bg-opacity-10
+        className={`overflow-x-hidden relative w-full h-screen
         
         `}
       >

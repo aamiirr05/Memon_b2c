@@ -18,7 +18,7 @@ router.route("/create-holiday-package").post(
     { name: "packageimage", maxCount: 3 },
     {
       name: "hotelimage",
-      maxCount: 8,
+      maxCount: 5,
     },
   ]),
   createHolidayPackage
@@ -44,7 +44,7 @@ router
   .route("/update-holiday-package-hotel-image/:id")
   .put(
     verifyAdminJwt,
-    upload.fields([{ name: "hotelimage", maxCount: 8 }]),
+    upload.fields([{ name: "hotelimage", maxCount: 5 }]),
     updateHolidayPackageHotelImage
   );
 

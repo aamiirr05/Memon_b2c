@@ -105,9 +105,10 @@ const App = () => {
 
       <Toaster
         toastOptions={{
-          className: '',
+          className: 'text-center',
           style: {
             background: '#faf7f0',
+            textAlign: 'center',
           },
           success: {
             icon: <CircleCheck className="text-darkgreen" />,

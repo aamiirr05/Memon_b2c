@@ -16,7 +16,7 @@ router.route("/create-hotel").post(
   upload.fields([
     {
       name: "hotelimage",
-      maxCount: 20,
+      maxCount: 5,
     },
   ]),
   createHotel
@@ -32,7 +32,7 @@ router
   .route("/update-hotel-image/:id")
   .put(
     verifyAdminJwt,
-    upload.fields([{ name: "hotelimage", maxCount: 20 }]),
+    upload.fields([{ name: "hotelimage", maxCount: 5 }]),
     updateHotelImages
   );
 

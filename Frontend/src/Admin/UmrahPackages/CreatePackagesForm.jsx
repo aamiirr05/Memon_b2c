@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import umrahSchema from '../schema/UmrahSchema';
+import useCreateUmrahStore from '../store/Umrah/useCreateUmrahStore';
 
 const CreatePackagesForm = () => {
   const [previewData] = useState(() => {
@@ -19,32 +20,37 @@ const CreatePackagesForm = () => {
   const [groupDates, setGroupDate] = useState(
     previewData?.packageDetails.groupDates || ['']
   );
-  const [inclusion, setInclusion] = useState(
-    previewData?.packageDetails.inclusion || ['food', 'wifi']
-  );
-  const [exclusion, setExclusion] = useState(
-    previewData?.packageDetails.exclusion || ['']
-  );
-  const [bookingterms, setBookingTerms] = useState(
-    previewData?.packageDetails.bookingterms || ['']
-  );
-  const [cancelpolicy, setCancelPolicy] = useState(
-    previewData?.packageDetails.cancellationpolicy || ['']
-  );
-  const [termcondition, setTermCondition] = useState(
-    previewData?.packageDetails.termcondition || ['']
-  );
 
-  const [meccaItenaries, setMeccaItenaries] = useState(
-    previewData?.packageDetails.meccaitenaries || [
-      { day: 'Day 1', itenary: '' },
-    ]
-  );
-  const [madinaItenaries, setMadinaItenaries] = useState(
-    previewData?.packageDetails.madinaitenaries || [
-      { day: 'Day 1', itenary: '' },
-    ]
-  );
+  const {
+    inclusion,
+    setInclusion,
+    addInclusion,
+    removeInclusion,
+    exclusion,
+    setExclusion,
+    addExclusion,
+    removeExclusion,
+    bookingterms,
+    setBookingTerms,
+    removeBookingTerms,
+    addBookingTerms,
+    cancelpolicy,
+    setCancelPolicy,
+    addPolicy,
+    removePolicy,
+    termcondition,
+    setTermCondition,
+    addTermsCondition,
+    removeTermsCondition,
+    meccaitenaries,
+    setMeccaItenaries,
+    addMeccaItenaries,
+    removeMeccaItenaries,
+    madinaitenaries,
+    setMadinaItenaries,
+    removeMadinaItenaries,
+    addMadinaItenaries,
+  } = useCreateUmrahStore();
 
   // Is active and is featured states & functions
   const [isActive, setIsActive] = useState(
@@ -81,8 +87,8 @@ const CreatePackagesForm = () => {
       groupDates: groupDates,
       isactive: isActive,
       isfeatured: isFeatured,
-      meccaitenaries: meccaItenaries,
-      madinaitenaries: madinaItenaries,
+      meccaitenaries: meccaitenaries,
+      madinaitenaries: madinaitenaries,
       cancellationpolicy: cancelpolicy,
       bookingterms: bookingterms,
       termcondition: termcondition,
@@ -109,66 +115,24 @@ const CreatePackagesForm = () => {
 
   // Functions for handling itenaries
 
-  const addMeccaItenaries = () => {
-    const nextday = `Day ${meccaItenaries.length + 1}`;
-    setMeccaItenaries([...meccaItenaries, { day: nextday, itenary: '' }]);
-  };
-
-  const addMadinaItenaries = () => {
-    const nextday = `Day ${madinaItenaries.length + 1}`;
-    setMadinaItenaries([...madinaItenaries, { day: nextday, itenary: '' }]);
-  };
-
   const handleMeccaItenaries = (val, index) => {
-    const updatedItenaries = [...meccaItenaries];
+    const updatedItenaries = [...meccaitenaries];
     updatedItenaries[index].itenary = val;
     setMeccaItenaries(updatedItenaries);
   };
 
   const handleMadinaItenaries = (val, index) => {
-    const updatedItenaries = [...madinaItenaries];
+    const updatedItenaries = [...madinaitenaries];
     updatedItenaries[index].itenary = val;
     setMadinaItenaries(updatedItenaries);
   };
 
-  const removeMeccaItenaries = (index) => {
-    const updatedItenaries = meccaItenaries.filter((_, i) => i !== index);
-    const reassignedItenaries = updatedItenaries.map((itenary, i) => ({
-      ...itenary,
-      day: `Day ${i + 1}`,
-    }));
-
-    setMeccaItenaries(reassignedItenaries);
-  };
-
-  const removeMadinaItenaries = (index) => {
-    const updatedItenaries = madinaItenaries.filter((_, i) => i !== index);
-    const reassignedItenaries = updatedItenaries.map((itenary, i) => ({
-      ...itenary,
-      day: `Day ${i + 1}`,
-    }));
-
-    setMadinaItenaries(reassignedItenaries);
-  };
-
   // Functions for handling inclusions and exclusions
-
-  const addInclusion = () => {
-    setInclusion([...inclusion, '']);
-  };
 
   const handleInclusion = (val, index) => {
     const updatedInclusions = [...inclusion];
     updatedInclusions[index] = val;
     setInclusion(updatedInclusions);
-  };
-
-  const removeInclusion = (index) => {
-    const updatedInclusions = inclusion.filter((_, i) => i !== index);
-    setInclusion(updatedInclusions);
-  };
-  const addExclusion = () => {
-    setExclusion([...exclusion, '']);
   };
 
   const handleExclusion = (val, index) => {
@@ -177,16 +141,7 @@ const CreatePackagesForm = () => {
     setExclusion(updatedExclusions);
   };
 
-  const removeExclusion = (index) => {
-    const updatedExclusions = exclusion.filter((_, i) => i !== index);
-    setExclusion(updatedExclusions);
-  };
-
   //  Functions for booking terms
-
-  const addBookingTerms = () => {
-    setBookingTerms([...bookingterms, '']);
-  };
 
   const handleBookingTerms = (val, index) => {
     const updatedTerms = [...bookingterms];
@@ -194,19 +149,7 @@ const CreatePackagesForm = () => {
     setBookingTerms(updatedTerms);
   };
 
-  const removeBookingTerms = (index) => {
-    const updatedTerms = bookingterms.filter((_, i) => i !== index);
-    setBookingTerms(updatedTerms);
-  };
-
   // Functions for termcondition and cancellation policy
-
-  const addTermsCondition = () => {
-    setTermCondition([...termcondition, '']);
-  };
-  const addPolicy = () => {
-    setCancelPolicy([...cancelpolicy, '']);
-  };
 
   const handleTermsCondition = (val, index) => {
     const updatedTerms = [...termcondition];
@@ -220,20 +163,8 @@ const CreatePackagesForm = () => {
     setCancelPolicy(updatedPolicy);
   };
 
-  const removeTerms = (index) => {
-    const updatedTerms = termcondition.filter((_, i) => i !== index);
-    setTermCondition(updatedTerms);
-  };
-
-  const removePolicy = (index) => {
-    const updatedPolicy = cancelpolicy.filter((_, i) => i !== index);
-    setCancelPolicy(updatedPolicy);
-  };
-
   // Functions for form submission
   const onFormSubmit = (data) => {
-    console.log('Form submitted');
-    console.log(data);
     updatePackageData(data);
     navigate('/admin/umrahpackages/createpackage-images');
     reset();
@@ -444,7 +375,6 @@ const CreatePackagesForm = () => {
                 <input
                   type="date"
                   name=""
-                  value={date}
                   defaultValue={date}
                   onChange={(e) => handleDateChange(e.target.value, index)}
                   id="packagename"
@@ -745,7 +675,7 @@ const CreatePackagesForm = () => {
           Makkah Itenaries
         </label>
         <div className="w-full mt-16 md:mt-10 flex flex-col gap-10">
-          {meccaItenaries.map((val, index) => (
+          {meccaitenaries.map((val, index) => (
             <div
               className="relative flex flex-col md:flex-row gap-5 w-full"
               key={index}
@@ -789,7 +719,7 @@ const CreatePackagesForm = () => {
           Madina Itenaries
         </label>
         <div className="w-full mt-16 md:mt-10 flex flex-col gap-10">
-          {madinaItenaries.map((val, index) => (
+          {madinaitenaries.map((val, index) => (
             <div
               className="relative flex flex-col md:flex-row gap-5 w-full"
               key={index}
@@ -964,7 +894,7 @@ const CreatePackagesForm = () => {
                 {index === 0 ? null : (
                   <X
                     className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
-                    onClick={() => removeTerms(index)}
+                    onClick={() => removeTermsCondition(index)}
                   />
                 )}
               </div>

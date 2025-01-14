@@ -92,32 +92,6 @@ async function sendOtp(email, username) {
   }
 }
 
-// ******************* Verify OTP *****************
-
-async function verifyOtpFunc(email, inputOtp) {
-  if (!email || !inputOtp) {
-    throw new ApiError(400, "Email and Otp is required");
-  }
-
-  const record = await otpStorage.get(email);
-
-  if (!record) {
-    throw new ApiError(404, "No OTP request found for this email.");
-  }
-
-  const { otp: storedOtp, expiresAt } = record;
-
-  if (Date.now() > expiresAt) {
-    otpStorage.delete(email);
-    throw new ApiError(400, "OTP expired");
-  }
-
-  if (storedOtp !== parseInt(inputOtp, 10)) {
-    throw new ApiError(400, "Invalid OTP");
-  }
-  otpStorage.delete(email);
-}
-
 // ********** Helper function to safely parse JSON **********
 
 const safeParseJSON = (data) => {
@@ -174,10 +148,9 @@ const safeParseJSON = (data) => {
 
 // ********** Helper function to safely convert to a number **********
 
-const safeConvertToNumber = (value, defaultValue = 0) => {
+const safeConvertToNumber = (value) => {
   try {
     const num = Number(value);
-    console.log(num);
 
     if (isNaN(num)) {
       throw new Error("Invalid number");
@@ -297,7 +270,6 @@ const deleteTempFiles = () => {
 
   try {
     if (!fs.existsSync(directoryPath)) {
-      console.log("Directory does not exist:", directoryPath);
       return;
     }
 
@@ -315,11 +287,6 @@ const deleteTempFiles = () => {
         console.log(`Deleted file: ${filePath}`);
       }
     }
-
-    console.log(
-      "All files have been deleted from the directory:",
-      directoryPath
-    );
   } catch (error) {
     console.error("Error deleting files:", error.message);
   }
@@ -344,7 +311,7 @@ const uploadImages = async (imageCategory, imagePaths) => {
         );
       }
 
-      uploadedImages.push({
+      uploadedImages?.push({
         public_id: uploadedImage.public_id,
         secure_url: uploadedImage.secure_url,
       });
@@ -371,8 +338,9 @@ const uploadImages = async (imageCategory, imagePaths) => {
 export {
   transporter,
   generateOTP,
+  storeOTP,
+  otpStorage,
   sendOtp,
-  verifyOtpFunc,
   safeParseJSON,
   safeConvertToNumber,
   generateAccessTokenForUser,

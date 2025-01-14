@@ -10,10 +10,12 @@ import { verifyAdminJwt } from "../middlewares/admin.auth.middleware.js";
 
 const router = Router();
 
+// *************************** AUTH ROUTES **********************************
+
 router.route("/signup").post(registerAdmin);
 router.route("/login").post(loginAdmin);
 
-// ******** Protected Routes ********
+// ************************** PROTECTED ROUTES *******************************
 
 router.route("/logout").post(verifyAdminJwt, logoutAdmin);
 router.route("/refresh-token").post(verifyAdminJwt, refreshToken);
