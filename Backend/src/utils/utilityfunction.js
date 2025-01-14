@@ -92,32 +92,6 @@ async function sendOtp(email, username) {
   }
 }
 
-// ******************* Verify OTP *****************
-
-async function verifyOtpFunc(email, inputOtp) {
-  if (!email || !inputOtp) {
-    throw new ApiError(400, "Email and Otp is required");
-  }
-
-  const record = await otpStorage.get(email);
-
-  if (!record) {
-    throw new ApiError(404, "No OTP request found for this email.");
-  }
-
-  const { otp: storedOtp, expiresAt } = record;
-
-  if (Date.now() > expiresAt) {
-    otpStorage.delete(email);
-    throw new ApiError(400, "OTP expired");
-  }
-
-  if (storedOtp !== parseInt(inputOtp, 10)) {
-    throw new ApiError(400, "Invalid OTP");
-  }
-  otpStorage.delete(email);
-}
-
 // ********** Helper function to safely parse JSON **********
 
 const safeParseJSON = (data) => {
@@ -371,8 +345,9 @@ const uploadImages = async (imageCategory, imagePaths) => {
 export {
   transporter,
   generateOTP,
+  storeOTP,
+  otpStorage,
   sendOtp,
-  verifyOtpFunc,
   safeParseJSON,
   safeConvertToNumber,
   generateAccessTokenForUser,

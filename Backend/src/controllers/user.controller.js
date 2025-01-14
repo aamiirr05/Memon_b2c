@@ -8,9 +8,10 @@ import {
 } from "../validator/user.validator.js";
 import {
   transporter,
-  sendOtp,
-  verifyOtpFunc,
   generateOTP,
+  storeOTP,
+  otpStorage,
+  sendOtp,
   safeConvertToNumber,
   generateAccessTokenForUser,
   generateRefreshTokenForUser,
@@ -299,7 +300,27 @@ const resendOtp = asyncHandler(async (req, res) => {
 const verifyOtp = asyncHandler(async (req, res) => {
   let { email, inputOtp } = req.body;
 
-  await verifyOtpFunc(email, inputOtp);
+  if (!email || !inputOtp) {
+    throw new ApiError(400, "Email and Otp is required");
+  }
+
+  const record = await otpStorage.get(email);
+
+  if (!record) {
+    throw new ApiError(404, "No OTP request found for this email.");
+  }
+
+  const { otp: storedOtp, expiresAt } = record;
+
+  if (Date.now() > expiresAt) {
+    otpStorage.delete(email);
+    throw new ApiError(400, "OTP expired");
+  }
+
+  if (storedOtp !== parseInt(inputOtp, 10)) {
+    throw new ApiError(400, "Invalid OTP");
+  }
+  otpStorage.delete(email);
 
   const updatedUser = await prisma.user.update({
     where: { email },
