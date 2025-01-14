@@ -65,7 +65,7 @@ const ForexInquiryForm = () => {
           />
           <div className="text-darkgreen px-4">
             <h3 className="font-bold text-center text-xl">
-              Simlify Your Hajj & Umrah Payments
+              Simplify Your Hajj & Umrah Payments
             </h3>
             <p className="max-w-md text-center tracking-tight leading-tight mt-2 mb-4">
               Exchange currencies effortlessly for your Hajj or Umrah journey.
