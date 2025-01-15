@@ -7,11 +7,6 @@ import useFetchPackages from '../hooks/UseFetchPackages';
 import useUmrahStore from '../store/Umrah/UseUmrahStore';
 
 const UmrahPackages = () => {
-  // const [getUmrahpackages, setUmrahPackages] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [isChildLoading, setIsChildLoading] = useState(false);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
   const { updateid } = useParams();
   const {
     umrahPackages,
@@ -22,12 +17,11 @@ const UmrahPackages = () => {
     setLoading,
     setIsChildLoading,
     setIsModalOpen,
-    refreshPackages,
   } = useUmrahStore();
 
   const location = useLocation();
 
-  const getPackages = useFetchPackages('/packages/fetch-umrah-packages');
+  const getPackages = useFetchPackages('/admin/packages/fetch-umrah-packages');
 
   useEffect(() => {
     if (getPackages.data) {
@@ -82,7 +76,7 @@ const UmrahPackages = () => {
                 <PackageCards
                   data={i}
                   key={i.package_id}
-                  refreshPackages={() => refreshPackages(getPackages.refresh)}
+                  refreshPackages={getPackages.refresh}
                   isChildLoading={isChildLoading}
                   setIsChildLoading={setIsChildLoading}
                   isModalOpen={isModalOpen}

@@ -410,7 +410,6 @@ const PackageCards = ({
   setIsModalOpen,
 }) => {
   const [selectedPackage, setSelectedPackage] = useState(null);
-  const [isloading, setIsLoading] = useState(false);
   const deletePackage = async (id) => {
     const toastId = toast.loading(
       'Deleting package. This may take some time...',
@@ -425,9 +424,8 @@ const PackageCards = ({
     );
     try {
       setIsChildLoading(true);
-      setIsLoading(true);
       const res = await axiosInstance.delete(
-        `/packages/delete-umrah-package/${id}`
+        `/admin/packages/delete-umrah-package/${id}`
       );
       console.log(res);
       toast.dismiss(toastId);
@@ -440,7 +438,6 @@ const PackageCards = ({
       const errmsg = error.response.data.message;
       toast.error(errmsg);
     } finally {
-      setIsLoading(false);
       setIsChildLoading(false);
     }
   };

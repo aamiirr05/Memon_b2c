@@ -108,7 +108,7 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES, loading }) => {
   );
 };
 const UpdateUmrahPackImgs = () => {
-  const { umrahPackage } = useOutletContext();
+  const { umrahPackage, refreshPackages } = useOutletContext();
   const [packageImages, setPackageImages] = useState([]);
   const [prevImages, setPrevImages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -141,14 +141,16 @@ const UpdateUmrahPackImgs = () => {
       });
 
       const res = await axiosInstance.put(
-        `/packages/update-umrah-package-image/${updateid}`,
+        `/admin/packages/update-umrah-package-image/${updateid}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
       console.log(res);
+      refreshPackages();
       toast.success('Package updated successfully!');
+      reset();
     } catch (error) {
       console.error(error);
       const errMsg = error?.response?.data.message || 'An error occurred.';

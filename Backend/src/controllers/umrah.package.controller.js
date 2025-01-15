@@ -606,8 +606,8 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   let packageImagePath = [];
 
   if (
-    !req.files?.packageimage &&
-    !Array.isArray(req.files?.packageimage) &&
+    req.files?.packageimage &&
+    Array.isArray(req.files?.packageimage) &&
     req.files?.packageimage.length < 3
   ) {
     deleteTempFiles();

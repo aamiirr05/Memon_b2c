@@ -113,7 +113,7 @@ const ForexInquiryForm = () => {
                 Salutation
               </label>
               <p
-                className={`text-red-400 text-sm  min-h-[1rem] mt-1 ${
+                className={`text-red-400 text-sm  min-h-[1rem] mt-1 mb-3 mb-3 ${
                   errors.salutation ? 'visible' : 'invisible'
                 } `}
               >
@@ -136,7 +136,7 @@ const ForexInquiryForm = () => {
                 Firstname
               </label>
               <p
-                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 mb-3 ${
                   errors.firstname ? 'visible' : 'invisible'
                 } min-h-[1rem]`}
               >
@@ -157,7 +157,7 @@ const ForexInquiryForm = () => {
                 Lastname
               </label>
               <p
-                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 mb-3 ${
                   errors.lastname ? 'visible' : 'invisible'
                 } min-h-[1rem]`}
               >
@@ -180,7 +180,7 @@ const ForexInquiryForm = () => {
                 Email
               </label>
               <p
-                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 mb-3 ${
                   errors.email ? 'visible' : 'invisible'
                 } min-h-[1rem]`}
               >
@@ -201,7 +201,7 @@ const ForexInquiryForm = () => {
                 Contact
               </label>
               <p
-                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 mb-3 ${
                   errors.contact ? 'visible' : 'invisible'
                 } min-h-[1rem]`}
               >
@@ -224,7 +224,7 @@ const ForexInquiryForm = () => {
                 Amount Required
               </label>
               <p
-                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 mb-3 ${
                   errors.amountrequired ? 'visible' : 'invisible'
                 } min-h-[1rem]`}
               >
@@ -245,7 +245,7 @@ const ForexInquiryForm = () => {
                 Country
               </label>
               <p
-                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 mb-3 ${
                   errors.country ? 'visible' : 'invisible'
                 } min-h-[1rem]`}
               >
@@ -268,7 +268,7 @@ const ForexInquiryForm = () => {
                 Address
               </label>
               <p
-                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 mb-3 ${
                   errors.address ? 'visible' : 'invisible'
                 } min-h-[1rem]`}
               >

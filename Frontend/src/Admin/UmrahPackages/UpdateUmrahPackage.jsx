@@ -1,23 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink, Outlet, useOutletContext, useParams } from 'react-router-dom';
 import useFetchPackages from '../hooks/UseFetchPackages';
 import Loader from '../../components/Loader';
+import useUmrahStore from '../store/Umrah/UseUmrahStore';
 
 const UpdateUmrahPackage = () => {
-  const [getAllPackages, setAllPackages] = useState([]);
+  // const [getAllPackages, setAllPackages] = useState([]);
+  const { umrahPackages } = useUmrahStore();
+
   const getUmrahPackages = useFetchPackages('/packages/fetch-umrah-packages');
   const { updateid } = useParams();
   const { refreshPackages } = useOutletContext();
 
   useEffect(() => {
     if (getUmrahPackages.data) {
-      setAllPackages(getUmrahPackages.data.data);
+      // setAllPackages(getUmrahPackages.data.data);
     }
   }, [getUmrahPackages.data]);
 
   console.log(getUmrahPackages);
 
-  const umrahPackage = getAllPackages.find(
+  const umrahPackage = umrahPackages.find(
     (item) => item.package_id === updateid
   );
 

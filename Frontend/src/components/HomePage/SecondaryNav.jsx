@@ -36,8 +36,8 @@ const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <div className="flex flex-row group ">
-              <div className="link-hover-peach group-hover:opacity-100">
+            <div className="flex items-center justify-center flex-row group ">
+              <div className="cursor-pointer group-hover:opacity-100">
                 Umrah Packages
               </div>
               <ChevronRight
@@ -45,8 +45,8 @@ const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 pt-1"
               />
             </div>
-            <div className="flex flex-row group ">
-              <div className="link-hover-peach group-hover:opacity-100">
+            <div className="flex items-center justify-center flex-row group ">
+              <div className="cursor-pointer group-hover:opacity-100">
                 Ramadan Packages
               </div>
               <ChevronRight
@@ -54,8 +54,8 @@ const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 pt-1"
               />
             </div>
-            <div className="flex flex-row group ">
-              <div className="link-hover-peach group-hover:opacity-100">
+            <div className="flex justify-center items-center flex-row group ">
+              <div className="cursor-pointer group-hover:opacity-100">
                 Customized Packages
               </div>
               <ChevronRight

@@ -110,9 +110,6 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES, loading }) => {
 };
 
 const CreatePackageImgs = () => {
-  // Context States
-  const { packageData, setPackageData, updatePackageImages } =
-    useContext(AuthContext);
   const {
     // register,
     handleSubmit,
@@ -272,7 +269,7 @@ const CreatePackageImgs = () => {
     try {
       setLoading(true);
       const res = await axiosInstance.post(
-        '/packages/create-umrah-package',
+        '/admin/packages/create-umrah-package',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -287,9 +284,7 @@ const CreatePackageImgs = () => {
       toast.success(resMsg, { autoClose: 5000 });
       navigate(`/admin/umrahpackages/createpackage-preview/${extractedId}`);
     } catch (error) {
-      const errorMsg =
-        error.response?.data.message ||
-        'Something went wrong. Please try again.';
+      const errorMsg = error.response?.data.message;
       toast.dismiss(toastId);
       toast.error(errorMsg, { autoClose: 5000 });
     } finally {
@@ -313,17 +308,17 @@ const CreatePackageImgs = () => {
       <Dropzone
         images={meccaHotelImages}
         setImages={setMeccaHotelImages}
-        label="Mecca Hotel Images (8)"
+        label="Mecca Hotel Images (5)"
         error={errors.meccaHotelImages}
-        MAX_FILES={8}
+        MAX_FILES={5}
         loading={loading}
       />
       <Dropzone
         images={medinaHotelImages}
         setImages={setMedinaHotelImages}
-        label="Medina Hotel Images (8)"
+        label="Medina Hotel Images (5)"
         error={errors.medinaHotelImages}
-        MAX_FILES={8}
+        MAX_FILES={5}
         loading={loading}
       />
 
