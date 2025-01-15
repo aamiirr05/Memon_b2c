@@ -379,6 +379,155 @@ const deleteContactEnquiry = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "Enquiry Deleted Sucessfully"));
 });
 
+/* ***************************************************************************************************************
+                                        ALL CUSTOMIZED PACKAGE ENQUIRY ROUTES
+   ****************************************************************************************************************/
+
+// ****************** Get All Customized Package Enquiries ******************
+
+const getAllCustomizedPackageEnquiries = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const allCustomizedPackageEnquiry = await prisma.customizedPackage.findMany();
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        allCustomizedPackageEnquiry,
+        `${allCustomizedPackageEnquiry.length} Customized Package Enquiry Fetched Successfully`
+      )
+    );
+});
+
+// *************** Update Enquiry ***************
+
+const updateCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const enquiryId = req.params.id;
+  console.log(enquiryId);
+
+  const existingEnquiry = await prisma.customizedPackage.findUnique({
+    where: { custom_package_id: enquiryId },
+  });
+
+  if (!existingEnquiry) {
+    throw new ApiError(404, "No Enquiry Found");
+  }
+
+  const { status } = req.body;
+
+  const validStatuses = ["pending", "rejected", "approved"];
+
+  if (!status || !validStatuses.includes(status?.toLowerCase())) {
+    throw new ApiError(
+      400,
+      "Invalid or missing status. Allowed values are: Pending, Rejected, Approved."
+    );
+  }
+
+  const updatedEnquiry = await prisma.customizedPackage.update({
+    where: { custom_package_id: enquiryId },
+    data: { status: status },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedEnquiry, "Status Updated Sucessfully"));
+});
+
+// *************** Delete Enquiry ***************
+
+const deleteCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const enquiryId = req.params.id;
+
+  const existingEnquiry = await prisma.customizedPackage.findUnique({
+    where: { custom_package_id: enquiryId },
+  });
+
+  if (!existingEnquiry) {
+    throw new ApiError(404, "No Enquiry Found");
+  }
+
+  await prisma.customizedPackage.delete({
+    where: { custom_package_id: enquiryId },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Enquiry Deleted Sucessfully"));
+});
+
+/* ***************************************************************************************************************
+                                        ALL TESTIMONIAL ROUTES
+   ****************************************************************************************************************/
+
+// ****************** Get All Testimonial ******************
+
+const getAllTestimonials = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const allTestimonials = await prisma.testimonial.findMany();
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        allTestimonials,
+        `${allTestimonials.length} Testimonials Fetched Successfully`
+      )
+    );
+});
+
+// *************** Delete Testimonial ***************
+
+const deleteTestimonial = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const testimonialId = req.params.id;
+
+  const existingTestimonial = await prisma.testimonial.findUnique({
+    where: { testimonial_id: testimonialId },
+  });
+
+  if (!existingTestimonial) {
+    throw new ApiError(404, "No Testimonial Found");
+  }
+
+  await prisma.testimonial.delete({
+    where: { testimonial_id: testimonialId },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Testimonial Deleted Sucessfully"));
+});
+
 // *************** Export Controller ***************
 
 export {
@@ -394,4 +543,9 @@ export {
   getAllContactEnquiries,
   updateContactEnquiry,
   deleteContactEnquiry,
+  getAllCustomizedPackageEnquiries,
+  updateCustomizedPackageEnquiry,
+  deleteCustomizedPackageEnquiry,
+  getAllTestimonials,
+  deleteTestimonial,
 };

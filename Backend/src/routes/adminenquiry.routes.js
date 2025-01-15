@@ -2,14 +2,19 @@ import { Router } from "express";
 import { verifyAdminJwt } from "../middlewares/admin.auth.middleware.js";
 import {
   deleteContactEnquiry,
+  deleteCustomizedPackageEnquiry,
   deleteForexEnquiry,
+  deleteTestimonial,
   deleteUmrahEnquiry,
   deleteVisaEnquiry,
   getAllContactEnquiries,
+  getAllCustomizedPackageEnquiries,
   getAllForexEnquiries,
+  getAllTestimonials,
   getAllUmrahEnquiries,
   getAllVisaEnquiries,
   updateContactEnquiry,
+  updateCustomizedPackageEnquiry,
   updateForexEnquiry,
   updateUmrahEnquiry,
   updateVisaEnquiry,
@@ -70,5 +75,27 @@ router
 router
   .route("/delete-contact-enquiry/:id")
   .delete(verifyAdminJwt, deleteContactEnquiry);
+
+// ********************************** CUSTOMIZED PACKAGE ENQUIRY ROUTES ******************************************
+
+router
+  .route("/fetch-custom-package-enquiries")
+  .get(verifyAdminJwt, getAllCustomizedPackageEnquiries);
+
+router
+  .route("/update-custom-package-enquiry/:id")
+  .post(verifyAdminJwt, updateCustomizedPackageEnquiry);
+
+router
+  .route("/delete-custom-package-enquiry/:id")
+  .delete(verifyAdminJwt, deleteCustomizedPackageEnquiry);
+
+// ********************************** TESTIMONIAL ROUTES *****************************************
+
+router.route("/fetch-testimonials").get(verifyAdminJwt, getAllTestimonials);
+
+router
+  .route("/delete-testimonial/:id")
+  .delete(verifyAdminJwt, deleteTestimonial);
 
 export default router;
