@@ -34,6 +34,7 @@ import UpdateUmrahMadinaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMadin
 import { useEffect } from 'react';
 import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
+import PackagesPage from './pages/PackagesPage';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -49,8 +50,10 @@ const App = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<Signup />} />
         <Route path="verify" element={<OtpPage />} />
-
         <Route path="/forex" element={<ForexPage />} />
+
+        {/* Protected Route */}
+        <Route path="/packages" element={<PackagesPage />} />
 
         {/* Admin Routes */}
         <Route path="admin-login" element={<AdminLogin />} />

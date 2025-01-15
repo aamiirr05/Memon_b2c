@@ -91,6 +91,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: normalizedEmail,
       contact,
       password: hashedPassword,
+      is_verified: false,
     },
     select: {
       registration_id: true,
