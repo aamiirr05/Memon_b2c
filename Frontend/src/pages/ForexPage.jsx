@@ -20,9 +20,8 @@ const schema = yup.object().shape({
     .matches(/^\d+$/, 'Contact must be a number')
     .required('Contact is required'),
   amountrequired: yup
-    .number()
+    .string()
     .typeError('Amount required must be a number')
-    .positive('Amount required must be positive')
     .required('Amount required is required'),
   country: yup.string().required('Country is required'),
   address: yup.string().required('Address is required'),
@@ -65,10 +64,10 @@ const ForexInquiryForm = () => {
           />
           <div className="text-darkgreen px-4">
             <h3 className="font-bold text-center text-xl">
-              Simlify Your Hajj & Umrah Payments
+            Holidays Made Easy: Best Forex Deals for Your Travel
             </h3>
             <p className="max-w-md text-center tracking-tight leading-tight mt-2 mb-4">
-              Exchange currencies effortlessly for your Hajj or Umrah journey.
+              Effortlessly exchange currencies for your holiday journey.
               Complete the form <span className="lg:hidden">below</span>
               <span className="hidden lg:inline">on the right</span> to get the
               best forex rates and a seamless payment experience.
@@ -84,7 +83,7 @@ const ForexInquiryForm = () => {
         </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full sm:w-fit px-4 sm:px-0 flex flex-col gap-6 mb-12"
+          className="w-full sm:w-fit px-4 sm:px-0 flex flex-col gap-2 mb-4"
         >
           <div className="grid sm:grid-cols-2 gap-4 ">
             <div id="input" className="relative">
@@ -93,10 +92,18 @@ const ForexInquiryForm = () => {
                 id="salutation"
                 className="block w-full text-sm h-[50px] px-4 text-peach bg-darkgreen rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
               >
-                <option value="">Select Salutation</option>
-                <option value="Mr">Mr</option>
-                <option value="Mrs">Mrs</option>
-                <option value="Ms">Ms</option>
+                <option value="" className="text-peach/60">
+                  Select Salutation
+                </option>
+                <option value="Mr " className="text-peach">
+                  Mr
+                </option>
+                <option value="Mrs" className="text-peach">
+                  Mrs
+                </option>
+                <option value="Ms" className="text-peach">
+                  Ms
+                </option>
               </select>
               <label
                 htmlFor="salutation"
@@ -105,7 +112,11 @@ const ForexInquiryForm = () => {
               >
                 Salutation
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm  min-h-[1rem] mt-1 ${
+                  errors.salutation ? 'visible' : 'invisible'
+                } `}
+              >
                 {errors.salutation?.message}
               </p>
             </div>
@@ -124,7 +135,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="firstname" className="forex-input-labels">
                 Firstname
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.firstname ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.firstname?.message}
               </p>
             </div>
@@ -141,7 +156,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="lastname" className="forex-input-labels">
                 Lastname
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.lastname ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.lastname?.message}
               </p>
             </div>
@@ -160,7 +179,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="email" className="forex-input-labels">
                 Email
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.email ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.email?.message}
               </p>
             </div>
@@ -177,7 +200,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="contact" className="forex-input-labels">
                 Contact
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.contact ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.contact?.message}
               </p>
             </div>
@@ -196,7 +223,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="amountrequired" className="forex-input-labels">
                 Amount Required
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.amountrequired ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.amountrequired?.message}
               </p>
             </div>
@@ -213,14 +244,18 @@ const ForexInquiryForm = () => {
               <label htmlFor="country" className="forex-input-labels">
                 Country
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.country ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.country?.message}
               </p>
             </div>
           </div>
 
           <div className="">
-            {/* Country */}
+            {/* Address */}
             <div id="input" className="relative">
               <input
                 type="text"
@@ -232,7 +267,11 @@ const ForexInquiryForm = () => {
               <label htmlFor="country" className="forex-input-labels">
                 Address
               </label>
-              <p className="text-red-400 text-sm mt-1">
+              <p
+                className={`text-red-400 text-sm min-h-[1rem] mt-1 ${
+                  errors.address ? 'visible' : 'invisible'
+                } min-h-[1rem]`}
+              >
                 {errors.address?.message}
               </p>
             </div>

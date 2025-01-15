@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 
+import { ChevronRight } from 'lucide-react';
 import logoname from '../../assets/img/logoname.png';
 import logo from '../../assets/img/logo.png';
 import { Link } from 'react-router-dom';
@@ -35,9 +36,33 @@ const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <div className="link-hover-peach">Umrah Packages</div>
-            <div className="link-hover-peach">Ramadan Packages</div>
-            <div className="link-hover-peach">Customized Umrah</div>
+            <div className="flex flex-row group ">
+              <div className="link-hover-peach group-hover:opacity-100">
+                Umrah Packages
+              </div>
+              <ChevronRight
+                size={22}
+                className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 pt-1"
+              />
+            </div>
+            <div className="flex flex-row group ">
+              <div className="link-hover-peach group-hover:opacity-100">
+                Ramadan Packages
+              </div>
+              <ChevronRight
+                size={22}
+                className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 pt-1"
+              />
+            </div>
+            <div className="flex flex-row group ">
+              <div className="link-hover-peach group-hover:opacity-100">
+                Customized Packages
+              </div>
+              <ChevronRight
+                size={22}
+                className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 pt-1"
+              />
+            </div>
           </div>
           <Link to="/hajj-2025" className="link-hover-green">
             Hajj 2025

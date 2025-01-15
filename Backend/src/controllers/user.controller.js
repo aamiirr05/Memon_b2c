@@ -550,6 +550,8 @@ const enquiryForex = asyncHandler(async (req, res) => {
     address,
   } = req.body;
 
+  console.log(req.body);
+
   if (
     [
       salutation,
@@ -560,7 +562,7 @@ const enquiryForex = asyncHandler(async (req, res) => {
       amountrequired,
       country,
       address,
-    ].some((field) => !field || field.trim() === "")
+    ].some((field) => !field || field?.trim() === "")
   ) {
     throw new ApiError(400, "All fields must be filled");
   }
