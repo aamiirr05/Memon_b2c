@@ -64,7 +64,7 @@ const ForexInquiryForm = () => {
           />
           <div className="text-darkgreen px-4">
             <h3 className="font-bold text-center text-xl">
-            Holidays Made Easy: Best Forex Deals for Your Travel
+              Holidays Made Easy: Best Forex Deals for Your Travel
             </h3>
             <p className="max-w-md text-center tracking-tight leading-tight mt-2 mb-4">
               Effortlessly exchange currencies for your holiday journey.
@@ -264,7 +264,7 @@ const ForexInquiryForm = () => {
                 className="forex-input-fields peer"
                 placeholder=" "
               />
-              <label htmlFor="country" className="forex-input-labels">
+              <label htmlFor="address" className="forex-input-labels">
                 Address
               </label>
               <p
