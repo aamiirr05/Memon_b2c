@@ -20,7 +20,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     if (fs.existsSync(localFilePath)) {
       fs.unlinkSync(localFilePath);
     }
-    console.log("Image deleted From Cloudinary", response.url);
+    console.log("Image uploaded on Cloudinary", response.url);
 
     return response;
   } catch (error) {

@@ -282,9 +282,13 @@ const deleteTempFiles = () => {
         continue;
       }
 
-      if (fs.lstatSync(filePath).isFile()) {
-        fs.unlinkSync(filePath); // Delete the file
-        console.log(`Deleted file: ${filePath}`);
+      try {
+        if (fs.lstatSync(filePath).isFile()) {
+          fs.unlinkSync(filePath); // Delete the file
+          console.log(`Deleted file: ${filePath}`);
+        }
+      } catch (error) {
+        console.error(`Error deleting file: ${filePath}`, err.message);
       }
     }
   } catch (error) {
@@ -305,7 +309,7 @@ const uploadImages = async (imageCategory, imagePaths) => {
       const uploadedImage = await uploadOnCloudinary(image);
 
       if (uploadedImage?.error) {
-        if (uploadedImages > 0) {
+        if (uploadedImages.length > 0) {
           await Promise.all(
             uploadedImages.map((img) =>
               deleteImageFromCloudinary(img.public_id)
@@ -331,12 +335,12 @@ const uploadImages = async (imageCategory, imagePaths) => {
       );
     }
 
-    deleteTempFiles();
-
     throw new ApiError(
       500,
       `Error While Uploading Images: ${error.message || error}`
     );
+  } finally {
+    deleteTempFiles();
   }
 };
 
