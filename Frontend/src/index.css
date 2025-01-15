@@ -112,7 +112,7 @@
 
 /* Style the scrollbar thumb (scroll handle) */
 ::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-darkgreen;
+  @apply bg-darkgreen;
 }
 
 /* Hover effect for the thumb */
