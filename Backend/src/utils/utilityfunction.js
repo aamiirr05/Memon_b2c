@@ -305,6 +305,13 @@ const uploadImages = async (imageCategory, imagePaths) => {
       const uploadedImage = await uploadOnCloudinary(image);
 
       if (uploadedImage?.error) {
+        if (uploadedImages > 0) {
+          await Promise.all(
+            uploadedImages.map((img) =>
+              deleteImageFromCloudinary(img.public_id)
+            )
+          );
+        }
         throw new ApiError(
           500,
           `Error While Uploading Image: ${image} - ${uploadedImage.error}`

@@ -177,9 +177,69 @@ function userVisaEnquiryValidation(data) {
   return error ? error.details : null;
 }
 
+// ****** Customized Package Form Validation ******
+
+function customizedPackageValidation(data) {
+  const packageSchema = Joi.object({
+    firstname: Joi.string().max(50).required().messages({
+      "string.max": '"first_name" cannot exceed 50 characters',
+      "any.required": '"first_name" is required',
+    }),
+    lastname: Joi.string().max(50).required().messages({
+      "string.max": '"last_name" cannot exceed 50 characters',
+      "any.required": '"last_name" is required',
+    }),
+    email: Joi.string().email().required().messages({
+      "string.email": '"email" must be a valid email address',
+      "any.required": '"email" is required',
+    }),
+    contact: Joi.string()
+      .pattern(/^[0-9]{10,15}$/)
+      .required()
+      .messages({
+        "string.pattern.base": '"contact" must be a 10-15 digit number',
+        "any.required": '"contact" is required',
+      }),
+    bookingtype: Joi.string().max(50).required().messages({
+      "string.max": '"booking_type" cannot exceed 50 characters',
+      "any.required": '"booking_type" is required',
+    }),
+    travelclass: Joi.string().max(50).required().messages({
+      "string.max": '"travel_class" cannot exceed 50 characters',
+      "any.required": '"travel_class" is required',
+    }),
+    makkahhotelname: Joi.string().max(100).optional().messages({
+      "string.max": '"makkah_hotel_name" cannot exceed 100 characters',
+    }),
+    medinahotelname: Joi.string().max(100).optional().messages({
+      "string.max": '"medina_hotel_name" cannot exceed 100 characters',
+    }),
+    roomtype: Joi.string().max(50).optional().messages({
+      "string.max": '"room_type" cannot exceed 50 characters',
+    }),
+    adults: Joi.number().integer().min(1).required().messages({
+      "number.base": '"adults" must be a number',
+      "number.integer": '"adults" must be an integer',
+      "number.min": '"adults" must be at least 1',
+      "any.required": '"adults" is required',
+    }),
+    kids: Joi.number().integer().min(0).optional().messages({
+      "number.base": '"kids" must be a number',
+      "number.integer": '"kids" must be an integer',
+    }),
+    additionalinfo: Joi.string().max(300).optional().messages({
+      "string.max": '"additional_info" cannot exceed 300 characters',
+    }),
+  });
+
+  let { error } = packageSchema.validate(data);
+  return error ? error.details : null;
+}
+
 export {
   userContactEnquiryValidation,
   userForexEnquiryValidation,
   userUmrahEnquiryValidation,
   userVisaEnquiryValidation,
+  customizedPackageValidation,
 };
