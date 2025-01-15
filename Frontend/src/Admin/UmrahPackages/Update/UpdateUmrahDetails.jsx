@@ -19,8 +19,6 @@ const UpdateUmrahDetails = () => {
   console.log(refreshPackages);
   const { updateid } = useParams();
 
-  console.log(umrahPackage);
-
   const [groupDates, setGroupDate] = useState(
     umrahPackage?.group_dates || ['']
   );
@@ -36,8 +34,6 @@ const UpdateUmrahDetails = () => {
   // Is active and is featured states & functions
   const [isActive, setIsActive] = useState(true);
   const [isFeatured, setIsFeatured] = useState(false);
-
-  console.log(typeof isActive, typeof isFeatured);
 
   // useForm
 

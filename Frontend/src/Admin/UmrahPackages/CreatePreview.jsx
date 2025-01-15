@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { ChevronDown } from 'lucide-react';
-import { useContext, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 import {
   NavLink,
@@ -20,10 +18,9 @@ const CreatePreview = () => {
   console.log(previewData);
 
   const { refreshPackages } = useOutletContext();
+  console.log(refreshPackages);
   const { id } = useParams();
   console.log(id);
-
-  const { handleSubmit, control } = useForm();
   const [groupDates] = useState(previewData?.packageDetails.groupDates);
   const [inclusion] = useState(previewData?.packageDetails.inclusion);
   const [exclusion] = useState(previewData?.packageDetails.exclusion);
@@ -32,8 +29,7 @@ const CreatePreview = () => {
     previewData?.packageDetails.cancellationpolicy
   );
   const [termcondition] = useState(previewData?.packageDetails.termcondition);
-  const [meccahotel, setMeccaHotel] = useState(false);
-  const [madinahotel, setMadinaHotel] = useState(false);
+
   const [meccaItenaries] = useState(previewData?.packageDetails.meccaitenaries);
   const [madinaItenaries, setMadinaItenaries] = useState(
     previewData?.packageDetails.madinaitenaries
@@ -46,19 +42,8 @@ const CreatePreview = () => {
   // navigate
   const navigate = useNavigate();
 
-  // Functions for form submission
-  const onFormSubmit = (data) => {
-    console.log('Form submitted');
-    console.log(data);
-    navigate('/admin/umrahpackages/createpackage-images');
-  };
-
   return (
-    <form
-      action=""
-      className="w-full h-full"
-      onSubmit={handleSubmit(onFormSubmit)}
-    >
+    <form action="" className="w-full h-full">
       {/* Section One */}
       <div className="w-full bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
         <div className="flex flex-col gap-5 md:flex-row items-center w-full">
@@ -660,6 +645,7 @@ const CreatePreview = () => {
           onClick={() => {
             localStorage.removeItem('packagedetails');
             localStorage.removeItem('packageimage');
+            refreshPackages();
           }}
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >

@@ -3,12 +3,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useContext, useState } from 'react';
-import axiosInstance from '../../lib/axios';
-import toast from 'react-hot-toast';
-import Cookies from 'js-cookie';
-import { AuthContext } from '../context';
-import { jwtDecode } from 'jwt-decode';
+import { useState } from 'react';
+
+import useAdminAuthStore from '../store/useAdminAuthStore';
 
 const schema = yup
   .object({
@@ -28,70 +25,20 @@ const schema = yup
 const AdminLogin = () => {
   const navigate = useNavigate();
   const [isPassVisible, setIsPassVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const {
-    setIsAdminLoggedIn,
-    isAdminLoggedIn,
-    setAccessToken,
-    setRefreshToken,
-  } = useContext(AuthContext);
 
-  const handleSuccess = (val) => {
-    toast.success(val, {
-      duration: 4000,
-    });
-  };
-  const handleError = (val) => {
-    toast.error(val, {
-      duration: 4000,
-    });
-  };
-
+  const { login, isAdminLoggingIn, AuthAdmin } = useAdminAuthStore();
+  console.log(AuthAdmin);
   const {
     register,
     handleSubmit,
 
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data) => {
-    try {
-      setIsLoading(true);
-      setIsAdminLoggedIn(true);
-      const res = await axiosInstance.post('/admin/login', {
-        email: data.email,
-        password: data.password,
-      });
-
-      const successmsg = res.data.message;
-      handleSuccess(successmsg);
-      console.log(res);
-
-      const accesstoken = Cookies.get('accessToken');
-      setAccessToken(accesstoken);
-      const refreshtoken = Cookies.get('refreshToken');
-      setRefreshToken(refreshtoken);
-
-      const decodedToken = jwtDecode(accesstoken);
-      console.log(decodedToken);
-
-      setIsAdminLoggedIn(decodedToken.isAdmin);
-
-      navigate('/admin/enquiry');
-      localStorage.setItem('isAdminLoggedIn', isAdminLoggedIn || true);
-
-      reset();
-    } catch (error) {
-      const errmsg = error.response.data.message;
-      handleError(errmsg);
-
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+    await login(data, navigate);
   };
 
   return (
@@ -158,8 +105,10 @@ const AdminLogin = () => {
               </span>
             </div>
 
-            <button className="my-10 w-1/2 flex items-center justify-center font-jakarta bg-darkgreen text-peach p-3 mx-auto rounded-xl font-semibold">
-              {isLoading ? 'Logging In...' : 'Log In'}
+            <button
+              className={`my-10 w-1/2 flex items-center transition-colors justify-center font-jakarta  p-3 mx-auto rounded-xl font-semibold hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:border hover:border-darkgreen hover:text-darkgreen ${isAdminLoggingIn ? 'bg-peach text-darkgreen border border-darkgreen' : 'bg-darkgreen text-peach'}`}
+            >
+              {isAdminLoggingIn ? 'Logging In...' : 'Log In'}
             </button>
 
             <div className="text-center flex items-center justify-center gap-1 font-jakarta tracking-tight">
@@ -176,13 +125,3 @@ const AdminLogin = () => {
 };
 
 export default AdminLogin;
-
-//   export const loginLoader = () => {
-//     const accesstoken = Cookies.get('accessToken');
-
-//     if (accesstoken) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   };

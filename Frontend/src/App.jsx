@@ -34,11 +34,14 @@ import UpdateUmrahMadinaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMadin
 import { useEffect } from 'react';
 import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
+import useAdminAuthStore from './Admin/store/useAdminAuthStore';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
+  const { checkAdminAuth } = useAdminAuthStore();
   useEffect(() => {
     checkAuth();
+    checkAdminAuth();
   }, []);
 
   return (
