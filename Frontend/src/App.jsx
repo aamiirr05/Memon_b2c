@@ -35,6 +35,7 @@ import { useEffect } from 'react';
 import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
 import PackagesPage from './pages/PackagesPage';
+import PackageDetailPage from './pages/PackageDetailPage';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -54,6 +55,10 @@ const App = () => {
 
         {/* Protected Route */}
         <Route path="/packages" element={<PackagesPage />} />
+        <Route
+          path="/packages/package-details/:id"
+          element={<PackageDetailPage />}
+        />
 
         {/* Admin Routes */}
         <Route path="admin-login" element={<AdminLogin />} />

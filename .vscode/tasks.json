@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Frontend and Backend",
+      "type": "shell",
+      "command": "./start.sh",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new"
+      }
+    }
+  ]
+}
+
+// {
+//   // See https://go.microsoft.com/fwlink/?LinkId=733558
+//   // for the documentation about the tasks.json format
+//   "version": "2.0.0",
+//   "tasks": [
+//     {
+//       "label": "echo",
+//       "type": "shell",
+//       "command": "echo Hello"
+//     }
+//   ]
+// }
