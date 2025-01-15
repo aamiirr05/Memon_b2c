@@ -21,6 +21,7 @@ import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
 import {
+  customizedPackageValidation,
   userContactEnquiryValidation,
   userForexEnquiryValidation,
   userUmrahEnquiryValidation,
@@ -91,6 +92,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: normalizedEmail,
       contact,
       password: hashedPassword,
+      is_verified: false,
     },
     select: {
       registration_id: true,
@@ -202,8 +204,6 @@ const loginUser = asyncHandler(async (req, res) => {
         200,
         {
           user: loggedInUser,
-          accessToken,
-          refreshToken,
         },
         "Logged in Successfully"
       )
@@ -473,6 +473,7 @@ const getCurrentUser = asyncHandler(async (req, res) => {
         },
       },
       enquiry_visa: true,
+      customized_package: true,
     },
   });
 
@@ -782,6 +783,148 @@ const enquiryVisa = asyncHandler(async (req, res) => {
     );
 });
 
+// ****************** Enquiry Customized Package **********************
+
+const enquiryCustomizedPackage = asyncHandler(async (req, res) => {
+  const {
+    firstname,
+    lastname,
+    email,
+    contact,
+    bookingtype,
+    travelclass,
+    makkahhotelname,
+    medinahotelname,
+    roomtype,
+    adults,
+    kids,
+    additionalinfo,
+  } = req.body;
+
+  if (
+    [
+      firstname,
+      lastname,
+      email,
+      contact,
+      bookingtype,
+      travelclass,
+      makkahhotelname,
+      medinahotelname,
+      roomtype,
+      adults,
+      kids,
+      additionalinfo,
+    ].some((field) => {
+      return typeof field === "string"
+        ? !field.trim()
+        : field === undefined || field === null;
+    })
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
+
+  const user = req.user;
+
+  const intAdults = safeConvertToNumber(adults);
+  const intKids = safeConvertToNumber(kids);
+
+  const enquiryInputError = customizedPackageValidation({
+    firstname,
+    lastname,
+    email,
+    contact,
+    bookingtype,
+    travelclass,
+    makkahhotelname,
+    medinahotelname,
+    roomtype,
+    adults: intAdults,
+    kids: intKids,
+    additionalinfo,
+  });
+
+  if (enquiryInputError) {
+    throw new ApiError(
+      400,
+      `Validation Error: ${enquiryInputError[0].message}`
+    );
+  }
+
+  const currentUser = user?.registration_id;
+
+  const createdCustomizedPackage = await prisma.customizedPackage.create({
+    data: {
+      user_id: currentUser,
+      first_name: firstname,
+      last_name: lastname,
+      email,
+      contact,
+      booking_type: bookingtype,
+      travel_class: travelclass,
+      makkah_hotel_name: makkahhotelname,
+      medina_hotel_name: medinahotelname,
+      room_type: roomtype,
+      adults: intAdults,
+      kids: intKids,
+      additional_info: additionalinfo,
+    },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        201,
+        createdCustomizedPackage,
+        "Your Customized Package Enqiry Sent Sucessfully"
+      )
+    );
+});
+
+// ****************** Testimonial **********************
+
+const testimonial = asyncHandler(async (req, res) => {
+  const { fullname, city, country, stars, review } = req.body;
+
+  if (
+    [fullname, city, country, stars, review].some((field) => {
+      return typeof field === "string"
+        ? !field.trim()
+        : field === undefined || field === null;
+    })
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
+
+  const user = req.user;
+
+  const intStar = safeConvertToNumber(stars);
+
+  const currentUser = user?.registration_id;
+
+  const createdTestimonial = await prisma.testimonial.create({
+    data: {
+      user_id: currentUser,
+      full_name: fullname,
+      city,
+      country,
+      stars: intStar,
+      review,
+    },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        201,
+        createdTestimonial,
+        "Your testimonial has been submitted successfully"
+      )
+    );
+});
+
 // *************** Export Controller ***************
 
 export {
@@ -797,4 +940,6 @@ export {
   enquiryForex,
   enquiryUmrah,
   enquiryVisa,
+  enquiryCustomizedPackage,
+  testimonial,
 };
