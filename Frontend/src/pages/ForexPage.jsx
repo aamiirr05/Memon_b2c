@@ -64,10 +64,10 @@ const ForexInquiryForm = () => {
           />
           <div className="text-darkgreen px-4">
             <h3 className="font-bold text-center text-xl">
-              Simplify Your Hajj & Umrah Payments
+            Holidays Made Easy: Best Forex Deals for Your Travel
             </h3>
             <p className="max-w-md text-center tracking-tight leading-tight mt-2 mb-4">
-              Exchange currencies effortlessly for your Hajj or Umrah journey.
+              Effortlessly exchange currencies for your holiday journey.
               Complete the form <span className="lg:hidden">below</span>
               <span className="hidden lg:inline">on the right</span> to get the
               best forex rates and a seamless payment experience.
