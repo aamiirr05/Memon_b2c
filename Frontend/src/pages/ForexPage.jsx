@@ -115,7 +115,7 @@ const ForexInquiryForm = () => {
                 Salutation
               </label>
               <p
-                className={`text-red-400 text-sm  min-h-[1rem] mt-1 mb-3 mb-3 ${
+                className={`text-red-400 text-sm  min-h-[1rem] mt-1 mb-3 ${
                   errors.salutation ? 'visible' : 'invisible'
                 } `}
               >
@@ -266,7 +266,7 @@ const ForexInquiryForm = () => {
                 className="forex-input-fields peer"
                 placeholder=" "
               />
-              <label htmlFor="country" className="forex-input-labels">
+              <label htmlFor="address" className="forex-input-labels">
                 Address
               </label>
               <p

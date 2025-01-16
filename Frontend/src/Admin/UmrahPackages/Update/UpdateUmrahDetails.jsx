@@ -240,12 +240,10 @@ const UpdateUmrahDetails = () => {
 
   // Functions for form submission
   const onFormSubmit = async (data) => {
-    console.log('Form submitted');
-    console.log(data);
     try {
       setIsLoading(true);
       const res = await axiosInstance.put(
-        `/packages/update-umrah-package/${updateid}`,
+        `/admin/packages/update-umrah-package/${updateid}`,
         {
           packagename: data.packagename,
           packagetype: data.packagename,

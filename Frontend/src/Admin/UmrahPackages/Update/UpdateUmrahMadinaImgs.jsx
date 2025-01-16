@@ -8,6 +8,7 @@ import { NavLink, useOutletContext, useParams } from 'react-router-dom';
 import Loader from '../../../components/Loader';
 import axiosInstance from '../../../lib/axios';
 import { useForm } from 'react-hook-form';
+import useUmrahStore from '../../store/Umrah/UseUmrahStore';
 
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
 const ACCEPTED_FILE_TYPES = {
@@ -111,32 +112,40 @@ const UpdateUmrahMadinaImgs = () => {
   const { umrahPackage, refreshPackages } = useOutletContext();
   const [packageImages, setPackageImages] = useState([]);
   const [prevImages, setPrevImages] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { updateid } = useParams();
   const { handleSubmit, reset } = useForm();
+  const { isUpdating, setIsUpdating } = useUmrahStore();
 
   useEffect(() => {
     if (umrahPackage?.med_hotel_images) {
-      const UpdateprevImages = umrahPackage.med_hotel_images.map((image) => {
+      const UpdateprevImages = umrahPackage?.med_hotel_images.map((image) => {
         return image.secure_url;
       });
       setPrevImages(UpdateprevImages);
     }
   }, [umrahPackage]);
 
-  console.log(prevImages);
-
   if (!umrahPackage) {
     return <Loader />;
   }
 
   const onFormSubmit = async () => {
+    const loadingtoast = toast.loading(
+      'Updating Medina Hotel Images. This may take some time...',
+      {
+        icon: (
+          <div className="relative w-10 h-10">
+            <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
+          </div>
+        ),
+      }
+    );
     try {
-      setLoading(true);
+      setIsUpdating(true);
       const formData = new FormData();
       packageImages.forEach((image) => {
         if (image.file) {
-          formData.append('packageimage', image.file);
+          formData.append('medhotelimage', image.file);
         }
       });
 
@@ -147,21 +156,24 @@ const UpdateUmrahMadinaImgs = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
-      console.log(res);
       refreshPackages();
-      toast.success('Package updated successfully!');
+      toast.dismiss(loadingtoast);
+      toast.success(res.data.message);
+      setPackageImages([]);
     } catch (error) {
-      console.error(error);
+      toast.dismiss(loadingtoast);
       const errMsg = error?.response?.data.message || 'An error occurred.';
       toast.error(errMsg);
     } finally {
-      setLoading(false);
+      setIsUpdating(false);
       reset();
     }
   };
 
   return (
-    <>
+    <div
+      className={`${isUpdating ? 'blur-sm pointer-events-none' : 'pointer-events-auto blur-0'}`}
+    >
       <h1 className=" mb-10 font-zodiak text-lg text-darkgreen">
         Previous Images
       </h1>
@@ -185,24 +197,24 @@ const UpdateUmrahMadinaImgs = () => {
             setImages={setPackageImages}
             label="Package Images (5)"
             MAX_FILES={5}
-            loading={loading}
+            loading={isUpdating}
           />
         </div>
         <div className="flex items-center justify-center mt-4">
           <button
             type="submit"
-            disabled={loading}
+            disabled={isUpdating}
             className={`w-full lg:w-1/2 xl:w-1/3 p-2 rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base ${
-              loading
+              isUpdating
                 ? 'text-darkgreen border bg-peach border-darkgreen cursor-not-allowed'
                 : 'bg-darkgreen text-peach'
             }`}
           >
-            {loading ? 'Updating Image...' : 'Update Image'}
+            {isUpdating ? 'Updating Image...' : 'Update Image'}
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 
