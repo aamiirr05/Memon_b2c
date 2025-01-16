@@ -47,7 +47,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="w-full h-full bg-lightpeach bg-opacity-20 overflow-x-hidden">
+    <div className="w-full h-full bg-lightpeach bg-opacity-20">
       <PrimaryNav />
       <SecondaryNav />
 

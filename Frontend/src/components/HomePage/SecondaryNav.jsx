@@ -17,10 +17,12 @@ const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
           </div>
         </div>
         <div className="relative text-darkgreen flex items-center lg:gap-4 xl:gap-8 font-semibold font-recia">
-          <div className="link-hover-green">Home</div>
+          <Link to="/" className="link-hover-green">
+            Home
+          </Link>
           <Link
             to="/packages"
-            className="cursor-pointer"
+            className="cursor-pointer link-hover-green"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >

@@ -1,6 +1,6 @@
 const Filter = () => {
   return (
-    <div className="bg-darkgreen/10 h-screen w-72 hidden rounded-2xl md:flex sticky top-0">
+    <div className="sticky top-0 bg-darkgreen/10 h-screen w-72 hidden rounded-2xl md:flex">
       Filter
     </div>
   );
