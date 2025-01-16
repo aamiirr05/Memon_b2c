@@ -300,6 +300,7 @@ const deleteTempFiles = () => {
 
 const uploadImages = async (imageCategory, imagePaths) => {
   const uploadedImages = [];
+  console.log(imagePaths);
   try {
     if (!imagePaths || imagePaths.length === 0) {
       throw new ApiError(400, "No Images Found");
@@ -309,17 +310,10 @@ const uploadImages = async (imageCategory, imagePaths) => {
       const uploadedImage = await uploadOnCloudinary(image);
 
       if (uploadedImage?.error) {
-        if (uploadedImages.length > 0) {
-          await Promise.all(
-            uploadedImages.map((img) =>
-              deleteImageFromCloudinary(img.public_id)
-            )
-          );
+        for (const img of uploadedImages) {
+          await deleteImageFromCloudinary(img.public_id);
         }
-        throw new ApiError(
-          500,
-          `Error While Uploading Image: ${image} - ${uploadedImage.error}`
-        );
+        throw new ApiError(500, `${uploadedImage.error}`);
       }
 
       uploadedImages?.push({
@@ -327,20 +321,22 @@ const uploadImages = async (imageCategory, imagePaths) => {
         secure_url: uploadedImage.secure_url,
       });
     }
+
     return { [imageCategory]: uploadedImages };
   } catch (error) {
-    if (uploadedImages > 0) {
-      await Promise.all(
-        uploadedImages.map((img) => deleteImageFromCloudinary(img.public_id))
-      );
+    for (const img of uploadedImages) {
+      console.log(uploadedImages);
+      try {
+        await deleteImageFromCloudinary(img.public_id);
+      } catch (delErr) {
+        console.error(
+          `Failed to delete image: ${img.public_id}`,
+          delErr.message
+        );
+      }
     }
-
-    throw new ApiError(
-      500,
-      `Error While Uploading Images: ${error.message || error}`
-    );
-  } finally {
     deleteTempFiles();
+    throw new ApiError(500, ` ${error}`);
   }
 };
 
