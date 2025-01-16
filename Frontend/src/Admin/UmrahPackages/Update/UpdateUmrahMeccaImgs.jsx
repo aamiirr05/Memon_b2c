@@ -133,7 +133,7 @@ const UpdateUmrahMeccaImgs = () => {
 
   const onFormSubmit = async () => {
     const loadingtoast = toast.loading(
-      'Updating Package. This may take some time...',
+      'Updating Mecca Hotel Images. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
@@ -165,6 +165,7 @@ const UpdateUmrahMeccaImgs = () => {
       setPackageImages([]);
     } catch (error) {
       console.error(error);
+      toast.dismiss(loadingtoast);
       const errMsg = error?.response?.data.message || 'An error occurred.';
       toast.error(errMsg);
     } finally {

@@ -130,17 +130,17 @@ const UpdateUmrahMadinaImgs = () => {
   }
 
   const onFormSubmit = async () => {
+    const loadingtoast = toast.loading(
+      'Updating Medina Hotel Images. This may take some time...',
+      {
+        icon: (
+          <div className="relative w-10 h-10">
+            <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
+          </div>
+        ),
+      }
+    );
     try {
-      const loadingtoast = toast.loading(
-        'Updating Package. This may take some time...',
-        {
-          icon: (
-            <div className="relative w-10 h-10">
-              <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
-            </div>
-          ),
-        }
-      );
       setIsUpdating(true);
       const formData = new FormData();
       packageImages.forEach((image) => {
@@ -159,7 +159,9 @@ const UpdateUmrahMadinaImgs = () => {
       refreshPackages();
       toast.dismiss(loadingtoast);
       toast.success(res.data.message);
+      setPackageImages([]);
     } catch (error) {
+      toast.dismiss(loadingtoast);
       const errMsg = error?.response?.data.message || 'An error occurred.';
       toast.error(errMsg);
     } finally {

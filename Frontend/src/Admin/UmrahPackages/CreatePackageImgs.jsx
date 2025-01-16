@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
 import { AuthContext } from '../context';
 import axiosInstance from '../../lib/axios';
+import useCreateUmrahStore from '../store/Umrah/UseCreateUmrahStore';
 
 // const MAX_FILES = 5;
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
@@ -120,6 +121,7 @@ const CreatePackageImgs = () => {
   const [meccaHotelImages, setMeccaHotelImages] = useState([]);
   const [medinaHotelImages, setMedinaHotelImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { setPreviewData } = useCreateUmrahStore();
   const navigate = useNavigate();
   const [previewData] = useState(() => {
     const safeParseJSON = (item) => {
@@ -275,6 +277,8 @@ const CreatePackageImgs = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
+      console.log(res);
+      setPreviewData(res.data.data);
 
       const extractedId = res.data.data[0].package_id;
 
@@ -284,8 +288,8 @@ const CreatePackageImgs = () => {
       toast.success(resMsg, { autoClose: 5000 });
       navigate(`/admin/umrahpackages/createpackage-preview/${extractedId}`);
     } catch (error) {
-      const errorMsg = error.response?.data.message;
       toast.dismiss(toastId);
+      const errorMsg = error.response?.data.message;
       toast.error(errorMsg, { autoClose: 5000 });
     } finally {
       setLoading(false);
@@ -322,7 +326,7 @@ const CreatePackageImgs = () => {
         loading={loading}
       />
 
-      <div className="mt-20 w-full md:w-2/3 mx-auto flex gap-2 lg:gap-10  items-center justify-between md:justify-center">
+      <div className="mt-20 w-full md:w-2/3 mx-auto flex gap-2 lg:gap-10 items-center justify-between md:justify-center">
         <NavLink
           to="/admin/umrahpackages/createpackage-form"
           aria-disabled={loading}
@@ -333,7 +337,7 @@ const CreatePackageImgs = () => {
         <button
           type="submit"
           disabled={loading}
-          className={` w-full p-2  rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base ${loading ? 'hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen' : 'bg-darkgreen text-peach'}`}
+          className={` w-full p-2  rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base ${loading ? 'bg-peach text-darkgreen border border-darkgreen' : 'bg-darkgreen text-peach'}`}
         >
           {loading ? 'Creating Package...' : 'Create Package'}
         </button>

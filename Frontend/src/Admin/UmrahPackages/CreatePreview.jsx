@@ -7,45 +7,96 @@ import {
   useOutletContext,
   useParams,
 } from 'react-router-dom';
+import useCreateUmrahStore from '../store/Umrah/UseCreateUmrahStore';
+import Loader from '../../components/Loader';
 const CreatePreview = () => {
-  const [previewData] = useState(() => {
-    const packageImage =
-      JSON.parse(localStorage.getItem('packageimages')) || {};
-    const packageDetails =
-      JSON.parse(localStorage.getItem('packagedetails')) || {};
-    return { packageImage, packageDetails };
-  });
-  console.log(previewData);
-
   const { refreshPackages } = useOutletContext();
-  console.log(refreshPackages);
+  const { previewData } = useCreateUmrahStore();
   const { id } = useParams();
-  console.log(id);
-  const [groupDates] = useState(previewData?.packageDetails.groupDates);
-  const [inclusion] = useState(previewData?.packageDetails.inclusion);
-  const [exclusion] = useState(previewData?.packageDetails.exclusion);
-  const [bookingterms] = useState(previewData?.packageDetails.bookingterms);
-  const [cancelpolicy] = useState(
-    previewData?.packageDetails.cancellationpolicy
-  );
-  const [termcondition] = useState(previewData?.packageDetails.termcondition);
+  const [groupDates] = useState(previewData[0]?.group_dates);
+  const [inclusion] = useState(previewData[0]?.inclusion);
+  const [exclusion] = useState(previewData[0]?.exclusion);
+  const [bookingterms] = useState(previewData[0]?.booking_terms);
+  const [cancelpolicy] = useState(previewData[0]?.cancellation_policy);
+  const [termcondition] = useState(previewData[0]?.term_condition);
 
-  const [meccaItenaries] = useState(previewData?.packageDetails.meccaitenaries);
-  const [madinaItenaries, setMadinaItenaries] = useState(
-    previewData?.packageDetails.madinaitenaries
-  );
+  const [meccaItenaries] = useState(previewData[0].makkah_itinerary);
+  const [madinaItenaries] = useState(previewData[0]?.medina_itinerary);
 
   // Is active and is featured states & functions
-  const [isActive] = useState(previewData?.packageDetails.isactive);
-  const [isFeatured] = useState(previewData?.packageDetails.isfeatured);
+  const [isActive] = useState(previewData[0]?.is_active === 'true');
+  const [isFeatured] = useState(previewData[0]?.featured === 'true');
 
   // navigate
   const navigate = useNavigate();
 
+  console.log(previewData);
+
+  if (!previewData) {
+    return <Loader />;
+  }
+
   return (
     <form action="" className="w-full h-full">
+      {/* Section Image */}
+      <div className="w-full flex flex-col bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
+        <div className="">
+          <label htmlFor="packagename" className="custom-label">
+            Package Images
+          </label>
+          <div className="flex items-center md:flex-row flex-col md:justify-start ml-0 md:ml-36 gap-5 mt-10">
+            {previewData[0]?.package_image.map((i, index) => {
+              return (
+                <img
+                  src={i.secure_url}
+                  className="w-1/2 md:w-1/6 rounded-lg shadow-md"
+                  alt=""
+                  key={index}
+                />
+              );
+            })}
+          </div>
+        </div>
+        {/*  */}
+        <div className="mt-10">
+          <label htmlFor="packagename" className="custom-label">
+            Mecca Hotel Images
+          </label>
+          <div className="flex items-center md:flex-row flex-col justify-end gap-5 mt-10">
+            {previewData[0]?.mak_hotel_images.map((i, index) => {
+              return (
+                <img
+                  src={i.secure_url}
+                  className="w-1/2 md:w-1/6 rounded-lg shadow-md"
+                  alt=""
+                  key={index}
+                />
+              );
+            })}
+          </div>
+        </div>
+        {/*  */}
+        <div className="mt-10">
+          <label htmlFor="packagename" className="custom-label">
+            Madina Hotel Images
+          </label>
+          <div className="flex items-center md:flex-row flex-col justify-end gap-5 mt-10">
+            {previewData[0]?.med_hotel_images.map((i, index) => {
+              return (
+                <img
+                  src={i.secure_url}
+                  className="w-1/2 md:w-1/6 rounded-lg shadow-md"
+                  alt=""
+                  key={index}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       {/* Section One */}
-      <div className="w-full bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
+      <div className="w-full bg-peach mt-10 bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
         <div className="flex flex-col gap-5 md:flex-row items-center w-full">
           {/* Package Name */}
           <div className="flex gap-3  w-full flex-col">
@@ -59,7 +110,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Package Name"
               disabled
-              defaultValue={previewData?.packageDetails.packagename}
+              defaultValue={previewData[0]?.package_name}
             />
           </div>
           {/* Package Type */}
@@ -74,7 +125,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Package Type"
               disabled
-              defaultValue={previewData?.packageDetails.packagetype}
+              defaultValue={previewData[0]?.package_type}
             />
           </div>
         </div>
@@ -92,7 +143,7 @@ const CreatePreview = () => {
             className="w-full custom-input"
             placeholder="Enter Package Description"
             disabled
-            defaultValue={previewData?.packageDetails.packagedesc}
+            defaultValue={previewData[0]?.description}
           ></textarea>
         </div>
 
@@ -111,7 +162,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Base Price"
               disabled
-              defaultValue={previewData?.packageDetails.baseprice}
+              defaultValue={previewData[0]?.base_price}
             />
           </div>
           {/* Discount */}
@@ -127,7 +178,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter  Discount"
               disabled
-              defaultValue={previewData?.packageDetails.discount}
+              defaultValue={previewData[0]?.discount}
             />
           </div>
         </div>
@@ -242,7 +293,7 @@ const CreatePreview = () => {
             id="bookingdeadline"
             className="w-full lg:w-1/3 custom-input"
             disabled
-            defaultValue={previewData?.packageDetails.bookingdeadline}
+            defaultValue={previewData[0]?.booking_deadline}
           />
         </div>
 
@@ -261,7 +312,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Total Days"
               disabled
-              defaultValue={previewData?.packageDetails.totaldays}
+              defaultValue={previewData[0]?.total_days}
             />
           </div>
           {/* Total nights */}
@@ -277,7 +328,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Total Nights"
               disabled
-              defaultValue={previewData?.packageDetails.totalnights}
+              defaultValue={previewData[0]?.total_nights}
             />
           </div>
         </div>
@@ -295,7 +346,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Arrival City"
               disabled
-              defaultValue={previewData?.packageDetails.arrivalcity}
+              defaultValue={previewData[0]?.arrival_city}
             />
           </div>
           {/* Package Type */}
@@ -310,7 +361,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter  Departure City"
               disabled
-              defaultValue={previewData?.packageDetails.departurecity}
+              defaultValue={previewData[0]?.departure_city}
             />
           </div>
         </div>
@@ -334,7 +385,7 @@ const CreatePreview = () => {
               id="meccahotelname"
               className="custom-input"
               disabled
-              defaultValue={previewData?.packageDetails.meccahotelname}
+              defaultValue={previewData[0]?.mak_hotel_name}
             />
           </div>
           {/* Madina Hotel Name */}
@@ -349,7 +400,7 @@ const CreatePreview = () => {
               id="madinahotelname"
               className="custom-input"
               disabled
-              defaultValue={previewData?.packageDetails.madinahotelname}
+              defaultValue={previewData[0]?.med_hotel_name}
             />
           </div>
         </div>
@@ -369,7 +420,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Double Price"
               disabled
-              defaultValue={previewData?.packageDetails.doubleprice}
+              defaultValue={previewData[1]?.double_price}
             />
           </div>
           {/* Triple Price */}
@@ -385,7 +436,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Triple Price"
               disabled
-              defaultValue={previewData?.packageDetails.tripleprice}
+              defaultValue={previewData[1]?.triple_price}
             />
           </div>
         </div>
@@ -404,7 +455,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Quint Price"
               disabled
-              defaultValue={previewData?.packageDetails.quintprice}
+              defaultValue={previewData[1]?.quint_price}
             />
           </div>
           {/* Quad Price */}
@@ -420,7 +471,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Quad Price"
               disabled
-              defaultValue={previewData?.packageDetails.quadprice}
+              defaultValue={previewData[1]?.quad_price}
             />
           </div>
         </div>
@@ -439,7 +490,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Child Without Bed Price"
               disabled
-              defaultValue={previewData?.packageDetails.childwithoutbedprice}
+              defaultValue={previewData[1]?.child_without_bed_price}
             />
           </div>
           {/* Infant Price */}
@@ -455,7 +506,7 @@ const CreatePreview = () => {
               className="custom-input"
               placeholder="Enter Infant Price"
               disabled
-              defaultValue={previewData?.packageDetails.infantprice}
+              defaultValue={previewData[1]?.infant_price}
             />
           </div>
         </div>

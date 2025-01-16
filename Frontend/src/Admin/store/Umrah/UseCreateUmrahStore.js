@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 
 const useCreateUmrahStore = create((set) => ({
+  previewData: [''],
+  setPreviewData: (data) => {
+    set({ previewData: data });
+  },
   groupDates: [''],
   inclusion: [
     'Welcome kit',
