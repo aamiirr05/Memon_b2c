@@ -53,7 +53,9 @@ const ForexInquiryForm = () => {
           className="absolute top-8 left-8 text-sm font-medium text-darkgreen bg-darkgreen/20 hover:bg-darkgreen/80 transition-colors hover:text-peach rounded-full flex justify-center items-center gap-1 px-2 py-1"
         >
           <ArrowLeft size={18} />
-          <span className="mt-[-2px] mr-1">Back to home</span>
+          <span className="mt-[-2px] mr-1">
+            Back <span className="hidden sm:inline">to home</span>
+          </span>
         </Link>
 
         <div className="flex justify-center items-center flex-col">
@@ -64,9 +66,9 @@ const ForexInquiryForm = () => {
           />
           <div className="text-darkgreen px-4">
             <h3 className="font-bold text-center text-xl">
-            Holidays Made Easy: Best Forex Deals for Your Travel
+              Holidays Made Easy: Best Forex Deals for Your Travel
             </h3>
-            <p className="max-w-md text-center tracking-tight leading-tight mt-2 mb-4">
+            <p className="max-w-md mx-auto text-center tracking-tight leading-tight mt-2 mb-4">
               Effortlessly exchange currencies for your holiday journey.
               Complete the form <span className="lg:hidden">below</span>
               <span className="hidden lg:inline">on the right</span> to get the

@@ -20,14 +20,14 @@ const Homepage = () => {
   return (
     <div className="relative overflow-x-hidden">
       {/* Primary Navbar */}
-      <PrimaryNav isMenuOpen={isMenuOpen} />
+      {/* <PrimaryNav isMenuOpen={isMenuOpen} /> */}
       {/* Secondary Navbar */}
-      <SecondaryNav
+      {/* <SecondaryNav
         setIsMore={setIsMore}
         setIsHovered={setIsHovered}
         isHovered={isHovered}
         isMore={isMore}
-      />
+      /> */}
       {/* Logo Section (Hamburger) */}
 
       <HamburgerLogo isMenuOpen={isMenuOpen} />
@@ -75,7 +75,7 @@ const Homepage = () => {
       <TestimonialWrapper isMenuOpen={isMenuOpen} />
       {/* Footer  */}
 
-      <Footer isMenuOpen={isMenuOpen} />
+      {/* <Footer isMenuOpen={isMenuOpen} /> */}
     </div>
   );
 };

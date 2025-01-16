@@ -76,7 +76,7 @@ export const usePackageStore = create((set) => ({
       bookingTerms: 'Booking must be confirmed with a 50% deposit.',
       departureCity: 'New York',
       arrivalCity: 'Dubai',
-      finalPrice: 2500,
+      finalPrice: 2500000,
       basePrice: 2200,
       discount: 300,
       youSaved: 300,
@@ -238,6 +238,166 @@ export const usePackageStore = create((set) => ({
       basePrice: 1800,
       discount: 200,
       youSaved: 200,
+      isActive: true,
+    },
+    {
+      id: 'PKG001',
+      name: 'Majestic Dubai Experience',
+      imageUrl: 'https://via.placeholder.com/150',
+      type: 'Luxury Tour',
+      description:
+        'A 5-day tour of the beautiful city of Dubai, exploring modern marvels and traditional culture.',
+      makkahItinerary: [
+        'Visit to the Dubai Mall',
+        'Burj Khalifa',
+        'Desert safari',
+      ],
+      madinaItinerary: [
+        'Visit the Grand Mosque',
+        'Al Fahidi Fort',
+        'Cultural evening',
+      ],
+      inclusions: [
+        'Flights',
+        'Accommodation',
+        'City tours',
+        'Meals',
+        'Desert Safari',
+      ],
+      exclusions: [
+        'Personal expenses',
+        'Optional activities',
+        'Travel insurance',
+      ],
+      groupDates: ['10th February - 15th February 2025'],
+      bookingDeadline: '5th February 2025',
+      totalDays: 5,
+      totalNights: 4,
+      makkahHotelName: 'Makkah Royal Hotel',
+      makkahHotelImages: [
+        {
+          public_id: 'sik9yipfzmovivbjoqjs',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942819/sik9yipfzmovivbjoqjs.png',
+        },
+        {
+          public_id: 'vroxodmm2vflrtoxqmy2',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942821/vroxodmm2vflrtoxqmy2.png',
+        },
+        {
+          public_id: 'ufxjkrowtw3u0lpzcc9w',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942826/ufxjkrowtw3u0lpzcc9w.png',
+        },
+      ],
+      medinaHotelName: 'Medina Oasis Hotel',
+      medinaHotelImages: [
+        {
+          public_id: 'sik9yipfzmovivbjoqjs',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942819/sik9yipfzmovivbjoqjs.png',
+        },
+        {
+          public_id: 'vroxodmm2vflrtoxqmy2',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942821/vroxodmm2vflrtoxqmy2.png',
+        },
+        {
+          public_id: 'ufxjkrowtw3u0lpzcc9w',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942826/ufxjkrowtw3u0lpzcc9w.png',
+        },
+      ],
+      cancellationPolicy: 'Free cancellation up to 48 hours before departure.',
+      termsAndConditions: 'Non-refundable after the cancellation period.',
+      bookingTerms: 'Booking must be confirmed with a 50% deposit.',
+      departureCity: 'New York',
+      arrivalCity: 'Dubai',
+      finalPrice: 2500000,
+      basePrice: 2200,
+      discount: 300,
+      youSaved: 300,
+      isActive: true,
+    },
+    {
+      id: 'PKG001',
+      name: 'Majestic Dubai Experience',
+      imageUrl: 'https://via.placeholder.com/150',
+      type: 'Luxury Tour',
+      description:
+        'A 5-day tour of the beautiful city of Dubai, exploring modern marvels and traditional culture.',
+      makkahItinerary: [
+        'Visit to the Dubai Mall',
+        'Burj Khalifa',
+        'Desert safari',
+      ],
+      madinaItinerary: [
+        'Visit the Grand Mosque',
+        'Al Fahidi Fort',
+        'Cultural evening',
+      ],
+      inclusions: [
+        'Flights',
+        'Accommodation',
+        'City tours',
+        'Meals',
+        'Desert Safari',
+      ],
+      exclusions: [
+        'Personal expenses',
+        'Optional activities',
+        'Travel insurance',
+      ],
+      groupDates: ['10th February - 15th February 2025'],
+      bookingDeadline: '5th February 2025',
+      totalDays: 5,
+      totalNights: 4,
+      makkahHotelName: 'Makkah Royal Hotel',
+      makkahHotelImages: [
+        {
+          public_id: 'sik9yipfzmovivbjoqjs',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942819/sik9yipfzmovivbjoqjs.png',
+        },
+        {
+          public_id: 'vroxodmm2vflrtoxqmy2',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942821/vroxodmm2vflrtoxqmy2.png',
+        },
+        {
+          public_id: 'ufxjkrowtw3u0lpzcc9w',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942826/ufxjkrowtw3u0lpzcc9w.png',
+        },
+      ],
+      medinaHotelName: 'Medina Oasis Hotel',
+      medinaHotelImages: [
+        {
+          public_id: 'sik9yipfzmovivbjoqjs',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942819/sik9yipfzmovivbjoqjs.png',
+        },
+        {
+          public_id: 'vroxodmm2vflrtoxqmy2',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942821/vroxodmm2vflrtoxqmy2.png',
+        },
+        {
+          public_id: 'ufxjkrowtw3u0lpzcc9w',
+          secure_url:
+            'https://res.cloudinary.com/memonb2c/image/upload/v1736942826/ufxjkrowtw3u0lpzcc9w.png',
+        },
+      ],
+      cancellationPolicy: 'Free cancellation up to 48 hours before departure.',
+      termsAndConditions: 'Non-refundable after the cancellation period.',
+      bookingTerms: 'Booking must be confirmed with a 50% deposit.',
+      departureCity: 'New York',
+      arrivalCity: 'Dubai',
+      finalPrice: 2500000,
+      basePrice: 2200,
+      discount: 300,
+      youSaved: 300,
       isActive: true,
     },
   ],

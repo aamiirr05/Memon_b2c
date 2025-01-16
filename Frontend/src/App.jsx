@@ -36,6 +36,9 @@ import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
 import PackagesPage from './pages/PackagesPage';
 import PackageDetailPage from './pages/PackageDetailPage';
+import PrimaryNav from './components/HomePage/PrimaryNav';
+import SecondaryNav from './components/HomePage/SecondaryNav';
+import Footer from './components/HomePage/Footer';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -44,7 +47,10 @@ const App = () => {
   }, []);
 
   return (
-    <div className="w-full h-full bg-lightpeach bg-opacity-20">
+    <div className="w-full h-full bg-lightpeach bg-opacity-20 overflow-x-hidden">
+      <PrimaryNav />
+      <SecondaryNav />
+
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Homepage />} />
@@ -56,7 +62,7 @@ const App = () => {
         {/* Protected Route */}
         <Route path="/packages" element={<PackagesPage />} />
         <Route
-          path="/packages/package-details/:id"
+          path="/packages/package-details/:packageId"
           element={<PackageDetailPage />}
         />
 
@@ -110,7 +116,7 @@ const App = () => {
         {/* Catch all error route */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-
+      <Footer />
       <Toaster
         toastOptions={{
           className: 'text-center',
