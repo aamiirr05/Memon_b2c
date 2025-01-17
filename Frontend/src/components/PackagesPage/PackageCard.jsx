@@ -23,7 +23,6 @@ const PackageCard = ({ pkg }) => {
           {/* Package Name and Category */}
           <Link
             to={`package-details/${pkg?.id}`}
-            target="_blank"
             onClick={() => setSelectedPackage(pkg)}
             className="text-xl font-semibold text-darkgreen hover:text-darkgreen/90 transition-colors"
           >
@@ -56,7 +55,6 @@ const PackageCard = ({ pkg }) => {
             {/* View Details Button */}
             <Link
               to={`package-details/${pkg?.id}`}
-              target="_blank"
               onClick={() => setSelectedPackage(pkg)}
               className="text-sm px-4 py-2 text-darkgreen border border-darkgreen rounded-md hover:bg-darkgreen/10 transition-colors"
             >

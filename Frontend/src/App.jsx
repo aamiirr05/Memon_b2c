@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Homepage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import Signup from './pages/auth/SignupPage';
@@ -42,14 +42,22 @@ import Footer from './components/HomePage/Footer';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
+  const location = useLocation();
+
   useEffect(() => {
     checkAuth();
   }, []);
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
-      <PrimaryNav />
-      <SecondaryNav />
+      {!isAdminRoute && (
+        <>
+          <PrimaryNav />
+          <SecondaryNav />
+        </>
+      )}
 
       <Routes>
         {/* Public Routes */}
@@ -116,7 +124,9 @@ const App = () => {
         {/* Catch all error route */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <Footer />
+
+      {!isAdminRoute && <Footer />}
+
       <Toaster
         toastOptions={{
           className: 'text-center',
