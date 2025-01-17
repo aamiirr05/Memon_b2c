@@ -58,7 +58,7 @@ const PackageCard = ({ pkg }) => {
               to={`package-details/${pkg?.id}`}
               target="_blank"
               onClick={() => setSelectedPackage(pkg)}
-              className="text-sm px-4 py-2 text-darkgreen border border-darkgreen rounded-md hover:bg-darkgreen/10 transition-colors"
+              className="text-sm px-4 py-2 text-darkgreen border border-darkgreen rounded-md hover:bg-darkgreen hover:text-peach bg-peach/50 transition-colors"
             >
               View Details
             </Link>
@@ -66,7 +66,7 @@ const PackageCard = ({ pkg }) => {
             {/* Enquire Now Button */}
             <button
               onClick={() => alert(`Enquiring about package: ${pkg?.name}`)}
-              className="px-4 py-2 bg-darkgreen text-peach text-sm font-semibold rounded-md hover:bg-darkgreen/90 transition-colors"
+              className="px-4 py-2 bg-darkgreen text-peach border hover:border hover:border-darkgreen hover:bg-peach  hover:text-darkgreen text-sm font-semibold rounded-md hover:bg-darkgreen/90 transition-colors"
             >
               Enquire Now
             </button>
