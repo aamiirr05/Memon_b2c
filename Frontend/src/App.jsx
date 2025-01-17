@@ -49,10 +49,12 @@ const App = () => {
   }, []);
 
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isLoginPage = location.pathname.startsWith('/login');
+  const isSignupPage = location.pathname.startsWith('/signup');
 
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
-      {!isAdminRoute && (
+      {!isAdminRoute && !isLoginPage && !isSignupPage && (
         <>
           <PrimaryNav />
           <SecondaryNav />
@@ -125,7 +127,7 @@ const App = () => {
         <Route path="*" element={<ErrorPage />} />
       </Routes>
 
-      {!isAdminRoute && <Footer />}
+      {!isAdminRoute && !isLoginPage && !isSignupPage && <Footer />}
 
       <Toaster
         toastOptions={{
