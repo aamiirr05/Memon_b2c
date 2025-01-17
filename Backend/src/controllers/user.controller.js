@@ -925,6 +925,161 @@ const testimonial = asyncHandler(async (req, res) => {
     );
 });
 
+// *********************************** GET ROUTE TO FETCH ALL UMRAH PACKAGE **************************************
+
+const getAllUmrahPackages = asyncHandler(async (req, res) => {
+  const allUmrahPackages = await prisma.umrahPackage.findMany({
+    include: { prices: true },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        allUmrahPackages,
+        `${allUmrahPackages.length} Umrah Packages Fetched Successfully`
+      )
+    );
+});
+
+// *********************************** GET ROUTE TO FETCH UMRAH PACKAGE BY ID *************************************
+
+const getUmrahPackageById = asyncHandler(async (req, res) => {
+  const packageId = req.params.id;
+
+  if (!packageId) {
+    throw new ApiError(400, "Package ID is Required");
+  }
+
+  const existingPackage = await prisma.umrahPackage.findUnique({
+    where: { package_id: packageId },
+    include: { prices: true },
+  });
+
+  if (!existingPackage) {
+    throw new ApiError(404, "Package not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, existingPackage, "Package Fetched Sucessfully"));
+});
+
+// *********************************** GET ROUTE TO FETCH ALL HOLIDAY PACKAGE **************************************
+
+const getAllHolidayPackages = asyncHandler(async (req, res) => {
+  const allHolidayPackages = await prisma.holidayPackage.findMany();
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        allHolidayPackages,
+        `${allHolidayPackages.length} Holiday Packages Fetched Successfully`
+      )
+    );
+});
+
+// *********************************** GET ROUTE TO FETCH HOLIDAY PACKAGE BY ID *************************************
+
+const getHolidayPackageById = asyncHandler(async (req, res) => {
+  const packageId = req.params.id;
+
+  if (!packageId) {
+    throw new ApiError(400, "Package ID is Required");
+  }
+
+  const existingPackage = await prisma.holidayPackage.findUnique({
+    where: { package_id: packageId },
+  });
+
+  if (!existingPackage) {
+    throw new ApiError(404, "Package not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, existingPackage, "Package Fetched Sucessfully"));
+});
+
+// *********************************** GET ROUTE TO FETCH ALL HOTEL **************************************
+
+const getAllHotel = asyncHandler(async (req, res) => {
+  const allHotels = await prisma.hotel.findMany({ include: { rooms: true } });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        allHotels,
+        `${allHotels.length} Hotels Fetched Successfully`
+      )
+    );
+});
+
+// *********************************** GET ROUTE TO FETCH HOTEL BY ID *************************************
+
+const getHotelById = asyncHandler(async (req, res) => {
+  const hotelId = req.params.id;
+
+  if (!hotelId) {
+    throw new ApiError(400, "Hotel ID is Required");
+  }
+
+  const existingHotel = await prisma.hotel.findUnique({
+    where: { hotel_id: hotelId },
+  });
+
+  if (!existingHotel) {
+    throw new ApiError(404, "Hotel not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, existingHotel, "Hotel Fetched Sucessfully"));
+});
+
+// *********************************** GET ROUTE TO FETCH ALL VISA **************************************
+
+const getAllVisa = asyncHandler(async (req, res) => {
+  const allVisas = await prisma.visa.findMany();
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        allVisas,
+        `${allVisas.length} Visas Fetched Successfully`
+      )
+    );
+});
+
+// *********************************** GET ROUTE TO FETCH VISA BY ID *************************************
+
+const getVisaById = asyncHandler(async (req, res) => {
+  const visaId = req.params.id;
+
+  if (!visaId) {
+    throw new ApiError(400, "Visa ID is Required");
+  }
+
+  const existingVisa = await prisma.visa.findUnique({
+    where: { visa_id: visaId },
+  });
+
+  if (!existingVisa) {
+    throw new ApiError(404, "Visa not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, existingVisa, "Visa Fetched Sucessfully"));
+});
+
 // *************** Export Controller ***************
 
 export {
@@ -942,4 +1097,12 @@ export {
   enquiryVisa,
   enquiryCustomizedPackage,
   testimonial,
+  getAllUmrahPackages,
+  getUmrahPackageById,
+  getAllHolidayPackages,
+  getHolidayPackageById,
+  getAllHotel,
+  getHotelById,
+  getAllVisa,
+  getVisaById,
 };
