@@ -5,10 +5,13 @@ import { usePackageStore } from '../store/usePackageStore';
 import PackageCardSkeleton from '../components/PackagesPage/PackageCardSkeleton';
 
 const PackagesPage = () => {
-  const { packages, fetchPackages, isFetching } = usePackageStore();
+  const { packages, fetchPackages, isFetching, arePackagesFetched } =
+    usePackageStore();
   useEffect(() => {
-    fetchPackages();
-  }, [fetchPackages]);
+    if (!arePackagesFetched) {
+      fetchPackages();
+    }
+  }, [fetchPackages, arePackagesFetched]);
 
   return (
     <main className="bg-peach/30">

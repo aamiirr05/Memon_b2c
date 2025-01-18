@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 export const usePackageStore = create((set) => ({
   packages: [],
   isFetching: false,
+  arePackagesFetched: false,
   setPackages: (newPackages) => set({ packages: newPackages }),
 
   selectedPackage: null,
@@ -18,7 +19,7 @@ export const usePackageStore = create((set) => ({
 
     try {
       const res = await axiosInstance.get('/users/fetch-all-umrah-packages');
-      set({ packages: res.data.data });
+      set({ packages: res.data.data, arePackagesFetched: true });
     } catch (error) {
       toast.error(error.response.data.message);
       console.error('Error fetching packages:', error);
