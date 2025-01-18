@@ -39,13 +39,13 @@ const PackageCard = ({ pkg }) => {
             <strong>{pkg?.total_nights}</strong> Nights
           </p>
           {/* Description */}
-          <p className="text-neutral-900 text-sm leading-tight line-clamp-3 mt-1 font-medium">
+          <p className="text-neutral-900 text-md leading-tight line-clamp-3 mt-1 font-medium">
             {pkg?.description}
           </p>
         </div>
 
         {/* Price Section */}
-        <div className="flex justify-between items-center flex-wrap">
+        <div className="flex justify-between items-center flex-wrap gap-2">
           <p className="text-xl font-bold text-darkgreen">
             INR {pkg?.final_price}/-{' '}
             <i className="text-neutral-600 text-[12px] font-normal tracking-tight">

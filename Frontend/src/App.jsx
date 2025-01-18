@@ -31,7 +31,7 @@ import UpdateUmrahDetails from './Admin/UmrahPackages/Update/UpdateUmrahDetails'
 import UpdateUmrahPackImgs from './Admin/UmrahPackages/Update/UpdateUmrahPackImgs';
 import UpdateUmrahMeccaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMeccaImgs';
 import UpdateUmrahMadinaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMadinaImgs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
 import PackagesPage from './pages/PackagesPage';
@@ -52,12 +52,20 @@ const App = () => {
   const isLoginPage = location.pathname.startsWith('/login');
   const isSignupPage = location.pathname.startsWith('/signup');
 
+  const [isMore, setIsMore] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
       {!isAdminRoute && !isLoginPage && !isSignupPage && (
         <>
           <PrimaryNav />
-          <SecondaryNav />
+          <SecondaryNav
+            setIsMore={setIsMore}
+            setIsHovered={setIsHovered}
+            isHovered={isHovered}
+            isMore={isMore}
+          />
         </>
       )}
 
