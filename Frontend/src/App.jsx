@@ -39,14 +39,17 @@ import PackageDetailPage from './pages/PackageDetailPage';
 import PrimaryNav from './components/HomePage/PrimaryNav';
 import SecondaryNav from './components/HomePage/SecondaryNav';
 import Footer from './components/HomePage/Footer';
+import useAdminAuthStore from './Admin/store/useAdminAuthStore';
 import CustomizedPackageForm from './pages/CustomizedPackageForm';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
   const location = useLocation();
 
+  const { checkAdminAuth } = useAdminAuthStore();
   useEffect(() => {
     checkAuth();
+    checkAdminAuth();
   }, []);
 
   const isAdminRoute = location.pathname.startsWith('/admin');

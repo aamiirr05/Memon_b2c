@@ -99,8 +99,6 @@ const useCreateUmrahStore = create((set) => ({
   setMeccaItenaries: (itenaries) => set(() => ({ meccaitenaries: itenaries })),
   setMadinaItenaries: (itenaries) =>
     set(() => ({ madinaitenaries: itenaries })),
-  setIsActive: (status) => set(() => ({ isActive: status })),
-  setIsFeatured: (status) => set(() => ({ isFeatured: status })),
 
   addInclusion: () => set((state) => ({ inclusion: [...state.inclusion, ''] })),
   removeInclusion: (index) =>

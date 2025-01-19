@@ -1,65 +1,49 @@
 /* eslint-disable no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Plus, X } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import { AuthContext } from '../../context';
-import useFormData from '../../hooks/customhooks';
 
-const schema = yup.object().shape({
-  packagename: yup.string().required('Package Name is required'),
-  packagetype: yup.string().required('Package Type is required'),
-  packagedesc: yup.string().required('Package Description is required'),
-  city: yup.string().required('City is required'),
-  country: yup.string().required('Country is required'),
-  transportmode: yup.string().required('Transport Mode is required'),
-  arrivalcity: yup.string().required('Arrival City is required'),
-  hotelname: yup.string().required('Hotel Name is required'),
-  departurecity: yup.string().required('Departure City is required'),
-  bookingdeadline: yup.string().required('Booking Deadline is required.'),
-  totaldays: yup
-    .number()
-    .typeError('Total Days must be a number')
-    .required('Total Days is required')
-    .min(1, 'Total Days must be at least 1'),
-  baseprice: yup
-    .number()
-    .typeError('Base Price must be a number')
-    .required('Base Price is required')
-    .min(1, 'Base Price must be at least 1'),
-  discount: yup
-    .number()
-    .typeError('Discount must be a number')
-    .required('Discount is required')
-    .min(1, 'Discount must be at least 1'),
-  totalnights: yup
-    .number()
-    .typeError('Total Nights must be a number')
-    .required('Total Nights is required')
-    .min(1, 'Total Nights must be at least 1'),
-});
+import { AuthContext } from '../../context';
+import HolidaySchema from '../../schema/HoildaySchema';
+import useHolidayStore from '../../store/Holidays/useHolidayStore';
 
 const CreateHolidayForm = () => {
-  const [groupDates, setGroupDate] = useState(['']);
-  const [inclusion, setInclusion] = useState(['']);
-  const [exclusion, setExclusion] = useState(['']);
-  const [bookingterms, setBookingTerms] = useState(['']);
-  const [cancelpolicy, setCancelPolicy] = useState(['']);
-  const [termcondition, setTermCondition] = useState(['']);
-  const [Itenaries, setItenaries] = useState([{ day: 'Day 1', itenary: '' }]);
-
-  // Is active and is featured states & functions
-  const [isActive, setIsActive] = useState(true);
-  const [isFeatured, setIsFeatured] = useState(false);
-
-  const handleisActive = () => {
-    setIsActive(!isActive);
-  };
-  const handleisFeatured = () => {
-    setIsFeatured(!isFeatured);
-  };
+  const {
+    groupDates,
+    setGroupDates,
+    inclusion,
+    setInclusion,
+    exclusion,
+    setExclusion,
+    bookingterms,
+    setBookingTerms,
+    cancelpolicy,
+    setCancelPolicy,
+    termcondition,
+    setTermCondition,
+    itenaries,
+    setItenaries,
+    isActive,
+    isFeatured,
+    addBookingTerms,
+    addExclusion,
+    addInclusion,
+    addItenaries,
+    addPolicy,
+    addTermsCondition,
+    removeBookingTerms,
+    removeExclusion,
+    removeInclusion,
+    removeItenaries,
+    removeTermsCondition,
+    removePolicy,
+    handleisActive,
+    handleisFeatured,
+    addDates,
+    removeDates,
+  } = useHolidayStore();
 
   // navigate
   const navigate = useNavigate();
@@ -75,12 +59,12 @@ const CreateHolidayForm = () => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(HolidaySchema),
     values: {
       groupDates: groupDates,
       isactive: isActive,
       isfeatured: isFeatured,
-      itenaries: Itenaries,
+      itenaries: itenaries,
       cancellationpolicy: cancelpolicy,
       bookingterms: bookingterms,
       termcondition: termcondition,
@@ -90,47 +74,19 @@ const CreateHolidayForm = () => {
   });
 
   // Functions for handling dates
-  const addDates = () => {
-    setGroupDate([...groupDates, '']);
-  };
 
   const handleDateChange = (val, index) => {
     const updatedDates = [...groupDates];
     updatedDates[index] = val;
-    setGroupDate(updatedDates);
-  };
-
-  const removeDates = (index) => {
-    const updatedDates = groupDates.filter((_, i) => i !== index);
-    setGroupDate(updatedDates);
+    setGroupDates(updatedDates);
   };
 
   // Functions for handling itenaries
 
-  const addItenaries = () => {
-    const nextday = `Day ${Itenaries.length + 1}`;
-    setItenaries([...Itenaries, { day: nextday, itenary: '' }]);
-  };
-
   const handleItenaries = (val, index) => {
-    const updatedItenaries = [...Itenaries];
+    const updatedItenaries = [...itenaries];
     updatedItenaries[index].itenary = val;
     setItenaries(updatedItenaries);
-  };
-
-  const removeItenaries = (index) => {
-    const updatedItenaries = Itenaries.filter((_, i) => i !== index);
-    const reassignedItenaries = updatedItenaries.map((itenary, i) => ({
-      ...itenary,
-      day: `Day ${i + 1}`,
-    }));
-
-    setItenaries(reassignedItenaries);
-  };
-  // Functions for handling inclusions and exclusions
-
-  const addInclusion = () => {
-    setInclusion([...inclusion, '']);
   };
 
   const handleInclusion = (val, index) => {
@@ -139,49 +95,18 @@ const CreateHolidayForm = () => {
     setInclusion(updatedInclusions);
   };
 
-  const removeInclusion = (index) => {
-    const updatedInclusions = inclusion.filter((_, i) => i !== index);
-    setInclusion(updatedInclusions);
-  };
-  const addExclusion = () => {
-    setExclusion([...exclusion, '']);
-  };
-
   const handleExclusion = (val, index) => {
     const updatedExclusions = [...exclusion];
     updatedExclusions[index] = val;
     setExclusion(updatedExclusions);
   };
 
-  const removeExclusion = (index) => {
-    const updatedExclusions = exclusion.filter((_, i) => i !== index);
-    setExclusion(updatedExclusions);
-  };
-
   //  Functions for booking terms
-
-  const addBookingTerms = () => {
-    setBookingTerms([...bookingterms, '']);
-  };
 
   const handleBookingTerms = (val, index) => {
     const updatedTerms = [...bookingterms];
     updatedTerms[index] = val;
     setBookingTerms(updatedTerms);
-  };
-
-  const removeBookingTerms = (index) => {
-    const updatedTerms = bookingterms.filter((_, i) => i !== index);
-    setBookingTerms(updatedTerms);
-  };
-
-  // Functions for termcondition and cancellation policy
-
-  const addTermsCondition = () => {
-    setTermCondition([...termcondition, '']);
-  };
-  const addPolicy = () => {
-    setCancelPolicy([...cancelpolicy, '']);
   };
 
   const handleTermsCondition = (val, index) => {
@@ -196,26 +121,11 @@ const CreateHolidayForm = () => {
     setCancelPolicy(updatedPolicy);
   };
 
-  const removeTerms = (index) => {
-    const updatedTerms = termcondition.filter((_, i) => i !== index);
-    setTermCondition(updatedTerms);
-  };
-
-  const removePolicy = (index) => {
-    const updatedPolicy = cancelpolicy.filter((_, i) => i !== index);
-    setCancelPolicy(updatedPolicy);
-  };
-
-  //
-
-  const { getFormData, resetFormData, updateFormData } = useFormData();
-
   // Functions for form submission
   const onFormSubmit = (data) => {
-    console.log('Form submitted');
     updatePackageData(data);
 
-    // navigate('/admin/umrahpackages/createpackage-images');
+    navigate('/admin/holidays/createholiday-package');
   };
 
   return (
@@ -619,7 +529,7 @@ const CreateHolidayForm = () => {
           Itenaries
         </label>
         <div className="w-full mt-20 md:mt-10 flex flex-col gap-10">
-          {Itenaries.map((val, index) => (
+          {itenaries.map((val, index) => (
             <div
               className="relative flex flex-col md:flex-row gap-5 w-full"
               key={index}
@@ -794,7 +704,7 @@ const CreateHolidayForm = () => {
                 {index === 0 ? null : (
                   <X
                     className="absolute top-[10px] right-0 md:right-10 lg:right-20 xl:right-36 cursor-pointer"
-                    onClick={() => removeTerms(index)}
+                    onClick={() => removeTermsCondition(index)}
                   />
                 )}
               </div>
