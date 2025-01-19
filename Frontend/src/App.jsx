@@ -39,6 +39,7 @@ import PackageDetailPage from './pages/PackageDetailPage';
 import PrimaryNav from './components/HomePage/PrimaryNav';
 import SecondaryNav from './components/HomePage/SecondaryNav';
 import Footer from './components/HomePage/Footer';
+import CustomizedPackageForm from './pages/CustomizedPackageForm';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -75,7 +76,8 @@ const App = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<Signup />} />
         <Route path="verify" element={<OtpPage />} />
-        <Route path="/forex" element={<ForexPage />} />
+        <Route path="forex" element={<ForexPage />} />
+        <Route path="customized-package" element={<CustomizedPackageForm />} />
 
         {/* Protected Route */}
         <Route path="/packages" element={<PackagesPage />} />
