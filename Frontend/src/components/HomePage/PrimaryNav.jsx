@@ -16,7 +16,7 @@ const PrimaryNav = ({ isMenuOpen }) => {
 
   return (
     <nav
-      className={`bg-darkgreen w-full text-xs md:text-sm font-jakarta ${
+      className={`bg-darkgreen z-10 w-full text-xs md:text-sm font-jakarta ${
         isMenuOpen ? 'hidden blur-sm' : 'blur-0'
       }`}
     >

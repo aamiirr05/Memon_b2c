@@ -46,9 +46,9 @@ const ForexInquiryForm = () => {
   };
 
   return (
-    <div className=" overflow-hidden">
-      <div className="h-full w-full lg:h-screen lg:w-screen bg-darkgreen flex flex-col lg:flex-row pb-6">
-        <div className="relative flex-1 bg-peach m-4 rounded-xl flex flex-col items-center justify-center">
+    <div className=" overflow-hidden w-11/12 my-8 mx-auto shadow-2xl rounded-xl font-jakarta ">
+      <div className="h-full w-full   bg-darkgreen flex flex-col lg:flex-row pb-6 pl-0 lg:pl-6 rounded-xl overflow-hidden">
+        <div className="relative lg:w-5/12 mt-10 bg-peach m-4 rounded-xl flex flex-col items-center justify-center">
           <Link
             to="/"
             className="absolute top-8 left-8 text-sm font-medium text-darkgreen bg-darkgreen/20 hover:bg-darkgreen/80 transition-colors hover:text-peach rounded-full flex justify-center items-center gap-1 px-2 py-1"
@@ -80,13 +80,13 @@ const ForexInquiryForm = () => {
         </div>
 
         {/* form */}
-        <div className="flex-1 flex flex-col gap-12 justify-center items-center bg-darkgreen">
-          <h1 className="text-3xl font-semibold text-peach font-jakarta tracking-tight mt-4 lg:mt-0">
+        <div className="flex-1 flex flex-col gap-12 py-6 justify-center items-center bg-darkgreen">
+          <h1 className="text-3xl font-semibold text-peach font-zodiak tracking-tight mt-4 lg:mt-0">
             FOREX ENQUIRY
           </h1>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="w-full sm:w-fit px-4 sm:px-0 flex flex-col gap-2 mb-4"
+            className="w-full sm:w-9/12 px-4 sm:px-0 flex flex-col gap-2 mb-4"
           >
             <div className="grid sm:grid-cols-2 gap-4 ">
               <div id="input" className="relative">

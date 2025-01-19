@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+
 import { usePackageStore } from '../../store/usePackageStore';
 
 const PackageCard = ({ pkg }) => {
@@ -12,22 +13,21 @@ const PackageCard = ({ pkg }) => {
           src={
             'https://images.unsplash.com/photo-1639574326077-6cc1d8749395?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aGFqanxlbnwwfHwwfHx8MA%3D%3D'
           }
-          alt={pkg?.name}
+          alt={pkg?.package_name}
           className="w-full h-full object-cover"
         />
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-col justify-between p-6 space-y-4">
+      <div className="flex flex-col justify-between p-6 space-y-4 w-full">
         <div>
           {/* Package Name and Category */}
           <Link
-            to={`package-details/${pkg?.id}`}
-            target="_blank"
+            to={`package-details/${pkg?.package_id}`}
             onClick={() => setSelectedPackage(pkg)}
             className="text-xl font-semibold text-darkgreen hover:text-darkgreen/90 transition-colors"
           >
-            {pkg?.name}
+            {pkg?.package_name}
           </Link>
           {/* Category and Sharing Rate */}
           {/* <p className="text-sm text-neutral-800">
@@ -35,19 +35,19 @@ const PackageCard = ({ pkg }) => {
           </p> */}
           {/* Package Duration */}
           <p className="text-sm text-neutral-800 mt-4">
-            <strong>{pkg?.totalDays}</strong> Days,{' '}
-            <strong>{pkg?.totalNights}</strong> Nights
+            <strong>{pkg?.total_days}</strong> Days,{' '}
+            <strong>{pkg?.total_nights}</strong> Nights
           </p>
           {/* Description */}
-          <p className="text-neutral-900 text-sm leading-tight line-clamp-3 mt-1 font-medium">
+          <p className="text-neutral-900 text-md leading-tight line-clamp-3 mt-1 font-medium">
             {pkg?.description}
           </p>
         </div>
 
         {/* Price Section */}
-        <div className="flex justify-between items-center flex-wrap">
+        <div className="flex justify-between items-center flex-wrap gap-2">
           <p className="text-xl font-bold text-darkgreen">
-            INR {pkg?.finalPrice}/-{' '}
+            INR {pkg?.final_price}/-{' '}
             <i className="text-neutral-600 text-[12px] font-normal tracking-tight">
               5 Sharing Basis
             </i>
@@ -55,8 +55,7 @@ const PackageCard = ({ pkg }) => {
           <div className="flex gap-2">
             {/* View Details Button */}
             <Link
-              to={`package-details/${pkg?.id}`}
-              target="_blank"
+              to={`package-details/${pkg?.package_id}`}
               onClick={() => setSelectedPackage(pkg)}
               className="text-sm px-4 py-2 text-darkgreen border border-darkgreen rounded-md hover:bg-darkgreen/10 transition-colors"
             >
@@ -64,9 +63,12 @@ const PackageCard = ({ pkg }) => {
             </Link>
 
             {/* Enquire Now Button */}
+
             <button
-              onClick={() => alert(`Enquiring about package: ${pkg?.name}`)}
-              className="px-4 py-2 bg-darkgreen text-peach text-sm font-semibold rounded-md hover:bg-darkgreen/90 transition-colors"
+              onClick={() =>
+                alert(`Enquiring about package: ${pkg?.package_name}`)
+              }
+              className="px-4 py-2 bg-darkgreen text-peach border text-sm font-semibold rounded-md hover:bg-darkgreen/80 transition-colors"
             >
               Enquire Now
             </button>

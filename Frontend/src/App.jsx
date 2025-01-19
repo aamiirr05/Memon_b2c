@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Homepage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import Signup from './pages/auth/SignupPage';
@@ -31,7 +31,7 @@ import UpdateUmrahDetails from './Admin/UmrahPackages/Update/UpdateUmrahDetails'
 import UpdateUmrahPackImgs from './Admin/UmrahPackages/Update/UpdateUmrahPackImgs';
 import UpdateUmrahMeccaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMeccaImgs';
 import UpdateUmrahMadinaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMadinaImgs';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
 import PackagesPage from './pages/PackagesPage';
@@ -43,16 +43,34 @@ import useAdminAuthStore from './Admin/store/useAdminAuthStore';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
+  const location = useLocation();
+
   const { checkAdminAuth } = useAdminAuthStore();
   useEffect(() => {
     checkAuth();
     checkAdminAuth();
   }, []);
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
+  const isLoginPage = location.pathname.startsWith('/login');
+  const isSignupPage = location.pathname.startsWith('/signup');
+
+  const [isMore, setIsMore] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
-      <PrimaryNav />
-      <SecondaryNav />
+      {!isAdminRoute && !isLoginPage && !isSignupPage && (
+        <>
+          <PrimaryNav />
+          <SecondaryNav
+            setIsMore={setIsMore}
+            setIsHovered={setIsHovered}
+            isHovered={isHovered}
+            isMore={isMore}
+          />
+        </>
+      )}
 
       <Routes>
         {/* Public Routes */}
@@ -119,7 +137,9 @@ const App = () => {
         {/* Catch all error route */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <Footer />
+
+      {!isAdminRoute && !isLoginPage && !isSignupPage && <Footer />}
+
       <Toaster
         toastOptions={{
           className: 'text-center',

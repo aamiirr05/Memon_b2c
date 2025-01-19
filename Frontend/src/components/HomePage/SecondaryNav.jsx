@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
   return (
     <>
-      <nav className="bg-peach bg-opacity-30 lg:flex items-center justify-between py-3 px-1 lg:px-6 w-full hidden">
+      <nav className="bg-peach z-10 bg-opacity-90 lg:flex items-center justify-between py-3 px-1 lg:px-6 w-full hidden">
         <div className="flex items-center gap-4">
           <div className="logo w-14 h-14">
             <img src={logo} alt="" />
