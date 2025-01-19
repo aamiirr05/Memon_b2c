@@ -1,31 +1,26 @@
 import { Check, Plus } from 'lucide-react';
 import Loader from '../../components/Loader';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import axiosInstance from '../../lib/axios';
 import HolidayCards from './HolidayCards';
+import useFetchPackages from '../hooks/UseFetchPackages';
+import useHolidayStore from '../store/Holidays/useHolidayStore';
 
 const HolidayPackages = () => {
-  const [getHolidayPackages, setHolidayPackages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { holidayPackages, setHolidayPackages, loading, setLoading } =
+    useHolidayStore();
 
   const location = useLocation();
 
-  const getPackages = async () => {
-    try {
-      const res = await axiosInstance.get('/packages/fetch-holiday-package');
-      const data = res.data.data;
-      setHolidayPackages(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const getPackages = useFetchPackages('admin/packages/fetch-holiday-package');
 
   useEffect(() => {
-    getPackages();
-  }, []);
+    if (getPackages.data) {
+      console.log(getPackages.data.data);
+      setHolidayPackages(getPackages.data.data);
+      setLoading(false);
+    }
+  }, [getPackages.data, setHolidayPackages, setLoading]);
 
   if (loading) {
     return (
@@ -56,12 +51,12 @@ const HolidayPackages = () => {
 
           {/* All packages */}
           <div className="my-10 w-full mx-auto flex items-center justify-center gap-5 lg:gap-10 flex-wrap">
-            {getHolidayPackages.length == 0 ? (
-              <h1 className="text-center text-2xl mt-40 opacity-60 font-zodiak">
+            {holidayPackages.length == 0 ? (
+              <h1 className="text-center text-3xl mt-44 opacity-60 font-zodiak">
                 No Holiday Packages
               </h1>
             ) : (
-              getHolidayPackages.map((i) => (
+              holidayPackages.map((i) => (
                 <HolidayCards
                   data={i}
                   key={i.package_id}
@@ -124,6 +119,7 @@ const HolidayPackages = () => {
                   w-8 h-8 md:w-14 md:h-14 text-darkgreen font-jakarta font-bold right-[47%] -top-[16px] md:-top-[26px]  rounded-full absolute flex items-center justify-center cursor-pointer transition-all 
                   ${isActive ? 'border-4 border-darkgreen bg-peach' : ''}
                   ${!isPreview && (isDetailForm || isImgForm) ? 'bg-peach' : 'bg-darkgreen  border-none'}
+                  ${!isDetailForm && !isPreview ? 'pointer-events-none' : 'pointer-events-auto'}
                  
                 `
               }
@@ -143,7 +139,8 @@ const HolidayPackages = () => {
                 `
                 w-8 h-8 md:w-14 md:h-14 text-darkgreen font-jakarta font-bold -right-3 -top-[16px] md:-top-[26px] rounded-full absolute flex items-center justify-center cursor-pointer transition-all
                   ${isActive ? 'border-4 border-darkgreen bg-peach' : ''}
-                  ${isDetailForm || isImgForm ? 'text-darkgreen bg-peach' : ''}
+                  ${isDetailForm || isImgForm ? 'text-darkgreen bg-peach pointer-events-none' : 'pointer-events-auto'}
+
                 
                  
                 `

@@ -11,7 +11,7 @@ import useCreateUmrahStore from '../store/Umrah/UseCreateUmrahStore';
 import Loader from '../../components/Loader';
 const CreatePreview = () => {
   const { refreshPackages } = useOutletContext();
-  const { previewData } = useCreateUmrahStore();
+  const { previewData, setPreviewData } = useCreateUmrahStore();
   const { id } = useParams();
   const [groupDates] = useState(previewData[0]?.group_dates);
   const [inclusion] = useState(previewData[0]?.inclusion);
@@ -697,6 +697,7 @@ const CreatePreview = () => {
             localStorage.removeItem('packagedetails');
             localStorage.removeItem('packageimage');
             refreshPackages();
+            setPreviewData(['']);
           }}
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >
@@ -707,8 +708,10 @@ const CreatePreview = () => {
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
           onClick={() => {
             refreshPackages();
+
             localStorage.removeItem('packagedetails');
             localStorage.removeItem('packageimage');
+            setPreviewData(['']);
           }}
         >
           Back to Home

@@ -39,11 +39,14 @@ import PackageDetailPage from './pages/PackageDetailPage';
 import PrimaryNav from './components/HomePage/PrimaryNav';
 import SecondaryNav from './components/HomePage/SecondaryNav';
 import Footer from './components/HomePage/Footer';
+import useAdminAuthStore from './Admin/store/useAdminAuthStore';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
+  const { checkAdminAuth } = useAdminAuthStore();
   useEffect(() => {
     checkAuth();
+    checkAdminAuth();
   }, []);
 
   return (

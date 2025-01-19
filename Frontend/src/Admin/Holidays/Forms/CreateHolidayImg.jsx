@@ -239,7 +239,7 @@ const CreateHolidayImg = () => {
     try {
       setLoading(true);
       const res = await axiosInstance.post(
-        '/packages/create-holiday-package',
+        '/admin/packages/create-holiday-package',
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -274,16 +274,16 @@ const CreateHolidayImg = () => {
       <Dropzone
         images={packageImages}
         setImages={setPackageImages}
-        label="Package Images"
+        label="Package Images (3)"
         error={errors.packageImages}
         MAX_FILES={3}
       />
       <Dropzone
         images={hotelImages}
         setImages={setHotelImages}
-        label=" Hotel Images"
+        label="Hotel Images (5) "
         error={errors.hotelImages}
-        MAX_FILES={8}
+        MAX_FILES={5}
       />
 
       <div className="mt-20 w-full md:w-2/3 mx-auto flex gap-2 lg:gap-10  items-center justify-between md:justify-center">

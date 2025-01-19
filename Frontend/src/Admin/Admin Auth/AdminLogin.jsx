@@ -43,7 +43,7 @@ const AdminLogin = () => {
 
   return (
     <>
-      <div className="absolute bg-lightpeach bg-opacity-30 w-full lg:items-center h-full lg:h-screen lg:justify-center lg:p-10 xl:p-0 xl:gap-32 flex flex-col lg:flex-row items-center justify-center">
+      <div className="absolute z-50 bg-lightpeach bg-opacity-30 w-full lg:items-center h-full lg:h-screen lg:justify-center lg:p-10 xl:p-0 xl:gap-32 flex flex-col lg:flex-row items-center justify-center">
         <div
           className="absolute top-7 left-7 cursor-pointer text-darkgreen text-3xl"
           onClick={() => navigate('/')}
