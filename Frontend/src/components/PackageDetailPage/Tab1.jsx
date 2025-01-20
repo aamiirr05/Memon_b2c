@@ -63,7 +63,7 @@ const Tab1 = () => {
               Book Now
             </button>
           </div>
-          <p className="text-sm mt-4 text-center">
+          <p className="text-sm mt-4 text-center text-neutral-600">
             Booking Deadline {selectedPackage.booking_deadline}
           </p>
         </div>
