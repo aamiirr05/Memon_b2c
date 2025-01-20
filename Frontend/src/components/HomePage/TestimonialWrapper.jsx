@@ -8,7 +8,7 @@ const TestimonialWrapper = ({ isMenuOpen }) => {
     dots: true,
     infinite: true,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 4000,
     speed: 500,
     pauseOnHover: true,
     slidesToShow: 3,
