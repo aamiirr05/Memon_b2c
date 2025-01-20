@@ -15,7 +15,7 @@ const Enquiry = () => {
       total_adults: 2,
       total_children: 1,
       total_infants: 0,
-      status: 'Pending',
+      status: 'Approved',
       created_at: '2025-01-15',
     },
     {
@@ -47,7 +47,7 @@ const Enquiry = () => {
       total_adults: 2,
       total_children: 1,
       total_infants: 0,
-      status: 'Pending',
+      status: 'Rejected',
       created_at: '2025-01-15',
     },
     {
@@ -79,7 +79,7 @@ const Enquiry = () => {
       total_adults: 2,
       total_children: 1,
       total_infants: 0,
-      status: 'Pending',
+      status: 'Rejected',
       created_at: '2025-01-15',
     },
     {
@@ -111,7 +111,7 @@ const Enquiry = () => {
       total_adults: 2,
       total_children: 1,
       total_infants: 0,
-      status: 'Pending',
+      status: 'Approved',
       created_at: '2025-01-15',
     },
     {
@@ -143,7 +143,7 @@ const Enquiry = () => {
       total_adults: 2,
       total_children: 1,
       total_infants: 0,
-      status: 'Pending',
+      status: 'Rejected',
       created_at: '2025-01-15',
     },
     {
@@ -172,6 +172,14 @@ const Enquiry = () => {
         return 'text-red-600 border border-red-600 bg-red-300';
       default:
         return 'text-yellow-800 bg-yellow-300 border border-yellow-600';
+    }
+  };
+
+  const isPending = (status) => {
+    if (status === 'Pending') {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -241,7 +249,7 @@ const Enquiry = () => {
                 <div className="py-2 px-2 col-span-3 ">
                   <span key={i}>{e.traveller_date}</span>
                 </div>
-                <div className="py-2 px-2 col-span-2">
+                <div className="py-2 px-2 flex flex-col items-center justify-center col-span-2">
                   <span
                     className={`px-4 py-1 rounded-lg border text-sm ${getStatusClass(e.status)}`}
                     key={i}
@@ -253,15 +261,26 @@ const Enquiry = () => {
                   <span key={i}>{e.created_at}</span>
                 </div>
                 <div className="py-2 px-2 col-span-2 flex flex-col justify-center items-center ">
-                  <span
-                    key={i}
-                    className="cursor-pointer text-red-600 rounded-full hover:bg-red-600 hover:text-white   "
-                  >
-                    <CircleX size={30} />
-                  </span>
-                  <span className="text-md py-2 px-4 my-2 rounded-lg border border-darkgreen bg-green-100 cursor-pointer hover:bg-green-700 hover:text-peach">
-                    Approve
-                  </span>
+                  {isPending(e.status) ? (
+                    <>
+                      <span
+                        key={i}
+                        className="cursor-pointer text-red-600 rounded-full hover:bg-red-600 hover:text-white   "
+                      >
+                        <CircleX size={30} />
+                      </span>
+                      <span className="text-md py-2 px-4 my-2 rounded-lg border border-darkgreen bg-green-100 cursor-pointer hover:bg-green-700 hover:text-peach">
+                        Approve
+                      </span>
+                    </>
+                  ) : (
+                    <span
+                      className={`px-4 py-1 rounded-lg border text-sm ${getStatusClass(e.status)}`}
+                      key={i}
+                    >
+                      {e.status}
+                    </span>
+                  )}
                 </div>
               </div>
             );
