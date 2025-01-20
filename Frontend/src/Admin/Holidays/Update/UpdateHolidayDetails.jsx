@@ -641,7 +641,7 @@ const UpdateHolidayDetails = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                defaultValue={val.activity}
+                defaultValue={val.itenary}
                 onChange={(e) => handleItenaries(e.target.value, index)}
               />
             </div>

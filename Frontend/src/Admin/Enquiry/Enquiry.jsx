@@ -1,4 +1,4 @@
-import {} from 'lucide-react';
+import { CircleX } from 'lucide-react';
 
 const Enquiry = () => {
   const enquiries = [
@@ -31,22 +31,6 @@ const Enquiry = () => {
       total_adults: 2,
       total_children: 1,
       total_infants: 0,
-      status: 'Approved',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
       status: 'Pending',
       created_at: '2025-01-15',
     },
@@ -79,7 +63,23 @@ const Enquiry = () => {
       total_adults: 2,
       total_children: 1,
       total_infants: 0,
-      status: 'Rejected',
+      status: 'Pending',
+      created_at: '2025-01-15',
+    },
+    {
+      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
+      salutation: 'Mr.',
+      first_name: 'John',
+      last_name: 'Doe',
+      email: 'john.doe@example.com',
+      package_type: 'Economy',
+      package_name: 'Umrah Basic',
+      contact: '9876543210',
+      traveller_date: '2025-05-10',
+      total_adults: 2,
+      total_children: 1,
+      total_infants: 0,
+      status: 'Pending',
       created_at: '2025-01-15',
     },
     {
@@ -167,11 +167,11 @@ const Enquiry = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case 'Approved':
-        return 'text-green-800 bg-green-100 border border-green-600 ';
+        return 'text-green-800 bg-green-300 border border-green-600 ';
       case 'Rejected':
-        return 'text-red-600 border border-red-600 bg-red-100';
+        return 'text-red-600 border border-red-600 bg-red-300';
       default:
-        return 'text-yellow-800 bg-yellow-100 border border-yellow-600';
+        return 'text-yellow-800 bg-yellow-300 border border-yellow-600';
     }
   };
 
@@ -189,7 +189,7 @@ const Enquiry = () => {
           <div className="py-2 px-2 col-span-2">Contact</div>
           <div className="py-2 px-2 col-span-2">Package</div>
           <div className="py-2 px-2 col-span-2">Total Person</div>
-          <div className="py-2 px-2 col-span-3 text-center">Traveller Date</div>
+          <div className="py-2 px-2 col-span-3 ">Traveller Date</div>
           <div className="py-2 px-2 col-span-2">Status</div>
           <div className="py-2 px-2 col-span-2">Created At</div>
           <div className="py-2 px-2 col-span-2">Action</div>
@@ -238,7 +238,7 @@ const Enquiry = () => {
                     </span>
                   </>
                 </div>
-                <div className="py-2 px-2 col-span-3 text-center">
+                <div className="py-2 px-2 col-span-3 ">
                   <span key={i}>{e.traveller_date}</span>
                 </div>
                 <div className="py-2 px-2 col-span-2">
@@ -252,8 +252,16 @@ const Enquiry = () => {
                 <div className="py-2 px-2 col-span-2">
                   <span key={i}>{e.created_at}</span>
                 </div>
-                <div className="py-2 px-2 col-span-2">
-                  <span key={i}>{`Action`}</span>
+                <div className="py-2 px-2 col-span-2 flex flex-col justify-center items-center ">
+                  <span
+                    key={i}
+                    className="cursor-pointer text-red-600 rounded-full hover:bg-red-600 hover:text-white   "
+                  >
+                    <CircleX size={30} />
+                  </span>
+                  <span className="text-md py-2 px-4 my-2 rounded-lg border border-darkgreen bg-green-100 cursor-pointer hover:bg-green-700 hover:text-peach">
+                    Approve
+                  </span>
                 </div>
               </div>
             );
