@@ -40,6 +40,10 @@ import PrimaryNav from './components/HomePage/PrimaryNav';
 import SecondaryNav from './components/HomePage/SecondaryNav';
 import Footer from './components/HomePage/Footer';
 import useAdminAuthStore from './Admin/store/useAdminAuthStore';
+import UpdateHoliday from './Admin/Holidays/Update/UpdateHoliday';
+import UpdateHolidayDetails from './Admin/Holidays/Update/UpdateHolidayDetails';
+import UpdateHolidayPackImgs from './Admin/Holidays/Update/UpdateHolidayPackImgs';
+import UpdateHolidayHotelImgs from './Admin/Holidays/Update/UpdateHolidayHotelImgs';
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -101,6 +105,7 @@ const App = () => {
               element={<CreateHotelPreview />}
             />
           </Route>
+          {/* Umrah Packages */}
           <Route path="umrahpackages" element={<UmrahPackages />}>
             <Route path="update/:updateid" element={<UpdateUmrahPackage />}>
               <Route path="details" element={<UpdateUmrahDetails />} />
@@ -118,17 +123,24 @@ const App = () => {
               element={<CreatePreview />}
             />
           </Route>
+          {/* Holiday Packages */}
           <Route path="holidays" element={<HolidayPackages />}>
+            <Route path="update/:updateid" element={<UpdateHoliday />}>
+              <Route path="details" element={<UpdateHolidayDetails />} />
+              <Route path="packageimages" element={<UpdateHolidayPackImgs />} />
+              <Route path="hotelimages" element={<UpdateHolidayHotelImgs />} />
+            </Route>
             <Route path="createholiday-form" element={<CreateHolidayForm />} />
             <Route
               path="createholiday-package"
               element={<CreateHolidayImg />}
             />
             <Route
-              path="createholiday-preview"
+              path="createholiday-preview/:id"
               element={<CreateHolidayPreview />}
             />
           </Route>
+          {/* Visa Routes */}
           <Route path="visa" element={<Visa />}>
             <Route path="createvisa-form" element={<CreateVisaForm />} />
           </Route>

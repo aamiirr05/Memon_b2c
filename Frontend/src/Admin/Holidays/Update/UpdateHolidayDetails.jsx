@@ -1,15 +1,21 @@
 /* eslint-disable no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Plus, X } from 'lucide-react';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router-dom';
+import {
+  NavLink,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
 
-import { AuthContext } from '../../context';
 import HolidaySchema from '../../schema/HoildaySchema';
 import useHolidayStore from '../../store/Holidays/useHolidayStore';
+import toast from 'react-hot-toast';
+import axiosInstance from '../../../lib/axios';
 
-const CreateHolidayForm = () => {
+const UpdateHolidayDetails = () => {
   const {
     groupDates,
     setGroupDates,
@@ -43,16 +49,64 @@ const CreateHolidayForm = () => {
     handleisFeatured,
     addDates,
     removeDates,
+    updateGroupDates,
+    updateInclusion,
+    updateExclusion,
+    updateBookingTerms,
+    updateItenaries,
+    updateTermsCondition,
+    updateCancelPolicy,
+    updateIsActive,
+    updateIsFeatured,
   } = useHolidayStore();
+
+  console.log(isFeatured);
 
   // navigate
   const navigate = useNavigate();
 
   // Context States
-  const { updatePackageData } = useContext(AuthContext);
+  const { updateid } = useParams();
+  const { extractedPackages, getPackages } = useOutletContext();
 
-  // useForm
+  useEffect(() => {
+    if (extractedPackages?.group_dates)
+      updateGroupDates(extractedPackages?.group_dates);
 
+    if (extractedPackages?.inclusion)
+      updateInclusion(extractedPackages.inclusion);
+
+    if (extractedPackages?.exclusion)
+      updateExclusion(extractedPackages.exclusion);
+
+    if (extractedPackages?.booking_terms)
+      updateBookingTerms(extractedPackages.booking_terms);
+
+    if (extractedPackages?.cancellation_policy)
+      updateCancelPolicy(extractedPackages.cancellation_policy);
+
+    if (extractedPackages?.term_condition)
+      updateTermsCondition(extractedPackages.term_condition);
+
+    if (extractedPackages?.itinerary)
+      updateItenaries(extractedPackages?.itinerary);
+
+    if (extractedPackages?.is_active)
+      updateIsActive(extractedPackages.is_active === 'true');
+    if (extractedPackages?.featured)
+      updateIsFeatured(extractedPackages.featured === 'true');
+  }, [
+    extractedPackages,
+    updateGroupDates,
+    updateInclusion,
+    updateExclusion,
+    updateBookingTerms,
+    updateItenaries,
+    updateTermsCondition,
+    updateCancelPolicy,
+    updateIsActive,
+    updateIsFeatured,
+  ]);
   const {
     register,
     handleSubmit,
@@ -61,10 +115,10 @@ const CreateHolidayForm = () => {
   } = useForm({
     resolver: yupResolver(HolidaySchema),
     values: {
-      groupDates: groupDates,
+      groupdates: groupDates,
       isactive: isActive,
-      isfeatured: isFeatured,
-      itenaries: itenaries,
+      featured: isFeatured,
+      itinerary: itenaries,
       cancellationpolicy: cancelpolicy,
       bookingterms: bookingterms,
       termcondition: termcondition,
@@ -122,10 +176,31 @@ const CreateHolidayForm = () => {
   };
 
   // Functions for form submission
-  const onFormSubmit = (data) => {
-    updatePackageData(data);
-
-    navigate('/admin/holidays/createholiday-package');
+  const onFormSubmit = async (data) => {
+    const loadingToast = toast.loading(
+      'Updating Holiday details. Please wait...'
+    );
+    console.log(data);
+    try {
+      // setIsLoading(true);
+      const res = await axiosInstance.put(
+        `/admin/packages/update-holiday-package/${updateid}`,
+        data
+      );
+      console.log(res);
+      toast.dismiss(loadingToast);
+      toast.success('Package updated successfully!');
+      getPackages.refresh();
+      navigate('/admin/holidays');
+    } catch (error) {
+      console.error(error);
+      const errMsg = error?.response?.data.message || 'An error occurred.';
+      toast.dismiss(loadingToast);
+      toast.error(errMsg);
+    } finally {
+      // setIsLoading(false);
+    }
+    reset();
   };
 
   return (
@@ -148,6 +223,7 @@ const CreateHolidayForm = () => {
               id="packagename"
               className="custom-input"
               placeholder="Enter Package Name"
+              defaultValue={extractedPackages?.package_name}
               {...register('packagename')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -165,6 +241,7 @@ const CreateHolidayForm = () => {
               id="packagetype"
               className="custom-input"
               placeholder="Enter Package Type"
+              defaultValue={extractedPackages?.package_type}
               {...register('packagetype')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -175,7 +252,7 @@ const CreateHolidayForm = () => {
         {/* Textbox for desc */}
 
         <div className="flex mt-5 gap-3 w-full flex-col">
-          <label htmlFor="packagetype" className="custom-label">
+          <label htmlFor="description" className="custom-label">
             Package Description
           </label>
           <textarea
@@ -185,6 +262,7 @@ const CreateHolidayForm = () => {
             rows="5"
             className="w-full custom-input"
             placeholder="Enter Package Description"
+            defaultValue={extractedPackages?.description}
             {...register('description')}
           ></textarea>
           <span className="text-sm text-red-600 my-2">
@@ -205,6 +283,7 @@ const CreateHolidayForm = () => {
               id="baseprice"
               min={0}
               className="custom-input"
+              defaultValue={extractedPackages?.base_price}
               placeholder="Enter Base Price"
               {...register('baseprice')}
             />
@@ -224,6 +303,7 @@ const CreateHolidayForm = () => {
               min="0"
               className="custom-input"
               placeholder="Enter  Discount"
+              defaultValue={extractedPackages?.discount}
               {...register('discount')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -362,6 +442,7 @@ const CreateHolidayForm = () => {
             id="bookingdeadline"
             className="w-full lg:w-1/4 custom-input"
             {...register('bookingdeadline')}
+            defaultValue={extractedPackages?.booking_deadline}
           />
           <span className="text-sm text-red-600 my-2">
             {errors?.bookingdeadline?.message}
@@ -383,6 +464,7 @@ const CreateHolidayForm = () => {
               className="custom-input"
               placeholder="Enter Total Days"
               {...register('totaldays')}
+              defaultValue={extractedPackages?.total_days}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.totaldays?.message}
@@ -400,6 +482,7 @@ const CreateHolidayForm = () => {
               id="totalnights"
               className="custom-input"
               placeholder="Enter Total Nights"
+              defaultValue={extractedPackages?.total_nights}
               {...register('totalnights')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -419,6 +502,7 @@ const CreateHolidayForm = () => {
               name="country"
               id="country"
               className="custom-input"
+              defaultValue={extractedPackages?.country}
               placeholder="Enter Country"
               {...register('country')}
             />
@@ -437,6 +521,7 @@ const CreateHolidayForm = () => {
               id="city"
               className="custom-input"
               placeholder="Enter City"
+              defaultValue={extractedPackages?.city}
               {...register('city')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -457,6 +542,7 @@ const CreateHolidayForm = () => {
               id="arrivalcity"
               className="custom-input"
               placeholder="Enter Arrival City"
+              defaultValue={extractedPackages?.arrival_city}
               {...register('arrivalcity')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -473,6 +559,7 @@ const CreateHolidayForm = () => {
               name="departurecity"
               id="departurecity"
               className="custom-input"
+              defaultValue={extractedPackages?.departure_city}
               placeholder="Enter  Departure City"
               {...register('departurecity')}
             />
@@ -493,6 +580,7 @@ const CreateHolidayForm = () => {
               name="hotelname"
               id="hotelname"
               className="custom-input"
+              defaultValue={extractedPackages?.hotel_name}
               placeholder="Enter Hotel Name"
               {...register('hotelname')}
             />
@@ -510,6 +598,7 @@ const CreateHolidayForm = () => {
               name="transportmode"
               id="transportmode"
               className="custom-input"
+              defaultValue={extractedPackages?.transport_mode}
               placeholder="Enter Transport Mode"
               {...register('transportmode')}
             />
@@ -537,7 +626,7 @@ const CreateHolidayForm = () => {
               <input
                 type="text"
                 name="days"
-                value={val.day}
+                defaultValue={val.day}
                 style={{ backgroundColor: '#386641', color: '#f2e8cf' }}
                 disabled
                 className="custom-input w-9/12 md:w-[15%] font-semibold text-center"
@@ -552,7 +641,7 @@ const CreateHolidayForm = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itinerary}
+                defaultValue={val.activity}
                 onChange={(e) => handleItenaries(e.target.value, index)}
               />
             </div>
@@ -580,7 +669,7 @@ const CreateHolidayForm = () => {
                 <input
                   type="text"
                   name=""
-                  value={val}
+                  defaultValue={val}
                   onChange={(e) => handleInclusion(e.target.value, index)}
                   id="packagename"
                   className="w-10/12 mb-5 custom-input"
@@ -618,7 +707,7 @@ const CreateHolidayForm = () => {
                 <input
                   type="text"
                   name="exclusion"
-                  value={val}
+                  defaultValue={val}
                   onChange={(e) => handleExclusion(e.target.value, index)}
                   id="packagename"
                   className="w-10/12 mb-5 custom-input"
@@ -656,7 +745,7 @@ const CreateHolidayForm = () => {
                 <input
                   type="text"
                   name="bookingterms"
-                  value={val}
+                  defaultValue={val}
                   onChange={(e) => handleBookingTerms(e.target.value, index)}
                   id="bookingterms"
                   className="w-10/12 mb-5 custom-input"
@@ -694,7 +783,7 @@ const CreateHolidayForm = () => {
                 <input
                   type="text"
                   name="termcondition"
-                  value={val}
+                  defaultValue={val}
                   onChange={(e) => handleTermsCondition(e.target.value, index)}
                   id="termcondition"
                   className="w-10/12 mb-5 custom-input"
@@ -732,7 +821,7 @@ const CreateHolidayForm = () => {
                 <input
                   type="text"
                   name="cancellationpolicy"
-                  value={val}
+                  defaultValue={val}
                   onChange={(e) => handlePolicy(e.target.value, index)}
                   id="bookingterms"
                   className="w-10/12 mb-5 custom-input"
@@ -777,4 +866,4 @@ const CreateHolidayForm = () => {
   );
 };
 
-export default CreateHolidayForm;
+export default UpdateHolidayDetails;
