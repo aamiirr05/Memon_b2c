@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const HolidaySchema = yup.object().shape({
   packagename: yup.string().required('Package Name is required'),
   packagetype: yup.string().required('Package Type is required'),
-  packagedesc: yup.string().required('Package Description is required'),
+  description: yup.string().required('Package Description is required'),
   city: yup.string().required('City is required'),
   country: yup.string().required('Country is required'),
   transportmode: yup.string().required('Transport Mode is required'),

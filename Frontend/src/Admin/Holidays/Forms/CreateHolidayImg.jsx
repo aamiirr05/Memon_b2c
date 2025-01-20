@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
 import { AuthContext } from '../../context';
 import axiosInstance from '../../../lib/axios';
+import useHolidayStore from '../../store/Holidays/useHolidayStore';
 
 // const MAX_FILES = 5;
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
@@ -108,9 +109,9 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES }) => {
 };
 
 const CreateHolidayImg = () => {
+  const { isCreating, setIsCreating } = useHolidayStore();
   // Context States
-  const { packageData, setPackageData, updatePackageImages } =
-    useContext(AuthContext);
+  const { setPackageData } = useContext(AuthContext);
   const {
     // register,
     handleSubmit,
@@ -119,9 +120,8 @@ const CreateHolidayImg = () => {
 
   const [packageImages, setPackageImages] = useState([]);
   const [hotelImages, setHotelImages] = useState([]);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [previewData, setPreviewData] = useState(() => {
+  const [previewData] = useState(() => {
     const safeParseJSON = (item) => {
       try {
         return JSON.parse(item);
@@ -139,8 +139,6 @@ const CreateHolidayImg = () => {
   });
 
   // Appending all the data to form Data
-
-  console.log(previewData);
 
   const formData = new FormData();
 
@@ -219,10 +217,6 @@ const CreateHolidayImg = () => {
     formData.append(`hotelimage`, image.file);
   });
 
-  for (const [key, value] of formData.entries()) {
-    console.log(`${key}:`, value);
-  }
-
   //  OnSubmit Form
   const onSubmit = async (data) => {
     const toastId = toast.loading(
@@ -237,7 +231,7 @@ const CreateHolidayImg = () => {
       }
     );
     try {
-      setLoading(true);
+      setIsCreating(true);
       const res = await axiosInstance.post(
         '/admin/packages/create-holiday-package',
         formData,
@@ -249,10 +243,12 @@ const CreateHolidayImg = () => {
       console.log(res);
       toast.dismiss(toastId);
 
+      const extractedId = res.data?.data.package_id;
+
       const resMsg = res.data?.data.message || 'Package Created Successfully';
       console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
-      navigate('/admin/holidays/createholiday-preview');
+      navigate(`/admin/holidays/createholiday-preview/${extractedId}`);
     } catch (error) {
       console.error(error);
 
@@ -262,7 +258,7 @@ const CreateHolidayImg = () => {
       toast.dismiss(toastId);
       toast.error(errorMsg, { autoClose: 5000 });
     } finally {
-      setLoading(false);
+      setIsCreating(false);
     }
   };
 
@@ -299,10 +295,13 @@ const CreateHolidayImg = () => {
         </NavLink>
         <button
           type="submit"
-          disabled={loading}
-          className="bg-darkgreen w-full p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base"
+          disabled={isCreating}
+          className={`
+             w-full p-2  rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base
+            ${isCreating ? 'bg-peach text-darkgreen border border-darkgreen' : 'bg-darkgreen text-peach'}
+            `}
         >
-          {loading ? 'Creating Package...' : 'Create Package'}
+          {isCreating ? 'Creating Package...' : 'Create Package'}
         </button>
       </div>
     </form>

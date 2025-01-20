@@ -333,6 +333,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError(400, "All Fields Must Be Filled");
   }
+  console.log(req.body);
 
   const itineraryArray = safeParseJSON(itinerary);
   const groupDatesArray = safeParseJSON(groupdates);
@@ -341,8 +342,8 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
   const cancellationPolicyArray = safeParseJSON(cancellationpolicy);
   const termConditionArray = safeParseJSON(termcondition);
   const bookingTermArray = safeParseJSON(bookingterms);
-  const isActiveBoolean = safeParseJSON(isactive);
-  const featuredBoolean = safeParseJSON(featured);
+  const isActiveBoolean = isactive;
+  const featuredBoolean = featured;
 
   const intTotalDays = safeConvertToNumber(totaldays);
   const intTotalNights = safeConvertToNumber(totalnights);

@@ -6,7 +6,7 @@ import OtpPage from './pages/auth/OtpPage';
 
 import ErrorPage from './pages/ErrorPage';
 import { Toaster } from 'react-hot-toast';
-
+import offlineImg from './assets/img/offline.svg';
 import AdminLayout from './Admin/AdminLayout';
 import Enquiry from './Admin/Enquiry/Enquiry';
 import Hotels from './Admin/Hotels/Hotels';
@@ -40,6 +40,40 @@ import PrimaryNav from './components/HomePage/PrimaryNav';
 import SecondaryNav from './components/HomePage/SecondaryNav';
 import Footer from './components/HomePage/Footer';
 import useAdminAuthStore from './Admin/store/useAdminAuthStore';
+import CustomizedPackageForm from './pages/CustomizedPackageForm';
+import UpdateHoliday from './Admin/Holidays/Update/UpdateHoliday';
+import UpdateHolidayDetails from './Admin/Holidays/Update/UpdateHolidayDetails';
+import UpdateHolidayPackImgs from './Admin/Holidays/Update/UpdateHolidayPackImgs';
+import UpdateHolidayHotelImgs from './Admin/Holidays/Update/UpdateHolidayHotelImgs';
+
+const useOnlineStatus = () => {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const updateOnlineStatus = () => setIsOnline(navigator.onLine);
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    return () => {
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOnlineStatus);
+    };
+  }, []);
+
+  return isOnline;
+};
+
+// Offline notice component
+const OfflineNotice = () => (
+  <div className="w-full bg-peach h-screen text-darkgreen flex flex-col gap-3 mx-auto items-center justify-center">
+    <img src={offlineImg} alt="" className="w-1/3 lg:w-1/6 mb-10" />
+    <h1 className="font-zodiak text-4xl font-bold">You are offline</h1>
+    <h3 className="font-jakarta font-medium text-sm">
+      Go back online to use Memon Tours & Travels
+    </h3>
+  </div>
+);
 
 const App = () => {
   const { checkAuth } = useAuthStore();
@@ -57,6 +91,11 @@ const App = () => {
 
   const [isMore, setIsMore] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const isOnline = useOnlineStatus();
+
+  if (!isOnline) {
+    return <OfflineNotice />;
+  }
 
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
@@ -78,7 +117,8 @@ const App = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<Signup />} />
         <Route path="verify" element={<OtpPage />} />
-        <Route path="/forex" element={<ForexPage />} />
+        <Route path="forex" element={<ForexPage />} />
+        <Route path="customized-package" element={<CustomizedPackageForm />} />
 
         {/* Protected Route */}
         <Route path="/packages" element={<PackagesPage />} />
@@ -101,6 +141,7 @@ const App = () => {
               element={<CreateHotelPreview />}
             />
           </Route>
+          {/* Umrah Packages */}
           <Route path="umrahpackages" element={<UmrahPackages />}>
             <Route path="update/:updateid" element={<UpdateUmrahPackage />}>
               <Route path="details" element={<UpdateUmrahDetails />} />
@@ -118,17 +159,24 @@ const App = () => {
               element={<CreatePreview />}
             />
           </Route>
+          {/* Holiday Packages */}
           <Route path="holidays" element={<HolidayPackages />}>
+            <Route path="update/:updateid" element={<UpdateHoliday />}>
+              <Route path="details" element={<UpdateHolidayDetails />} />
+              <Route path="packageimages" element={<UpdateHolidayPackImgs />} />
+              <Route path="hotelimages" element={<UpdateHolidayHotelImgs />} />
+            </Route>
             <Route path="createholiday-form" element={<CreateHolidayForm />} />
             <Route
               path="createholiday-package"
               element={<CreateHolidayImg />}
             />
             <Route
-              path="createholiday-preview"
+              path="createholiday-preview/:id"
               element={<CreateHolidayPreview />}
             />
           </Route>
+          {/* Visa Routes */}
           <Route path="visa" element={<Visa />}>
             <Route path="createvisa-form" element={<CreateVisaForm />} />
           </Route>

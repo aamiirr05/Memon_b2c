@@ -1,16 +1,23 @@
 import { Check, Plus } from 'lucide-react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import HolidayCards from './HolidayCards';
 import useFetchPackages from '../hooks/UseFetchPackages';
 import useHolidayStore from '../store/Holidays/useHolidayStore';
 
 const HolidayPackages = () => {
-  const { holidayPackages, setHolidayPackages, loading, setLoading } =
-    useHolidayStore();
+  const {
+    holidayPackages,
+    setHolidayPackages,
+    loading,
+    setLoading,
+    isCreating,
+    isModalOpen,
+  } = useHolidayStore();
 
   const location = useLocation();
+  const { updateid } = useParams();
 
   const getPackages = useFetchPackages('admin/packages/fetch-holiday-package');
 
@@ -38,12 +45,14 @@ const HolidayPackages = () => {
   const isPreview = currentPath === '/admin/holidays/createholiday-preview';
 
   return (
-    <div className="w-full h-full">
+    <div
+      className={`w-full h-full ${isCreating ? 'blur-sm pointer-events-none' : 'pointer-events-auto blur-0'}`}
+    >
       {!isChildRoute && (
         <>
           <NavLink
             to="/admin/holidays/createholiday-form"
-            className="flex w-2/3 md:w-1/2 lg:w-1/4 items-center justify-center outline-none border border-darkgreen hover:bg-peach hover:bg-opacity-40 font-semibold font-jakarta hover:text-darkgreen transition-colors hover:animate-shift-up gap-1 bg-darkgreen text-peach p-3 rounded-lg"
+            className={`flex w-2/3 md:w-1/2 lg:w-1/4 items-center justify-center outline-none border border-darkgreen hover:bg-peach hover:bg-opacity-40 font-semibold font-jakarta hover:text-darkgreen transition-colors hover:animate-shift-up gap-1 bg-darkgreen text-peach p-3 rounded-lg ${isModalOpen ? 'blur-sm pointer-events-none' : 'blur-0 pointer-events-auto'}`}
           >
             <Plus />
             Add New Packages
@@ -60,7 +69,7 @@ const HolidayPackages = () => {
                 <HolidayCards
                   data={i}
                   key={i.package_id}
-                  getPackages={getPackages}
+                  refreshPackages={getPackages.refresh}
                 />
               ))
             )}
@@ -69,7 +78,9 @@ const HolidayPackages = () => {
       )}
 
       {isChildRoute && (
-        <div className="bg-[#FAF9F3] top-1 z-50 sticky  w-full h-[20vh] shadow-md rounded-xl p-10">
+        <div
+          className={`bg-[#FAF9F3] top-1 z-50 sticky  w-full h-[20vh] shadow-md rounded-xl p-10 ${updateid ? 'hidden' : ''}`}
+        >
           <div
             className={`
             
@@ -155,8 +166,8 @@ const HolidayPackages = () => {
         </div>
       )}
       {/* Outlet */}
-      <div className="mt-20">
-        <Outlet />
+      <div className="mt-10">
+        <Outlet context={{ getPackages: getPackages }} />
       </div>
     </div>
   );

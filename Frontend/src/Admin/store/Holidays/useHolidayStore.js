@@ -2,11 +2,16 @@ import { create } from 'zustand';
 
 const useHolidayStore = create((set) => ({
   holidayPackages: [''],
-  previewData: [''],
   loading: true,
+  isCreating: false,
+  isUpdating: false,
+  isModalOpen: false,
 
+  setIsModalOpen: (status) => set({ isModalOpen: status }),
   setHolidayPackages: (packages) => set({ holidayPackages: packages }),
+  setIsUpdating: (status) => set({ isUpdating: status }),
   setLoading: (status) => set({ loading: status }),
+  setIsCreating: (status) => set({ isCreating: status }),
 
   groupDates: [''],
   inclusion: [''],
@@ -29,23 +34,52 @@ const useHolidayStore = create((set) => ({
     }));
   },
 
+  updateIsActive: (val) => {
+    set({ isActive: val });
+  },
+  updateIsFeatured: (val) => {
+    set({ isFeatured: val });
+  },
+
   addDates: () => {
     set((state) => ({
       groupDates: [...state.groupDates, ''],
     }));
   },
-
   removeDates: (val) =>
     set((state) => ({
       groupDates: state.groupDates.filter((_, i) => i !== val),
     })),
   setGroupDates: (dates) => set(() => ({ groupDates: dates })),
+  updateGroupDates: (date) => {
+    set(() => ({
+      groupDates: date,
+    }));
+  },
   setInclusion: (inclusionList) => set(() => ({ inclusion: inclusionList })),
+  updateInclusion: (inclusions) => {
+    set({ inclusion: inclusions });
+  },
   setExclusion: (exclusionList) => set(() => ({ exclusion: exclusionList })),
+  updateExclusion: (exclusions) => {
+    set({ exclusion: exclusions });
+  },
   setBookingTerms: (terms) => set(() => ({ bookingterms: terms })),
+  updateBookingTerms: (items) => {
+    set({ bookingterms: items });
+  },
   setCancelPolicy: (policy) => set(() => ({ cancelpolicy: policy })),
+  updateCancelPolicy: (policies) => {
+    set({ cancelpolicy: policies });
+  },
   setTermCondition: (conditions) => set(() => ({ termcondition: conditions })),
+  updateTermsCondition: (con) => {
+    set({ termcondition: con });
+  },
   setItenaries: (itenary) => set(() => ({ itenaries: itenary })),
+  updateItenaries: (items) => {
+    set({ itenaries: items });
+  },
 
   addInclusion: () => set((state) => ({ inclusion: [...state.inclusion, ''] })),
   removeInclusion: (index) =>
