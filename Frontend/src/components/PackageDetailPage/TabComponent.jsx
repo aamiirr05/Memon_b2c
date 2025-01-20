@@ -25,11 +25,11 @@ const TabComponent = () => {
   return (
     <div className="w-full max-w-7xl mx-auto mt-6">
       {/* Tab Titles */}
-      <div className="flex justify-between space-x-4 border-b-2 border-darkgreen/30 w-full overflow-x-scroll">
+      <div className="flex justify-between space-x-4 border-b-1 border-darkgreen/30 w-full overflow-x-scroll">
         {tabNames.map((tabName, index) => (
           <button
             key={index}
-            className={`px-6 py-2 text-lg tracking-tight ${
+            className={` py-2 text-lg tracking-tight ${
               activeTab === index + 1
                 ? 'border-b-2 border-darkgreen text-darkgreen'
                 : 'text-neutral-400 hover:text-darkgreen'
@@ -42,7 +42,7 @@ const TabComponent = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="mt-6">
+      <div className="mt-8">
         <div className="transition-all duration-500 ease-in-out">
           {activeTab === 1 && <Tab1 />}
           {activeTab === 2 && <Tab2 />}

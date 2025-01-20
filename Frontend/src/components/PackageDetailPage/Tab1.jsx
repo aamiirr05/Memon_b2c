@@ -4,7 +4,7 @@ const Tab1 = () => {
   const { selectedPackage } = usePackageStore();
 
   return (
-    <div className="flex flex-row ">
+    <div className="flex flex-row pb-8">
       <div className="w-2/3 pr-8 mb-4">
         <h2 className="text-2xl font-medium text-neutral-700 mb-4">
           About The Destination

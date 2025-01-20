@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { usePackageStore } from '../store/usePackageStore';
 import ErrorPage from './ErrorPage';
-import ShareButton from '../components/PackagesPage/ShareButton';
+import ShareButton from '../components/PackageDetailPage/ShareButton';
 import BentoGrid from '../components/PackageDetailPage/BentoGrid';
 import TabComponent from '../components/PackageDetailPage/TabComponent';
 
