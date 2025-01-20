@@ -25,7 +25,7 @@ const PackageCard = ({ pkg }) => {
           <Link
             to={`package-details/${pkg?.package_id}`}
             onClick={() => setSelectedPackage(pkg)}
-            className="text-xl font-semibold text-darkgreen hover:text-darkgreen/90 transition-colors"
+            className="text-xl font-semibold text-darkgreen hover:text-darkgreen/90 hover:underline transition-colors"
           >
             {pkg?.package_name}
           </Link>
