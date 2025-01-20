@@ -6,7 +6,7 @@ import OtpPage from './pages/auth/OtpPage';
 
 import ErrorPage from './pages/ErrorPage';
 import { Toaster } from 'react-hot-toast';
-
+import offlineImg from './assets/img/offline.svg';
 import AdminLayout from './Admin/AdminLayout';
 import Enquiry from './Admin/Enquiry/Enquiry';
 import Hotels from './Admin/Hotels/Hotels';
@@ -46,6 +46,35 @@ import UpdateHolidayDetails from './Admin/Holidays/Update/UpdateHolidayDetails';
 import UpdateHolidayPackImgs from './Admin/Holidays/Update/UpdateHolidayPackImgs';
 import UpdateHolidayHotelImgs from './Admin/Holidays/Update/UpdateHolidayHotelImgs';
 
+const useOnlineStatus = () => {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const updateOnlineStatus = () => setIsOnline(navigator.onLine);
+
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+
+    return () => {
+      window.removeEventListener('online', updateOnlineStatus);
+      window.removeEventListener('offline', updateOnlineStatus);
+    };
+  }, []);
+
+  return isOnline;
+};
+
+// Offline notice component
+const OfflineNotice = () => (
+  <div className="w-full bg-peach h-screen text-darkgreen flex flex-col gap-3 mx-auto items-center justify-center">
+    <img src={offlineImg} alt="" className="w-1/3 lg:w-1/6 mb-10" />
+    <h1 className="font-zodiak text-4xl font-bold">You are offline</h1>
+    <h3 className="font-jakarta font-medium text-sm">
+      Go back online to use Memon Tours & Travels
+    </h3>
+  </div>
+);
+
 const App = () => {
   const { checkAuth } = useAuthStore();
   const location = useLocation();
@@ -62,6 +91,11 @@ const App = () => {
 
   const [isMore, setIsMore] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const isOnline = useOnlineStatus();
+
+  if (!isOnline) {
+    return <OfflineNotice />;
+  }
 
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
