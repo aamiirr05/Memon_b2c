@@ -1,59 +1,26 @@
 import { create } from 'zustand';
+import toast from 'react-hot-toast';
+
+import axiosInstance from '../lib/axios';
 
 const useCustomizedPackageStore = create((set) => ({
-  formData: {
-    first_name: '',
-    last_name: '',
-    email: '',
-    contact: '',
-    booking_type: '',
-    travel_class: '',
-    makkah_hotel_name: '',
-    medina_hotel_name: '',
-    room_type: '',
-    adults: 1,
-    kids: 0,
-    status: 'Pending',
-    additional_info: '',
-  },
   isSubmitting: false,
 
-  // To update form data
-  setFormData: (newData) =>
-    set((state) => ({ formData: { ...state.formData, ...newData } })),
-
-  // To reset the form
-  resetForm: () =>
-    set({
-      formData: {
-        first_name: '',
-        last_name: '',
-        email: '',
-        contact: '',
-        booking_type: '',
-        travel_class: '',
-        makkah_hotel_name: '',
-        medina_hotel_name: '',
-        room_type: '',
-        adults: 1,
-        kids: 0,
-        status: 'Pending',
-        additional_info: '',
-      },
-    }),
-
-  // Simulate form submission
   submit: async (data, navigate) => {
     set({ isSubmitting: true });
     try {
-      // Simulate an API call or some other async operation
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
-      set({ isSubmitting: false });
-      // Handle navigation or any other logic after form submission
-      navigate('/thank-you'); // Example route
+      const res = await axiosInstance.post(
+        '/users/enquiry/customized-package',
+        data
+      );
+      toast.success(res.data.message);
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
       set({ isSubmitting: false });
-      console.error('Error submitting form:', error);
     }
   },
 }));

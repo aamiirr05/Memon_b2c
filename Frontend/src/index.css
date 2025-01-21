@@ -221,7 +221,7 @@
 
 .forex-input-labels {
   @apply absolute text-sm font-medium px-2 py-0.5 left-2 transition-all text-peach/60 bg-transparent rounded-full;
-  top: 16%; /* Initial position */
+  top: 22%; /* Initial position */
   transform: translateY(-8%); /* Center vertically */
 }
 
