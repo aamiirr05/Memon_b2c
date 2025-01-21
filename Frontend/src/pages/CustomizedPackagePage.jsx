@@ -49,7 +49,7 @@ const CustomizedPackagePage = () => {
 
   return (
     <div>
-      <div className="flex-1 flex flex-col gap-12 py-6 px-6 justify-center items-center bg-darkgreen">
+      <div className="flex-1 flex flex-col gap-12 pt-6 pb-20 rounded-md px-6 justify-center items-center bg-darkgreen m-8">
         <h1 className="text-3xl font-semibold text-peach tracking-tight mt-6 ">
           CUSTOMIZED PACKAGE ENQUIRY
         </h1>
