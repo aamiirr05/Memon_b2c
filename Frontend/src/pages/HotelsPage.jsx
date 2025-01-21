@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import Filter from '../components/PackagesPage/Filter';
 import { useHotelStore } from '../store/useHotelStore';
-import HotelCard from '../components/HotelsPage.jsx/HotelCard';
-import HotelCardSkeleton from '../components/HotelsPage.jsx/HotelCardSkeleton';
+import HotelCard from '../components/HotelsPage/HotelCard';
+import HotelCardSkeleton from '../components/HotelsPage/HotelCardSkeleton';
 
 const HotelsPage = () => {
   const { fetchHotels, isFetching, hotels, areHotelsFetched } = useHotelStore();

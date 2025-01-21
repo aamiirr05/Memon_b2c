@@ -44,7 +44,7 @@ const HotelCardSkeleton = () => {
 
           {/* View More Button */}
           <div className="md:mt-4 w-full md:w-auto flex justify-end md:justify-normal">
-            <div className="w-24 h-8 bg-darkgreen/50 animate-pulse rounded-md" />
+            <div className="w-24 h-8 bg-darkgreen/50 animate-pulse" />
           </div>
         </div>
       </div>
