@@ -7,6 +7,7 @@ import PackageCardSkeleton from '../components/PackagesPage/PackageCardSkeleton'
 const PackagesPage = () => {
   const { packages, fetchPackages, isFetching, arePackagesFetched } =
     usePackageStore();
+
   useEffect(() => {
     if (!arePackagesFetched) {
       fetchPackages();

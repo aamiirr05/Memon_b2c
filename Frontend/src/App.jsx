@@ -46,6 +46,9 @@ import UpdateHolidayPackImgs from './Admin/Holidays/Update/UpdateHolidayPackImgs
 import UpdateHolidayHotelImgs from './Admin/Holidays/Update/UpdateHolidayHotelImgs';
 import CustomizedPackagePage from './pages/CustomizedPackagePage';
 import ContactPage from './pages/ContactPage';
+import HotelsPage from './pages/HotelsPage';
+import OurPartnersPage from './pages/OurPartnersPage';
+import NusukPage from './pages/NusukPage';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -122,12 +125,15 @@ const App = () => {
         <Route path="customized-package" element={<CustomizedPackagePage />} />
         <Route path="contact" element={<ContactPage />} />
 
-        {/* Protected Route */}
+        {/* Not Protected Route */}
         <Route path="/packages" element={<PackagesPage />} />
         <Route
           path="/packages/package-details/:packageId"
           element={<PackageDetailPage />}
         />
+        <Route path="/hotels" element={<HotelsPage />} />
+        <Route path="/our-partners" element={<OurPartnersPage />} />
+        <Route path="/nusuk" element={<NusukPage />} />
 
         {/* Admin Routes */}
         <Route path="admin-login" element={<AdminLogin />} />

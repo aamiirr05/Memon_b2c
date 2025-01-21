@@ -87,10 +87,10 @@ const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
           <Link to="/forex" className="link-hover-green">
             Forex
           </Link>
-          <Link to="/" className="link-hover-green hidden xl:block">
+          <Link to="/our-partners" className="link-hover-green hidden xl:block">
             Our Partners
           </Link>
-          <Link to="/" className="link-hover-green hidden xl:block">
+          <Link to="/nusuk" className="link-hover-green hidden xl:block">
             Nusuk
           </Link>
           <Link to="/contact" className="link-hover-green hidden xl:block">
