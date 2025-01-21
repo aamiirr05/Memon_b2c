@@ -2,16 +2,15 @@ import { useEffect } from 'react';
 import Filter from '../components/PackagesPage/Filter';
 import { useHotelStore } from '../store/useHotelStore';
 import HotelCard from '../components/HotelsPage.jsx/HotelCard';
+import HotelCardSkeleton from '../components/HotelsPage.jsx/HotelCardSkeleton';
 
 const HotelsPage = () => {
-  const { fetchHotels, hotels, areHotelsFetched } = useHotelStore();
+  const { fetchHotels, isFetching, hotels, areHotelsFetched } = useHotelStore();
   useEffect(() => {
     if (!areHotelsFetched) {
       fetchHotels();
     }
   }, [fetchHotels]);
-
-  console.log(hotels);
 
   return (
     <main className="bg-peach/50">
@@ -35,27 +34,27 @@ const HotelsPage = () => {
             <div className=" flex gap-6">
               <Filter />
 
-              <div className="flex flex-col gap-6 w-full">
-                {hotels.map((hotel, index) => (
-                  <HotelCard key={hotel.hotel_id} />
+              {/* <div className="flex flex-col gap-6 w-full">
+                {hotels.map((hotel) => (
+                  <HotelCard key={hotel.hotel_id} hotel={hotel} />
                 ))}
-              </div>
+              </div> */}
 
               {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
-              {/* <div className="flex flex-col gap-6 w-full">
+              <div className="flex flex-col gap-6 w-full">
                 {isFetching ? (
                   Array(3)
                     .fill()
-                    .map((_, index) => <PackageCardSkeleton key={index} />)
+                    .map((_, index) => <HotelCardSkeleton key={index} />)
                 ) : (
                   <>
                     {' '}
-                    {packages.map((pkg) => (
-                      <PackageCard key={pkg.package_id} pkg={pkg} />
+                    {hotels.map((hotel) => (
+                      <HotelCard key={hotel.hotel_id} hotel={hotel} />
                     ))}
                   </>
                 )}
-              </div> */}
+              </div>
             </div>
           </div>
         </div>

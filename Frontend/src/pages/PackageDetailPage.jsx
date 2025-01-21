@@ -18,6 +18,10 @@ const PackageDetailPage = () => {
   } = usePackageStore();
 
   useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }, []);
+
+  useEffect(() => {
     if (!selectedPackage || selectedPackage.package_id !== packageId) {
       const pkg = packages.find((pkg) => pkg.package_id === packageId);
 

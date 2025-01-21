@@ -49,6 +49,7 @@ import ContactPage from './pages/ContactPage';
 import HotelsPage from './pages/HotelsPage';
 import OurPartnersPage from './pages/OurPartnersPage';
 import NusukPage from './pages/NusukPage';
+import HotelDetailPage from './pages/HotelDetailPage';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -132,6 +133,10 @@ const App = () => {
           element={<PackageDetailPage />}
         />
         <Route path="/hotels" element={<HotelsPage />} />
+        <Route
+          path="/hotels/hotel-details/:hotelId"
+          element={<HotelDetailPage />}
+        />
         <Route path="/our-partners" element={<OurPartnersPage />} />
         <Route path="/nusuk" element={<NusukPage />} />
 
