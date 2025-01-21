@@ -45,6 +45,7 @@ import UpdateHolidayDetails from './Admin/Holidays/Update/UpdateHolidayDetails';
 import UpdateHolidayPackImgs from './Admin/Holidays/Update/UpdateHolidayPackImgs';
 import UpdateHolidayHotelImgs from './Admin/Holidays/Update/UpdateHolidayHotelImgs';
 import CustomizedPackagePage from './pages/CustomizedPackagePage';
+import ContactPage from './pages/ContactPage';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -119,6 +120,7 @@ const App = () => {
         <Route path="verify" element={<OtpPage />} />
         <Route path="forex" element={<ForexPage />} />
         <Route path="customized-package" element={<CustomizedPackagePage />} />
+        <Route path="contact" element={<ContactPage />} />
 
         {/* Protected Route */}
         <Route path="/packages" element={<PackagesPage />} />

@@ -93,7 +93,7 @@ const SecondaryNav = ({ setIsMore, setIsHovered, isHovered, isMore }) => {
           <Link to="/" className="link-hover-green hidden xl:block">
             Nusuk
           </Link>
-          <Link to="/" className="link-hover-green hidden xl:block">
+          <Link to="/contact" className="link-hover-green hidden xl:block">
             Contact Us
           </Link>
           <div
