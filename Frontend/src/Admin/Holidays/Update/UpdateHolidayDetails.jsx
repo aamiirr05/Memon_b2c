@@ -60,8 +60,6 @@ const UpdateHolidayDetails = () => {
     updateIsFeatured,
   } = useHolidayStore();
 
-  console.log(isFeatured);
-
   // navigate
   const navigate = useNavigate();
 
@@ -180,20 +178,17 @@ const UpdateHolidayDetails = () => {
     const loadingToast = toast.loading(
       'Updating Holiday details. Please wait...'
     );
-    console.log(data);
     try {
       // setIsLoading(true);
       const res = await axiosInstance.put(
         `/admin/packages/update-holiday-package/${updateid}`,
         data
       );
-      console.log(res);
       toast.dismiss(loadingToast);
       toast.success('Package updated successfully!');
       getPackages.refresh();
       navigate('/admin/holidays');
     } catch (error) {
-      console.error(error);
       const errMsg = error?.response?.data.message || 'An error occurred.';
       toast.dismiss(loadingToast);
       toast.error(errMsg);

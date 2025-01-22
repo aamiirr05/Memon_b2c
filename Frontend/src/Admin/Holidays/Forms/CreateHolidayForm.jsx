@@ -50,13 +50,16 @@ const CreateHolidayForm = () => {
 
   // Context States
   const { updatePackageData } = useContext(AuthContext);
+  const previewData = JSON.parse(localStorage.getItem('packagedetails')) || {};
+
+  console.log(previewData);
 
   // useForm
 
   const {
     register,
     handleSubmit,
-    reset,
+
     formState: { errors },
   } = useForm({
     resolver: yupResolver(HolidaySchema),
@@ -149,6 +152,7 @@ const CreateHolidayForm = () => {
               className="custom-input"
               placeholder="Enter Package Name"
               {...register('packagename')}
+              defaultValue={previewData?.packagename}
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.packagename?.message}
@@ -165,6 +169,7 @@ const CreateHolidayForm = () => {
               id="packagetype"
               className="custom-input"
               placeholder="Enter Package Type"
+              defaultValue={previewData?.packagetype}
               {...register('packagetype')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -186,6 +191,7 @@ const CreateHolidayForm = () => {
             className="w-full custom-input"
             placeholder="Enter Package Description"
             {...register('description')}
+            defaultValue={previewData?.description}
           ></textarea>
           <span className="text-sm text-red-600 my-2">
             {errors?.description?.message}
@@ -206,6 +212,7 @@ const CreateHolidayForm = () => {
               min={0}
               className="custom-input"
               placeholder="Enter Base Price"
+              defaultValue={previewData?.baseprice}
               {...register('baseprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -224,6 +231,7 @@ const CreateHolidayForm = () => {
               min="0"
               className="custom-input"
               placeholder="Enter  Discount"
+              defaultValue={previewData?.discount}
               {...register('discount')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -362,6 +370,7 @@ const CreateHolidayForm = () => {
             id="bookingdeadline"
             className="w-full lg:w-1/4 custom-input"
             {...register('bookingdeadline')}
+            defaultValue={previewData?.bookingdeadline}
           />
           <span className="text-sm text-red-600 my-2">
             {errors?.bookingdeadline?.message}
@@ -381,6 +390,7 @@ const CreateHolidayForm = () => {
               min="0"
               id="totaldays"
               className="custom-input"
+              defaultValue={previewData?.totaldays}
               placeholder="Enter Total Days"
               {...register('totaldays')}
             />
@@ -400,6 +410,7 @@ const CreateHolidayForm = () => {
               id="totalnights"
               className="custom-input"
               placeholder="Enter Total Nights"
+              defaultValue={previewData?.totalnights}
               {...register('totalnights')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -420,6 +431,7 @@ const CreateHolidayForm = () => {
               id="country"
               className="custom-input"
               placeholder="Enter Country"
+              defaultValue={previewData?.country}
               {...register('country')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -437,6 +449,7 @@ const CreateHolidayForm = () => {
               id="city"
               className="custom-input"
               placeholder="Enter City"
+              defaultValue={previewData?.city}
               {...register('city')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -456,6 +469,7 @@ const CreateHolidayForm = () => {
               name="arrivalcity"
               id="arrivalcity"
               className="custom-input"
+              defaultValue={previewData?.arrivalcity}
               placeholder="Enter Arrival City"
               {...register('arrivalcity')}
             />
@@ -473,6 +487,7 @@ const CreateHolidayForm = () => {
               name="departurecity"
               id="departurecity"
               className="custom-input"
+              defaultValue={previewData?.departurecity}
               placeholder="Enter  Departure City"
               {...register('departurecity')}
             />
@@ -493,6 +508,7 @@ const CreateHolidayForm = () => {
               name="hotelname"
               id="hotelname"
               className="custom-input"
+              defaultValue={previewData?.hotelname}
               placeholder="Enter Hotel Name"
               {...register('hotelname')}
             />
@@ -510,6 +526,7 @@ const CreateHolidayForm = () => {
               name="transportmode"
               id="transportmode"
               className="custom-input"
+              defaultValue={previewData?.transportmode}
               placeholder="Enter Transport Mode"
               {...register('transportmode')}
             />
@@ -529,7 +546,7 @@ const CreateHolidayForm = () => {
           Itenaries
         </label>
         <div className="w-full mt-20 md:mt-10 flex flex-col gap-10">
-          {itenaries.map((val, index) => (
+          {(previewData?.itenaries || itenaries).map((val, index) => (
             <div
               className="relative flex flex-col md:flex-row gap-5 w-full"
               key={index}
@@ -552,7 +569,7 @@ const CreateHolidayForm = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itinerary}
+                value={val.itenary}
                 onChange={(e) => handleItenaries(e.target.value, index)}
               />
             </div>
@@ -574,7 +591,7 @@ const CreateHolidayForm = () => {
           Inclusion
         </label>
         <div className="flex flex-wrap mt-10 md:mt-5 justify-start w-full">
-          {inclusion.map((val, index) => {
+          {(previewData?.inclusion || inclusion).map((val, index) => {
             return (
               <div className="w-full relative" key={index}>
                 <input
@@ -762,6 +779,7 @@ const CreateHolidayForm = () => {
       <div className="mt-10 w-full lg:w-2/3 mx-auto flex gap-5 lg:gap-60 items-center justify-center">
         <NavLink
           to="/admin/holidays"
+          onClick={() => localStorage.clear()}
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >
           Back
