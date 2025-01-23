@@ -62,6 +62,7 @@ model HolidayPackage {
   package_name        String        @db.VarChar(200)
   package_images      Json
   package_type        String        @db.VarChar(100)
+  category            String[]
   description         String
   country             String        @db.VarChar(100)
   city                String        @db.VarChar(100)

@@ -10,6 +10,10 @@ function holidayPackageValidation(data) {
       "string.max": '"package type" cannot exceed 100 characters',
       "any.required": '"package type" is required',
     }),
+    category: Joi.array().items(Joi.string()).required().messages({
+      "array.base": '"category" must be an array of strings',
+      "any.required": '"category" is required',
+    }),
     description: Joi.string().required().messages({
       "any.required": '"description" is required',
     }),

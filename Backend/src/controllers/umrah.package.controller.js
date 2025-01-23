@@ -395,7 +395,11 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
     totaldays,
     totalnights,
     makhotelname,
+    makhotelstar,
+    makhotellocation,
     medhotelname,
+    medhotelstar,
+    medhotellocation,
     cancellationpolicy,
     termcondition,
     bookingterms,
@@ -427,7 +431,11 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
       totaldays,
       totalnights,
       makhotelname,
+      makhotelstar,
+      makhotellocation,
       medhotelname,
+      medhotelstar,
+      medhotellocation,
       cancellationpolicy,
       termcondition,
       bookingterms,
@@ -448,6 +456,8 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields must be filled");
   }
 
+  const intMakHotelStar = safeConvertToNumber(makhotelstar);
+  const intMedHotelStar = safeConvertToNumber(medhotelstar);
   const intBasePrice = safeConvertToNumber(baseprice);
   const intDiscount = safeConvertToNumber(discount);
   const intTotalDays = safeConvertToNumber(totaldays);
@@ -479,7 +489,11 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
     totaldays,
     totalnights,
     makhotelname,
+    makhotelstar: intMakHotelStar,
+    makhotellocation,
     medhotelname,
+    medhotelstar: intMedHotelStar,
+    medhotellocation,
     departurecity,
     arrivalcity,
     isactive,
@@ -532,7 +546,11 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
       total_days: intTotalDays,
       total_nights: intTotalNights,
       mak_hotel_name: makhotelname,
-      med_hotel_images: medhotelname,
+      mak_hotel_star: intMakHotelStar,
+      mak_hotel_location: makhotellocation,
+      med_hotel_name: medhotelname,
+      med_hotel_star: intMedHotelStar,
+      med_hotel_location: medhotellocation,
       prices: {
         update: {
           where: { price_id: priceID },
@@ -668,7 +686,7 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   );
 
   if (!newUploadedImages || newUploadedImages.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Package Images");
   }
 
   for (const oldImgId of oldPackageImagePublicIds) {
@@ -761,7 +779,7 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
   );
 
   if (!newMakHotelImages || newMakHotelImages.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Makkah Hotel Images");
   }
 
   for (const oldImgId of oldMakHotelImagePublicIds) {
@@ -853,7 +871,7 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
   );
 
   if (!newMedHotelImages || newMedHotelImages.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Medina Hotel Images");
   }
 
   for (const oldImgId of oldMedHotelImagePublicIds) {

@@ -26,6 +26,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
   const {
     packagename,
     packagetype,
+    category,
     description,
     country,
     city,
@@ -53,6 +54,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
     [
       packagename,
       packagetype,
+      category,
       description,
       country,
       city,
@@ -79,6 +81,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
     throw new ApiError(401, "All Fields Must Be Filled");
   }
 
+  const categoryArray = safeParseJSON(category);
   const itineraryArray = safeParseJSON(itinerary);
   const groupDatesArray = safeParseJSON(groupdates);
   const inclusionArray = safeParseJSON(inclusion);
@@ -98,6 +101,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
   const inputError = holidayPackageValidation({
     packagename,
     packagetype,
+    category: categoryArray,
     description,
     country,
     city,
@@ -186,11 +190,11 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
   const uploadedHotelImage = await uploadImages("HotelImage", hotelImagePath);
 
   if (!uploadedPackageImage || uploadedPackageImage.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Package Images");
   }
 
   if (!uploadedHotelImage || uploadedHotelImage.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Hotel Images");
   }
 
   const packageImageArray = Object.values(uploadedPackageImage)[0];
@@ -202,6 +206,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
       admin_id: adminId,
       package_name: packagename,
       package_type: packagetype,
+      category: categoryArray,
       package_images: packageImageArray,
       description,
       country,
@@ -281,6 +286,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
   const {
     packagename,
     packagetype,
+    category,
     description,
     country,
     city,
@@ -308,6 +314,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
     [
       packagename,
       packagetype,
+      category,
       description,
       country,
       city,
@@ -335,6 +342,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
   }
   console.log(req.body);
 
+  const categoryArray = safeParseJSON(category);
   const itineraryArray = safeParseJSON(itinerary);
   const groupDatesArray = safeParseJSON(groupdates);
   const inclusionArray = safeParseJSON(inclusion);
@@ -356,6 +364,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
   const inputError = holidayPackageValidation({
     packagename,
     packagetype,
+    category: categoryArray,
     description,
     country,
     city,
@@ -388,6 +397,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
     data: {
       package_name: packagename,
       package_type: packagetype,
+      category: categoryArray,
       description,
       country,
       city,
@@ -415,6 +425,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
     select: {
       package_name: true,
       package_type: true,
+      category: true,
       description: true,
       country: true,
       city: true,
