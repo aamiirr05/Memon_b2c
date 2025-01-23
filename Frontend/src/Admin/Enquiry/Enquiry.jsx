@@ -184,12 +184,12 @@ const Enquiry = () => {
   };
 
   return (
-    <div className="w-full p-4 sm:p-6">
+    <div className="overflow-x-scroll lg:overflow-hidden w-full p-4 sm:p-6">
       <h1 className="text-xl font-semibold mb-4">Umrah Enquiry Records</h1>
-      <div className="grid grid-rows-2 gap-5">
+      <div className="relative grid grid-rows-2 gap-5">
         <div
-          className="grid gap-1 w-full bg-darkgreen shadow-lg rounded-lg row-span-full text-center text-peach text-md font-zodiak p-2"
-          style={{ gridTemplateColumns: 'repeat(21, minmax(0, 1fr))' }}
+          className=" grid gap-1 w-full bg-darkgreen shadow-lg rounded-lg row-span-full text-center text-peach text-md font-zodiak p-2 grid-cols-[repeat(21,minmax(70px,1fr))] lg:grid-cols-[repeat(21,minmax(0,1fr))]"
+          // style={{ gridTemplateColumns: 'repeat(21, minmax(0, 1fr))' }}
         >
           <div className="py-2 px-2 col-span-2">Enquiry ID</div>
           <div className="py-2 px-2 col-span-2">Name</div>
@@ -208,8 +208,8 @@ const Enquiry = () => {
             return (
               <div
                 key={i}
-                className="grid gap-1 hover:bg-darkgreen/5 shadow-lg rounded-md bg-peach/30 text-darkgreen text-center text-xs font-jakarta p-2"
-                style={{ gridTemplateColumns: 'repeat(21, minmax(0, 1fr))' }}
+                className="grid gap-1 hover:bg-darkgreen/5 shadow-lg rounded-md bg-peach/30 text-darkgreen text-center text-xs font-jakarta p-2 grid-cols-[repeat(21,minmax(70px,1fr))] lg:grid-cols-[repeat(21,minmax(0,1fr))]"
+                // style={{ gridTemplateColumns: 'repeat(21, minmax(0, 1fr))' }}
               >
                 <div className="py-2 px-2 col-span-2">
                   <span key={i}>{e.enquiry_id}</span>
@@ -293,50 +293,3 @@ const Enquiry = () => {
 };
 
 export default Enquiry;
-
-// <div className="w-full font-jakarta grid grid-cols-10 hover:bg-darkgreen/5">
-//             {enquiries.map((enquiry) => (
-//               <div
-//                 key={enquiry.enquiry_id}
-//                 className="flex   text-darkgreen text-sm p-2 "
-//               >
-//                 <div className="py-2 px-2        ">{enquiry.enquiry_id}</div>
-//                 <div className="py-2 px-2      ">
-//                   {enquiry.first_name} {enquiry.last_name}
-//                 </div>
-//                 <div className="py-2 px-2       ">{enquiry.email}</div>
-//                 <div className="py-2 px-2      ">{enquiry.contact}</div>
-//                 <div className="py-2 px-2      ">
-//                   {enquiry.package_name} ({enquiry.package_type})
-//                 </div>
-//                 <div className="py-2 px-2   flex flex-col     ">
-//                   <span>
-//                     {' '}
-//                     Adults({enquiry.total_adults}) Children(
-//                     {enquiry.total_children})
-//                   </span>{' '}
-//                   <span>
-//                     Infants(
-//                     {enquiry.total_infants})
-//                   </span>
-//                   <span className="text-md font-bold">
-//                     {' '}
-//                     Total:{' '}
-//                     {enquiry.total_adults +
-//                       enquiry.total_children +
-//                       enquiry.total_infants}
-//                   </span>
-//                 </div>
-//                 <div className="py-2 px-2      ">{enquiry.traveller_date}</div>
-//                 <div className="py-2 px-2   ">
-//                   <span
-//                     className={`px-2 py-1 rounded-xl border text-sm ${getStatusClass(enquiry.status)}`}
-//                   >
-//                     {enquiry.status}
-//                   </span>
-//                 </div>
-//                 <div className="py-2 px-2">{enquiry.created_at}</div>
-//                 <div className="py-2 px-2">Action</div>
-//               </div>
-//             ))}
-//           </div>

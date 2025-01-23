@@ -148,7 +148,7 @@ const CreateHolidayImg = () => {
   formData.append('departurecity', previewData?.packageDetails.departurecity);
   formData.append('country', previewData?.packageDetails.country);
   formData.append('city', previewData?.packageDetails.city);
-  formData.append('description', previewData?.packageDetails.packagedesc);
+  formData.append('description', previewData?.packageDetails.description);
   formData.append('hotelname', previewData?.packageDetails.hotelname);
   //
   formData.append('isactive', previewData?.packageDetails.isactive);
@@ -239,16 +239,13 @@ const CreateHolidayImg = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
-
-      console.log(res);
       toast.dismiss(toastId);
 
       const extractedId = res.data?.data.package_id;
-
       const resMsg = res.data?.data.message || 'Package Created Successfully';
-      console.log(resMsg);
       toast.success(resMsg, { autoClose: 5000 });
       navigate(`/admin/holidays/createholiday-preview/${extractedId}`);
+      localStorage.clear();
     } catch (error) {
       console.error(error);
 
@@ -287,7 +284,6 @@ const CreateHolidayImg = () => {
           to="/admin/umrahpackages/createpackage-form"
           className="bg-darkgreen w-full p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base"
           onClick={() => {
-            localStorage.removeItem('packagedetails');
             setPackageData();
           }}
         >
