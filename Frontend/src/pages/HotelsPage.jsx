@@ -34,13 +34,7 @@ const HotelsPage = () => {
             <div className=" flex gap-6">
               <Filter />
 
-              {/* <div className="flex flex-col gap-6 w-full">
-                {hotels.map((hotel) => (
-                  <HotelCard key={hotel.hotel_id} hotel={hotel} />
-                ))}
-              </div> */}
-
-              {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
+              {/* list all hotels */}
               <div className="flex flex-col gap-6 w-full">
                 {isFetching ? (
                   Array(3)
