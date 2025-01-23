@@ -19,7 +19,7 @@ import {
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import fs from "fs";
-import path from "path";
+import path, { dirname } from "path";
 import {
   customizedPackageValidation,
   userContactEnquiryValidation,
@@ -268,13 +268,16 @@ const resendOtp = asyncHandler(async (req, res) => {
 
   const parentDir = path.resolve(normalizedDirname, "..");
 
-  const templatePath = path.join(parentDir, "email/emailTemplate.html");
+  const templatePath = path.join(parentDir, "email/otpEmailTemplate.html");
 
   let htmlContent = fs.readFileSync(templatePath, "utf8");
 
+  const currentYear = new Date().getFullYear();
+
   htmlContent = htmlContent
     .replace("{{userName}}", username)
-    .replace("{{otp}}", otp);
+    .replace("{{otp}}", otp)
+    .replace("{{year}}", currentYear);
 
   const mailOptions = {
     from: process.env.NODEMAILER_USER,
@@ -530,6 +533,49 @@ const enquiryContact = asyncHandler(async (req, res) => {
     },
   });
 
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "contactEnquiryEmailTemplate.html"
+  );
+
+  let htmlContent;
+  try {
+    htmlContent = fs.readFileSync(templatePath, "utf-8");
+  } catch (error) {
+    throw new ApiError(500, "Failed to read email template");
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  const userName = firstname + " " + lastname;
+
+  htmlContent = htmlContent
+    .replace("{{recipientName}}", userName)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Confirmation",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error sending enquiry confirmation email:", error);
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
+
   return res
     .status(200)
     .json(
@@ -605,6 +651,49 @@ const enquiryForex = asyncHandler(async (req, res) => {
       address,
     },
   });
+
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "forexEnquiryEmailTemplate.html"
+  );
+
+  let htmlContent;
+  try {
+    htmlContent = fs.readFileSync(templatePath, "utf-8");
+  } catch (error) {
+    throw new ApiError(500, "Failed to read email template");
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  const userName = firstname + " " + lastname;
+
+  htmlContent = htmlContent
+    .replace("{{recipientName}}", userName)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Confirmation",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error sending enquiry confirmation email:", error);
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
 
   return res
     .status(200)
@@ -700,6 +789,52 @@ const enquiryUmrah = asyncHandler(async (req, res) => {
     },
   });
 
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "umrahEnquiryEmailTemplate.html"
+  );
+
+  let htmlContent;
+  try {
+    // Read the email template
+    htmlContent = fs.readFileSync(templatePath, "utf8");
+  } catch (error) {
+    throw new ApiError(500, "Failed to read email template");
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  const userName = firstname + " " + lastname;
+
+  htmlContent = htmlContent
+    .replace("{{recipientName}}", userName)
+    .replace("{{packageName}}", packagename)
+    .replace("{{startDate}}", travellerdate)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Confirmation",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error sending enquiry confirmation email:", error);
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
+
   return res
     .status(200)
     .json(
@@ -772,6 +907,50 @@ const enquiryVisa = asyncHandler(async (req, res) => {
     },
   });
 
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "visaEnquiryEmailTemplate.html"
+  );
+
+  let htmlContent;
+  try {
+    htmlContent = fs.readFileSync(templatePath, "utf-8");
+  } catch (error) {
+    throw new ApiError(500, "Failed to read email template");
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  const userName = firstname + " " + lastname;
+
+  htmlContent = htmlContent
+    .replace("{{recipientName}}", userName)
+    .replace("{{country}}", visacountry)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Confirmation",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error sending enquiry confirmation email:", error);
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
+
   return res
     .status(200)
     .json(
@@ -809,12 +988,7 @@ const enquiryCustomizedPackage = asyncHandler(async (req, res) => {
       contact,
       bookingtype,
       travelclass,
-      makkahhotelname,
-      medinahotelname,
-      roomtype,
       adults,
-      kids,
-      additionalinfo,
     ].some((field) => {
       return typeof field === "string"
         ? !field.trim()
