@@ -146,20 +146,6 @@ const ViewPackageDetails = ({ isOpen, onClose, selectedPackage }) => {
                     {selectedPackage?.final_price || 'Loading...'}
                   </h1>
                 </div>
-
-                {/* <div className="flex font-jakarta items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
-                  <h1 className="">Child Without Bed Price :</h1>
-                  <h1 className="font-semibold">
-                    {selectedPackage?.prices[0].child_without_bed_price ||
-                      'Loading...'}
-                  </h1>
-                </div> */}
-                <div className="flex items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
-                  <h1 className="">You Saved :</h1>
-                  <h1 className="font-semibold">
-                    {selectedPackage?.you_saved || 'Loading...'}
-                  </h1>
-                </div>
               </div>
               <div className="w-full">
                 <div className="flex items-center font-jakarta justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
@@ -168,24 +154,12 @@ const ViewPackageDetails = ({ isOpen, onClose, selectedPackage }) => {
                     {selectedPackage?.discount || 'Loading...'}
                   </h1>
                 </div>
-                {/* <div className="flex items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
-                  <h1 className="">Triple Price :</h1>
+                <div className="flex items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
+                  <h1 className="">You Saved :</h1>
                   <h1 className="font-semibold">
-                    {selectedPackage?.prices[0].triple_price || 'Loading...'}
+                    {selectedPackage?.you_saved || 'Loading...'}
                   </h1>
-                </div> */}
-                {/* <div className="flex items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
-                  <h1 className="">Quint Price :</h1>
-                  <h1 className="font-semibold">
-                    {selectedPackage?.prices[0].quint_price || 'Loading...'}
-                  </h1>
-                </div> */}
-                {/* <div className="flex items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
-                  <h1 className="">Infant Price :</h1>
-                  <h1 className="font-semibold">
-                    {selectedPackage?.prices[0].infant_price || 'Loading...'}
-                  </h1>
-                </div> */}
+                </div>
               </div>
             </div>
           </>
@@ -206,12 +180,6 @@ const ViewPackageDetails = ({ isOpen, onClose, selectedPackage }) => {
                       {selectedPackage?.arrival_city || 'Loading...'}
                     </h1>
                   </div>
-                  <div className="flex items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
-                    <h1 className="">Hotel Name :</h1>
-                    <h1 className="font-semibold">
-                      {selectedPackage?.hotel_name || 'Loading...'}
-                    </h1>
-                  </div>
                 </div>
                 <div className="w-full">
                   <div className="flex items-center justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
@@ -220,12 +188,14 @@ const ViewPackageDetails = ({ isOpen, onClose, selectedPackage }) => {
                       {selectedPackage?.departure_city || 'Loading...'}
                     </h1>
                   </div>
-                  {/* <div className="flex items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
-                    <h1 className="">Madina Hotel Name :</h1>
-                    <h1 className="font-semibold">
-                      {selectedPackage?.med_hotel_name || 'Loading...'}
-                    </h1>
-                  </div> */}
+                </div>
+              </div>
+              <div className="w-full">
+                <div className="flex items-center mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen">
+                  <h1 className="">Hotel Name :</h1>
+                  <h1 className="font-semibold">
+                    {selectedPackage?.hotel_name || 'Loading...'}
+                  </h1>
                 </div>
               </div>
             </>
@@ -253,28 +223,6 @@ const ViewPackageDetails = ({ isOpen, onClose, selectedPackage }) => {
             </>
           )
         )}
-
-        {/* {renderSection(
-          'Madina Itenaries',
-          'madinaitenaries',
-          openSection,
-          toggleSection,
-          () => (
-            <>
-              {selectedPackage?.medina_itinerary.map((item, i) => {
-                return (
-                  <div
-                    key={i}
-                    className="flex font-jakarta items-start mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen"
-                  >
-                    <h1 className="">{item.day} :</h1>
-                    <h1 className="font-semibold">{item.itenary}</h1>
-                  </div>
-                );
-              })}
-            </>
-          )
-        )} */}
 
         {renderSection(
           'Inclusion',
