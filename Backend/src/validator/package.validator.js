@@ -49,12 +49,28 @@ function umrahPackageValidation(data) {
       "any.required": '"total nights" is required',
     }),
     makhotelname: Joi.string().max(200).required().messages({
-      "string.max": '"mak hotel name" cannot exceed 200 characters',
-      "any.required": '"mak hotel name" is required',
+      "string.max": '"makkah hotel name" cannot exceed 200 characters',
+      "any.required": '"makkah hotel name" is required',
+    }),
+    makhotelstar: Joi.number().integer().required().messages({
+      "number.base": '"makkah hotel star" must be a number',
+      "number.positive": '"makkah hotel star" must be greater than 0',
+      "any.required": '"makkah hotel star" is required',
+    }),
+    makhotellocation: Joi.string().required().messages({
+      "any.required": '"makkah hotel location" is required',
     }),
     medhotelname: Joi.string().max(200).required().messages({
-      "string.max": '"med hotel name" cannot exceed 200 characters',
-      "any.required": '"med hotel name" is required',
+      "string.max": '"medina hotel name" cannot exceed 200 characters',
+      "any.required": '"medina hotel name" is required',
+    }),
+    medhotelstar: Joi.number().integer().required().messages({
+      "number.base": '"medina hotel star" must be a number',
+      "number.positive": '"medina hotel star" must be greater than 0',
+      "any.required": '"medina hotel star" is required',
+    }),
+    medhotellocation: Joi.string().required().messages({
+      "any.required": '"medina hotel location" is required',
     }),
     cancellationpolicy: Joi.array().items(Joi.string()).required().messages({
       "array.base": '"cancellation policy" must be an array',

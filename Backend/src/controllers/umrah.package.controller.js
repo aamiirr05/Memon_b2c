@@ -36,7 +36,11 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     totaldays,
     totalnights,
     makhotelname,
+    makhotelstar,
+    makhotellocation,
     medhotelname,
+    medhotelstar,
+    medhotellocation,
     cancellationpolicy,
     termcondition,
     bookingterms,
@@ -68,7 +72,11 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
       totaldays,
       totalnights,
       makhotelname,
+      makhotelstar,
+      makhotellocation,
       medhotelname,
+      medhotelstar,
+      medhotellocation,
       cancellationpolicy,
       termcondition,
       bookingterms,
@@ -98,6 +106,8 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
   const termCondArray = safeParseJSON(termcondition);
   const bookingTermArray = safeParseJSON(bookingterms);
 
+  const intMakHotelStar = safeConvertToNumber(makhotelstar);
+  const intMedHotelStar = safeConvertToNumber(medhotelstar);
   const intBasePrice = safeConvertToNumber(baseprice);
   const intDiscount = safeConvertToNumber(discount);
   const intTotalDays = safeConvertToNumber(totaldays);
@@ -116,6 +126,10 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     packagename,
     packagetype,
     description,
+    makhotelstar: intMakHotelStar,
+    makhotellocation,
+    medhotelstar: intMedHotelStar,
+    medhotellocation,
     makkahitinerary: makItineraryArray,
     medinaitinerary: medItineraryArray,
     inclusion: inclusionArray,
@@ -198,7 +212,7 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
 
   if (makkahHotelImagePath.length === 0) {
     deleteTempFiles();
-    throw new ApiError(400, "Medina Hotel Image Is Required");
+    throw new ApiError(400, "Makkah Hotel Image Is Required");
   }
 
   if (medinaHotelImagePath.length === 0) {
@@ -242,15 +256,15 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
   );
 
   if (!uploadedPackageImage || uploadedPackageImage.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Package Images");
   }
 
   if (!uploadedMakkahHotelImage || uploadedMakkahHotelImage.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Makkah Hotel Images");
   }
 
   if (!uploadedMedinaHotelImage || uploadedMedinaHotelImage.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Medina Hotel Images");
   }
 
   const packageImageArray = Object.values(uploadedPackageImage)[0];
@@ -286,8 +300,13 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
       total_days: intTotalDays,
       total_nights: intTotalNights,
       mak_hotel_name: makhotelname,
+      mak_hotel_star: intMakHotelStar,
+      mak_hotel_location: makhotellocation,
       mak_hotel_images: makkahHotelImageArray,
       med_hotel_name: medhotelname,
+      med_hotel_star: intMedHotelStar,
+      med_hotel_location: medhotellocation,
+      med_hotel_images: makkahHotelImageArray,
       med_hotel_images: medinaHotelImageArray,
     },
   });

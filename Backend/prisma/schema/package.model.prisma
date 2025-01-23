@@ -21,8 +21,12 @@ model UmrahPackage {
   total_nights        Int
   mak_hotel_name      String              @db.VarChar(200)
   mak_hotel_images    Json
+  mak_hotel_star      Int
+  mak_hotel_location  String
   med_hotel_name      String              @db.VarChar(200)
   med_hotel_images    Json
+  med_hotel_star      Int
+  med_hotel_location  String
   cancellation_policy String[]
   term_condition      String[]
   booking_terms       String[]
