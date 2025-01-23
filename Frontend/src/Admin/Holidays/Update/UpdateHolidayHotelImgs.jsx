@@ -142,7 +142,7 @@ const UpdateHolidayHotelImgs = () => {
       const formData = new FormData();
       packageImages.forEach((image) => {
         if (image.file) {
-          formData.append('packageimage', image.file);
+          formData.append('hotelimage', image.file);
         }
       });
 
@@ -199,7 +199,7 @@ const UpdateHolidayHotelImgs = () => {
           <Dropzone
             images={packageImages}
             setImages={setPackageImages}
-            label="Package Images (5)"
+            label="Hotel Images (5)"
             MAX_FILES={5}
             loading={isUpdating}
           />

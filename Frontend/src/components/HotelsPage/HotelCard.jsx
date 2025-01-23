@@ -32,7 +32,7 @@ const HotelCard = ({ hotel }) => {
               .fill(null)
               .map((_, index) => (
                 <span key={index}>
-                  <Star size={18} fill="#386641" color="#FFD700" />
+                  <Star size={18} fill="#386641" color="#386641" />
                 </span>
               ))}
           </div>

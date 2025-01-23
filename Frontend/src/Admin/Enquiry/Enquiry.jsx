@@ -15,7 +15,7 @@ const Enquiry = () => {
       total_adults: 2,
       total_children: 1,
       total_infants: 0,
-      status: 'Approved',
+      status: 'Pending',
       created_at: '2025-01-15',
     },
     {
@@ -167,11 +167,11 @@ const Enquiry = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case 'Approved':
-        return 'text-green-800 bg-green-300 border border-green-600 ';
+        return 'text-green-800 bg-green-100 border border-green-900 ';
       case 'Rejected':
-        return 'text-red-600 border border-red-600 bg-red-300';
+        return 'text-red-600 border border-red-900 bg-red-100';
       default:
-        return 'text-yellow-800 bg-yellow-300 border border-yellow-600';
+        return 'text-yellow-800 bg-yellow-100 border border-yellow-900';
     }
   };
 
