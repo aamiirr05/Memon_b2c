@@ -149,6 +149,16 @@ const CreatePackageImgs = () => {
   formData.append('arrivalcity', previewData?.packageDetails.arrivalcity);
   formData.append('departurecity', previewData?.packageDetails.departurecity);
   formData.append('description', previewData?.packageDetails.packagedesc);
+  formData.append(
+    'medhotellocation',
+    previewData?.packageDetails.medhotellocation
+  );
+  formData.append(
+    'makhotellocation',
+    previewData?.packageDetails.makhotellocation
+  );
+  formData.append('makhotelstar', previewData?.packageDetails.makhotelstar);
+  formData.append('medhotelstar', previewData?.packageDetails.medhotelstar);
   //
   formData.append('isactive', previewData?.packageDetails.isactive);
   formData.append('featured', previewData?.packageDetails.isfeatured);
