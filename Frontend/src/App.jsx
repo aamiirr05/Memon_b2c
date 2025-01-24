@@ -147,10 +147,14 @@ const App = () => {
         <Route path="admin" element={<AdminLayout />}>
           <Route path="enquiry" element={<Enquiry />} />
           <Route path="hotel" element={<Hotels />}>
+            <Route path="update/:updateid">
+              <Route path="update/details" />
+              <Route path="update/hotelimages" />
+            </Route>
             <Route path="createhotel-form" element={<CreateHotelForm />} />
             <Route path="createhotel-package" element={<CreateHotelImg />} />
             <Route
-              path="createhotel-preview"
+              path="createhotel-preview/:id"
               element={<CreateHotelPreview />}
             />
           </Route>

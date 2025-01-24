@@ -27,6 +27,9 @@ const createHotel = asyncHandler(async (req, res) => {
     hotelcountry,
     hotelcity,
     hoteldescription,
+    hotelcategory,
+    mealbasis,
+    hotellocation,
     hoteldistance,
     amenities,
     star,
@@ -47,6 +50,9 @@ const createHotel = asyncHandler(async (req, res) => {
       hotelcountry,
       hotelcity,
       hoteldescription,
+      hotelcategory,
+      mealbasis,
+      hotellocation,
       hoteldistance,
       amenities,
       star,
@@ -69,6 +75,7 @@ const createHotel = asyncHandler(async (req, res) => {
   const bookingTermsArray = safeParseJSON(bookingterms);
   const cancellationPolicyArray = safeParseJSON(cancellationpolicy);
 
+  const intStar = safeConvertToNumber(star);
   const intQuintPrice = safeConvertToNumber(quintprice);
   const intQuadPrice = safeConvertToNumber(quadprice);
   const intTriplePrice = safeConvertToNumber(tripleprice);
@@ -81,7 +88,7 @@ const createHotel = asyncHandler(async (req, res) => {
     hoteldescription,
     hoteldistance,
     amenities: amenitiesArray,
-    star,
+    star: intStar,
     isactive,
     featured,
     cancellationpolicy: cancellationPolicyArray,
@@ -133,7 +140,7 @@ const createHotel = asyncHandler(async (req, res) => {
   const uploadedHotelImage = await uploadImages("Hotel Image", hotelImagesPath);
 
   if (!updateHotelImages || updateHotelImages.length === 0) {
-    throw new ApiError(500, "Error While Uploading Images");
+    throw new ApiError(500, "Error While Uploading Hotel Images");
   }
 
   const hotelImageArray = Object.values(uploadedHotelImage)[0];
@@ -146,9 +153,12 @@ const createHotel = asyncHandler(async (req, res) => {
       hotel_country: hotelcountry,
       hotel_city: hotelcity,
       hotel_description: hoteldescription,
+      hotel_category: hotelcategory,
+      meal_basis: mealbasis,
+      hotel_location: hotellocation,
       hotel_distance: hoteldistance,
       amenities: amenitiesArray,
-      star,
+      hotel_star: intStar,
       is_active: isactive,
       featured: featured,
       cancellation_policy: cancellationPolicyArray,
@@ -227,6 +237,9 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
     hotelcountry,
     hotelcity,
     hoteldescription,
+    hotelcategory,
+    mealbasis,
+    hotellocation,
     hoteldistance,
     amenities,
     star,
@@ -248,6 +261,9 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
       hotelcity,
       hoteldescription,
       hoteldistance,
+      hotelcategory,
+      mealbasis,
+      hotellocation,
       amenities,
       star,
       isactive,
@@ -269,6 +285,7 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
   const bookingTermsArray = safeParseJSON(bookingterms);
   const cancellationPolicyArray = safeParseJSON(cancellationpolicy);
 
+  const intStar = safeConvertToNumber(star);
   const intQuintPrice = safeConvertToNumber(quintprice);
   const intQuadPrice = safeConvertToNumber(quadprice);
   const intTriplePrice = safeConvertToNumber(tripleprice);
@@ -281,7 +298,7 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
     hoteldescription,
     hoteldistance,
     amenities: amenitiesArray,
-    star,
+    star: intStar,
     isactive,
     featured,
     cancellationpolicy: cancellationPolicyArray,
@@ -305,8 +322,11 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
       hotel_city: hotelcity,
       hotel_description: hoteldescription,
       hotel_distance: hoteldistance,
+      hotel_category: hotelcategory,
+      meal_basis: mealbasis,
+      hotel_location: hotellocation,
       amenities: amenitiesArray,
-      star,
+      hotel_star: intStar,
       is_active: isactive,
       featured: featured,
       cancellation_policy: cancellationPolicyArray,
@@ -332,8 +352,11 @@ const updateHotelDetails = asyncHandler(async (req, res) => {
       hotel_city: true,
       hotel_description: true,
       hotel_distance: true,
+      hotel_category: true,
+      meal_basis: true,
+      hotel_location: true,
       amenities: true,
-      star: true,
+      hotel_star: true,
       is_active: true,
       featured: true,
       cancellation_policy: true,

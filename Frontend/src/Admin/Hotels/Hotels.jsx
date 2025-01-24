@@ -1,37 +1,29 @@
 import { Check, Plus } from 'lucide-react';
-
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import axiosInstance from '../../lib/axios';
+import useFetchPackages from '../hooks/UseFetchPackages';
 import HotelCards from './HotelCards';
 import Loader from '../../components/Loader';
+import useHotelStore from '../store/Hotels/useHotelStore';
 
 const Hotels = () => {
-  const [hotels, setHotels] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isChildLoading, setIsChildLoading] = useState(false);
+  const { isCreating, loading, setLoading, hotelPackages, setHotelPackages } =
+    useHotelStore();
 
   const location = useLocation();
 
-  const getHotels = async () => {
-    try {
-      const res = await axiosInstance.get('/hotel/fetch-hotel');
-      console.log(res);
-      const data = res.data.data;
-      setHotels(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  console.log(hotels);
+  const getHotels = useFetchPackages('admin/hotel/fetch-hotel');
 
   useEffect(() => {
-    getHotels();
-  }, []);
+    if (getHotels.data) {
+      setHotelPackages(getHotels.data.data);
+      console.log(getHotels.data.data);
+      setLoading(false);
+    }
+  }, [getHotels.data, setHotelPackages, setLoading]);
+
+  console.log(hotelPackages);
 
   if (loading) {
     return (
@@ -50,7 +42,7 @@ const Hotels = () => {
 
   return (
     <div
-      className={`w-full h-full ${isChildLoading ? 'blur-sm pointer-events-none' : 'pointer-events-auto blur-0'}`}
+      className={`w-full h-full ${isCreating ? 'blur-sm pointer-events-none' : 'pointer-events-auto blur-0'}`}
     >
       {!isChildRoute && (
         <>
@@ -64,19 +56,13 @@ const Hotels = () => {
 
           {/* All packages */}
           <div className="my-10 w-full mx-auto flex items-center justify-center gap-5 lg:gap-10 flex-wrap">
-            {hotels.length == 0 ? (
+            {hotelPackages.length == 0 ? (
               <h1 className="text-center text-3xl mt-40 lg:mt-52 opacity-60 font-zodiak">
                 No Hotels Found
               </h1>
             ) : (
-              hotels.map((i) => (
-                <HotelCards
-                  data={i}
-                  key={i.hotel_id}
-                  getPackages={getHotels}
-                  isChildLoading={isChildLoading}
-                  setIsChildLoading={setIsChildLoading}
-                />
+              hotelPackages.map((i) => (
+                <HotelCards data={i} key={i.hotel_id} getPackages={getHotels} />
               ))
             )}
           </div>
@@ -169,7 +155,12 @@ const Hotels = () => {
       )}
       {/* Outlet */}
       <div className="mt-20">
-        <Outlet />
+        <Outlet
+          context={{
+            refreshPackages: getHotels.refresh,
+            getHotels: getHotels,
+          }}
+        />
       </div>
     </div>
   );

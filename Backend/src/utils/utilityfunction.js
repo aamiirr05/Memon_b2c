@@ -56,7 +56,7 @@ async function sendOtp(email, username) {
   const templatePath = path.join(
     normalizedDirname,
     "email",
-    "emailTemplate.html"
+    "otpEmailTemplate.html"
   );
 
   let htmlContent;
@@ -67,10 +67,13 @@ async function sendOtp(email, username) {
     throw new ApiError(500, "Failed to read email template");
   }
 
+  const currentYear = new Date().getFullYear();
+
   // Replace placeholders in the email template
   htmlContent = htmlContent
     .replace("{{userName}}", username)
-    .replace("{{otp}}", generatedOtp);
+    .replace("{{otp}}", generatedOtp)
+    .replace("{{year}}", currentYear);
 
   // Email options
   const mailOptions = {
@@ -339,6 +342,8 @@ const uploadImages = async (imageCategory, imagePaths) => {
     throw new ApiError(500, ` ${error}`);
   }
 };
+
+// ***************************** SEND CONFIRMATION MAIL ************************************************
 
 // ********** EXPORT *********
 

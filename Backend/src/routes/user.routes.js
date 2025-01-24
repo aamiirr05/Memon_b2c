@@ -24,7 +24,7 @@ const router = Router();
 router.route("/signup").post(registerUser);
 router.route("/login").post(loginUser);
 router.route("/check-auth").get(checkAuth);
-router.route("/send-otp").post(resendOtp);
+router.route("/resend-otp").post(resendOtp);
 router.route("/verify-otp").post(verifyOtp);
 router.route("/fetch-all-umrah-packages").get(getAllUmrahPackages);
 router.route("/fetch-umrah-packages/:id").get(getUmrahPackageById);

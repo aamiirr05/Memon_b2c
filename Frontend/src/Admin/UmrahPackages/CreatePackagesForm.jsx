@@ -542,6 +542,97 @@ const CreatePackagesForm = () => {
             </span>
           </div>
         </div>
+
+        {/* Hotel Star  */}
+
+        <div className="flex flex-col gap-5 md:flex-row items-center w-full">
+          {/* Mecca Hotel Name */}
+          <div className="w-full relative mt-10 flex flex-col gap-2">
+            <label htmlFor="makhotelstar" className="custom-label">
+              Makkah Hotel Star
+            </label>
+
+            <input
+              type="number"
+              name="makhotelstar"
+              id="makhotelstar"
+              className="custom-input"
+              min={0}
+              max={5}
+              placeholder="Enter Mecca Hotel Star"
+              {...register('makhotelstar')}
+              defaultValue={previewData?.packageDetails.makhotelstar}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.makhotelstar?.message}
+            </span>
+          </div>
+          {/* Madina Hotel Name */}
+          <div className="w-full relative mt-10 flex flex-col gap-2">
+            <label htmlFor="madinahotelname" className="custom-label">
+              Madina Hotel Star
+            </label>
+            <input
+              type="number"
+              min={0}
+              max={5}
+              name="medhotelstar"
+              id="medhotelstar"
+              className="custom-input"
+              placeholder="Enter Madina Hotel Star"
+              {...register('medhotelstar')}
+              defaultValue={previewData?.packageDetails.medhotelstar}
+            />
+
+            <span className="text-sm text-red-600 my-2">
+              {errors?.medhotelstar?.message}
+            </span>
+          </div>
+        </div>
+
+        {/*  */}
+
+        <div className="flex flex-col gap-5 md:flex-row items-center w-full">
+          {/* Mecca Hotel Name */}
+          <div className="w-full relative mt-10 flex flex-col gap-2">
+            <label htmlFor="makhotellocation" className="custom-label">
+              Makkah Hotel Location
+            </label>
+
+            <input
+              type="text"
+              name="makhotellocation"
+              id="makhotellocation"
+              className="custom-input"
+              placeholder="Enter Mecca Hotel Location"
+              {...register('makhotellocation')}
+              defaultValue={previewData?.packageDetails.makhotellocation}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.makhotellocation?.message}
+            </span>
+          </div>
+          {/* Madina Hotel Name */}
+          <div className="w-full relative mt-10 flex flex-col gap-2">
+            <label htmlFor="madinahotellocation" className="custom-label">
+              Madina Hotel Location
+            </label>
+            <input
+              type="text"
+              name="medhotellocation"
+              id="medhotellocation"
+              className="custom-input"
+              placeholder="Enter Madina Hotel Location"
+              {...register('medhotellocation')}
+              defaultValue={previewData?.packageDetails.medhotellocation}
+            />
+
+            <span className="text-sm text-red-600 my-2">
+              {errors?.medhotellocation?.message}
+            </span>
+          </div>
+        </div>
+
         {/* Price Section for hotels*/}
 
         <div className="flex mt-10 flex-col gap-5 md:flex-row items-center w-full">

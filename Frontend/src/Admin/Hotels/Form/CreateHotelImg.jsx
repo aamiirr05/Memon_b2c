@@ -6,8 +6,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
-import { AuthContext } from '../../context';
 import axiosInstance from '../../../lib/axios';
+import useHotelStore from '../../store/Hotels/useHotelStore';
 
 // const MAX_FILES = 5;
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
@@ -17,7 +17,7 @@ const ACCEPTED_FILE_TYPES = {
 };
 
 // Dropzone Component
-const Dropzone = ({ images, setImages, label, error, MAX_FILES }) => {
+const Dropzone = ({ images, setImages, label, error, MAX_FILES, loading }) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => handleFileDrop(acceptedFiles),
     accept: ACCEPTED_FILE_TYPES,
@@ -62,7 +62,9 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES }) => {
   };
 
   return (
-    <div className="w-full h-full">
+    <div
+      className={`w-full h-full ${loading ? 'pointer-events-none' : 'pointer-events-auto'}`}
+    >
       <label className="ml-5 mt-20 font-zodiak text-lg">{label}</label>
       <div
         {...getRootProps({
@@ -108,9 +110,6 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES }) => {
 };
 
 const CreateHotelImg = () => {
-  // Context States
-  const { packageData, setPackageData, updatePackageImages } =
-    useContext(AuthContext);
   const {
     // register,
     handleSubmit,
@@ -118,9 +117,9 @@ const CreateHotelImg = () => {
   } = useForm();
 
   const [hotelImages, setHotelImages] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { isCreating, setIsCreating } = useHotelStore();
   const navigate = useNavigate();
-  const [previewData, setPreviewData] = useState(() => {
+  const [previewData] = useState(() => {
     const safeParseJSON = (item) => {
       try {
         return JSON.parse(item);
@@ -203,18 +202,24 @@ const CreateHotelImg = () => {
       }
     );
     try {
-      setLoading(true);
-      const res = await axiosInstance.post('/hotel/create-hotel', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      setIsCreating(true);
+      const res = await axiosInstance.post(
+        'admin/hotel/create-hotel',
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
 
       console.log(res);
       toast.dismiss(toastId);
 
       const resMsg = res.data?.message || 'Hotel Added Successfully';
       console.log(resMsg);
+      const extractedId = res.data?.data[0].hotel_id;
+      console.log(extractedId);
       toast.success(resMsg, { autoClose: 5000 });
-      navigate('/admin/hotel/createhotel-preview');
+      navigate(`/admin/hotel/createhotel-preview/${extractedId}`);
       localStorage.removeItem('packagedetails');
       localStorage.removeItem('packageimages');
     } catch (error) {
@@ -226,41 +231,38 @@ const CreateHotelImg = () => {
       toast.dismiss(toastId);
       toast.error(errorMsg, { autoClose: 5000 });
     } finally {
-      setLoading(false);
+      setIsCreating(false);
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={`w-10/12 mx-auto flex flex-col ${loading ? 'blur-sm' : 'blur-0'}`}
+      className={`w-10/12 mx-auto flex flex-col ${isCreating ? 'blur-sm' : 'blur-0'}`}
     >
       <Dropzone
         images={hotelImages}
         setImages={setHotelImages}
-        label="Hotel Images"
+        label="Hotel Images (5)"
         error={errors.hotelImages}
-        MAX_FILES={20}
+        MAX_FILES={5}
+        loading={isCreating}
       />
 
       <div className="mt-20 w-full md:w-2/3 mx-auto flex gap-2 lg:gap-10  items-center justify-between md:justify-center">
         <NavLink
           to="/admin/umrahpackages/createpackage-form"
-          aria-disabled={loading}
+          aria-disabled={isCreating}
           className="bg-darkgreen w-full p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base"
-          onClick={() => {
-            localStorage.removeItem('packagedetails');
-            setPackageData();
-          }}
         >
           Back
         </NavLink>
         <button
           type="submit"
-          disabled={loading}
-          className={` w-full p-2  rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base ${loading ? 'hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen' : 'bg-darkgreen text-peach'}`}
+          disabled={isCreating}
+          className={` w-full p-2  rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base ${isCreating ? 'hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen' : 'bg-darkgreen text-peach'}`}
         >
-          {loading ? 'Creating Package...' : 'Create Package'}
+          {isCreating ? 'Creating Package...' : 'Create Package'}
         </button>
       </div>
     </form>

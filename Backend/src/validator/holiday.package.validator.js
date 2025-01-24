@@ -10,6 +10,10 @@ function holidayPackageValidation(data) {
       "string.max": '"package type" cannot exceed 100 characters',
       "any.required": '"package type" is required',
     }),
+    category: Joi.array().items(Joi.string()).required().messages({
+      "array.base": '"category" must be an array of strings',
+      "any.required": '"category" is required',
+    }),
     description: Joi.string().required().messages({
       "any.required": '"description" is required',
     }),
@@ -25,6 +29,17 @@ function holidayPackageValidation(data) {
       "string.max": '"hotel name" cannot exceed 200 characters',
       "any.required": '"hotel name" is required',
     }),
+    hotelstar: Joi.number()
+      .integer()
+      .positive()
+      .min(0)
+      .max(5)
+      .required()
+      .messages({
+        "number.base": '"hotel star" must be a number',
+        "number.positive": '"hotel star" must be 0 or greater than 0',
+        "any.required": '"hotel star" is required',
+      }),
     itinerary: Joi.array().items(Joi.object()).required().messages({
       "array.base": '"itinerary" must be an array of objects',
       "any.required": '"itinerary" is required',

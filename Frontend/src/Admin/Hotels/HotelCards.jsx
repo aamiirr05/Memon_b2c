@@ -4,15 +4,10 @@ import { Pencil, Trash2 } from 'lucide-react';
 import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import trash from '../../assets/img/trash.png';
-import { useState } from 'react';
+import useHotelStore from '../store/Hotels/useHotelStore';
 
-const HotelCards = ({
-  data,
-  getPackages,
-  isChildLoading,
-  setIsChildLoading,
-}) => {
-  const [isloading, setIsLoading] = useState(false);
+const HotelCards = ({ data, getPackages }) => {
+  const { setIsCreating } = useHotelStore();
   const deletePackage = async (id) => {
     const toastId = toast.loading(
       'Deleting package. This may take some time...',
@@ -26,22 +21,20 @@ const HotelCards = ({
       }
     );
     try {
-      setIsChildLoading(true);
-      setIsLoading(true);
-      const res = await axiosInstance.delete(`/hotel/delete-hotel/${id}`);
+      setIsCreating(true);
+      const res = await axiosInstance.delete(`admin/hotel/delete-hotel/${id}`);
       console.log(res);
       toast.dismiss(toastId);
       const msg = res.data.data;
       toast.success(msg);
-      getPackages();
+      getPackages.refresh();
     } catch (error) {
       console.log(error);
       toast.dismiss(toastId);
       const errmsg = error.response.data.message;
       toast.error(errmsg);
     } finally {
-      setIsChildLoading(false);
-      setIsLoading(false);
+      setIsCreating(false);
     }
   };
 
@@ -77,12 +70,12 @@ const HotelCards = ({
           </div>
           <div className="flex flex-col gap-3 absolute top-14 right-0">
             <div
-              className={`rounded-full border border-darkgreen cursor-pointer hover:bg-darkgreen hover:text-peach transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center ${isChildLoading ? 'opacity-50' : 'opacity-100'}`}
+              className={`rounded-full border border-darkgreen cursor-pointer hover:bg-darkgreen hover:text-peach transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center`}
             >
               <Pencil size={15} />
             </div>
             <div
-              className={`rounded-full border border-red-600 text-red-600 cursor-pointer hover:bg-red-600 hover:text-white transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center ${isChildLoading ? 'opacity-50' : 'opacity-100'}`}
+              className={`rounded-full border border-red-600 text-red-600 cursor-pointer hover:bg-red-600 hover:text-white transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center `}
             >
               <Trash2
                 size={15}

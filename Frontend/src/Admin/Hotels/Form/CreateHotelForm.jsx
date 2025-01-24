@@ -3,64 +3,44 @@ import { Plus, X } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context';
-
-const schema = yup.object().shape({
-  hotelname: yup.string().required('Hotel Name is required'),
-  hotelcity: yup.string().required('Hotel City is required'),
-  hotelcountry: yup.string().required('Hotel Country is required'),
-  hoteldescription: yup.string().required('Hotel Description is required'),
-  hoteldistance: yup.string().required('Hotel Distance is required'),
-  star: yup.string().required('Star is required'),
-
-  doubleprice: yup
-    .number()
-    .typeError('Double Price must be a number')
-    .required('Double Price is required')
-    .min(0, 'Double Price must be at least 0'),
-  tripleprice: yup
-    .number()
-    .typeError('Triple Price must be a number')
-    .required('Triple Price is required')
-    .min(0, 'Triple Price must be at least 0'),
-  quintprice: yup
-    .number()
-    .typeError('Quint Price must be a number')
-    .required('Quint Price is required')
-    .min(0, 'Quint Price must be at least 0'),
-  quadprice: yup
-    .number()
-    .typeError('Quad Price must be a number')
-    .required('Quad Price is required')
-    .min(0, 'Quad Price must be at least 0'),
-});
+import HotelSchema from '../../schema/HotelSchema';
+import useHotelStore from '../../store/Hotels/useHotelStore';
 
 const CreateHotelForm = () => {
-  const [amenities, setAmenities] = useState(['']);
+  const {
+    bookingterms,
+    setBookingTerms,
+    cancelpolicy,
+    amenities,
+    setCancelPolicy,
+    termcondition,
+    setTermCondition,
 
-  const [bookingterms, setBookingTerms] = useState(['']);
-  const [cancelpolicy, setCancelPolicy] = useState(['']);
-  const [termcondition, setTermCondition] = useState(['']);
+    isActive,
+    isFeatured,
+    addBookingTerms,
 
-  // Is active and is featured states & functions
-  const [isActive, setIsActive] = useState(true);
-  const [isFeatured, setIsFeatured] = useState(false);
+    addPolicy,
+    addTermsCondition,
+    removeBookingTerms,
 
-  const handleisActive = () => {
-    setIsActive(!isActive);
-  };
-  const handleisFeatured = () => {
-    setIsFeatured(!isFeatured);
-  };
+    removePolicy,
+    handleisActive,
+    handleisFeatured,
+
+    removeAmenities,
+    addAmenities,
+    setAmenities,
+  } = useHotelStore();
 
   // navigate
   const navigate = useNavigate();
 
   // Context States
-  const { packageData, setPackageData, updatePackageData } =
-    useContext(AuthContext);
+  const { updatePackageData } = useContext(AuthContext);
 
   // useForm
 
@@ -70,7 +50,7 @@ const CreateHotelForm = () => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(HotelSchema),
     values: {
       isactive: isActive,
       isfeatured: isFeatured,
@@ -81,47 +61,18 @@ const CreateHotelForm = () => {
     },
   });
 
-  // Functions for handling inclusions and exclusions
-
-  const addAmenities = () => {
-    setAmenities([...amenities, '']);
-  };
-
   const handleAmenities = (val, index) => {
     const updatedAmenities = [...amenities];
     updatedAmenities[index] = val;
     setAmenities(updatedAmenities);
   };
 
-  const removeAmenities = (index) => {
-    const updatedAmenities = amenities.filter((_, i) => i !== index);
-    setAmenities(updatedAmenities);
-  };
-
   //  Functions for booking terms
-
-  const addBookingTerms = () => {
-    setBookingTerms([...bookingterms, '']);
-  };
 
   const handleBookingTerms = (val, index) => {
     const updatedTerms = [...bookingterms];
     updatedTerms[index] = val;
     setBookingTerms(updatedTerms);
-  };
-
-  const removeBookingTerms = (index) => {
-    const updatedTerms = bookingterms.filter((_, i) => i !== index);
-    setBookingTerms(updatedTerms);
-  };
-
-  // Functions for termcondition and cancellation policy
-
-  const addTermsCondition = () => {
-    setTermCondition([...termcondition, '']);
-  };
-  const addPolicy = () => {
-    setCancelPolicy([...cancelpolicy, '']);
   };
 
   const handleTermsCondition = (val, index) => {
@@ -141,15 +92,8 @@ const CreateHotelForm = () => {
     setTermCondition(updatedTerms);
   };
 
-  const removePolicy = (index) => {
-    const updatedPolicy = cancelpolicy.filter((_, i) => i !== index);
-    setCancelPolicy(updatedPolicy);
-  };
-
   // Functions for form submission
   const onFormSubmit = (data) => {
-    console.log('Form submitted');
-    console.log(data);
     updatePackageData(data);
     navigate('/admin/hotel/createhotel-package');
     reset();
@@ -320,10 +264,6 @@ const CreateHotelForm = () => {
           </div>
         </div>
       </div>
-
-      {/* Section Two for Date and days */}
-
-      {/*  */}
 
       {/* Section Three For Hotels */}
       <div className="w-full my-10 bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
@@ -602,6 +542,7 @@ const CreateHotelForm = () => {
       <div className="mt-10 w-full lg:w-2/3 mx-auto flex gap-5 lg:gap-60 items-center justify-center">
         <NavLink
           to="/admin/umrahpackages"
+          onClick={() => localStorage.clear()}
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >
           Back
