@@ -1,5 +1,7 @@
 import { usePackageStore } from '../../store/usePackageStore';
 
+import { CalendarDays } from 'lucide-react';
+
 const Tab1 = () => {
   const { selectedPackage } = usePackageStore();
 
@@ -9,12 +11,53 @@ const Tab1 = () => {
         <h2 className="text-2xl font-medium text-neutral-700 mb-4">
           About The Destination
         </h2>
-        <p className="text-neutral-700 tracking-tight">
+        <p className="text-neutral-700 tracking-tight mb-6">
           {selectedPackage.description}
         </p>
+        {selectedPackage.prices && selectedPackage.prices.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold text-center text-neutral-700 mb-4">
+              Pricing Details
+            </h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              {Object.entries(selectedPackage.prices[0]).map(([key, value]) => {
+                if (
+                  [
+                    'quint_price',
+                    'quad_price',
+                    'triple_price',
+                    'double_price',
+                    'child_without_bed_price',
+                    'infant_price',
+                  ].includes(key)
+                ) {
+                  const formattedKey = key
+                    .replace(/_/g, ' ')
+                    .replace('price', '')
+                    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+                  return (
+                    <div
+                      className="flex flex-col items-center text-center"
+                      key={key}
+                    >
+                      <span className="text-sm font-medium text-neutral-600">
+                        {formattedKey}
+                      </span>
+                      <span className="text-xl font-semibold text-darkgreen">
+                        <span className="text-sm tracking-wider">₹</span>
+                        {value}
+                      </span>
+                    </div>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* price card */}
       <div className="py-4 w-1/3">
         <div className="h-full border-2 border-darkgreen/10 rounded-lg p-4">
           {/* Pricing Section */}
@@ -38,7 +81,7 @@ const Tab1 = () => {
           </div>
 
           {/* Details Section */}
-          <div className="grid grid-cols-2 my-6 text-neutral-700">
+          <div className="grid grid-cols-2 my-4 text-neutral-700">
             <div>
               <p className="text-neutral-500 text-[15px] leading-tight">
                 Total Day
@@ -57,14 +100,71 @@ const Tab1 = () => {
             </div>
           </div>
 
+          {/* Group Dates Section */}
+          <div className="my-4 mb-6">
+            <h3 className="text-neutral-500 mb-2">Group Dates</h3>
+            {selectedPackage.group_dates.length > 1 ? (
+              <div className="grid grid-cols-2 gap-4">
+                {selectedPackage.group_dates.map((date, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 bg-darkgreen/10 text-darkgreen rounded-lg px-3 py-2 shadow-sm"
+                  >
+                    <span role="img" aria-label="calendar">
+                      <CalendarDays size={18} />
+                    </span>
+                    <span className="font-medium">
+                      {new Date(date).toLocaleDateString('en-US', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center bg-darkgreen/10 text-darkgreen rounded-lg px-4 py-3 shadow-sm">
+                <p className="text-lg font-medium">Exclusive Date</p>
+                <div className="flex items-center gap-2 mt-2 ">
+                  <span role="img" aria-label="calendar">
+                    <CalendarDays size={18} />
+                  </span>
+                  <span className="font-semibold ">
+                    {new Date(
+                      selectedPackage.group_dates[0]
+                    ).toLocaleDateString('en-US', {
+                      day: '2-digit',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                  </span>
+                </div>
+                <p className="text-sm text-neutral-600 mt-2">
+                  Hurry! Limited availability on this date.
+                </p>
+              </div>
+            )}
+          </div>
+
           {/* Booking Button */}
           <div className="w-full flex justify-center items-center">
             <button className="bg-darkgreen text-peach w-full py-2 px-4 rounded-lg hover:bg-darkgreen/80">
               Book Now
             </button>
           </div>
-          <p className="text-sm mt-4 text-center text-neutral-600">
-            Booking Deadline {selectedPackage.booking_deadline}
+          <p className="text-sm mt-3 text-center text-neutral-600">
+            Booking Deadline{' '}
+            <span className="font-medium tracking-tight">
+              {new Date(selectedPackage.booking_deadline).toLocaleDateString(
+                'en-US',
+                {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                }
+              )}
+            </span>
           </p>
         </div>
       </div>
