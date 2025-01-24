@@ -152,6 +152,7 @@ const safeParseJSON = (data) => {
 // ********** Helper function to safely convert to a number **********
 
 const safeConvertToNumber = (value) => {
+  console.log("data", value);
   try {
     const num = Number(value);
 
