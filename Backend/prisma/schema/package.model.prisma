@@ -68,6 +68,7 @@ model HolidayPackage {
   city                String        @db.VarChar(100)
   hotel_name          String        @db.VarChar(200)
   hotel_images        Json
+  hotel_star          Int
   itinerary           Json
   group_dates         String[]
   total_days          Int

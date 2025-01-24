@@ -25,9 +25,10 @@ function hotelInputValidation(data) {
       "array.base": '"amenities" must be an array of strings',
       "any.required": '"amenities" is required',
     }),
-    star: Joi.string().max(100).required().messages({
-      "string.max": '"star" cannot exceed 100 character',
-      "any.required": '"star" is required',
+    star: Joi.number().positive().min(0).max(5).required().messages({
+      "number.base": '"hotel star" must be a number',
+      "number.positive": '"hotel star" must be 0 or greater than 0',
+      "any.required": '"hotel star" is required',
     }),
     isactive: Joi.boolean().default(true).messages({
       "boolean.base": '"is active" must be a boolean value',

@@ -29,6 +29,17 @@ function holidayPackageValidation(data) {
       "string.max": '"hotel name" cannot exceed 200 characters',
       "any.required": '"hotel name" is required',
     }),
+    hotelstar: Joi.number()
+      .integer()
+      .positive()
+      .min(0)
+      .max(5)
+      .required()
+      .messages({
+        "number.base": '"hotel star" must be a number',
+        "number.positive": '"hotel star" must be 0 or greater than 0',
+        "any.required": '"hotel star" is required',
+      }),
     itinerary: Joi.array().items(Joi.object()).required().messages({
       "array.base": '"itinerary" must be an array of objects',
       "any.required": '"itinerary" is required',

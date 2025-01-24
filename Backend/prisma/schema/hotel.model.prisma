@@ -8,13 +8,16 @@ model Hotel {
   admin               Admin              @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
   admin_id            String
   hotel_name          String
+  hotel_category      String
   hotel_images        Json
   hotel_country       String
   hotel_city          String
   hotel_description   String
   hotel_distance      String
+  meal_basis          String
+  hotel_location      String
   amenities           String[]
-  star                String
+  hotel_star          Int
   is_active           StatusHotelPackage @default(true)
   featured            StatusHotelPackage @default(false)
   term_condition      String[]

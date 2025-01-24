@@ -31,6 +31,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
     country,
     city,
     hotelname,
+    hotelstar,
     itinerary,
     groupdates,
     totaldays,
@@ -59,6 +60,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
       country,
       city,
       hotelname,
+      hotelstar,
       itinerary,
       groupdates,
       totaldays,
@@ -90,6 +92,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
   const termConditionArray = safeParseJSON(termcondition);
   const bookingTermArray = safeParseJSON(bookingterms);
 
+  const intHotelStar = safeConvertToNumber(hotelstar);
   const intTotalDays = safeConvertToNumber(totaldays);
   const intTotalNights = safeConvertToNumber(totalnights);
   const intBasePrice = safeConvertToNumber(baseprice);
@@ -106,6 +109,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
     country,
     city,
     hotelname,
+    hotelstar: intHotelStar,
     itinerary: itineraryArray,
     groupdates: groupDatesArray,
     totaldays: intTotalDays,
@@ -212,6 +216,7 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
       country,
       city,
       hotel_name: hotelname,
+      hotel_star: intHotelStar,
       hotel_images: hotelImageArray,
       itinerary: itineraryArray,
       group_dates: groupDatesArray,
@@ -291,6 +296,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
     country,
     city,
     hotelname,
+    hotelstar,
     itinerary,
     groupdates,
     totaldays,
@@ -319,6 +325,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
       country,
       city,
       hotelname,
+      hotelstar,
       itinerary,
       groupdates,
       totaldays,
@@ -340,7 +347,6 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
   ) {
     throw new ApiError(400, "All Fields Must Be Filled");
   }
-  console.log(req.body);
 
   const categoryArray = safeParseJSON(category);
   const itineraryArray = safeParseJSON(itinerary);
@@ -353,6 +359,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
   const isActiveBoolean = isactive;
   const featuredBoolean = featured;
 
+  const intHotelStar = safeConvertToNumber(hotelstar);
   const intTotalDays = safeConvertToNumber(totaldays);
   const intTotalNights = safeConvertToNumber(totalnights);
   const intBasePrice = safeConvertToNumber(baseprice);
@@ -369,6 +376,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
     country,
     city,
     hotelname,
+    hotelstar: intHotelStar,
     itinerary: itineraryArray,
     groupdates: groupDatesArray,
     totaldays: intTotalDays,
@@ -402,6 +410,7 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
       country,
       city,
       hotel_name: hotelname,
+      hotel_star: intHotelStar,
       itinerary: itineraryArray,
       group_dates: groupDatesArray,
       total_days: intTotalDays,
