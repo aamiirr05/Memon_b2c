@@ -10,8 +10,10 @@ const useFetchPackages = (url) => {
     setLoading(true);
     try {
       const response = await axiosInstance.get(url);
+      console.log(response);
       setData(response.data);
     } catch (err) {
+      console.log(err);
       setError(err);
     } finally {
       setLoading(false);
