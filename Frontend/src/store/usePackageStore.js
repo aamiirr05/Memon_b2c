@@ -15,7 +15,7 @@ export const usePackageStore = create((set) => ({
     set({ isFetching: true });
 
     // artificial delay
-    await new Promise((resolve) => setTimeout(resolve, 2500));
+    // await new Promise((resolve) => setTimeout(resolve, 2500));
 
     try {
       const res = await axiosInstance.get('/users/fetch-all-umrah-packages');

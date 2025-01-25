@@ -25,7 +25,7 @@ const TabComponent = () => {
   return (
     <div className="w-full max-w-7xl mx-auto mt-6">
       {/* Tab Titles */}
-      <div className="flex justify-between space-x-4 border-b-1 border-darkgreen/30 w-full overflow-x-scroll">
+      <div className="flex justify-between border-b border-darkgreen/10 overflow-x-scroll">
         {tabNames.map((tabName, index) => (
           <button
             key={index}
