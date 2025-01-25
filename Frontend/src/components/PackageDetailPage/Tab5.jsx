@@ -31,7 +31,7 @@ const Tab5 = () => {
       {/* Tab Headers */}
       <div className="flex gap-4 sm:gap-8 border-b border-darkgreen/10 mb-4">
         <button
-          className={`py-2 text-sm font-medium ${
+          className={`py-2 text-[15px] font-medium ${
             activeTab === 'term_condition'
               ? 'border-b-2 border-darkgreen text-darkgreen'
               : 'text-neutral-600'
@@ -41,7 +41,7 @@ const Tab5 = () => {
           Terms & Conditions
         </button>
         <button
-          className={`py-2 text-sm font-medium ${
+          className={`py-2 text-[15px] font-medium ${
             activeTab === 'booking_terms'
               ? 'border-b-2 border-darkgreen text-darkgreen'
               : 'text-neutral-600'
@@ -51,7 +51,7 @@ const Tab5 = () => {
           Booking Terms
         </button>
         <button
-          className={`py-2 text-sm font-medium ${
+          className={`py-2 text-[15px] font-medium ${
             activeTab === 'cancellation_policy'
               ? 'border-b-2 border-darkgreen text-darkgreen'
               : 'text-neutral-600'

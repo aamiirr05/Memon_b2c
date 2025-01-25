@@ -1,11 +1,33 @@
-// Tab4.js
-import React from 'react';
+import { useState } from 'react';
 
 const Tab4 = () => {
+  const [activeTab, setActiveTab] = useState('makkah');
+
   return (
-    <div className="p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-xl font-bold mb-4">Tab 4 Content</h2>
-      <p>This is the content for Tab 4.</p>
+    <div className="w-full mt-8 pb-12">
+      {/* Tab Headers */}
+      <div className="flex gap-4 sm:gap-8 border-b border-darkgreen/10 mb-8">
+        <button
+          className={`py-2 text-[15px] font-medium ${
+            activeTab === 'makkah'
+              ? 'border-b-2 border-darkgreen text-darkgreen'
+              : 'text-neutral-600'
+          }`}
+          onClick={() => setActiveTab('makkah')}
+        >
+          🕋 Makkah Hotel
+        </button>
+        <button
+          className={`py-2 text-[15px] font-medium ${
+            activeTab === 'medina'
+              ? 'border-b-2 border-darkgreen text-darkgreen'
+              : 'text-neutral-600'
+          }`}
+          onClick={() => setActiveTab('medina')}
+        >
+          🌙 Medina Hotel
+        </button>
+      </div>
     </div>
   );
 };

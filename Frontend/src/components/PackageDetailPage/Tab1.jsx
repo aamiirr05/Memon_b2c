@@ -7,7 +7,7 @@ const Tab1 = () => {
 
   return (
     <div className="flex flex-col md:flex-row pb-8">
-      <div className="w-full md:w-2/3 gap-8 mb-4">
+      <div className="w-full md:w-2/3 pr-8 mb-4">
         <h2 className="text-2xl font-medium text-neutral-700 mb-4">
           About The Destination
         </h2>
@@ -16,10 +16,10 @@ const Tab1 = () => {
         </p>
         {selectedPackage.prices && selectedPackage.prices.length > 0 && (
           <div className="mt-8">
-            <h3 className="text-lg font-semibold text-neutral-700 mb-4">
+            <h3 className="text-2xl font-medium text-neutral-700 mb-4">
               Pricing Details
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 ">
               {Object.entries(selectedPackage.prices[0]).map(([key, value]) => {
                 if (
                   [
@@ -37,7 +37,7 @@ const Tab1 = () => {
                     .replace(/\b\w/g, (char) => char.toUpperCase());
 
                   return (
-                    <div className="flex flex-coli  text-center" key={key}>
+                    <div className="flex flex-col" key={key}>
                       <span className="text-sm font-medium text-neutral-600">
                         {formattedKey}
                       </span>
