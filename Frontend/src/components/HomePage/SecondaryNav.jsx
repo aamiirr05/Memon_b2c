@@ -61,7 +61,7 @@ const SecondaryNav = () => {
                     >
                       {link.name}
                     </NavLink>
-                    <ChevronDown className="h-4 w-4" />
+                    <ChevronDown className="h-4 w-4 mt-[3px] text-neutral-600" />
                   </span>
 
                   {/* Dropdown */}

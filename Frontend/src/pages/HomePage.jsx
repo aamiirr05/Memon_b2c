@@ -11,6 +11,7 @@ import Hamburger from '../components/HomePage/Hamburger';
 import HamburgerLogo from '../components/HomePage/HamburgerLogo';
 import PackageSlider from '../components/HomePage/PackageSlider';
 import TestimonialWrapper from '../components/HomePage/TestimonialWrapper';
+import ScrollToTopButton from '../components/ScrollToTopButton';
 
 const Homepage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,6 +20,7 @@ const Homepage = () => {
 
   return (
     <div className="relative overflow-x-hidden">
+      <ScrollToTopButton />
       {/* Primary Navbar */}
       {/* <PrimaryNav isMenuOpen={isMenuOpen} /> */}
       {/* Secondary Navbar */}
