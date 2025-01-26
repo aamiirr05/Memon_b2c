@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Plus, X } from 'lucide-react';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -43,7 +43,19 @@ const CreateHolidayForm = () => {
     handleisFeatured,
     addDates,
     removeDates,
+    categories,
+    setCategories,
+    updateCategory,
   } = useHolidayStore();
+
+  const updateCategories = (bool, val) => {
+    if (bool) setCategories(val);
+
+    if (!bool) {
+      const reassignedCat = categories.filter((item) => item !== val);
+      updateCategory(reassignedCat);
+    }
+  };
 
   // navigate
   const navigate = useNavigate();
@@ -51,8 +63,6 @@ const CreateHolidayForm = () => {
   // Context States
   const { updatePackageData } = useContext(AuthContext);
   const previewData = JSON.parse(localStorage.getItem('packagedetails')) || {};
-
-  console.log(previewData);
 
   // useForm
 
@@ -73,6 +83,7 @@ const CreateHolidayForm = () => {
       termcondition: termcondition,
       inclusion: inclusion,
       exclusion: exclusion,
+      category: categories,
     },
   });
 
@@ -196,6 +207,121 @@ const CreateHolidayForm = () => {
           <span className="text-sm text-red-600 my-2">
             {errors?.description?.message}
           </span>
+        </div>
+
+        <div className="flex mt-5 gap-3 w-full flex-col">
+          <label htmlFor="packagetype" className="custom-label">
+            Holiday Categories
+          </label>
+          <div className="w-full mt-5 mb-10 flex flex-wrap items-center justify-start gap-10">
+            <div className="flex items-center justify-center gap-3">
+              {' '}
+              <input
+                type="checkbox"
+                name="culture"
+                id="culture"
+                value="Culture"
+                onChange={(e) =>
+                  updateCategories(e.target.checked, e.target.value)
+                }
+                className="w-4 h-4 accent-darkgreen"
+              />
+              <label htmlFor="" className="font-jakarta">
+                Culture
+              </label>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <input
+                type="checkbox"
+                name=""
+                id=""
+                value="Family"
+                onChange={(e) =>
+                  updateCategories(e.target.checked, e.target.value)
+                }
+                className="w-4 h-4 accent-darkgreen"
+              />
+              <label htmlFor="" className="font-jakarta">
+                Family
+              </label>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <input
+                type="checkbox"
+                name=""
+                id="adventure"
+                value="Adventure"
+                onChange={(e) =>
+                  updateCategories(e.target.checked, e.target.value)
+                }
+                className="w-4 h-4 accent-darkgreen"
+              />
+              <label htmlFor="" className="font-jakarta">
+                Adventure
+              </label>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <input
+                type="checkbox"
+                name="honeymoon"
+                id="honeymoon"
+                value="Honey Moon"
+                onChange={(e) =>
+                  updateCategories(e.target.checked, e.target.value)
+                }
+                className="w-4 h-4 accent-darkgreen"
+              />
+              <label htmlFor="" className="font-jakarta">
+                Honeymoon
+              </label>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <input
+                type="checkbox"
+                name="leisure"
+                id="leisure"
+                value="Leisure"
+                onChange={(e) =>
+                  updateCategories(e.target.checked, e.target.value)
+                }
+                className="w-4 h-4 accent-darkgreen"
+              />
+              <label htmlFor="" className="font-jakarta">
+                Leisure
+              </label>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <input
+                type="checkbox"
+                name="grouptours"
+                id="grouptours"
+                value="Group Tours"
+                onChange={(e) =>
+                  updateCategories(e.target.checked, e.target.value)
+                }
+                className="w-4 h-4 accent-darkgreen"
+              />
+              <label htmlFor="" className="font-jakarta">
+                Group Tours
+              </label>
+            </div>
+            <div className="flex items-center justify-center gap-3">
+              <input
+                type="checkbox"
+                name="religious"
+                onChange={(e) =>
+                  updateCategories(e.target.checked, e.target.value)
+                }
+                id="religious"
+                value="Religious"
+                className="w-4 h-4 accent-darkgreen"
+              />
+              <label htmlFor="" className="font-jakarta">
+                Religious
+              </label>
+            </div>
+          </div>
+          <div className="grid grid-rows-1 bg-red-200"></div>
         </div>
 
         {/* Base Price and Discount */}

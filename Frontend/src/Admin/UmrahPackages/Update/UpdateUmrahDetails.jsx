@@ -16,7 +16,6 @@ import Loader from '../../../components/Loader';
 
 const UpdateUmrahDetails = () => {
   const { umrahPackage, refreshPackages } = useOutletContext();
-  console.log(refreshPackages);
   const { updateid } = useParams();
 
   const [groupDates, setGroupDate] = useState(
@@ -273,6 +272,10 @@ const UpdateUmrahDetails = () => {
           doubleprice: data.doubleprice,
           childwithoutbedprice: data.childwithoutbedprice,
           infantprice: data.infantprice,
+          medhotelstar: data.medhotelstar,
+          makhotelstar: data.makhotelstar,
+          makhotellocation: data.makhotellocation,
+          medhotellocation: data.medhotellocation,
         }
       );
       console.log(res);
@@ -668,6 +671,96 @@ const UpdateUmrahDetails = () => {
 
             <span className="text-sm text-red-600 my-2">
               {errors?.madinahotelname?.message}
+            </span>
+          </div>
+        </div>
+
+        {/* Hotel Star  */}
+
+        <div className="flex flex-col gap-5 md:flex-row items-center w-full">
+          {/* Mecca Hotel Name */}
+          <div className="w-full relative mt-10 flex flex-col gap-2">
+            <label htmlFor="makhotelstar" className="custom-label">
+              Makkah Hotel Star
+            </label>
+
+            <input
+              type="number"
+              name="makhotelstar"
+              id="makhotelstar"
+              className="custom-input"
+              min={0}
+              max={5}
+              placeholder="Enter Mecca Hotel Star"
+              {...register('makhotelstar')}
+              defaultValue={umrahPackage?.mak_hotel_star}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.makhotelstar?.message}
+            </span>
+          </div>
+          {/* Madina Hotel Name */}
+          <div className="w-full relative mt-10 flex flex-col gap-2">
+            <label htmlFor="madinahotelname" className="custom-label">
+              Madina Hotel Star
+            </label>
+            <input
+              type="number"
+              min={0}
+              max={5}
+              name="medhotelstar"
+              id="medhotelstar"
+              className="custom-input"
+              placeholder="Enter Madina Hotel Star"
+              {...register('medhotelstar')}
+              defaultValue={umrahPackage?.med_hotel_star}
+            />
+
+            <span className="text-sm text-red-600 my-2">
+              {errors?.medhotelstar?.message}
+            </span>
+          </div>
+        </div>
+
+        {/*  */}
+
+        <div className="flex flex-col gap-5 md:flex-row items-center w-full">
+          {/* Mecca Hotel Name */}
+          <div className="w-full relative mt-10 flex flex-col gap-2">
+            <label htmlFor="makhotellocation" className="custom-label">
+              Makkah Hotel Location
+            </label>
+
+            <input
+              type="text"
+              name="makhotellocation"
+              id="makhotellocation"
+              className="custom-input"
+              placeholder="Enter Mecca Hotel Location"
+              {...register('makhotellocation')}
+              defaultValue={umrahPackage?.mak_hotel_location}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.makhotellocation?.message}
+            </span>
+          </div>
+          {/* Madina Hotel Name */}
+          <div className="w-full relative mt-10 flex flex-col gap-2">
+            <label htmlFor="madinahotellocation" className="custom-label">
+              Madina Hotel Location
+            </label>
+            <input
+              type="text"
+              name="medhotellocation"
+              id="medhotellocation"
+              className="custom-input"
+              placeholder="Enter Madina Hotel Location"
+              {...register('medhotellocation')}
+              defaultValue={umrahPackage?.med_hotel_location}
+            />
+
+            <span className="text-sm text-red-600 my-2">
+              {errors?.medhotellocation?.message}
             </span>
           </div>
         </div>

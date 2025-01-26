@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Homepage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import Signup from './pages/auth/SignupPage';
@@ -83,6 +83,7 @@ const OfflineNotice = () => (
 const App = () => {
   const { checkAuth } = useAuthStore();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { checkAdminAuth } = useAdminAuthStore();
   useEffect(() => {
@@ -97,6 +98,12 @@ const App = () => {
   const [isMore, setIsMore] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const isOnline = useOnlineStatus();
+
+  useEffect(() => {
+    if (location.pathname.endsWith('/') && location.pathname !== '/') {
+      navigate(location.pathname.slice(0, -1), { replace: true });
+    }
+  }, [location, navigate]);
 
   if (!isOnline) {
     return <OfflineNotice />;
