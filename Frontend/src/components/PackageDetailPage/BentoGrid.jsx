@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const BentoGrid = ({ images }) => {
   // Initialize the main image to be the first in the array
@@ -10,31 +10,33 @@ const BentoGrid = ({ images }) => {
   };
 
   return (
-    <div className="flex flex-col gap-6  md:flex-row items-start space-x-6 border-2 border-dotted border-darkgreen p-4 md:p-6  rounded-md">
+    <div className="flex flex-col gap-4 md:flex-row items-start space-x-6 sm:p-4 sm:border-2 border-dotted border-darkgreen rounded-md overflow-clip">
       {/* Large image on the left with fixed size */}
-      <div className="flex-shrink-0 flex-1 h-[300px] md:h-[500px] ">
+      <div className="flex-shrink-0 flex-1 w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden sm:border-2 border-darkgreen rounded-xl">
         <img
           src={mainImage}
           alt="Main"
-          className="w-full h-full object-cover rounded-lg shadow-lg"
+          className="w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] object-cover rounded-xl"
         />
       </div>
 
-      {/* Small images on the right stacked vertically, filling the large image's height */}
-      <div className="grid grid-cols-3  md:flex md:flex-col gap-4 h-24 sm:h-32 md:h-[500px] !ml-0">
-        {images.map(({ _, secure_url }, index) => (
-          <div
-            key={index}
-            className="cursor-pointer transition-transform transform hover:scale-105"
-            onClick={() => changeImage(secure_url)}
-          >
-            <img
-              src={secure_url}
-              alt={`Small ${index + 1}`}
-              className="w-full h-full md:w-[290px] md:h-auto object-cover rounded-lg "
-            />
-          </div>
-        ))}
+      {/* Small images on the right stacked vertically, excluding the selected image */}
+      <div className="w-full md:w-auto grid grid-cols-2 md:flex md:flex-col gap-4 !ml-0">
+        {images
+          .filter(({ secure_url }) => secure_url !== mainImage) // Exclude the selected image
+          .map(({ secure_url }, index) => (
+            <div
+              key={index}
+              className="cursor-pointer transition-transform transform hover:scale-[1.02]"
+              onClick={() => changeImage(secure_url)}
+            >
+              <img
+                src={secure_url}
+                alt={`Small ${index + 1}`}
+                className="w-full h-[100px] sm:h-[150px] md:w-[300px] md:h-[192px] lg:w-[340px] lg:h-[240px] object-cover rounded-lg sm:border-2 border-darkgreen"
+              />
+            </div>
+          ))}
       </div>
     </div>
   );
