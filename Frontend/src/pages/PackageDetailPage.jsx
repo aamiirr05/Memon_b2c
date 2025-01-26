@@ -6,6 +6,7 @@ import ErrorPage from './ErrorPage';
 import ShareButton from '../components/PackageDetailPage/ShareButton';
 import BentoGrid from '../components/PackageDetailPage/BentoGrid';
 import TabComponent from '../components/PackageDetailPage/TabComponent';
+import Loader from '../components/Loader';
 
 const PackageDetailPage = () => {
   const { packageId } = useParams();
@@ -33,9 +34,14 @@ const PackageDetailPage = () => {
     }
   }, [packageId, selectedPackage, packages, setSelectedPackage]);
 
-  if (isFetching) return <div>Loading</div>;
+  if (isFetching)
+    return (
+      <div className="w-screen h-[calc(100dvh-116px)] flex justify-center items-center">
+        <Loader />
+      </div>
+    );
 
-  if (selectedPackage === null) return <ErrorPage />;
+  if (!isFetching && selectedPackage === null) return <ErrorPage />;
 
   const pageUrl = window.location.href;
   const pageTitle = selectedPackage.package_name;
