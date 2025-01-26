@@ -109,7 +109,13 @@ const SecondaryNav = () => {
       {menuOpen && (
         <div className="lg:hidden bg-peach shadow-md text-md">
           {navLinks.map((link) => (
-            <div key={link.name} className="border-b">
+            <div
+              key={link.name}
+              className="border-b"
+              onClick={() => {
+                !link.dropdown && setMenuOpen(!menuOpen);
+              }}
+            >
               {link.dropdown ? (
                 <details>
                   <summary className="px-4 py-2 cursor-pointer flex justify-between items-center text-neutral-600 font-medium">
@@ -119,6 +125,7 @@ const SecondaryNav = () => {
                   <div className="px-4 pb-2">
                     {link.dropdown.map((dropdownLink) => (
                       <NavLink
+                        onClick={() => setMenuOpen(!menuOpen)}
                         key={dropdownLink.name}
                         to={dropdownLink.path}
                         className="block px-4 py-2 text-md text-neutral-600 hover:bg-darkgreen/40 hover:text-darkgreen rounded-md"

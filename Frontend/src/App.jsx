@@ -137,7 +137,7 @@ const App = () => {
           path="/hotels/hotel-details/:hotelId"
           element={<HotelDetailPage />}
         />
-        <Route path="/our-partners" element={<OurPartnersPage />} />
+        <Route path="/partners" element={<OurPartnersPage />} />
         <Route path="/nusuk" element={<NusukPage />} />
 
         {/* Admin Routes */}
