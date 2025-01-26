@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { usePackageStore } from '../../store/usePackageStore';
-import CustomSlider from './CustomSlider'; // Import the CustomSlider component
-import { MapPin, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 const Tab4 = () => {
   const { selectedPackage } = usePackageStore();
-  console.log(selectedPackage);
   const [activeTab, setActiveTab] = useState('makkah');
+  const [selectedImage, setSelectedImage] = useState(null); // State for the selected large image
 
   const getHotelDetails = (tab) => {
     const hotelData =
@@ -34,6 +33,11 @@ const Tab4 = () => {
 
   const { hotelData, hotelImages, hotelLocation, hotelStar } =
     getHotelDetails(activeTab);
+
+  // Initialize selectedImage with the first image
+  if (!selectedImage && hotelImages.length > 0) {
+    setSelectedImage(hotelImages[0].secure_url);
+  }
 
   return (
     <div className="w-full mt-8 pb-12">
@@ -80,13 +84,39 @@ const Tab4 = () => {
           </i>
         </h2>
 
-        {/* Hotel Image Slider */}
-        <div className="my-6">
-          <CustomSlider images={hotelImages} />
+        {/* Hotel Image Layout */}
+        <div className="my-6 flex flex-col md:flex-row gap-4">
+          {/* Left: Large Image */}
+          <div className="flex-1 transition-all">
+            {selectedImage && (
+              <img
+                src={selectedImage}
+                alt="Selected Hotel"
+                className="w-full h-[250px] sm:h-[300px] md:h-[500px] object-cover rounded-md shadow-md ring-2 ring-darkgreen"
+              />
+            )}
+          </div>
+
+          {/* RIhgt: Smaller Images */}
+          <div className="flex flex-row md:flex-col gap-2 p-1 md:py-0.5 md:px-1.5 overflow-y-auto md:custom-scrollbar max-h-[500px]">
+            {hotelImages.map((img) => (
+              <img
+                src={img.secure_url}
+                key={img.secure_url}
+                alt="Hotel thumbnail"
+                className={`w-48 h-32 object-cover cursor-pointer rounded-md transition-all ${
+                  selectedImage === img.secure_url
+                    ? 'ring-2 ring-darkgreen'
+                    : ''
+                }`}
+                onClick={() => setSelectedImage(img.secure_url)}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Google Map Location */}
-        <div className="pt-12">
+        <div className="pt-8">
           <h2 className="text-2xl font-medium text-neutral-700 mb-4">
             Map Location
           </h2>
@@ -96,7 +126,7 @@ const Tab4 = () => {
             height="450"
             allowFullScreen=""
             loading="lazy"
-            className="w-full h-[300px] rounded-md"
+            className="w-full h-[300px] md:h-[350px] rounded-md border-2 border-dashed border-darkgreen"
             title="Hotel Location"
           ></iframe>
         </div>
