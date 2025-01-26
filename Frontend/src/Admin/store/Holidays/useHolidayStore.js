@@ -6,6 +6,17 @@ const useHolidayStore = create((set) => ({
   isCreating: false,
   isUpdating: false,
   isModalOpen: false,
+  categories: [],
+
+  setCategories: (cat) => {
+    set((state) => ({
+      categories: [...state.categories, cat],
+    }));
+  },
+
+  updateCategory: (cat) => {
+    set({ categories: cat });
+  },
 
   setIsModalOpen: (status) => set({ isModalOpen: status }),
   setHolidayPackages: (packages) => set({ holidayPackages: packages }),

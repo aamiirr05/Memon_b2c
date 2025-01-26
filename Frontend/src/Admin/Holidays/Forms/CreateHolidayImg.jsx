@@ -189,6 +189,12 @@ const CreateHolidayImg = () => {
     formData.append(`inclusion[${i}]`, item);
   });
 
+  const categories = previewData?.packageDetails.category;
+
+  categories.forEach((item, index) => {
+    formData.append(`category[${index}]`, item);
+  });
+
   const exclusion = previewData?.packageDetails.exclusion;
 
   exclusion.forEach((item, index) => {
