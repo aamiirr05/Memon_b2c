@@ -29,7 +29,7 @@ const MainContent = ({ isMenuOpen }) => {
   return (
     <>
       <section
-        className={`relative mb-52 w-full flex mt-[4.5rem] lg:mt-0 transition- h-[calc(100vh-120px)] md:h-[calc(100vh-116px)] ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
+        className={`relative mb-52 w-full flex lg:mt-0 h-[calc(100vh-112px)] md:h-[calc(100vh-116px)] ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
         style={{
           backgroundImage: `url('/hero-bg.jpg')`,
           backgroundSize: 'cover',

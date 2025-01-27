@@ -32,15 +32,15 @@ const Homepage = () => {
       /> */}
       {/* Logo Section (Hamburger) */}
 
-      <HamburgerLogo isMenuOpen={isMenuOpen} />
+      {/* <HamburgerLogo isMenuOpen={isMenuOpen} /> */}
 
       {/* Hamburger */}
-      <Hamburger
+      {/* <Hamburger
         setIsHovered={setIsHovered}
         isHovered={isHovered}
         isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
-      />
+      /> */}
 
       {/* Main content  */}
       <MainContent isMenuOpen={isMenuOpen} />
