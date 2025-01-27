@@ -15,7 +15,7 @@ const navLinks = [
       { name: 'All Packages', path: '/packages' },
       { name: 'Umrah Packages', path: '/packages/umrah' },
       { name: 'Ramadan Packages', path: '/packages/ramadan' },
-      { name: 'Customized Packages', path: '/packages/customized' },
+      { name: 'Customized Packages', path: '/packages/customized-package' },
     ],
   },
   { name: 'Hajj 2025', path: '/hajj-2025' },
@@ -34,7 +34,7 @@ const SecondaryNav = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <nav className="bg-peach shadow-md sticky top-0 z-50">
+    <nav className="bg-peach shadow-md sticky top-0 z-50 transform transition">
       <div className="mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center">
@@ -107,7 +107,7 @@ const SecondaryNav = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden bg-peach shadow-md text-md">
+        <div className="lg:hidden bg-peach shadow-md text-md transform transition-all">
           {navLinks.map((link) => (
             <div
               key={link.name}

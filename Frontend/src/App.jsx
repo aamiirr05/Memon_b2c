@@ -130,11 +130,14 @@ const App = () => {
         <Route path="signup" element={<Signup />} />
         <Route path="verify" element={<OtpPage />} />
         <Route path="forex" element={<ForexPage />} />
-        <Route path="customized-package" element={<CustomizedPackagePage />} />
         <Route path="contact" element={<ContactPage />} />
 
         {/* Not Protected Route */}
         <Route path="/packages" element={<PackagesPage />} />
+        <Route
+          path="packages/customized-package"
+          element={<CustomizedPackagePage />}
+        />
         <Route
           path="/packages/package-details/:packageId"
           element={<PackageDetailPage />}
