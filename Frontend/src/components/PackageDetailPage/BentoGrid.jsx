@@ -27,13 +27,13 @@ const BentoGrid = ({ images }) => {
           .map(({ secure_url }, index) => (
             <div
               key={index}
-              className="cursor-pointer transition-transform transform hover:scale-[1.01]"
+              className="cursor-pointer overflow-hidden rounded-lg"
               onClick={() => changeImage(secure_url)}
             >
               <img
                 src={secure_url}
                 alt={`Small ${index + 1}`}
-                className="w-full h-[100px] sm:h-[150px] md:w-[300px] md:h-[192px] lg:w-[340px] lg:h-[240px] object-cover rounded-md sm:border border-darkgreen"
+                className="w-full h-[100px] sm:h-[150px] md:w-[300px] md:h-[192px] lg:w-[340px] lg:h-[240px] object-cover transition-transform duration-300 ease-in-out hover:scale-105"
               />
             </div>
           ))}
