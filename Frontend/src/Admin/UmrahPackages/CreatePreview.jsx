@@ -7,7 +7,6 @@ import {
   useOutletContext,
   useParams,
 } from 'react-router-dom';
-import useCreateUmrahStore from '../store/Umrah/UseCreateUmrahStore';
 import Loader from '../../components/Loader';
 const CreatePreview = () => {
   const { refreshPackages, getPackages } = useOutletContext();
@@ -26,7 +25,7 @@ const CreatePreview = () => {
   const [cancelpolicy] = useState(previewData?.cancellation_policy);
   const [termcondition] = useState(previewData?.term_condition);
 
-  const [meccaItenaries] = useState(previewData.makkah_itinerary);
+  const [meccaItenaries] = useState(previewData?.makkah_itinerary);
   const [madinaItenaries] = useState(previewData?.medina_itinerary);
 
   // Is active and is featured states & functions
@@ -611,7 +610,7 @@ const CreatePreview = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 disabled
-                defaultValue={val.itenary}
+                defaultValue={val.activities}
               />
             </div>
           ))}
@@ -642,7 +641,7 @@ const CreatePreview = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 disabled
-                defaultValue={val.itenary}
+                defaultValue={val.activities}
               />
             </div>
           ))}
