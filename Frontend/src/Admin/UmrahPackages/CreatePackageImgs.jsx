@@ -2,13 +2,11 @@
 /* eslint-disable react/prop-types */
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
-import { AuthContext } from '../context';
 import axiosInstance from '../../lib/axios';
-import useCreateUmrahStore from '../store/Umrah/UseCreateUmrahStore';
 
 // const MAX_FILES = 5;
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
@@ -121,7 +119,7 @@ const CreatePackageImgs = () => {
   const [meccaHotelImages, setMeccaHotelImages] = useState([]);
   const [medinaHotelImages, setMedinaHotelImages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { setPreviewData } = useCreateUmrahStore();
+  const { refreshPackages } = useOutletContext();
   const navigate = useNavigate();
   const [previewData] = useState(() => {
     const safeParseJSON = (item) => {
@@ -288,7 +286,6 @@ const CreatePackageImgs = () => {
         }
       );
       console.log(res);
-      setPreviewData(res.data.data);
 
       const extractedId = res.data.data[0].package_id;
 
@@ -297,6 +294,7 @@ const CreatePackageImgs = () => {
       const resMsg = res.data?.message || 'Package Created Successfully';
       toast.success(resMsg, { autoClose: 5000 });
       navigate(`/admin/umrahpackages/createpackage-preview/${extractedId}`);
+      refreshPackages();
     } catch (error) {
       toast.dismiss(toastId);
       const errorMsg = error.response?.data.message;

@@ -39,7 +39,6 @@ const UpdateUmrahDetails = () => {
   const {
     register,
     handleSubmit,
-    control,
     reset,
     setValue,
     formState: { errors },
@@ -58,6 +57,33 @@ const UpdateUmrahDetails = () => {
       exclusion: exclusion,
     },
   });
+
+  useEffect(() => {
+    reset({
+      groupDates,
+      isactive: isActive,
+      isfeatured: isFeatured,
+      meccaitenaries: meccaItenaries,
+      madinaitenaries: madinaItenaries,
+      cancellationpolicy: cancelpolicy,
+      bookingterms: bookingterms,
+      termcondition: termcondition,
+      inclusion: inclusion,
+      exclusion: exclusion,
+    });
+  }, [
+    groupDates,
+    isActive,
+    isFeatured,
+    meccaItenaries,
+    madinaItenaries,
+    cancelpolicy,
+    bookingterms,
+    termcondition,
+    inclusion,
+    exclusion,
+    reset,
+  ]);
 
   useEffect(() => {
     if (umrahPackage?.is_active) setIsActive(umrahPackage.is_active === 'true');
@@ -118,23 +144,23 @@ const UpdateUmrahDetails = () => {
 
   const addMeccaItenaries = () => {
     const nextday = `Day ${meccaItenaries.length + 1}`;
-    setMeccaItenaries([...meccaItenaries, { day: nextday, itenary: '' }]);
+    setMeccaItenaries([...meccaItenaries, { day: nextday, activities: '' }]);
   };
 
   const addMadinaItenaries = () => {
     const nextday = `Day ${madinaItenaries.length + 1}`;
-    setMadinaItenaries([...madinaItenaries, { day: nextday, itenary: '' }]);
+    setMadinaItenaries([...madinaItenaries, { day: nextday, activities: '' }]);
   };
 
   const handleMeccaItenaries = (val, index) => {
     const updatedItenaries = [...meccaItenaries];
-    updatedItenaries[index].itenary = val;
+    updatedItenaries[index].activities = val;
     setMeccaItenaries(updatedItenaries);
   };
 
   const handleMadinaItenaries = (val, index) => {
     const updatedItenaries = [...madinaItenaries];
-    updatedItenaries[index].itenary = val;
+    updatedItenaries[index].activities = val;
     setMadinaItenaries(updatedItenaries);
   };
 
@@ -240,6 +266,7 @@ const UpdateUmrahDetails = () => {
   // Functions for form submission
   const onFormSubmit = async (data) => {
     try {
+      console.log(data);
       setIsLoading(true);
       const res = await axiosInstance.put(
         `/admin/packages/update-umrah-package/${updateid}`,
@@ -920,7 +947,8 @@ const UpdateUmrahDetails = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itenary}
+                value={val.activities}
+                required
                 onChange={(e) => handleMeccaItenaries(e.target.value, index)}
               />
             </div>
@@ -964,7 +992,7 @@ const UpdateUmrahDetails = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itenary}
+                value={val.activities}
                 onChange={(e) => handleMadinaItenaries(e.target.value, index)}
               />
             </div>

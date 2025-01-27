@@ -117,13 +117,13 @@ const CreatePackagesForm = () => {
 
   const handleMeccaItenaries = (val, index) => {
     const updatedItenaries = [...meccaitenaries];
-    updatedItenaries[index].itenary = val;
+    updatedItenaries[index].activities = val;
     setMeccaItenaries(updatedItenaries);
   };
 
   const handleMadinaItenaries = (val, index) => {
     const updatedItenaries = [...madinaitenaries];
-    updatedItenaries[index].itenary = val;
+    updatedItenaries[index].activities = val;
     setMadinaItenaries(updatedItenaries);
   };
 
@@ -789,7 +789,7 @@ const CreatePackagesForm = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itenary}
+                value={val.activities}
                 onChange={(e) => handleMeccaItenaries(e.target.value, index)}
               />
             </div>
@@ -833,7 +833,7 @@ const CreatePackagesForm = () => {
                 type="text"
                 className="custom-input w-full md:w-9/12"
                 placeholder={`Itinerary for ${val.day}`}
-                value={val.itenary}
+                value={val.activities}
                 onChange={(e) => handleMadinaItenaries(e.target.value, index)}
               />
             </div>
