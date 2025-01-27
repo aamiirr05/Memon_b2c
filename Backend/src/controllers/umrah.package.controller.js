@@ -273,63 +273,78 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
 
   const makkahHotelImageArray = Object.values(uploadedMakkahHotelImage)[0];
 
-  const createdPackage = await prisma.umrahPackage.create({
-    data: {
-      admin_id: adminId,
-      package_name: packagename,
-      package_image: packageImageArray,
-      package_type: packagetype,
-      description: description,
-      makkah_itinerary: makItineraryArray,
-      medina_itinerary: medItineraryArray,
-      inclusion: inclusionArray,
-      exclusion: exclusionArray,
-      booking_deadline: bookingdeadline,
-      cancellation_policy: cancellationPolicyArray,
-      term_condition: termCondArray,
-      booking_terms: bookingTermArray,
-      departure_city: departurecity,
-      arrival_city: arrivalcity,
-      is_active: isactive,
-      featured: featured,
-      base_price: intBasePrice,
-      discount: intDiscount,
-      final_price: finalPrice,
-      you_saved: youSaved,
-      group_dates: groupsDatesArray,
-      total_days: intTotalDays,
-      total_nights: intTotalNights,
-      mak_hotel_name: makhotelname,
-      mak_hotel_star: intMakHotelStar,
-      mak_hotel_location: makhotellocation,
-      mak_hotel_images: makkahHotelImageArray,
-      med_hotel_name: medhotelname,
-      med_hotel_star: intMedHotelStar,
-      med_hotel_location: medhotellocation,
-      med_hotel_images: makkahHotelImageArray,
-      med_hotel_images: medinaHotelImageArray,
-    },
-  });
+  const allImagesArray = [
+    ...packageImageArray,
+    ...medinaHotelImageArray,
+    ...makkahHotelImageArray,
+  ];
 
-  const createdPackagePrice = await prisma.umrahPackagePrice.create({
-    data: {
-      package_id: createdPackage.package_id,
-      quint_price: intQuintPrice,
-      quad_price: intQuadPrice,
-      triple_price: intTriplePrice,
-      double_price: intDoublePrice,
-      child_without_bed_price: intChildWithoutBedPrice,
-      infant_price: intInfantPrice,
-    },
-  });
+  try {
+    const createdPackage = await prisma.umrahPackage.create({
+      data: {
+        admin_id: adminId,
+        package_name: packagename,
+        package_image: packageImageArray,
+        package_type: packagetype,
+        description: description,
+        makkah_itinerary: makItineraryArray,
+        medina_itinerary: medItineraryArray,
+        inclusion: inclusionArray,
+        exclusion: exclusionArray,
+        booking_deadline: bookingdeadline,
+        cancellation_policy: cancellationPolicyArray,
+        term_condition: termCondArray,
+        booking_terms: bookingTermArray,
+        departure_city: departurecity,
+        arrival_city: arrivalcity,
+        is_active: isactive,
+        featured: featured,
+        base_price: intBasePrice,
+        discount: intDiscount,
+        final_price: finalPrice,
+        you_saved: youSaved,
+        group_dates: groupsDatesArray,
+        total_days: intTotalDays,
+        total_nights: intTotalNights,
+        mak_hotel_name: makhotelname,
+        mak_hotel_star: intMakHotelStar,
+        mak_hotel_location: makhotellocation,
+        mak_hotel_images: makkahHotelImageArray,
+        med_hotel_name: medhotelname,
+        med_hotel_star: intMedHotelStar,
+        med_hotel_location: medhotellocation,
+        med_hotel_images: medinaHotelImageArray,
+      },
+    });
 
-  const fullCreatedPackage = [createdPackage, createdPackagePrice];
+    const createdPackagePrice = await prisma.umrahPackagePrice.create({
+      data: {
+        package_id: createdPackage.package_id,
+        quint_price: intQuintPrice,
+        quad_price: intQuadPrice,
+        triple_price: intTriplePrice,
+        double_price: intDoublePrice,
+        child_without_bed_price: intChildWithoutBedPrice,
+        infant_price: intInfantPrice,
+      },
+    });
 
-  res
-    .status(200)
-    .json(
-      new ApiResponse(201, fullCreatedPackage, "Package Created Sucessfully")
-    );
+    const fullCreatedPackage = [createdPackage, createdPackagePrice];
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse(201, fullCreatedPackage, "Package Created Sucessfully")
+      );
+  } catch (error) {
+    if (allImagesArray && allImagesArray.length > 0) {
+      for (const image of allImagesArray) {
+        deleteImageFromCloudinary(image.public_id);
+        console.log("deleting");
+      }
+    }
+    throw new ApiError(500, "Error While Creating Package");
+  }
 });
 
 // ********** Get All Umrah Package **********
@@ -696,21 +711,31 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
 
   const packageImageArray = Object.values(newUploadedImages)[0];
 
-  const updatedPackageImage = await prisma.umrahPackage.update({
-    where: { package_id: packageId },
-    data: { package_image: packageImageArray },
-    select: { package_image: true },
-  });
+  try {
+    const updatedPackageImage = await prisma.umrahPackage.update({
+      where: { package_id: packageId },
+      data: { package_image: packageImageArray },
+      select: { package_image: true },
+    });
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        updatedPackageImage,
-        "Umrah Package Images Updated Sucessfully"
-      )
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          updatedPackageImage,
+          "Umrah Package Images Updated Sucessfully"
+        )
+      );
+  } catch (error) {
+    if (packageImageArray && packageImageArray.length > 0) {
+      for (const image of packageImageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+
+    throw new ApiError(500, "Error While Updating Package Images");
+  }
 });
 
 // ********** Update Umrah Package Makkah Hotel Image **********
@@ -789,21 +814,30 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
 
   const makHotelImageArray = Object.values(newMakHotelImages)[0];
 
-  const updatedMakHotelImage = await prisma.umrahPackage.update({
-    where: { package_id: packageId },
-    data: { mak_hotel_images: makHotelImageArray },
-    select: { mak_hotel_images: true },
-  });
+  try {
+    const updatedMakHotelImage = await prisma.umrahPackage.update({
+      where: { package_id: packageId },
+      data: { mak_hotel_images: makHotelImageArray },
+      select: { mak_hotel_images: true },
+    });
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        updatedMakHotelImage,
-        "Makkah Hotel Images Updated Sucessfully"
-      )
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          updatedMakHotelImage,
+          "Makkah Hotel Images Updated Sucessfully"
+        )
+      );
+  } catch (error) {
+    if (makHotelImageArray && makHotelImageArray.length > 0) {
+      for (const image of makHotelImageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error Updating Makkah Hotel Images");
+  }
 });
 
 // ********** Update Umrah Package Medina Hotel Image **********
@@ -881,21 +915,30 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
 
   const medHotelImageArray = Object.values(newMedHotelImages)[0];
 
-  const updatedMedHotelImage = await prisma.umrahPackage.update({
-    where: { package_id: packageId },
-    data: { med_hotel_images: medHotelImageArray },
-    select: { med_hotel_images: true },
-  });
+  try {
+    const updatedMedHotelImage = await prisma.umrahPackage.update({
+      where: { package_id: packageId },
+      data: { med_hotel_images: medHotelImageArray },
+      select: { med_hotel_images: true },
+    });
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        updatedMedHotelImage,
-        "Medina Hotel Images Updated Successfully"
-      )
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          updatedMedHotelImage,
+          "Medina Hotel Images Updated Successfully"
+        )
+      );
+  } catch (error) {
+    if (medHotelImageArray && medHotelImageArray.length > 0) {
+      for (const image of medHotelImageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error Updating Medina Hotel Images");
+  }
 });
 
 // ********** Delete Umrah Package **********

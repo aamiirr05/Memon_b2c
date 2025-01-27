@@ -27,7 +27,7 @@ const BentoGrid = ({ images }) => {
           .map(({ secure_url }, index) => (
             <div
               key={index}
-              className="cursor-pointer transition-transform transform hover:scale-[1.01]"
+              className="cursor-pointer overflow-hidden rounded-lg"
               onClick={() => changeImage(secure_url)}
             >
               <img

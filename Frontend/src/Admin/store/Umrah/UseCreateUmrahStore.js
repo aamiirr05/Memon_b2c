@@ -54,40 +54,43 @@ const useCreateUmrahStore = create((set) => ({
   meccaitenaries: [
     {
       day: 'Day 1',
-      itenary: 'Arrival, check-in, and perform Umrah with an expert.',
+      activities: 'Arrival, check-in, and perform Umrah with an expert.',
     },
     {
       day: 'Day 2',
-      itenary: 'Tawaf, offer Salah in Masjid Al-Haram, and earn rewards.',
+      activities: 'Tawaf, offer Salah in Masjid Al-Haram, and earn rewards.',
     },
     {
       day: 'Day 3',
-      itenary:
+      activities:
         'Ziyarat in Makkah (Jabal Al-Nour, Jabal Thawr, Mina, Arafat, etc.)',
     },
-    { day: 'Day 4', itenary: 'Explore Makkah and engage in worship.' },
+    { day: 'Day 4', activities: 'Explore Makkah and engage in worship.' },
     {
       day: 'Day 5',
-      itenary: 'Perform Umrah from Masjid Ayesha (Taneem) or Jorhana.',
+      activities: 'Perform Umrah from Masjid Ayesha (Taneem) or Jorhana.',
     },
-    { day: 'Day 6', itenary: 'Explore Makkah and focus on prayer.' },
-    { day: 'Day 7', itenary: 'Check-out and travel to Medina.' },
+    { day: 'Day 6', activities: 'Explore Makkah and focus on prayer.' },
+    { day: 'Day 7', activities: 'Check-out and travel to Medina.' },
   ],
   madinaitenaries: [
     {
       day: 'Day 1',
-      itenary: 'Arrival, check-in, and offer Salaam at Masjid-e-Nabawi.',
+      activities: 'Arrival, check-in, and offer Salaam at Masjid-e-Nabawi.',
     },
     {
       day: 'Day 2',
-      itenary:
+      activities:
         'Medina Ziyarat (Masjid Quba, Masjid Qiblatain, Uhud, Jannat-ul-Baqi).',
     },
-    { day: 'Day 3', itenary: 'Rawda visit (subject to permit availability)' },
-    { day: 'Day 4', itenary: 'Explore Medina at leisure.' },
-    { day: 'Day 5', itenary: 'Continue exploring and offer prayers.' },
-    { day: 'Day 6', itenary: 'Devotion and exploration in Medina.' },
-    { day: 'Day 7', itenary: 'Check-out and travel to Jeddah.' },
+    {
+      day: 'Day 3',
+      activities: 'Rawda visit (subject to permit availability)',
+    },
+    { day: 'Day 4', activities: 'Explore Medina at leisure.' },
+    { day: 'Day 5', activities: 'Continue exploring and offer prayers.' },
+    { day: 'Day 6', activities: 'Devotion and exploration in Medina.' },
+    { day: 'Day 7', activities: 'Check-out and travel to Jeddah.' },
   ],
 
   setGroupDates: (dates) => set(() => ({ groupDates: dates })),
@@ -137,7 +140,7 @@ const useCreateUmrahStore = create((set) => ({
     set((state) => {
       const newDay = {
         day: `Day ${state.meccaitenaries.length + 1}`,
-        itenary: '',
+        activities: '',
       };
       return { meccaitenaries: [...state.meccaitenaries, newDay] };
     }),
@@ -146,8 +149,8 @@ const useCreateUmrahStore = create((set) => ({
       const updatedItenaries = state.meccaitenaries.filter(
         (_, i) => i !== index
       );
-      const reassignedItenaries = updatedItenaries.map((itenary, i) => ({
-        ...itenary,
+      const reassignedItenaries = updatedItenaries.map((activities, i) => ({
+        ...activities,
         day: `Day ${i + 1}`,
       }));
       return { meccaitenaries: reassignedItenaries };
@@ -157,7 +160,7 @@ const useCreateUmrahStore = create((set) => ({
     set((state) => {
       const newDay = {
         day: `Day ${state.madinaitenaries.length + 1}`,
-        itenary: '',
+        activities: '',
       };
       return { madinaitenaries: [...state.madinaitenaries, newDay] };
     }),
@@ -166,8 +169,8 @@ const useCreateUmrahStore = create((set) => ({
       const updatedItenaries = state.madinaitenaries.filter(
         (_, i) => i !== index
       );
-      const reassignedItenaries = updatedItenaries.map((itenary, i) => ({
-        ...itenary,
+      const reassignedItenaries = updatedItenaries.map((activities, i) => ({
+        ...activities,
         day: `Day ${i + 1}`,
       }));
       return { madinaitenaries: reassignedItenaries };
