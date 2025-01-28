@@ -1,32 +1,24 @@
-import { Plus } from 'lucide-react';
+import { Plus, RefreshCcw } from 'lucide-react';
 import Loader from '../../components/Loader';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import axiosInstance from '../../lib/axios';
 import VisaCard from './VisaCard';
+import useFetchPackages from '../hooks/UseFetchPackages';
+import useVisaStore from '../store/Visa/useVisaStore';
 
 const Visa = () => {
-  const [getVisa, setVisa] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { loading, setLoading, getVisa, setVisa, isCreating } = useVisaStore();
 
   const location = useLocation();
 
-  const getPackages = async () => {
-    try {
-      const res = await axiosInstance.get('/visa/fetch-Visa');
-      const data = res.data.data;
-      console.log(res);
-      setVisa(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const getPackages = useFetchPackages('admin/visa/fetch-Visa');
 
   useEffect(() => {
-    getPackages();
-  }, []);
+    if (getPackages.data) {
+      setVisa(getPackages.data.data);
+    }
+    setLoading(false);
+  }, [getPackages.data, setVisa, setLoading]);
 
   if (loading) {
     return (
@@ -36,12 +28,32 @@ const Visa = () => {
     );
   }
 
+  if (getPackages.error) {
+    return (
+      <div className="w-full h-full flex flex-col gap-10 items-center justify-center mt-32">
+        <div className="w-full h-full flex items-center md:gap-2 text-mediumgreen justify-center  text-xs font-zodiak md:text-3xl">
+          <div className=""> {getPackages.error.message} </div>
+          <div className="">{`:(`}</div>
+        </div>
+        <div
+          className="flex items-center justify-center gap-3 bg-mediumgreen font-jakarta font-semibold p-2 px-5 rounded-lg cursor-pointer text-peach"
+          onClick={() => getPackages.refresh()}
+        >
+          <RefreshCcw />
+          Try Again{' '}
+        </div>
+      </div>
+    );
+  }
+
   // Route Checks
   const currentPath = location.pathname;
   const isChildRoute = currentPath !== '/admin/visa';
 
   return (
-    <div className="w-full h-full">
+    <div
+      className={`w-full h-full ${isCreating ? 'pointer-events-none blur-sm' : 'pointer-events-auto blur-0'}`}
+    >
       {!isChildRoute && (
         <>
           <NavLink
@@ -59,9 +71,11 @@ const Visa = () => {
                 No Visa Cards
               </h1>
             ) : (
-              getVisa.map((i) => (
-                <VisaCard data={i} key={i.visa_id} getPackages={getPackages} />
-              ))
+              getVisa.map((i, index) => {
+                return (
+                  <VisaCard data={i} key={index} getPackages={getPackages} />
+                );
+              })
             )}
           </div>
         </>
@@ -69,7 +83,7 @@ const Visa = () => {
 
       {/* Outlet */}
       <div className="mt-5">
-        <Outlet />
+        <Outlet context={{ getPackages: getPackages }} />
       </div>
     </div>
   );

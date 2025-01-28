@@ -266,7 +266,6 @@ const UpdateUmrahDetails = () => {
   // Functions for form submission
   const onFormSubmit = async (data) => {
     try {
-      console.log(data);
       setIsLoading(true);
       const res = await axiosInstance.put(
         `/admin/packages/update-umrah-package/${updateid}`,
@@ -305,12 +304,11 @@ const UpdateUmrahDetails = () => {
           medhotellocation: data.medhotellocation,
         }
       );
-      console.log(res);
+
       toast.success('Package updated successfully!');
       refreshPackages();
       navigate('/admin/umrahpackages');
     } catch (error) {
-      console.error(error);
       const errMsg = error?.response?.data.message || 'An error occurred.';
       toast.error(errMsg);
     } finally {

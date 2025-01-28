@@ -1,11 +1,5 @@
-enum StatusHotelPackage {
-  true
-  false
-}
-
 model Hotel {
   hotel_id            String             @id @default(uuid())
-  admin               Admin              @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
   admin_id            String
   hotel_name          String
   hotel_category      String
@@ -24,16 +18,22 @@ model Hotel {
   booking_terms       String[]
   cancellation_policy String[]
   created_at          DateTime           @default(now())
+  admin               Admin              @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
   rooms               Room[]
 }
 
 model Room {
   room_id      String   @id @default(uuid())
-  hotel        Hotel    @relation(fields: [hotel_id], references: [hotel_id], onDelete: Cascade)
   hotel_id     String
   quint_price  Decimal  @db.Decimal(10, 2)
   quad_price   Decimal  @db.Decimal(10, 2)
   triple_price Decimal  @db.Decimal(10, 2)
   double_price Decimal  @db.Decimal(10, 2)
   created_at   DateTime @default(now())
+  hotel        Hotel    @relation(fields: [hotel_id], references: [hotel_id], onDelete: Cascade)
+}
+
+enum StatusHotelPackage {
+  true
+  false
 }

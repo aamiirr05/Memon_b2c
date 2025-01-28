@@ -18,8 +18,6 @@ const UpdateUmrahPackage = () => {
     }
   }, [getUmrahPackages.data]);
 
-  console.log(getUmrahPackages);
-
   const umrahPackage = umrahPackages.find(
     (item) => item.package_id === updateid
   );
@@ -28,7 +26,6 @@ const UpdateUmrahPackage = () => {
     return <Loader />;
   }
 
-  console.log(umrahPackage);
   return (
     <>
       <h1 className="font-zodiak text-3xl mb-10">Update Umrah Package.</h1>

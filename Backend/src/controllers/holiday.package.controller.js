@@ -316,6 +316,8 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
     featured,
   } = req.body;
 
+  console.log(req.body);
+
   if (
     [
       packagename,

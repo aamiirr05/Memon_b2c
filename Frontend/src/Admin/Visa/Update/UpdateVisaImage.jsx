@@ -13,7 +13,7 @@ import {
 import Loader from '../../../components/Loader';
 import axiosInstance from '../../../lib/axios';
 import { useForm } from 'react-hook-form';
-import useHolidayStore from '../../store/Holidays/useHolidayStore';
+import useVisaStore from '../../store/Visa/useVisaStore';
 
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
 const ACCEPTED_FILE_TYPES = {
@@ -113,13 +113,13 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES, loading }) => {
     </div>
   );
 };
-const UpdateHolidayPackImgs = () => {
+const UpdateVisaImage = () => {
   const { extractedPackages, getPackages } = useOutletContext();
   const navigate = useNavigate();
   const [packageImages, setPackageImages] = useState([]);
   const { updateid } = useParams();
   const { handleSubmit, reset } = useForm();
-  const { isUpdating, setIsUpdating } = useHolidayStore();
+  const { isUpdating, setIsUpdating } = useVisaStore();
 
   if (!extractedPackages) {
     return <Loader />;
@@ -127,7 +127,7 @@ const UpdateHolidayPackImgs = () => {
 
   const onFormSubmit = async () => {
     const loadingtoast = toast.loading(
-      'Updating Package Images. This may take some time...',
+      'Updating Visa Images. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
@@ -142,12 +142,12 @@ const UpdateHolidayPackImgs = () => {
       const formData = new FormData();
       packageImages.forEach((image) => {
         if (image.file) {
-          formData.append('packageimage', image.file);
+          formData.append('visaimage', image.file);
         }
       });
 
       const res = await axiosInstance.put(
-        `/admin/packages/update-holiday-package-image/${updateid}`,
+        `/admin/visa/update-visa-image/${updateid}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -157,7 +157,7 @@ const UpdateHolidayPackImgs = () => {
       toast.dismiss(loadingtoast);
       toast.success(res.data.message);
 
-      navigate('/admin/holidays');
+      navigate('/admin/visa');
       getPackages.refresh();
 
       setPackageImages([]);
@@ -179,7 +179,7 @@ const UpdateHolidayPackImgs = () => {
         Previous Images
       </h1>
       <div className="w-full flex flex-col md:flex-row items-center justify-center gap-10 mb-10">
-        {extractedPackages?.package_images.map((images, i) => {
+        {extractedPackages?.visa_image.map((images, i) => {
           return (
             <img
               src={images.secure_url}
@@ -195,7 +195,7 @@ const UpdateHolidayPackImgs = () => {
           <Dropzone
             images={packageImages}
             setImages={setPackageImages}
-            label="Package Images (3)"
+            label="Visa Image (1)"
             MAX_FILES={3}
             loading={isUpdating}
           />
@@ -218,4 +218,4 @@ const UpdateHolidayPackImgs = () => {
   );
 };
 
-export default UpdateHolidayPackImgs;
+export default UpdateVisaImage;

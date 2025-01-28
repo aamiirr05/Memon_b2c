@@ -1,18 +1,18 @@
 import { NavLink, Outlet, useOutletContext, useParams } from 'react-router-dom';
-
-const UpdateHoliday = () => {
+const UpdateVisa = () => {
   const { updateid } = useParams();
   const { getPackages } = useOutletContext();
 
-  const extractedPackages = getPackages.data.data.find(
-    (item) => item.package_id === updateid
+  const extractedPackages = getPackages.data?.data.find(
+    (item) => item.visa_id == updateid
   );
+
   return (
     <>
       <h1 className="font-zodiak text-3xl mb-10">Update Holiday Package.</h1>
       <div className="w-full border-b border-darkgreen border-opacity-50 flex items-center justify-start gap-10 overflow-x-scroll md:overflow-x-auto text-nowrap pb-5 md:pb-0">
         <NavLink
-          to={`/admin/holidays/update/${updateid}/details`}
+          to={`/admin/visa/update/${updateid}/details`}
           className={({ isActive }) =>
             `
               p-2
@@ -23,7 +23,7 @@ const UpdateHoliday = () => {
           Details
         </NavLink>
         <NavLink
-          to={`/admin/holidays/update/${updateid}/packageimages`}
+          to={`/admin/visa/update/${updateid}/visaimage`}
           className={({ isActive }) =>
             `
               p-2
@@ -31,18 +31,7 @@ const UpdateHoliday = () => {
               `
           }
         >
-          Package Images
-        </NavLink>
-        <NavLink
-          to={`/admin/holidays/update/${updateid}/hotelimages`}
-          className={({ isActive }) =>
-            `
-              p-2
-              ${isActive ? 'border-b-4 rounded-sm border-darkgreen ' : ''}
-              `
-          }
-        >
-          Hotel Images
+          Visa Image
         </NavLink>
       </div>
       {/*  */}
@@ -59,4 +48,4 @@ const UpdateHoliday = () => {
   );
 };
 
-export default UpdateHoliday;
+export default UpdateVisa;

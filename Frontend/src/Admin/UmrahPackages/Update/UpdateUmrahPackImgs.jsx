@@ -125,8 +125,6 @@ const UpdateUmrahPackImgs = () => {
     }
   }, [umrahPackage]);
 
-  console.log(prevImages);
-
   if (!umrahPackage) {
     return <Loader />;
   }
@@ -160,12 +158,11 @@ const UpdateUmrahPackImgs = () => {
         }
       );
       refreshPackages();
-      console.log(res);
+
       toast.dismiss(loadingtoast);
       toast.success(res.data.message);
       setPackageImages([]);
     } catch (error) {
-      console.error(error);
       toast.dismiss(loadingtoast);
       const errMsg = error?.response?.data.message || 'An error occurred.';
       toast.error(errMsg);
