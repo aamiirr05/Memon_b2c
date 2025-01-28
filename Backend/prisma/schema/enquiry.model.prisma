@@ -1,12 +1,5 @@
-enum Status {
-  Pending
-  Approved
-  Rejected
-}
-
 model EnquiryUmrah {
   enquiry_id     String   @id @default(uuid())
-  user           User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
   user_id        String?
   salutation     String
   first_name     String
@@ -21,11 +14,11 @@ model EnquiryUmrah {
   total_infants  Int
   status         Status   @default(Pending)
   created_at     DateTime @default(now())
+  user           User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
 }
 
 model EnquiryVisa {
   enquiry_id   String   @id @default(uuid())
-  user         User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
   user_id      String?
   salutation   String
   first_name   String
@@ -36,11 +29,11 @@ model EnquiryVisa {
   visa_type    String
   status       Status   @default(Pending)
   created_at   DateTime @default(now())
+  user         User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
 }
 
 model EnquiryForex {
   enquiry_id      String   @id @default(uuid())
-  user            User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
   user_id         String?
   salutation      String
   first_name      String
@@ -52,11 +45,11 @@ model EnquiryForex {
   address         String
   status          Status   @default(Pending)
   created_at      DateTime @default(now())
+  user            User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
 }
 
 model EnquiryContact {
   enquiry_id String   @id @default(uuid())
-  user       User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
   user_id    String?
   salutation String
   first_name String
@@ -66,4 +59,11 @@ model EnquiryContact {
   message    String
   status     Status   @default(Pending)
   created_at DateTime @default(now())
+  user       User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
+}
+
+enum Status {
+  Pending
+  Approved
+  Rejected
 }
