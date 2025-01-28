@@ -2,12 +2,10 @@ import { NavLink, useOutletContext, useParams } from 'react-router-dom';
 
 const CreateHolidayPreview = () => {
   const { getPackages } = useOutletContext();
-  console.log(getPackages.data.data);
   const { id } = useParams();
   const singlePackage = getPackages?.data.data.find(
     (item) => item.package_id === id
   );
-  console.log(singlePackage);
 
   const isActive = singlePackage?.is_active;
   const isFeatured = singlePackage?.is_featured;

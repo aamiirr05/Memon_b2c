@@ -370,13 +370,11 @@ const HolidayCards = ({ data, refreshPackages }) => {
       const res = await axiosInstance.delete(
         `admin/packages/delete-holiday-package/${id}`
       );
-      console.log(res);
       toast.dismiss(toastId);
       const msg = res.data.data;
       toast.success(msg);
       refreshPackages();
     } catch (error) {
-      console.log(error);
       toast.dismiss(toastId);
       const errmsg = error.response.data.message;
       toast.error(errmsg);
