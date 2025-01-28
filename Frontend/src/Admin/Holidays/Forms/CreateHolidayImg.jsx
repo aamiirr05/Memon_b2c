@@ -155,6 +155,7 @@ const CreateHolidayImg = () => {
   formData.append('featured', previewData?.packageDetails.isfeatured);
   formData.append('baseprice', previewData?.packageDetails.baseprice);
   formData.append('discount', previewData?.packageDetails.discount);
+  formData.append('hotelstar', previewData?.packageDetails.hotelstar);
   formData.append('transportmode', previewData?.packageDetails.transportmode);
   if (Array.isArray(previewData?.packageDetails.groupDates)) {
     previewData.packageDetails.groupDates.forEach((date, index) => {

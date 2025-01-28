@@ -4,11 +4,16 @@ import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
-import { NavLink, useOutletContext, useParams } from 'react-router-dom';
+import {
+  NavLink,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
 import Loader from '../../../components/Loader';
 import axiosInstance from '../../../lib/axios';
 import { useForm } from 'react-hook-form';
-import useUmrahStore from '../../store/Umrah/UseUmrahStore';
+import useVisaStore from '../../store/Visa/useVisaStore';
 
 const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
 const ACCEPTED_FILE_TYPES = {
@@ -108,24 +113,15 @@ const Dropzone = ({ images, setImages, label, error, MAX_FILES, loading }) => {
     </div>
   );
 };
-const UpdateUmrahPackImgs = () => {
-  const { umrahPackage, refreshPackages } = useOutletContext();
+const UpdateVisaImage = () => {
+  const { extractedPackages, getPackages } = useOutletContext();
+  const navigate = useNavigate();
   const [packageImages, setPackageImages] = useState([]);
-  const [prevImages, setPrevImages] = useState([]);
   const { updateid } = useParams();
   const { handleSubmit, reset } = useForm();
-  const { isUpdating, setIsUpdating } = useUmrahStore();
+  const { isUpdating, setIsUpdating } = useVisaStore();
 
-  useEffect(() => {
-    if (umrahPackage?.package_image) {
-      const UpdateprevImages = umrahPackage.package_image.map((image) => {
-        return image.secure_url;
-      });
-      setPrevImages(UpdateprevImages);
-    }
-  }, [umrahPackage]);
-
-  if (!umrahPackage) {
+  if (!extractedPackages) {
     return <Loader />;
   }
 
@@ -146,21 +142,24 @@ const UpdateUmrahPackImgs = () => {
       const formData = new FormData();
       packageImages.forEach((image) => {
         if (image.file) {
-          formData.append('packageimage', image.file);
+          formData.append('visaimage', image.file);
         }
       });
 
       const res = await axiosInstance.put(
-        `/admin/packages/update-umrah-package-image/${updateid}`,
+        `/admin/visa/update-visa-image/${updateid}`,
         formData,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
-      refreshPackages();
 
       toast.dismiss(loadingtoast);
       toast.success(res.data.message);
+
+      navigate('/admin/visa');
+      getPackages.refresh();
+
       setPackageImages([]);
     } catch (error) {
       toast.dismiss(loadingtoast);
@@ -180,10 +179,10 @@ const UpdateUmrahPackImgs = () => {
         Previous Images
       </h1>
       <div className="w-full flex flex-col md:flex-row items-center justify-center gap-10 mb-10">
-        {prevImages.map((images, i) => {
+        {extractedPackages?.visa_image.map((images, i) => {
           return (
             <img
-              src={images}
+              src={images.secure_url}
               className="w-2/3 md:w-1/4 lg:w-1/5 rounded-lg shadow-lg"
               alt=""
               key={i}
@@ -196,7 +195,7 @@ const UpdateUmrahPackImgs = () => {
           <Dropzone
             images={packageImages}
             setImages={setPackageImages}
-            label="Package Images (3)"
+            label="Visa Image (1)"
             MAX_FILES={3}
             loading={isUpdating}
           />
@@ -219,4 +218,4 @@ const UpdateUmrahPackImgs = () => {
   );
 };
 
-export default UpdateUmrahPackImgs;
+export default UpdateVisaImage;

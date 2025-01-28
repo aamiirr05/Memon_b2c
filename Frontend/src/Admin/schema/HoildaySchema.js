@@ -11,6 +11,12 @@ const HolidaySchema = yup.object().shape({
   hotelname: yup.string().required('Hotel Name is required'),
   departurecity: yup.string().required('Departure City is required'),
   bookingdeadline: yup.string().required('Booking Deadline is required.'),
+  hotelstar: yup
+    .number()
+    .typeError('Hotel Star must be a number')
+    .required('Hotel Star is required')
+    .min(1, 'Hotel Star must be atleast 1')
+    .max(5, 'Hotel Star must be atmost 5'),
   totaldays: yup
     .number()
     .typeError('Total Days must be a number')

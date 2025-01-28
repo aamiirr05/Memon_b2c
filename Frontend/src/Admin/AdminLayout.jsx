@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
 import SideBar from './SideBar';
 import { useState } from 'react';
 import { CalendarRange } from 'lucide-react';
@@ -55,32 +53,3 @@ const AdminLayout = () => {
 };
 
 export default AdminLayout;
-
-export const AdminLoader = () => {
-  const atoken = Cookies.get('accessToken');
-  const rtoken = Cookies.get('refreshToken');
-
-  if (!atoken || !rtoken) {
-    // Redirect if either token is missing
-    window.location.href = '/';
-    return null;
-  }
-
-  try {
-    const decodedToken = jwtDecode(atoken);
-
-    // Check if the user has admin privileges
-    if (!decodedToken.isAdmin) {
-      window.location.href = '/';
-      return null;
-    }
-  } catch (error) {
-    console.error('Invalid or expired token:', error);
-    // Redirect on error (e.g., invalid or expired token)
-    window.location.href = '/';
-    return null;
-  }
-
-  // If everything checks out, allow access
-  return true;
-};

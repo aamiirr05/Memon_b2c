@@ -285,7 +285,6 @@ const CreatePackageImgs = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
-      console.log(res);
 
       const extractedId = res.data.data[0].package_id;
 

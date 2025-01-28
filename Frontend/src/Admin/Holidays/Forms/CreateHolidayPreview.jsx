@@ -2,9 +2,11 @@ import { NavLink, useOutletContext, useParams } from 'react-router-dom';
 
 const CreateHolidayPreview = () => {
   const { getPackages } = useOutletContext();
-  console.log(getPackages);
+  console.log(getPackages.data.data);
   const { id } = useParams();
-  const singlePackage = getPackages.find((item) => item.package_id === id);
+  const singlePackage = getPackages?.data.data.find(
+    (item) => item.package_id === id
+  );
   console.log(singlePackage);
 
   const isActive = singlePackage?.is_active;
@@ -67,6 +69,20 @@ const CreateHolidayPreview = () => {
             placeholder="Enter Package Description"
             value={singlePackage?.description}
           ></textarea>
+        </div>
+
+        {/* Category */}
+        <div className="flex mt-5 gap-3 w-full flex-col">
+          <label htmlFor="packagetype" className="custom-label">
+            Package Category
+          </label>
+          <ul className="font-jakarta pl-5 flex flex-col gap-3">
+            {singlePackage?.category.map((item, index) => (
+              <li className="list-disc" key={index}>
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Base Price and Discount */}
@@ -322,7 +338,7 @@ const CreateHolidayPreview = () => {
           </div>
         </div>
         {/* Transport Mode and Hotel Name */}
-        <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
+        <div className="flex flex-col mt-5 gap-5 lg:flex-row items-center w-full">
           {/* Hotel Name */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="hotelname" className="custom-label">
@@ -336,6 +352,20 @@ const CreateHolidayPreview = () => {
               className="custom-input"
               placeholder="Enter Hotel Name"
               value={singlePackage?.hotel_name}
+            />
+          </div>
+          {/* Hotel Name */}
+          <div className="flex gap-3 w-full flex-col">
+            <label htmlFor="hotelname" className="custom-label">
+              Hotel Star
+            </label>
+            <input
+              type="text"
+              name="hotelstar"
+              disabled
+              id="hotelstar"
+              className="custom-input"
+              value={singlePackage?.hotel_star}
             />
           </div>
           {/* Transport Mode */}

@@ -42,7 +42,9 @@ const HolidayPackages = () => {
   const isChildRoute = currentPath !== '/admin/holidays';
   const isDetailForm = currentPath === '/admin/holidays/createholiday-form';
   const isImgForm = currentPath === '/admin/holidays/createholiday-package';
-  const isPreview = currentPath === '/admin/holidays/createholiday-preview';
+  const isPreview = currentPath.includes(
+    '/admin/holidays/createholiday-preview/'
+  );
 
   return (
     <div

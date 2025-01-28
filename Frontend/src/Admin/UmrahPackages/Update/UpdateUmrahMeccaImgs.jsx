@@ -125,8 +125,6 @@ const UpdateUmrahMeccaImgs = () => {
     }
   }, [umrahPackage]);
 
-  console.log(prevImages);
-
   if (!umrahPackage) {
     return <Loader />;
   }
@@ -158,13 +156,12 @@ const UpdateUmrahMeccaImgs = () => {
           headers: { 'Content-Type': 'multipart/form-data' },
         }
       );
-      console.log(res);
+
       refreshPackages();
       toast.dismiss(loadingtoast);
       toast.success(res.data.message);
       setPackageImages([]);
     } catch (error) {
-      console.error(error);
       toast.dismiss(loadingtoast);
       const errMsg = error?.response?.data.message || 'An error occurred.';
       toast.error(errMsg);

@@ -3,8 +3,19 @@ import { Pencil, Trash2 } from 'lucide-react';
 import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import trash from '../../assets/img/trash.png';
+import Loader from '../../components/Loader';
+import useVisaStore from '../store/Visa/useVisaStore';
+import { NavLink } from 'react-router-dom';
 
 const VisaCard = ({ data, getPackages }) => {
+  const { setIsCreating } = useVisaStore();
+  if (!data) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
   const deletePackage = async (id) => {
     const toastId = toast.loading(
       'Deleting package. This may take some time...',
@@ -18,17 +29,19 @@ const VisaCard = ({ data, getPackages }) => {
       }
     );
     try {
-      const res = await axiosInstance.delete(`/visa/delete-visa/${id}`);
-      console.log(res);
+      setIsCreating(true);
+      const res = await axiosInstance.delete(`admin/visa/delete-visa/${id}`);
+
       toast.dismiss(toastId);
       const msg = res.data.data;
-      toast.success(msg);
-      getPackages();
+      toast.success(msg, { autoClose: 4000 });
+      getPackages.refresh();
     } catch (error) {
-      console.log(error);
       toast.dismiss(toastId);
       const errmsg = error.response.data.message;
       toast.error(errmsg);
+    } finally {
+      setIsCreating(false);
     }
   };
 
@@ -63,9 +76,12 @@ const VisaCard = ({ data, getPackages }) => {
             Created on : {formattedDate}
           </div>
           <div className="flex flex-col gap-3 absolute top-14 right-0">
-            <div className="rounded-full border border-darkgreen cursor-pointer hover:bg-darkgreen hover:text-peach transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center">
+            <NavLink
+              to={`/admin/visa/update/${data.visa_id}/details`}
+              className="rounded-full border border-darkgreen cursor-pointer hover:bg-darkgreen hover:text-peach transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center"
+            >
               <Pencil size={15} />
-            </div>
+            </NavLink>
             <div className="rounded-full border border-red-600 text-red-600 cursor-pointer hover:bg-red-600 hover:text-white transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center">
               <Trash2
                 size={15}
