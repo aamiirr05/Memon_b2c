@@ -1,6 +1,5 @@
 model Visa {
   visa_id              String   @id @default(uuid())
-  admin                Admin    @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
   admin_id             String
   visa_country         String
   visa_type            String
@@ -17,4 +16,5 @@ model Visa {
   booking_terms        String[]
   cancellation_policy  String[]
   created_at           DateTime @default(now())
+  admin                Admin    @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
 }

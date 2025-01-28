@@ -1,11 +1,5 @@
-enum StatusPackage {
-  true
-  false
-}
-
 model UmrahPackage {
   package_id          String              @id @default(uuid())
-  admin               Admin               @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
   admin_id            String
   package_name        String              @db.VarChar(200)
   package_image       Json
@@ -39,12 +33,12 @@ model UmrahPackage {
   final_price         Int
   you_saved           Int
   created_at          DateTime            @default(now())
+  admin               Admin               @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
   prices              UmrahPackagePrice[]
 }
 
 model UmrahPackagePrice {
   price_id                String       @id @default(uuid())
-  package                 UmrahPackage @relation(fields: [package_id], references: [package_id], onDelete: Cascade)
   package_id              String
   quint_price             Decimal      @db.Decimal(10, 2)
   quad_price              Decimal      @db.Decimal(10, 2)
@@ -53,10 +47,10 @@ model UmrahPackagePrice {
   child_without_bed_price Decimal      @db.Decimal(10, 2)
   infant_price            Decimal      @db.Decimal(10, 2)
   created_at              DateTime     @default(now())
+  package                 UmrahPackage @relation(fields: [package_id], references: [package_id], onDelete: Cascade)
 }
 
 model HolidayPackage {
-  admin               Admin         @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
   admin_id            String
   package_id          String        @id @default(uuid())
   package_name        String        @db.VarChar(200)
@@ -89,4 +83,10 @@ model HolidayPackage {
   is_active           StatusPackage @default(true)
   featured            StatusPackage @default(false)
   created_at          DateTime      @default(now())
+  admin               Admin         @relation(fields: [admin_id], references: [admin_id], onDelete: Cascade)
+}
+
+enum StatusPackage {
+  true
+  false
 }

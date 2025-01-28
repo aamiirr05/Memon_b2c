@@ -6,8 +6,8 @@ model Admin {
   contact         String           @db.VarChar(15)
   refresh_token   String?
   created_at      DateTime         @default(now())
-  packages        UmrahPackage[]
   holiday_package HolidayPackage[]
   hotels          Hotel[]
+  packages        UmrahPackage[]
   visa            Visa[]
 }
