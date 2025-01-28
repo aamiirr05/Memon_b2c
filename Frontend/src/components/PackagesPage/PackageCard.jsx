@@ -1,9 +1,17 @@
 import { Link } from 'react-router-dom';
 
 import { usePackageStore } from '../../store/usePackageStore';
+import { useState } from 'react';
+import Modal from '../Modal';
+import UmrahEnquiryForm from './EnquiryForms/UmrahEnquiryForm';
 
 const PackageCard = ({ pkg }) => {
   const { setSelectedPackage } = usePackageStore();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="flex flex-col md:flex-row bg-darkgreen/10 rounded-xl shadow-md overflow-hidden">
@@ -65,9 +73,7 @@ const PackageCard = ({ pkg }) => {
             {/* Enquire Now Button */}
 
             <button
-              onClick={() =>
-                alert(`Enquiring about package: ${pkg?.package_name}`)
-              }
+              onClick={openModal}
               className="px-4 py-2 bg-darkgreen text-peach border text-sm font-semibold rounded-md hover:bg-darkgreen/80 transition-colors"
             >
               Enquire Now
@@ -75,6 +81,19 @@ const PackageCard = ({ pkg }) => {
           </div>
         </div>
       </div>
+
+      {/* enquiry modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title={pkg?.package_name}
+      >
+        <UmrahEnquiryForm
+          onClose={closeModal}
+          packageName={pkg?.package_name}
+          packageType={pkg?.package_type}
+        />
+      </Modal>
     </div>
   );
 };

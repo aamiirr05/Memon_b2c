@@ -230,7 +230,7 @@
 } */
 
 .forex-input-fields {
-  @apply block w-full text-md h-[50px] px-4 text-peach bg-darkgreen/10 rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0 pr-[48px] placeholder-transparent caret-peach;
+  @apply block w-full text-md h-[50px] px-4 text-peach bg-darkgreen/10 rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0 min-w-64 placeholder-transparent caret-peach;
 }
 
 .forex-input-labels {
