@@ -184,7 +184,7 @@ const UpdateVisaDetails = () => {
         }
       );
       toast.dismiss(loadingToast);
-      toast.success('Package updated successfully!');
+      toast.success('Visa updated successfully!');
       getPackages.refresh();
       navigate('/admin/visa');
     } catch (error) {
@@ -576,7 +576,7 @@ const UpdateVisaDetails = () => {
             type="submit"
             className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
           >
-            Create Visa
+            Update Visa
           </button>
         </div>
       </form>

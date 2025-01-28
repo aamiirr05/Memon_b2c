@@ -254,8 +254,6 @@ const CreateHolidayImg = () => {
       navigate(`/admin/holidays/createholiday-preview/${extractedId}`);
       localStorage.clear();
     } catch (error) {
-      console.error(error);
-
       const errorMsg =
         error.response?.data.message ||
         'Something went wrong. Please try again.';

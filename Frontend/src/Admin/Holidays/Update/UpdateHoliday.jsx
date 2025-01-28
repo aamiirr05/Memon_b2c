@@ -7,7 +7,6 @@ const UpdateHoliday = () => {
   const extractedPackages = getPackages.data.data.find(
     (item) => item.package_id === updateid
   );
-  console.log(extractedPackages);
   return (
     <>
       <h1 className="font-zodiak text-3xl mb-10">Update Holiday Package.</h1>

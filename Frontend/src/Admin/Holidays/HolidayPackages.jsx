@@ -1,4 +1,4 @@
-import { Check, Plus } from 'lucide-react';
+import { Check, Plus, RefreshCcw } from 'lucide-react';
 import Loader from '../../components/Loader';
 import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
@@ -23,7 +23,6 @@ const HolidayPackages = () => {
 
   useEffect(() => {
     if (getPackages.data) {
-      console.log(getPackages.data.data);
       setHolidayPackages(getPackages.data.data);
       setLoading(false);
     }
@@ -33,6 +32,24 @@ const HolidayPackages = () => {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <Loader />
+      </div>
+    );
+  }
+
+  if (getPackages.error) {
+    return (
+      <div className="w-full h-full flex flex-col gap-10 items-center justify-center mt-32">
+        <div className="w-full h-full flex items-center md:gap-2 text-mediumgreen justify-center  text-xs font-zodiak md:text-3xl">
+          <div className=""> {getPackages.error.message} </div>
+          <div className="">{`:(`}</div>
+        </div>
+        <div
+          className="flex items-center justify-center gap-3 bg-mediumgreen font-jakarta font-semibold p-2 px-5 rounded-lg cursor-pointer text-peach"
+          onClick={() => getPackages.refresh()}
+        >
+          <RefreshCcw />
+          Try Again{' '}
+        </div>
       </div>
     );
   }
