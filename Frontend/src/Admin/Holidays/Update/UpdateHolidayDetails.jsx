@@ -92,8 +92,8 @@ const UpdateHolidayDetails = () => {
     if (extractedPackages?.itinerary)
       updateItenaries(extractedPackages?.itinerary);
 
-    if (extractedPackages?.category) console.log(extractedPackages?.category);
-    updateCategory(extractedPackages?.category);
+    if (extractedPackages?.category)
+      updateCategory(extractedPackages?.category);
 
     if (extractedPackages?.is_active)
       updateIsActive(extractedPackages.is_active === 'true');
@@ -193,7 +193,15 @@ const UpdateHolidayDetails = () => {
   // Functions for form submission
   const onFormSubmit = async (data) => {
     const loadingToast = toast.loading(
-      'Updating Holiday details. Please wait...'
+      'Creating package. This may take some time...',
+      {
+        icon: (
+          <div className="relative w-10 h-10">
+            <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
+          </div>
+        ),
+        className: 'text-center flex item-center',
+      }
     );
     try {
       // setIsLoading(true);
