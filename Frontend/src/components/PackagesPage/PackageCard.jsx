@@ -47,7 +47,7 @@ const PackageCard = ({ pkg }) => {
             <strong>{pkg?.total_nights}</strong> Nights
           </p>
           {/* Description */}
-          <p className="text-neutral-900 text-md leading-tight line-clamp-3 mt-1 font-medium">
+          <p className="text-neutral-900 text-md leading-tight line-clamp-2 mt-1 font-medium">
             {pkg?.description}
           </p>
         </div>

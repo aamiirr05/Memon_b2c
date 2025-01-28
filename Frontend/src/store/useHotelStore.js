@@ -13,9 +13,6 @@ export const useHotelStore = create((set) => ({
   fetchHotels: async () => {
     set({ isFetching: true });
 
-    // artificial delay
-    await new Promise((resolve) => setTimeout(resolve, 2500));
-
     try {
       const res = await axiosInstance.get('/users/fetch-all-hotels');
       set({ hotels: res.data.data, areHotelsFetched: true });
