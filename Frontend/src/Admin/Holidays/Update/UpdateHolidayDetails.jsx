@@ -58,6 +58,9 @@ const UpdateHolidayDetails = () => {
     updateCancelPolicy,
     updateIsActive,
     updateIsFeatured,
+    categories,
+    setCategories,
+    updateCategory,
   } = useHolidayStore();
 
   // navigate
@@ -89,6 +92,9 @@ const UpdateHolidayDetails = () => {
     if (extractedPackages?.itinerary)
       updateItenaries(extractedPackages?.itinerary);
 
+    if (extractedPackages?.category) console.log(extractedPackages?.category);
+    updateCategory(extractedPackages?.category);
+
     if (extractedPackages?.is_active)
       updateIsActive(extractedPackages.is_active === 'true');
     if (extractedPackages?.featured)
@@ -104,6 +110,7 @@ const UpdateHolidayDetails = () => {
     updateCancelPolicy,
     updateIsActive,
     updateIsFeatured,
+    updateCategory,
   ]);
   const {
     register,
@@ -122,8 +129,18 @@ const UpdateHolidayDetails = () => {
       termcondition: termcondition,
       inclusion: inclusion,
       exclusion: exclusion,
+      category: categories,
     },
   });
+
+  const updateCategories = (bool, val) => {
+    if (bool) setCategories(val);
+
+    if (!bool) {
+      const reassignedCat = categories.filter((item) => item !== val);
+      updateCategory(reassignedCat);
+    }
+  };
 
   // Functions for handling dates
 
@@ -263,6 +280,43 @@ const UpdateHolidayDetails = () => {
           <span className="text-sm text-red-600 my-2">
             {errors?.description?.message}
           </span>
+        </div>
+
+        {/* bnibafoi */}
+        <div className="flex mt-5 gap-3 w-full flex-col">
+          <label htmlFor="packagetype" className="custom-label">
+            Holiday Categories
+          </label>
+          <div className="w-full mt-5 mb-10 flex flex-wrap items-center justify-start gap-10">
+            {[
+              { id: 'culture', label: 'Culture', value: 'Culture' },
+              { id: 'family', label: 'Family', value: 'Family' },
+              { id: 'adventure', label: 'Adventure', value: 'Adventure' },
+              { id: 'honeymoon', label: 'Honeymoon', value: 'Honeymoon' },
+              { id: 'leisure', label: 'Leisure', value: 'Leisure' },
+              { id: 'grouptours', label: 'Group Tours', value: 'Group Tours' },
+              { id: 'religious', label: 'Religious', value: 'Religious' },
+            ].map((category) => (
+              <div
+                className="flex items-center justify-center gap-3"
+                key={category.id}
+              >
+                <input
+                  type="checkbox"
+                  id={category.id}
+                  value={category.value}
+                  checked={categories.includes(category.value)} // Dynamically set checked state
+                  onChange={(e) =>
+                    updateCategories(e.target.checked, e.target.value)
+                  }
+                  className="w-4 h-4 accent-darkgreen"
+                />
+                <label htmlFor={category.id} className="font-jakarta">
+                  {category.label}
+                </label>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Base Price and Discount */}
@@ -564,7 +618,7 @@ const UpdateHolidayDetails = () => {
           </div>
         </div>
         {/* Transport Mode and Hotel Name */}
-        <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
+        <div className="flex flex-col mt-5 gap-5 lg:flex-row items-center w-full">
           {/* Hotel Name */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="hotelname" className="custom-label">
@@ -581,6 +635,26 @@ const UpdateHolidayDetails = () => {
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.hotelname?.message}
+            </span>
+          </div>
+          {/* Hotel Star*/}
+          <div className="flex gap-3 w-full flex-col">
+            <label htmlFor="hotelname" className="custom-label">
+              Hotel Star
+            </label>
+            <input
+              type="number"
+              min={0}
+              max={5}
+              name="hotelname"
+              id="hotelname"
+              className="custom-input"
+              defaultValue={extractedPackages?.hotel_star}
+              placeholder="Enter Hotel Star"
+              {...register('hotelstar')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.hotelstar?.message}
             </span>
           </div>
           {/* Transport Mode */}

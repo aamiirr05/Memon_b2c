@@ -11,12 +11,10 @@ import Loader from '../../components/Loader';
 const CreatePreview = () => {
   const { refreshPackages, getPackages } = useOutletContext();
   const { id } = useParams();
-  console.log(getPackages.data.data);
 
   const previewData = getPackages.data.data.find(
     (item) => item.package_id === id
   );
-  console.log(previewData);
 
   const [groupDates] = useState(previewData?.group_dates);
   const [inclusion] = useState(previewData?.inclusion);

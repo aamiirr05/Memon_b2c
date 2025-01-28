@@ -8,12 +8,11 @@ const useFetchPackages = (url) => {
 
   const fetchPackages = async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await axiosInstance.get(url);
-      console.log(response);
       setData(response.data);
     } catch (err) {
-      console.log(err);
       setError(err);
     } finally {
       setLoading(false);

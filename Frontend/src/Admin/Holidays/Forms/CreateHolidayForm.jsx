@@ -585,24 +585,6 @@ const CreateHolidayForm = () => {
         </div>
         {/* Arrival City and Dept City */}
         <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
-          {/* Arrival City */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="packagename" className="custom-label">
-              Arrival City
-            </label>
-            <input
-              type="text"
-              name="arrivalcity"
-              id="arrivalcity"
-              className="custom-input"
-              defaultValue={previewData?.arrivalcity}
-              placeholder="Enter Arrival City"
-              {...register('arrivalcity')}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.arrivalcity?.message}
-            </span>
-          </div>
           {/* Dept City */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="packagetype" className="custom-label">
@@ -621,9 +603,27 @@ const CreateHolidayForm = () => {
               {errors?.departurecity?.message}
             </span>
           </div>
+          {/* Arrival City */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="packagename" className="custom-label">
+              Arrival City
+            </label>
+            <input
+              type="text"
+              name="arrivalcity"
+              id="arrivalcity"
+              className="custom-input"
+              defaultValue={previewData?.arrivalcity}
+              placeholder="Enter Arrival City"
+              {...register('arrivalcity')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.arrivalcity?.message}
+            </span>
+          </div>
         </div>
         {/* Transport Mode and Hotel Name */}
-        <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
+        <div className="flex flex-col mt-5 gap-5 lg:flex-row items-center w-full">
           {/* Hotel Name */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="hotelname" className="custom-label">
@@ -640,6 +640,26 @@ const CreateHolidayForm = () => {
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.hotelname?.message}
+            </span>
+          </div>
+          {/* Hotel Star*/}
+          <div className="flex gap-3 w-full flex-col">
+            <label htmlFor="hotelname" className="custom-label">
+              Hotel Star
+            </label>
+            <input
+              type="number"
+              min={0}
+              max={5}
+              name="hotelname"
+              id="hotelname"
+              className="custom-input"
+              defaultValue={previewData?.hotelstar}
+              placeholder="Enter Hotel Star"
+              {...register('hotelstar')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.hotelstar?.message}
             </span>
           </div>
           {/* Transport Mode */}

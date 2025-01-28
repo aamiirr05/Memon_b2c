@@ -1,117 +1,25 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { Plus, X } from 'lucide-react';
-import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
+import {
+  NavLink,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useDropzone } from 'react-dropzone';
 import axiosInstance from '../../../lib/axios';
 import VisaSchema from '../../schema/VisaSchema';
 import useVisaStore from '../../store/Visa/useVisaStore';
+import { useEffect } from 'react';
 
-const MAX_FILE_SIZE_MB = 10 * 1024 * 1024; // 10MB
-const ACCEPTED_FILE_TYPES = {
-  'image/jpeg': ['.jpg', '.jpeg'],
-  'image/png': ['.png'],
-};
-const Dropzone = ({ images, setImages, label, error, MAX_FILES, loading }) => {
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles) => handleFileDrop(acceptedFiles),
-    accept: ACCEPTED_FILE_TYPES,
-    multiple: true,
-  });
-
-  const handleFileDrop = (acceptedFiles) => {
-    if (acceptedFiles.length + images.length > MAX_FILES) {
-      toast.error(`You can upload upto ${MAX_FILES} files.`);
-      return;
-    }
-
-    const validFiles = acceptedFiles.filter((file) => {
-      if (file.size > MAX_FILE_SIZE_MB) {
-        toast.error('File size should not exceed 10MB');
-        return false;
-      }
-      if (!Object.keys(ACCEPTED_FILE_TYPES).includes(file.type)) {
-        toast.error(`${file.name} is not a supported file type.`);
-        return false;
-      }
-      return true;
-    });
-
-    const previews = validFiles.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }));
-
-    setImages((prev) => [...prev, ...previews]);
-    validFiles.forEach((file) =>
-      toast.success(`${file.name} added successfully`)
-    );
-  };
-
-  const handleRemoveFile = (index) => {
-    const updatedImages = [...images];
-    const [removed] = updatedImages.splice(index, 1);
-    URL.revokeObjectURL(removed.preview);
-    setImages(updatedImages);
-    toast.success('Image removed successfully');
-  };
-
-  return (
-    <div
-      className={`w-full h-full ${loading ? 'pointer-events-none' : 'pointer-events-auto'}`}
-    >
-      <label className="ml-5 mt-20 font-zodiak text-lg">{label}</label>
-      <div
-        {...getRootProps({
-          className:
-            'drag-and-drop-container border-darkgreen w-full lg:w-2/3 mx-auto p-5 border-2 border-dashed rounded-md text-center cursor-pointer mt-10 mb-20',
-        })}
-      >
-        <input {...getInputProps()} />
-        <p className="my-3 font-jakarta">
-          Drag and drop files here, or click to select files
-        </p>
-        {images.length > 0 && (
-          <div className="flex flex-wrap mt-10 gap-4">
-            {images.map(({ preview }, index) => (
-              <div
-                key={index}
-                className="relative w-24 h-24 border rounded-md overflow-hidden"
-              >
-                <img
-                  src={preview}
-                  alt={`preview-${index}`}
-                  className="w-full h-full object-cover"
-                />
-                <button
-                  className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleRemoveFile(index);
-                  }}
-                >
-                  <X size={15} />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-      {error && (
-        <p className="text-red-500 text-sm ml-5">Please upload valid images.</p>
-      )}
-    </div>
-  );
-};
-
-const CreateVisaForm = () => {
+const UpdateVisaDetails = () => {
+  const { extractedPackages } = useOutletContext();
+  const { updateid } = useParams();
   const {
-    isCreating,
     setIsCreating,
     termcondition,
     setTermCondition,
@@ -133,9 +41,37 @@ const CreateVisaForm = () => {
     removeBasicReq,
     addDocReq,
     removeDocReq,
+    updateBasicReq,
+    updateDocReq,
+    updateCancelPolicy,
+    updateBookingTerms,
+    updateTermCondition,
   } = useVisaStore();
   const { getPackages } = useOutletContext();
-  const [image, setImage] = useState([]);
+
+  useEffect(() => {
+    if (extractedPackages?.booking_terms)
+      updateBookingTerms(extractedPackages.booking_terms);
+
+    if (extractedPackages?.cancellation_policy)
+      updateCancelPolicy(extractedPackages.cancellation_policy);
+
+    if (extractedPackages?.term_condition)
+      updateTermCondition(extractedPackages.term_condition);
+
+    if (extractedPackages?.document_requirement)
+      updateDocReq(extractedPackages?.document_requirement);
+
+    if (extractedPackages?.basic_requirement)
+      updateBasicReq(extractedPackages?.basic_requirement);
+  }, [
+    extractedPackages,
+    updateBookingTerms,
+    updateDocReq,
+    updateTermCondition,
+    updateCancelPolicy,
+    updateBasicReq,
+  ]);
 
   // navigate
   const navigate = useNavigate();
@@ -228,41 +164,34 @@ const CreateVisaForm = () => {
       formData.append(`cancellationpolicy[${index}]`, item);
     });
 
-    image.forEach((item) => {
-      formData.append('visaimage', item.file);
-    });
-
-    const toastId = toast.loading('Creating Visa. This may take some time...', {
-      icon: (
-        <div className="relative w-10 h-10">
-          <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
-        </div>
-      ),
-      className: 'text-center flex item-center',
-    });
-
+    const loadingToast = toast.loading(
+      'Creating package. This may take some time...',
+      {
+        icon: (
+          <div className="relative w-10 h-10">
+            <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
+          </div>
+        ),
+        className: 'text-center flex item-center',
+      }
+    );
     try {
-      setIsCreating(true);
-      const res = await axiosInstance.post('admin/visa/create-visa', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      toast.dismiss(toastId);
-      const resMsg = res.data?.message;
-
-      toast.success(resMsg, { autoClose: 5000 });
+      const res = await axiosInstance.put(
+        `admin/visa/update-visa-details/${updateid}`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
+      toast.dismiss(loadingToast);
+      toast.success('Package updated successfully!');
       getPackages.refresh();
+      navigate('/admin/visa');
     } catch (error) {
-      const errorMsg =
-        error.response?.data.message ||
-        'Something went wrong. Please try again.';
-      toast.dismiss(toastId);
-      toast.error(errorMsg, { autoClose: 5000 });
-    } finally {
-      setIsCreating(false);
+      const errMsg = error?.response?.data.message || 'An error occurred.';
+      toast.dismiss(loadingToast);
+      toast.error(errMsg);
     }
-
-    navigate('/admin/visa');
     reset();
   };
 
@@ -273,18 +202,8 @@ const CreateVisaForm = () => {
         className="w-full h-full"
         onSubmit={handleSubmit(onFormSubmit)}
       >
-        <h1 className="text-3xl font-zodiak mb-5 pl-2">Create Visa Form</h1>
+        <h1 className="text-3xl font-zodiak mb-5 pl-2">Update Visa Form</h1>
 
-        <div className="w-full bg-peach bg-opacity-20 mb-10 shadow-md rounded-xl p-5 md:p-10">
-          <Dropzone
-            images={image}
-            setImages={setImage}
-            label="Visa Image"
-            error={errors.image}
-            MAX_FILES={1}
-            loading={isCreating}
-          />
-        </div>
         {/* Section One */}
         <div className="w-full bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
           <div className="flex flex-col gap-5 md:flex-row items-center w-full">
@@ -299,6 +218,7 @@ const CreateVisaForm = () => {
                 id="visacountry"
                 className="custom-input"
                 placeholder="Enter Visa Country"
+                defaultValue={extractedPackages?.visa_country}
                 {...register('visacountry')}
               />
               <span className="text-sm text-red-600 my-2">
@@ -316,6 +236,7 @@ const CreateVisaForm = () => {
                 id="visatype"
                 className="custom-input"
                 placeholder="Enter Visa Type"
+                defaultValue={extractedPackages?.visa_type}
                 {...register('visatype')}
               />
               <span className="text-sm text-red-600 my-2">
@@ -336,6 +257,7 @@ const CreateVisaForm = () => {
               rows="5"
               className="w-full custom-input"
               placeholder="Enter Description"
+              defaultValue={extractedPackages?.description}
               {...register('description')}
             ></textarea>
             <span className="text-sm text-red-600 my-2">
@@ -357,6 +279,7 @@ const CreateVisaForm = () => {
                 min={0}
                 className="custom-input"
                 placeholder="Enter Price"
+                defaultValue={extractedPackages?.price}
                 {...register('price')}
               />
               <span className="text-sm text-red-600 my-2">
@@ -375,6 +298,7 @@ const CreateVisaForm = () => {
                 min={0}
                 className="custom-input"
                 placeholder="Enter Stay Period"
+                defaultValue={extractedPackages?.stay_period}
                 {...register('stayperiod')}
               />
               <span className="text-sm text-red-600 my-2">
@@ -391,6 +315,7 @@ const CreateVisaForm = () => {
                 name="validity"
                 id="validity"
                 min="0"
+                defaultValue={extractedPackages?.validity}
                 className="custom-input"
                 placeholder="Enter Visa Validity"
                 {...register('validity')}
@@ -415,6 +340,7 @@ const CreateVisaForm = () => {
                 id="processingtime"
                 className="custom-input"
                 placeholder="Enter Processing Time"
+                defaultValue={extractedPackages?.processing_time}
                 {...register('processingtime')}
               />
               <span className="text-sm text-red-600 my-2">
@@ -432,6 +358,7 @@ const CreateVisaForm = () => {
                 id="entry"
                 className="custom-input"
                 placeholder="Enter Entry"
+                defaultValue={extractedPackages?.entry}
                 {...register('entry')}
               />
               <span className="text-sm text-red-600 my-2">
@@ -640,7 +567,7 @@ const CreateVisaForm = () => {
 
         <div className="mt-10 w-full lg:w-2/3 mx-auto flex gap-5 lg:gap-60 items-center justify-center">
           <NavLink
-            to="/admin/holidays"
+            to="/admin/visa"
             className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
           >
             Back
@@ -657,4 +584,4 @@ const CreateVisaForm = () => {
   );
 };
 
-export default CreateVisaForm;
+export default UpdateVisaDetails;
