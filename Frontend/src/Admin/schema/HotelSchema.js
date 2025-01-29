@@ -8,7 +8,7 @@ const HotelSchema = yup.object().shape({
   hotellocation: yup.string().required('Hotel Loacation is required'),
   mealbasis: yup.string().required('Meal Basis is required'),
   hotelcategory: yup.string().required('Hotel Category is required'),
-  hotelstar: yup
+  star: yup
     .number()
     .typeError('Hotel Star must be a number')
     .required('Hotel Star is required')

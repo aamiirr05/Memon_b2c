@@ -17,17 +17,14 @@ const VisaCard = ({ data, getPackages }) => {
     );
   }
   const deletePackage = async (id) => {
-    const toastId = toast.loading(
-      'Deleting Visa. This may take some time...',
-      {
-        icon: (
-          <div className="relative w-10 h-10">
-            <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
-          </div>
-        ),
-        className: 'text-center flex item-center',
-      }
-    );
+    const toastId = toast.loading('Deleting Visa. This may take some time...', {
+      icon: (
+        <div className="relative w-10 h-10">
+          <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
+        </div>
+      ),
+      className: 'text-center flex item-center',
+    });
     try {
       setIsCreating(true);
       const res = await axiosInstance.delete(`admin/visa/delete-visa/${id}`);
@@ -57,12 +54,12 @@ const VisaCard = ({ data, getPackages }) => {
   });
   return (
     <>
-      <div className=" w-full md:w-2/5 lg:w-1/4 xl:w-1/4 p-3 rounded-xl shadow-lg">
-        <div className="">
+      <div className=" w-full md:w-2/5 xl:w-1/4 p-3 rounded-xl shadow-lg">
+        <div className="w-full">
           <img
             src={data?.visa_image[0].secure_url}
             alt=""
-            className="aspect-[2/1] rounded-md"
+            className="w-full h-[150px] lg:h-[200px] rounded-md"
           />
         </div>
         <div className="relative mt-5 px-2">

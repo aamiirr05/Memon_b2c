@@ -155,7 +155,7 @@ const CreateHotelImg = () => {
   formData.append('isactive', previewData?.packageDetails.isactive);
   formData.append('featured', previewData?.packageDetails.isfeatured);
   //
-  formData.append('star', previewData?.packageDetails.hotelstar);
+  formData.append('star', previewData?.packageDetails.star);
   formData.append('hoteldistance', previewData?.packageDetails.hoteldistance);
   //
   formData.append('quintprice', previewData?.packageDetails.quintprice);
