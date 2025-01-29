@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useVisaStore } from '../store/useVisaStore';
 
 import ErrorPage from './ErrorPage';
-import ShareButton from '../components/ShareButton';
 import TabComponent from '../components/TabComponent';
 import Loader from '../components/Loader';
 
@@ -18,10 +17,8 @@ const VisaDetailPage = () => {
   const { visas, selectedVisa, setSelectedVisa, fetchVisaById, isFetching } =
     useVisaStore();
 
-  const [selectedImage, setSelectedImage] = useState(null);
-
   useEffect(() => {
-    // window.scrollTo(0, 0); // Scroll to top
+    window.scrollTo(0, 0); // Scroll to top
   }, []);
 
   useEffect(() => {
@@ -36,12 +33,6 @@ const VisaDetailPage = () => {
     }
   }, [visaId, selectedVisa, visas, setSelectedVisa]);
 
-  useEffect(() => {
-    if (selectedVisa) {
-      setSelectedImage(selectedVisa.visa_image[0]?.secure_url);
-    }
-  }, [selectedVisa]);
-
   if (isFetching)
     return (
       <div className="w-screen h-[calc(100vh-116px)] flex justify-center items-center">
@@ -50,9 +41,6 @@ const VisaDetailPage = () => {
     );
 
   if (!isFetching && selectedVisa === null) return <ErrorPage />;
-
-  const pageUrl = window.location.href;
-  const pageTitle = selectedVisa.visa_country + ' - ' + selectedVisa.visa_type;
 
   const tabsData = [
     {
@@ -77,14 +65,6 @@ const VisaDetailPage = () => {
     <main className="bg-peach/40 font-jakarta">
       <section>
         <div className="max-w-7xl mx-auto px-4 lg:px-0">
-          {/* Title & Share Button */}
-          {/* <div className="grid grid-cols-[70%,auto] py-12">
-            <h1 className="text-4xl text-darkgreen font-medium flex-1 font-zodiak">
-              {selectedVisa.visa_country} - {selectedVisa.visa_type}
-            </h1>
-            <ShareButton url={pageUrl} title={pageTitle} />
-          </div> */}
-
           {/* Title */}
           <div className="mb-6 flex flex-col md:flex-row gap-4 pt-12">
             {/* Large Image */}

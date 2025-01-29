@@ -34,7 +34,7 @@ const VisaDetailsTab = () => {
             </h1>
           </div>
 
-          <div className="grid grid-cols-2 space-y-2 my-4 text-neutral-700">
+          <div className="grid grid-cols-2 space-y-4 my-4 text-neutral-700">
             <div>
               <p className="text-neutral-500 text-[15px] leading-tight">
                 Validity
@@ -67,7 +67,7 @@ const VisaDetailsTab = () => {
           <div>
             <p className="text-md font-semibold text-darkgreen">
               Processing time:{' '}
-              <span className="text-neutral-700 font-normal">
+              <span className="text-neutral-700 font-normal text-[13px]">
                 {selectedVisa.processing_time}
               </span>
             </p>
