@@ -18,9 +18,7 @@ const PackageCard = ({ pkg }) => {
       {/* Image Section */}
       <div className="w-full md:w-[40%] h-56 md:max-h-56 flex-shrink-0">
         <img
-          src={
-            'https://images.unsplash.com/photo-1639574326077-6cc1d8749395?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aGFqanxlbnwwfHwwfHx8MA%3D%3D'
-          }
+          src={`${pkg.package_image[1].secure_url}`}
           alt={pkg?.package_name}
           className="w-full h-full object-cover"
         />
@@ -47,7 +45,7 @@ const PackageCard = ({ pkg }) => {
             <strong>{pkg?.total_nights}</strong> Nights
           </p>
           {/* Description */}
-          <p className="text-neutral-900 text-md leading-tight line-clamp-3 mt-1 font-medium">
+          <p className="text-neutral-900 text-md leading-tight line-clamp-2 mt-1 font-medium">
             {pkg?.description}
           </p>
         </div>

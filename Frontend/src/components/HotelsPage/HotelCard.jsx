@@ -13,7 +13,7 @@ const HotelCard = ({ hotel }) => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row  gap-2 md:gap-4 h-auto rounded-xl overflow-hidden shadow-lg">
+    <div className="flex flex-col md:flex-row h-auto  bg-darkgreen/10 rounded-xl shadow-md overflow-hidden">
       {/* Hotel image */}
       <div className="h-56 md:h-full w-full md:w-72 flex-shrink-0">
         <img
@@ -24,11 +24,11 @@ const HotelCard = ({ hotel }) => {
       </div>
 
       {/* Hotel details */}
-      <div className="py-4 px-4 flex flex-col justify-between w-full">
+      <div className="p-4 md:py-6 md:px-6 flex flex-col justify-between w-full border-b border-r border-l md:border-t md:border-r md:border-b border-darkgreen rounded-b-xl md:rounded-r-xl md:rounded-l-none">
         <div>
           <div className="flex gap-1 mb-2">
             {/* Hotel star rating */}
-            {Array(+hotel.star)
+            {Array(+hotel.hotel_star)
               .fill(null)
               .map((_, index) => (
                 <span key={index}>

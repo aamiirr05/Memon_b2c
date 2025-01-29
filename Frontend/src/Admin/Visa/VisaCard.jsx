@@ -18,7 +18,7 @@ const VisaCard = ({ data, getPackages }) => {
   }
   const deletePackage = async (id) => {
     const toastId = toast.loading(
-      'Deleting package. This may take some time...',
+      'Deleting Visa. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
@@ -90,7 +90,7 @@ const VisaCard = ({ data, getPackages }) => {
                     <div className="flex flex-col items-center">
                       <img src={trash} alt="" className="w-1/4 my-8" />
                       <span className="flex text-center flex-col items-center justify-center font-zodiak text-darkgreen">
-                        Are you sure you want to delete this package?
+                        Are you sure you want to delete this Visa?
                         <div className="flex w-full items-center justify-center gap-5 my-8">
                           <button
                             onClick={() => toast.dismiss(t.id)}
