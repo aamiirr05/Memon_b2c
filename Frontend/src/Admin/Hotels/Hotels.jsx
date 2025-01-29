@@ -1,7 +1,7 @@
 import { Check, Plus } from 'lucide-react';
 import { useEffect } from 'react';
 
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import useFetchPackages from '../hooks/UseFetchPackages';
 import HotelCards from './HotelCards';
 import Loader from '../../components/Loader';
@@ -12,6 +12,7 @@ const Hotels = () => {
     useHotelStore();
 
   const location = useLocation();
+  const { updateid } = useParams();
 
   const getHotels = useFetchPackages('admin/hotel/fetch-hotel');
 
@@ -38,7 +39,7 @@ const Hotels = () => {
   const isChildRoute = currentPath !== '/admin/hotel';
   const isDetailForm = currentPath === '/admin/hotel/createhotel-form';
   const isImgForm = currentPath === '/admin/hotel/createhotel-package';
-  const isPreview = currentPath === '/admin/hotel/createhotel-preview';
+  const isPreview = currentPath.includes('/admin/hotel/createhotel-preview');
 
   return (
     <div
@@ -70,7 +71,9 @@ const Hotels = () => {
       )}
 
       {isChildRoute && (
-        <div className="bg-[#FAF9F3] top-1 z-50 sticky  w-full h-[20vh] shadow-md rounded-xl p-10">
+        <div
+          className={`bg-[#FAF9F3] top-1 z-50 sticky  w-full h-[20vh] shadow-md rounded-xl p-10 ${updateid ? 'hidden' : ''}`}
+        >
           <div
             className={`
             
@@ -154,7 +157,7 @@ const Hotels = () => {
         </div>
       )}
       {/* Outlet */}
-      <div className="mt-20">
+      <div className="mt-10">
         <Outlet
           context={{
             refreshPackages: getHotels.refresh,

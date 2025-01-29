@@ -5,6 +5,7 @@ import axiosInstance from '../../lib/axios';
 import toast from 'react-hot-toast';
 import trash from '../../assets/img/trash.png';
 import useHotelStore from '../store/Hotels/useHotelStore';
+import { NavLink } from 'react-router-dom';
 
 const HotelCards = ({ data, getPackages }) => {
   const { setIsCreating } = useHotelStore();
@@ -26,13 +27,13 @@ const HotelCards = ({ data, getPackages }) => {
       console.log(res);
       toast.dismiss(toastId);
       const msg = res.data.data;
-      toast.success(msg);
+      toast.success(msg, { autoClose: 5000 });
       getPackages.refresh();
     } catch (error) {
       console.log(error);
       toast.dismiss(toastId);
       const errmsg = error.response.data.message;
-      toast.error(errmsg);
+      toast.error(errmsg, { autoClose: 5000 });
     } finally {
       setIsCreating(false);
     }
@@ -69,11 +70,12 @@ const HotelCards = ({ data, getPackages }) => {
             Created on : {formattedDate}
           </div>
           <div className="flex flex-col gap-3 absolute top-14 right-0">
-            <div
+            <NavLink
+              to={`/admin/hotel/update/${data.hotel_id}/details`}
               className={`rounded-full border border-darkgreen cursor-pointer hover:bg-darkgreen hover:text-peach transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center`}
             >
               <Pencil size={15} />
-            </div>
+            </NavLink>
             <div
               className={`rounded-full border border-red-600 text-red-600 cursor-pointer hover:bg-red-600 hover:text-white transition-colors hover:shadow-xl w-8 h-8 flex items-center justify-center `}
             >

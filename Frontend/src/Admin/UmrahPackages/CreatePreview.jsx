@@ -1,12 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
 
-import {
-  NavLink,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from 'react-router-dom';
+import { NavLink, useOutletContext, useParams } from 'react-router-dom';
 import Loader from '../../components/Loader';
 const CreatePreview = () => {
   const { refreshPackages, getPackages } = useOutletContext();
@@ -16,22 +10,26 @@ const CreatePreview = () => {
     (item) => item.package_id === id
   );
 
-  const [groupDates] = useState(previewData?.group_dates);
-  const [inclusion] = useState(previewData?.inclusion);
-  const [exclusion] = useState(previewData?.exclusion);
-  const [bookingterms] = useState(previewData?.booking_terms);
-  const [cancelpolicy] = useState(previewData?.cancellation_policy);
-  const [termcondition] = useState(previewData?.term_condition);
+  const groupDates = previewData?.group_dates || [''];
+  const inclusion = previewData?.inclusion;
+  const exclusion = previewData?.exclusion;
+  const bookingterms = previewData?.booking_terms;
+  const cancelpolicy = previewData?.cancellation_policy;
+  const termcondition = previewData?.term_condition;
 
-  const [meccaItenaries] = useState(previewData?.makkah_itinerary);
-  const [madinaItenaries] = useState(previewData?.medina_itinerary);
+  const meccaItenaries = previewData?.makkah_itinerary;
+  const madinaItenaries = previewData?.medina_itinerary;
 
   // Is active and is featured states & functions
-  const [isActive] = useState(previewData?.is_active === 'true');
-  const [isFeatured] = useState(previewData?.featured === 'true');
+  const isActive = previewData?.is_active === 'true';
+  const isFeatured = previewData?.featured === 'true';
 
   if (!previewData) {
-    return <Loader />;
+    return (
+      <div className="flex items-center font-jakarta text-lg font-semibold justify-center w-full h-full">
+        <p>Loading preview data...</p>
+      </div>
+    );
   }
 
   return (

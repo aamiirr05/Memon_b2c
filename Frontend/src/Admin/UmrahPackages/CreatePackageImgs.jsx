@@ -293,13 +293,13 @@ const CreatePackageImgs = () => {
       const resMsg = res.data?.message || 'Package Created Successfully';
       toast.success(resMsg, { autoClose: 5000 });
       navigate(`/admin/umrahpackages/createpackage-preview/${extractedId}`);
-      refreshPackages();
     } catch (error) {
       toast.dismiss(toastId);
       const errorMsg = error.response?.data.message;
       toast.error(errorMsg, { autoClose: 5000 });
     } finally {
       setLoading(false);
+      refreshPackages();
     }
   };
 

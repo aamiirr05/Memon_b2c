@@ -193,7 +193,7 @@ const UpdateHolidayDetails = () => {
   // Functions for form submission
   const onFormSubmit = async (data) => {
     const loadingToast = toast.loading(
-      'Creating package. This may take some time...',
+      'Updating package. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">

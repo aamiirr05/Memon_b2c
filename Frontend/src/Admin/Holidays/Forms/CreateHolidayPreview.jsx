@@ -15,6 +15,15 @@ const CreateHolidayPreview = () => {
     getPackages.refresh();
   };
 
+
+  if (!singlePackage) {
+    return (
+      <div className="flex items-center font-jakarta text-lg font-semibold justify-center w-full h-full">
+        <p>Loading preview data...</p>
+      </div>
+    );
+  }
+
   return (
     <form action="" className="w-full h-full">
       {/* Section One */}

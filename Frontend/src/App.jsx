@@ -53,6 +53,9 @@ import HotelDetailPage from './pages/HotelDetailPage';
 import UpdateVisa from './Admin/Visa/Update/UpdateVisa';
 import UpdateVisaDetails from './Admin/Visa/Update/UpdateVisaDetails';
 import UpdateVisaImage from './Admin/Visa/Update/UpdateVisaImage';
+import UpdateHotel from './Admin/Hotels/Update/UpdateHotel';
+import UpdateHotelDetails from './Admin/Hotels/Update/UpdateHotelDetails';
+import UpdateHotelImages from './Admin/Hotels/Update/UpdateHotelImages';
 import VisasPage from './pages/VisasPage';
 
 const useOnlineStatus = () => {
@@ -162,10 +165,12 @@ const App = () => {
 
         <Route path="admin" element={<AdminLayout />}>
           <Route path="enquiry" element={<Enquiry />} />
+
+          {/* Hotel */}
           <Route path="hotel" element={<Hotels />}>
-            <Route path="update/:updateid">
-              <Route path="update/details" />
-              <Route path="update/hotelimages" />
+            <Route path="update/:updateid" element={<UpdateHotel />}>
+              <Route path="details" element={<UpdateHotelDetails />} />
+              <Route path="hotelimages" element={<UpdateHotelImages />} />
             </Route>
             <Route path="createhotel-form" element={<CreateHotelForm />} />
             <Route path="createhotel-package" element={<CreateHotelImg />} />

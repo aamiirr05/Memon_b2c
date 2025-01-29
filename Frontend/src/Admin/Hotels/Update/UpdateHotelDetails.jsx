@@ -1,15 +1,25 @@
 /* eslint-disable no-unused-vars */
 import { Plus, X } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context';
+import {
+  NavLink,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
 import HotelSchema from '../../schema/HotelSchema';
 import useHotelStore from '../../store/Hotels/useHotelStore';
+import axiosInstance from '../../../lib/axios';
+import toast from 'react-hot-toast';
 
-const CreateHotelForm = () => {
+const UpdateHotelDetails = () => {
+  const { extractedPackages, getHotels } = useOutletContext();
+  const { updateid } = useParams();
+
+  console.log(extractedPackages);
   const {
     bookingterms,
     setBookingTerms,
@@ -34,13 +44,54 @@ const CreateHotelForm = () => {
     removeAmenities,
     addAmenities,
     setAmenities,
+
+    updateIsFeatured,
+    updateIsActive,
+    updateBookingTerms,
+    updateCancelPolicy,
+    updateTermsCondition,
+    updateAmenities,
+
+    isUpdating,
+    setIsUpdating,
   } = useHotelStore();
+
+  useEffect(() => {
+    if (extractedPackages?.featured) {
+      updateIsFeatured(extractedPackages?.featured === 'true');
+    }
+
+    if (extractedPackages?.is_active) {
+      updateIsActive(extractedPackages?.is_active === 'true');
+    }
+
+    if (extractedPackages?.booking_terms) {
+      updateBookingTerms(extractedPackages?.booking_terms);
+    }
+
+    if (extractedPackages?.cancellation_policy) {
+      updateCancelPolicy(extractedPackages?.cancellation_policy);
+    }
+
+    if (extractedPackages?.term_condition) {
+      updateTermsCondition(extractedPackages?.term_condition);
+    }
+
+    if (extractedPackages?.amenities) {
+      updateAmenities(extractedPackages?.amenities);
+    }
+  }, [
+    extractedPackages,
+    updateIsFeatured,
+    updateIsActive,
+    updateBookingTerms,
+    updateCancelPolicy,
+    updateTermsCondition,
+    updateAmenities,
+  ]);
 
   // navigate
   const navigate = useNavigate();
-
-  // Context States
-  const { updatePackageData } = useContext(AuthContext);
 
   // useForm
 
@@ -93,20 +144,43 @@ const CreateHotelForm = () => {
   };
 
   // Functions for form submission
-  const onFormSubmit = (data) => {
-    updatePackageData(data);
-    navigate('/admin/hotel/createhotel-package');
+  const onFormSubmit = async (data) => {
+    setIsUpdating(true);
+    const loadingToast = toast.loading(
+      'Updating package. This may take some time...',
+      {
+        icon: (
+          <div className="relative w-10 h-10">
+            <div className="absolute w-5 h-5 border-4 top-0 animate-spin mx-4 border-peach border-l-darkgreen rounded-full"></div>
+          </div>
+        ),
+        className: 'text-center flex item-center',
+      }
+    );
+    try {
+      const res = await axiosInstance.put(
+        `/admin/hotel/update-hotel-details/${updateid}`,
+        data
+      );
+      console.log(res);
+      toast.dismiss(loadingToast);
+      toast.success('Package updated successfully!', { autoClose: 5000 });
+      navigate('/admin/hotel');
+    } catch (error) {
+      const errMsg = error?.response?.data.message || 'An error occurred.';
+      toast.dismiss(loadingToast);
+      toast.error(errMsg, { autoClose: 5000 });
+    } finally {
+      getHotels.refresh();
+      setIsUpdating(false);
+    }
     reset();
   };
-
-  const previewData = JSON.parse(localStorage.getItem('packagedetails'));
-
-  console.log(previewData);
 
   return (
     <form
       action=""
-      className="w-full h-full"
+      className={`w-full h-full ${isUpdating ? 'pointer-events-none blur-sm' : 'pointer-events-auto blur-0'}`}
       onSubmit={handleSubmit(onFormSubmit)}
     >
       {/* Section One */}
@@ -123,7 +197,7 @@ const CreateHotelForm = () => {
               id="hotelname"
               className="custom-input"
               placeholder="Enter Hotel Name"
-              defaultValue={previewData?.hotelname}
+              defaultValue={extractedPackages?.hotel_name}
               {...register('hotelname')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -141,7 +215,7 @@ const CreateHotelForm = () => {
               id="hotelcity"
               className="custom-input"
               placeholder="Enter Hotel City"
-              defaultValue={previewData?.hotelcity}
+              defaultValue={extractedPackages?.hotel_city}
               {...register('hotelcity')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -158,7 +232,7 @@ const CreateHotelForm = () => {
               name="hotelcountry"
               id="hotelcountry"
               className="custom-input"
-              defaultValue={previewData?.hotelcountry}
+              defaultValue={extractedPackages?.hotel_country}
               placeholder="Enter Hotel Country"
               {...register('hotelcountry')}
             />
@@ -180,7 +254,7 @@ const CreateHotelForm = () => {
             rows="5"
             className="w-full custom-input"
             placeholder="Enter Hotel Description"
-            defaultValue={previewData?.hoteldescription}
+            defaultValue={extractedPackages?.hotel_description}
             {...register('hoteldescription')}
           ></textarea>
           <span className="text-sm text-red-600 my-2">
@@ -199,7 +273,7 @@ const CreateHotelForm = () => {
             id="hotelcountry"
             className="custom-input"
             placeholder="Enter Hotel Location"
-            defaultValue={previewData?.hotellocation}
+            defaultValue={extractedPackages?.hotel_location}
             {...register('hotellocation')}
           />
           <span className="text-sm text-red-600 my-2">
@@ -307,7 +381,7 @@ const CreateHotelForm = () => {
               name="hotelcategory"
               id="hotelcategory"
               className="custom-input"
-              defaultValue={previewData?.hotelcategory}
+              defaultValue={extractedPackages?.hotel_category}
               placeholder="Enter Hotel Category"
               {...register('hotelcategory')}
             />
@@ -317,7 +391,7 @@ const CreateHotelForm = () => {
           </div>
           {/* Meal Basis */}
           <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="hotelstar" className="custom-label">
+            <label htmlFor="mealbasis" className="custom-label">
               Meal Basis
             </label>
 
@@ -325,12 +399,13 @@ const CreateHotelForm = () => {
               name="mealbasis"
               id="mealbasis"
               className="custom-input"
+              defaultValue={extractedPackages?.meal_basis}
               {...register('mealbasis')}
             >
               {[
                 {
-                  value: '',
-                  label: 'Select Meal Basis',
+                  value: `${extractedPackages?.meal_basis}`,
+                  label: `${extractedPackages?.meal_basis}`,
                   disabled: true,
                 },
                 { value: 'Room Only', label: 'Room Only' },
@@ -369,6 +444,7 @@ const CreateHotelForm = () => {
               id="hoteldistance"
               className="custom-input"
               placeholder="Enter Hotel Distance"
+              defaultValue={extractedPackages?.hotel_distance}
               {...register('hoteldistance')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -387,6 +463,7 @@ const CreateHotelForm = () => {
               name="star"
               id="star"
               className="custom-input"
+              defaultValue={extractedPackages?.hotel_star}
               placeholder="Enter Star"
               {...register('star')}
             />
@@ -408,6 +485,7 @@ const CreateHotelForm = () => {
               min="0"
               id="doubleprice"
               className="custom-input"
+              defaultValue={extractedPackages?.rooms[0].double_price}
               placeholder="Enter Double Price"
               {...register('doubleprice')}
             />
@@ -426,6 +504,7 @@ const CreateHotelForm = () => {
               min="0"
               id="tripleprice"
               className="custom-input"
+              defaultValue={extractedPackages?.rooms[0].triple_price}
               placeholder="Enter Triple Price"
               {...register('tripleprice')}
             />
@@ -446,6 +525,7 @@ const CreateHotelForm = () => {
               name="quintprice"
               min="0"
               id="packagename"
+              defaultValue={extractedPackages?.rooms[0].quint_price}
               className="custom-input"
               placeholder="Enter Quint Price"
               {...register('quintprice')}
@@ -466,6 +546,7 @@ const CreateHotelForm = () => {
               id="quadprice"
               className="custom-input"
               placeholder="Enter Quad Price"
+              defaultValue={extractedPackages?.rooms[0].quad_price}
               {...register('quadprice')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -648,4 +729,4 @@ const CreateHotelForm = () => {
   );
 };
 
-export default CreateHotelForm;
+export default UpdateHotelDetails;

@@ -372,12 +372,12 @@ const HolidayCards = ({ data, refreshPackages }) => {
       );
       toast.dismiss(toastId);
       const msg = res.data.data;
-      toast.success(msg);
+      toast.success(msg, { autoClose: 5000 });
       refreshPackages();
     } catch (error) {
       toast.dismiss(toastId);
       const errmsg = error.response.data.message;
-      toast.error(errmsg);
+      toast.error(errmsg, { autoClose: 5000 });
     } finally {
       setIsCreating(false);
     }
