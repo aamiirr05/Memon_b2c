@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useHotelStore } from '../store/useHotelStore';
 import ErrorPage from './ErrorPage';
-import ShareButton from '../components/HotelDetailPage/ShareButton';
+import ShareButton from '../components/ShareButton';
 import ImageGallery from '../components/HotelDetailPage/ImageGallery';
-import TabComponent from '../components/HotelDetailPage/TabComponent';
+import TabComponent from '../components/TabComponent';
 import Loader from '../components/Loader';
 
 const HotelDetailPage = () => {

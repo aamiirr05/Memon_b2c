@@ -57,6 +57,7 @@ import UpdateHotel from './Admin/Hotels/Update/UpdateHotel';
 import UpdateHotelDetails from './Admin/Hotels/Update/UpdateHotelDetails';
 import UpdateHotelImages from './Admin/Hotels/Update/UpdateHotelImages';
 import VisasPage from './pages/VisasPage';
+import VisaDetailPage from './pages/VisaDetailPage';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -155,7 +156,10 @@ const App = () => {
           element={<HotelDetailPage />}
         />
         <Route path="/visas" element={<VisasPage />} />
-
+        <Route
+          path="/visas/visa-details/:visaId"
+          element={<VisaDetailPage />}
+        />
         <Route path="/partners" element={<OurPartnersPage />} />
         <Route path="/nusuk" element={<NusukPage />} />
 

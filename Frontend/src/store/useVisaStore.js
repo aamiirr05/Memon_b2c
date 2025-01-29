@@ -7,6 +7,9 @@ export const useVisaStore = create((set) => ({
   isFetching: false,
   areVisasFetched: false,
 
+  selectedVisa: null,
+  setSelectedVisa: (selectedVisa) => set({ selectedVisa }),
+
   fetchVisas: async () => {
     set({ isFetching: true });
     try {
@@ -18,4 +21,6 @@ export const useVisaStore = create((set) => ({
       set({ isFetching: false });
     }
   },
+
+  fetchVisaById: () => {},
 }));
