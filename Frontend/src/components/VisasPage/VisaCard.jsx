@@ -13,7 +13,7 @@ const VisaCard = ({ visaData }) => {
         alt={visa_country}
       />
 
-      <div className="p-4 border-l border-r border-b border-darkgreen rounded-b">
+      <div className="p-4 rounded-b">
         <div>
           <h2 className="text-xl font-semibold text-darkgreen">{visa_type}</h2>
           <p className="text-sm text-neutral-600">{visa_country}</p>
