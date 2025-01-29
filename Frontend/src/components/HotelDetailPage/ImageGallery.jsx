@@ -11,7 +11,7 @@ const ImageGallery = ({ images }) => {
           <img
             src={selectedImage}
             alt="Selected Hotel"
-            className="w-full h-[250px] sm:h-[300px] md:h-[500px] object-cover rounded-md shadow-md ring-2 ring-darkgreen"
+            className="w-full h-[250px] sm:h-[300px] md:h-[500px] object-cover rounded-md shadow-md "
           />
         )}
       </div>

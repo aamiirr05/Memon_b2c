@@ -50,7 +50,7 @@ const HotelDetailPage = () => {
       <section>
         <div className="max-w-7xl mx-auto px-4 lg:px-0">
           <div className="grid grid-cols-[70%,auto] py-12">
-            <h1 className="text-4xl text-darkgreen font-medium flex-1">
+            <h1 className="text-4xl text-darkgreen font-medium flex-1 font-zodiak">
               {selectedHotel.hotel_name}
             </h1>
             <ShareButton url={pageUrl} title={pageTitle} />
@@ -62,9 +62,9 @@ const HotelDetailPage = () => {
               {
                 title: 'Details',
                 content: (
-                  <div className="text-gray-800 space-y-4">
+                  <div className="text-gray-800 space-y-4 font-jakarta">
                     <div>
-                      <span className="font-semibold text-darkgreen">
+                      <span className="font-semibold text-darkgreen ">
                         Category:{' '}
                       </span>
                       <span>{selectedHotel.hotel_category}</span>

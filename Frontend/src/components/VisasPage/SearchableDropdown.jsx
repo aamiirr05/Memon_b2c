@@ -34,7 +34,7 @@ const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative font-jakarta" ref={dropdownRef}>
       {/* Button with a down arrow to toggle the dropdown */}
       <button
         onClick={toggleDropdown}

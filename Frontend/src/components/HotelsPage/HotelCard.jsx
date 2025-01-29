@@ -19,15 +19,24 @@ const HotelCard = ({ hotel }) => {
         <img
           src={hotel.hotel_images[0].secure_url}
           alt={hotel.hotel_name}
-          className="w-full h-full object-cover"
+          className="w-[90%] h-[90%] my-3 mx-3 rounded-lg object-cover"
         />
       </div>
 
       {/* Hotel details */}
-      <div className="p-4 md:py-6 md:px-6 flex flex-col justify-between w-full border-b border-r border-l md:border-t md:border-r md:border-b border-darkgreen rounded-b-xl md:rounded-r-xl md:rounded-l-none">
+      <div className=" font-jakarta p-4 md:py-6 md:px-6 flex flex-col justify-between w-full border-b border-r border-l md:border-t md:border-r md:border-b rounded-b-xl md:rounded-r-xl md:rounded-l-none">
         <div>
-          <div className="flex gap-1 mb-2">
-            {/* Hotel star rating */}
+          {/* Hotel name */}
+          <Link
+            to={`hotel-details/${hotel.hotel_id}`}
+            onClick={() => setSelectedHotel(hotel)}
+            className="text-xl font-semibold font-zodiak text-darkgreen hover:underline"
+          >
+            {hotel.hotel_name}
+          </Link>
+
+          {/* Hotel star rating */}
+          <div className="flex gap-1 mb-4">
             {Array(+hotel.hotel_star)
               .fill(null)
               .map((_, index) => (
@@ -37,14 +46,7 @@ const HotelCard = ({ hotel }) => {
               ))}
           </div>
 
-          {/* Hotel name and location */}
-          <Link
-            to={`hotel-details/${hotel.hotel_id}`}
-            onClick={() => setSelectedHotel(hotel)}
-            className="text-xl font-semibold text-darkgreen hover:underline"
-          >
-            {hotel.hotel_name}
-          </Link>
+          {/* Hotel location */}
           <p className="text-sm text-neutral-500">
             {hotel.hotel_city}, {hotel.hotel_country}
           </p>

@@ -147,43 +147,54 @@ const createHotel = asyncHandler(async (req, res) => {
 
   const hotelImageArray = Object.values(uploadedHotelImage)[0];
 
-  const createdHotel = await prisma.hotel.create({
-    data: {
-      admin_id: adminId,
-      hotel_name: hotelname,
-      hotel_images: hotelImageArray,
-      hotel_country: hotelcountry,
-      hotel_city: hotelcity,
-      hotel_description: hoteldescription,
-      hotel_category: hotelcategory,
-      meal_basis: mealbasis,
-      hotel_location: hotellocation,
-      hotel_distance: hoteldistance,
-      amenities: amenitiesArray,
-      hotel_star: intStar,
-      is_active: isactive,
-      featured: featured,
-      cancellation_policy: cancellationPolicyArray,
-      term_condition: termConditionArray,
-      booking_terms: bookingTermsArray,
-    },
-  });
+  try {
+    const createdHotel = await prisma.hotel.create({
+      data: {
+        admin_id: adminId,
+        hotel_name: hotelname,
+        hotel_images: hotelImageArray,
+        hotel_country: hotelcountry,
+        hotel_city: hotelcity,
+        hotel_description: hoteldescription,
+        hotel_category: hotelcategory,
+        meal_basis: mealbasis,
+        hotel_location: hotellocation,
+        hotel_distance: hoteldistance,
+        amenities: amenitiesArray,
+        hotel_star: intStar,
+        is_active: isactive,
+        featured: featured,
+        cancellation_policy: cancellationPolicyArray,
+        term_condition: termConditionArray,
+        booking_terms: bookingTermsArray,
+      },
+    });
 
-  const createdRoomPrice = await prisma.room.create({
-    data: {
-      hotel_id: createdHotel.hotel_id,
-      quint_price: intQuintPrice,
-      quad_price: intQuadPrice,
-      triple_price: intTriplePrice,
-      double_price: intDoublePrice,
-    },
-  });
+    const createdRoomPrice = await prisma.room.create({
+      data: {
+        hotel_id: createdHotel.hotel_id,
+        quint_price: intQuintPrice,
+        quad_price: intQuadPrice,
+        triple_price: intTriplePrice,
+        double_price: intDoublePrice,
+      },
+    });
 
-  const fullCreatedHotel = [createdHotel, createdRoomPrice];
+    const fullCreatedHotel = [createdHotel, createdRoomPrice];
 
-  return res
-    .status(200)
-    .json(new ApiResponse(201, fullCreatedHotel, "Hotel Created Sucessfully"));
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(201, fullCreatedHotel, "Hotel Created Sucessfully")
+      );
+  } catch (error) {
+    if (hotelImageArray && hotelImageArray.length > 0) {
+      for (const image of hotelImageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error While Creating Hotel");
+  }
 });
 
 // ********** Get All Hotels  **********
@@ -453,21 +464,30 @@ const updateHotelImages = asyncHandler(async (req, res) => {
 
   const hotelImageArray = Object.values(newUploadedImages)[0];
 
-  const updatedHotelImage = await prisma.hotel.update({
-    where: { hotel_id: hotelId },
-    data: { hotel_images: hotelImageArray },
-    select: { hotel_images: true },
-  });
+  try {
+    const updatedHotelImage = await prisma.hotel.update({
+      where: { hotel_id: hotelId },
+      data: { hotel_images: hotelImageArray },
+      select: { hotel_images: true },
+    });
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        updatedHotelImage,
-        "Hotel Images Updated Sucessfully"
-      )
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          updatedHotelImage,
+          "Hotel Images Updated Sucessfully"
+        )
+      );
+  } catch (error) {
+    if (hotelImageArray && hotelImageArray.length > 0) {
+      for (const image of hotelImageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error While Updating Hotel Images");
+  }
 });
 
 // ********** Delete Hotel **********

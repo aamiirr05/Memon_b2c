@@ -5,7 +5,7 @@ const TabComponent = ({ tabs }) => {
 
   return (
     <div>
-      <div className="flex border-b gap-12 mt-6">
+      <div className="flex border-b gap-12 mt-6 font-jakarta">
         {tabs.map((tab, index) => (
           <button
             key={index}
@@ -20,7 +20,7 @@ const TabComponent = ({ tabs }) => {
           </button>
         ))}
       </div>
-      <div className="py-4">{tabs[activeTab].content}</div>
+      <div className="py-4 ">{tabs[activeTab].content}</div>
     </div>
   );
 };
