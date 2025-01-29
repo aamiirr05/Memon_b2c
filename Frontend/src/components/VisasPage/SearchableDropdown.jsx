@@ -46,7 +46,7 @@ const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
 
       {/* Dropdown list */}
       {isDropdownOpen && (
-        <div className="border border-darkgreen rounded w-full max-h-60 overflow-auto absolute bg-darkgreen text-peach mt-1 ">
+        <div className="border border-darkgreen rounded w-full max-h-60 overflow-auto absolute bg-darkgreen text-peach mt-1 z-50 ">
           <input
             type="text"
             value={searchQuery}

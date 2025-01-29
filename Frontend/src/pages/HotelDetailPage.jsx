@@ -6,32 +6,36 @@ import ShareButton from '../components/ShareButton';
 import ImageGallery from '../components/HotelDetailPage/ImageGallery';
 import TabComponent from '../components/TabComponent';
 import Loader from '../components/Loader';
+import DetailsTab from '../components/HotelDetailPage/Tabs/DetailsTab';
+import AmenitiesTab from '../components/HotelDetailPage/Tabs/AmenitiesTab';
+import RoomsTab from '../components/HotelDetailPage/Tabs/RoomsTab';
+import TermsTab from '../components/HotelDetailPage/Tabs/TermsTab';
+import CancellationTab from '../components/HotelDetailPage/Tabs/CancellationTab';
 
 const HotelDetailPage = () => {
   const { hotelId } = useParams();
   const {
-    hotels,
     selectedHotel,
     setSelectedHotel,
     fetchHotelById,
     isFetching,
+    hotels,
   } = useHotelStore();
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
     if (!selectedHotel || selectedHotel.hotel_id !== hotelId) {
       const hotel = hotels.find((h) => h.hotel_id === hotelId);
-
       if (hotel) {
         setSelectedHotel(hotel);
       } else {
-        // fetchHotelById(hotelId);
+        fetchHotelById(hotelId);
       }
     }
-  }, [hotelId, selectedHotel, hotels, setSelectedHotel]);
+  }, [hotelId, selectedHotel, hotels, setSelectedHotel, fetchHotelById]);
 
   if (isFetching)
     return (
@@ -40,10 +44,7 @@ const HotelDetailPage = () => {
       </div>
     );
 
-  if (!isFetching && selectedHotel === null) return <ErrorPage />;
-
-  const pageUrl = window.location.href;
-  const pageTitle = selectedHotel.hotel_name;
+  if (!isFetching && !selectedHotel) return <ErrorPage />;
 
   return (
     <main className="bg-peach/50">
@@ -53,9 +54,13 @@ const HotelDetailPage = () => {
             <h1 className="text-4xl text-darkgreen font-medium flex-1 font-zodiak">
               {selectedHotel.hotel_name}
             </h1>
-            <ShareButton url={pageUrl} title={pageTitle} />
+            <ShareButton
+              url={window.location.href}
+              title={selectedHotel.hotel_name}
+            />
           </div>
-          <ImageGallery images={selectedHotel.hotel_images} />
+
+          <ImageGallery />
 
           <TabComponent
             tabs={[
@@ -178,6 +183,11 @@ const HotelDetailPage = () => {
                   </ul>
                 ),
               },
+              { title: 'Details', content: <DetailsTab /> },
+              { title: 'Amenities', content: <AmenitiesTab /> },
+              { title: 'Rooms & Prices', content: <RoomsTab /> },
+              { title: 'Terms & Conditions', content: <TermsTab /> },
+              { title: 'Cancellation Policy', content: <CancellationTab /> },
             ]}
           />
         </div>

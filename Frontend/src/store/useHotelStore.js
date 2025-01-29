@@ -23,4 +23,16 @@ export const useHotelStore = create((set) => ({
       set({ isFetching: false });
     }
   },
+
+  fetchHotelById: async (id) => {
+    set({ isFetching: true });
+    try {
+      const res = await axiosInstance.get(`/users/fetch-hotel/${id}`);
+      set({ selectedHotel: res.data.data });
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isFetching: false });
+    }
+  },
 }));
