@@ -23,16 +23,18 @@ const VisaCard = ({ visaData }) => {
   } = visaData;
 
   return (
-    <div className="w-80 bg-darkgreen/20 rounded-2xl shadow-lg overflow-hidden m-4 transform transition-all hover:ring-1 ring-darkgreen hover:shadow-xl">
+    <div className="w-80 bg-darkgreen/10 rounded-2xl shadow-lg overflow-hidden m-4 transform transition-all hover:ring-1 ring-darkgreen hover:shadow-xl">
       <img
         className="w-full h-40 object-cover"
         src={visa_image[0]?.secure_url}
         alt={visa_country}
       />
 
-      <div className="p-4">
+      <div className="p-4 font-jakarta">
         <div className="mb-2">
-          <h2 className="text-xl font-semibold text-darkgreen">{visa_type}</h2>
+          <h2 className="text-xl font-semibold text-darkgreen font-zodiak">
+            {visa_type}
+          </h2>
           <p className="text-sm text-neutral-600 flex items-center gap-1">
             <MapPin className="w-4 h-4 text-darkgreen" /> {visa_country}
           </p>

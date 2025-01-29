@@ -4,7 +4,7 @@ import { useVisaStore } from '../../store/useVisaStore';
 const CancellationTab = () => {
   const { selectedVisa } = useVisaStore();
   return (
-    <ul className="mt-4 mb-8">
+    <ul className="mt-4 mb-8 font-jakarta">
       {selectedVisa.cancellation_policy?.map((policy, index) => (
         <li key={index} className="flex items-start gap-4 mb-2">
           <div className="bg-darkgreen/40 text-darkgreen rounded-full p-1 mt-1">

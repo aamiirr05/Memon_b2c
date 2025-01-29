@@ -10,7 +10,7 @@ const TabComponent = ({ tabs }) => {
           <button
             key={index}
             onClick={() => setActiveTab(index)}
-            className={`py-2 text-lg tracking-tight text-nowrap ${
+            className={`pt-6 text-md tracking-tight text-nowrap ${
               activeTab === index
                 ? 'border-b-2 border-darkgreen text-darkgreen'
                 : 'text-neutral-400 hover:text-darkgreen'
@@ -20,7 +20,7 @@ const TabComponent = ({ tabs }) => {
           </button>
         ))}
       </div>
-      <div className="py-4 ">{tabs[activeTab].content}</div>
+      <div className="py-4 font-jakarta">{tabs[activeTab].content}</div>
     </div>
   );
 };
