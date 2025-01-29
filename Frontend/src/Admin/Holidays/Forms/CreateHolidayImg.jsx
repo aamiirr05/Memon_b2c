@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
@@ -112,6 +112,7 @@ const CreateHolidayImg = () => {
   const { isCreating, setIsCreating } = useHolidayStore();
   // Context States
   const { setPackageData } = useContext(AuthContext);
+  const { refreshPackages } = useOutletContext();
   const {
     // register,
     handleSubmit,
@@ -261,6 +262,7 @@ const CreateHolidayImg = () => {
       toast.error(errorMsg, { autoClose: 5000 });
     } finally {
       setIsCreating(false);
+      refreshPackages();
     }
   };
 

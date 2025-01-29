@@ -5,7 +5,15 @@ const HotelSchema = yup.object().shape({
   hotelcountry: yup.string().required('Hotel Country is required'),
   hoteldescription: yup.string().required('Hotel Description is required'),
   hoteldistance: yup.string().required('Hotel Distance is required'),
-  star: yup.string().required('Star is required'),
+  hotellocation: yup.string().required('Hotel Loacation is required'),
+  mealbasis: yup.string().required('Meal Basis is required'),
+  hotelcategory: yup.string().required('Hotel Category is required'),
+  hotelstar: yup
+    .number()
+    .typeError('Hotel Star must be a number')
+    .required('Hotel Star is required')
+    .min(1, 'Hotel Star must be atleast 1')
+    .max(5, 'Hotel Star must be atmost 5'),
 
   doubleprice: yup
     .number()

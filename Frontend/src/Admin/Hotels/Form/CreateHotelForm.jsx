@@ -99,6 +99,10 @@ const CreateHotelForm = () => {
     reset();
   };
 
+  const previewData = JSON.parse(localStorage.getItem('packagedetails'));
+
+  console.log(previewData);
+
   return (
     <form
       action=""
@@ -119,6 +123,7 @@ const CreateHotelForm = () => {
               id="hotelname"
               className="custom-input"
               placeholder="Enter Hotel Name"
+              defaultValue={previewData?.hotelname}
               {...register('hotelname')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -136,6 +141,7 @@ const CreateHotelForm = () => {
               id="hotelcity"
               className="custom-input"
               placeholder="Enter Hotel City"
+              defaultValue={previewData?.hotelcity}
               {...register('hotelcity')}
             />
             <span className="text-sm text-red-600 my-2">
@@ -152,6 +158,7 @@ const CreateHotelForm = () => {
               name="hotelcountry"
               id="hotelcountry"
               className="custom-input"
+              defaultValue={previewData?.hotelcountry}
               placeholder="Enter Hotel Country"
               {...register('hotelcountry')}
             />
@@ -173,10 +180,30 @@ const CreateHotelForm = () => {
             rows="5"
             className="w-full custom-input"
             placeholder="Enter Hotel Description"
+            defaultValue={previewData?.hoteldescription}
             {...register('hoteldescription')}
           ></textarea>
           <span className="text-sm text-red-600 my-2">
             {errors?.hoteldescription?.message}
+          </span>
+        </div>
+
+        {/* Hotel Location */}
+        <div className="flex mt-5 gap-3 w-full flex-col">
+          <label htmlFor="hoteldescription" className="custom-label">
+            Hotel Location
+          </label>
+          <input
+            type="text"
+            name="hotelcountry"
+            id="hotelcountry"
+            className="custom-input"
+            placeholder="Enter Hotel Location"
+            defaultValue={previewData?.hotellocation}
+            {...register('hotellocation')}
+          />
+          <span className="text-sm text-red-600 my-2">
+            {errors?.hotellocation?.message}
           </span>
         </div>
 
@@ -270,6 +297,67 @@ const CreateHotelForm = () => {
         {/* Price Section for hotels*/}
 
         <div className="flex mt-10 flex-col gap-5 md:flex-row items-center w-full">
+          {/* Hotel Category  */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="hotelcategory" className="custom-label">
+              Hotel Category
+            </label>
+            <input
+              type="text"
+              name="hotelcategory"
+              id="hotelcategory"
+              className="custom-input"
+              defaultValue={previewData?.hotelcategory}
+              placeholder="Enter Hotel Category"
+              {...register('hotelcategory')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.hotelcategory?.message}
+            </span>
+          </div>
+          {/* Meal Basis */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="hotelstar" className="custom-label">
+              Meal Basis
+            </label>
+
+            <select
+              name="mealbasis"
+              id="mealbasis"
+              className="custom-input"
+              {...register('mealbasis')}
+            >
+              {[
+                {
+                  value: '',
+                  label: 'Select Meal Basis',
+                  disabled: true,
+                },
+                { value: 'Room Only', label: 'Room Only' },
+                { value: 'BreakFast Only', label: 'Breakfast Only' },
+                { value: 'Half Board', label: 'Half Board' },
+                { value: 'Full Board', label: 'Full Board' },
+              ].map((i, index) => {
+                return (
+                  <option
+                    key={index}
+                    value={i.value}
+                    className={` ${i.disabled ? 'pointer-events-none hidden' : 'bg-peach/50'}`}
+                  >
+                    {i.label}
+                  </option>
+                );
+              })}
+            </select>
+
+            <span className="text-sm text-red-600 my-2">
+              {errors?.mealbasis?.message}
+            </span>
+          </div>
+        </div>
+
+        {/*  */}
+        <div className="flex mt-10 flex-col gap-5 md:flex-row items-center w-full">
           {/* Hotel Distance */}
           <div className="flex gap-3  w-full flex-col">
             <label htmlFor="hoteldistance" className="custom-label">
@@ -289,19 +377,21 @@ const CreateHotelForm = () => {
           </div>
           {/* Star */}
           <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="star" className="custom-label">
+            <label htmlFor="hotelstar" className="custom-label">
               Star
             </label>
             <input
-              type="text"
+              type="number"
+              min={0}
+              max={5}
               name="star"
               id="star"
               className="custom-input"
               placeholder="Enter Star"
-              {...register('star')}
+              {...register('hotelstar')}
             />
             <span className="text-sm text-red-600 my-2">
-              {errors?.star?.message}
+              {errors?.hotelstar?.message}
             </span>
           </div>
         </div>

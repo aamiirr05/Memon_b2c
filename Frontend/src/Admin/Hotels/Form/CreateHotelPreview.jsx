@@ -1,121 +1,46 @@
 /* eslint-disable no-unused-vars */
-import { Plus, X } from 'lucide-react';
-import { useContext, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import {
   NavLink,
   useNavigate,
   useOutletContext,
   useParams,
 } from 'react-router-dom';
-import { AuthContext } from '../../context';
-import HotelSchema from '../../schema/HotelSchema';
-import useHotelStore from '../../store/Hotels/useHotelStore';
+import Loader from '../../../components/Loader';
 
 const CreateHotelPreview = () => {
-  const { getHotels } = useOutletContext();
+  const { getHotels, refreshPackages } = useOutletContext();
+
+  const handleNavigation = () => {
+    localStorage.clear();
+    refreshPackages();
+  };
 
   const { id } = useParams();
 
-  // const getHotel = getHotels?.data.datafind((hotel) => hotel.hotel_id == id);
-  console.log(getHotels.data.data);
-  const {
-    bookingterms,
-    setBookingTerms,
-    cancelpolicy,
-    amenities,
-    setCancelPolicy,
-    termcondition,
-    setTermCondition,
+  const getHotel = getHotels?.data.data.find((hotel) => hotel.hotel_id == id);
+  console.log(getHotel);
 
-    isActive,
-    isFeatured,
-    addBookingTerms,
+  const isActive = getHotel?.is_active === 'true';
+  const isFeatured = getHotel?.featured === 'true';
 
-    addPolicy,
-    addTermsCondition,
-    removeBookingTerms,
-
-    removePolicy,
-    handleisActive,
-    handleisFeatured,
-
-    removeAmenities,
-    addAmenities,
-    setAmenities,
-  } = useHotelStore();
+  const amenities = getHotel?.amenities;
+  const bookingterms = getHotel?.booking_terms;
+  const cancelpolicy = getHotel?.cancellation_policy;
+  const termcondition = getHotel?.term_condition;
 
   // navigate
   const navigate = useNavigate();
 
-  // Context States
-  const { updatePackageData } = useContext(AuthContext);
-
-  // useForm
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(HotelSchema),
-    values: {
-      isactive: isActive,
-      isfeatured: isFeatured,
-      cancellationpolicy: cancelpolicy,
-      bookingterms: bookingterms,
-      termcondition: termcondition,
-      amenities: amenities,
-    },
-  });
-
-  const handleAmenities = (val, index) => {
-    const updatedAmenities = [...amenities];
-    updatedAmenities[index] = val;
-    setAmenities(updatedAmenities);
-  };
-
-  //  Functions for booking terms
-
-  const handleBookingTerms = (val, index) => {
-    const updatedTerms = [...bookingterms];
-    updatedTerms[index] = val;
-    setBookingTerms(updatedTerms);
-  };
-
-  const handleTermsCondition = (val, index) => {
-    const updatedTerms = [...termcondition];
-    updatedTerms[index] = val;
-    setTermCondition(updatedTerms);
-  };
-
-  const handlePolicy = (val, index) => {
-    const updatedPolicy = [...cancelpolicy];
-    updatedPolicy[index] = val;
-    setCancelPolicy(updatedPolicy);
-  };
-
-  const removeTerms = (index) => {
-    const updatedTerms = termcondition.filter((_, i) => i !== index);
-    setTermCondition(updatedTerms);
-  };
-
-  // Functions for form submission
-  const onFormSubmit = (data) => {
-    updatePackageData(data);
-    navigate('/admin/hotel/createhotel-package');
-    reset();
-  };
+  if (!getHotel) {
+    return (
+      <div className="flex items-center font-jakarta text-lg font-semibold justify-center w-full h-full">
+        <p>Loading preview data...</p>
+      </div>
+    );
+  }
 
   return (
-    <form
-      action=""
-      className="w-full h-full"
-      onSubmit={handleSubmit(onFormSubmit)}
-    >
+    <form action="" className="w-full h-full">
       {/* Section One */}
       <div className="w-full bg-peach bg-opacity-20 shadow-md rounded-xl p-5 md:p-10">
         <div className="flex flex-col gap-5 lg:flex-row items-center w-full">
@@ -129,12 +54,9 @@ const CreateHotelPreview = () => {
               name="hotelname"
               id="hotelname"
               className="custom-input"
-              placeholder="Enter Hotel Name"
-              {...register('hotelname')}
+              disabled
+              defaultValue={getHotel?.hotel_name}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.hotelname?.message}
-            </span>
           </div>
           {/* Hotel City */}
           <div className="flex gap-3  w-full flex-col">
@@ -147,11 +69,9 @@ const CreateHotelPreview = () => {
               id="hotelcity"
               className="custom-input"
               placeholder="Enter Hotel City"
-              {...register('hotelcity')}
+              disabled
+              defaultValue={getHotel?.hotel_city}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.hotelcity?.message}
-            </span>
           </div>
           {/* Hotel Country */}
           <div className="flex gap-3 w-full flex-col">
@@ -164,11 +84,9 @@ const CreateHotelPreview = () => {
               id="hotelcountry"
               className="custom-input"
               placeholder="Enter Hotel Country"
-              {...register('hotelcountry')}
+              disabled
+              defaultValue={getHotel?.hotel_country}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.hotelcountry?.message}
-            </span>
           </div>
         </div>
         {/* Textbox for desc */}
@@ -184,11 +102,23 @@ const CreateHotelPreview = () => {
             rows="5"
             className="w-full custom-input"
             placeholder="Enter Hotel Description"
-            {...register('hoteldescription')}
+            disabled
+            defaultValue={getHotel?.hotel_description}
           ></textarea>
-          <span className="text-sm text-red-600 my-2">
-            {errors?.hoteldescription?.message}
-          </span>
+        </div>
+
+        {/* Hotel Location */}
+        <div className="flex mt-5 gap-3 w-full flex-col">
+          <label htmlFor="hoteldescription" className="custom-label">
+            Hotel Location
+          </label>
+          <input
+            type="text"
+            name="hotelcountry"
+            id="hotelcountry"
+            className="custom-input"
+            defaultValue={getHotel?.hotel_location}
+          />
         </div>
 
         {/* Boolean Values for package */}
@@ -205,7 +135,6 @@ const CreateHotelPreview = () => {
               }}
             >
               <div
-                onClick={handleisActive}
                 style={{
                   width: '60px',
                   height: '30px',
@@ -229,10 +158,6 @@ const CreateHotelPreview = () => {
                 ></div>
               </div>
             </div>
-
-            <span className="text-sm text-red-600 my-2">
-              {errors?.isactive?.message}
-            </span>
           </div>
           {/* Is Featured */}
           <div className="flex gap-3 items-center justify-start">
@@ -246,7 +171,6 @@ const CreateHotelPreview = () => {
               }}
             >
               <div
-                onClick={handleisFeatured}
                 style={{
                   width: '60px',
                   height: '30px',
@@ -281,6 +205,36 @@ const CreateHotelPreview = () => {
         {/* Price Section for hotels*/}
 
         <div className="flex mt-10 flex-col gap-5 md:flex-row items-center w-full">
+          {/* Hotel Category  */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="hotelcategory" className="custom-label">
+              Hotel Category
+            </label>
+            <input
+              type="text"
+              name="hotelcategory"
+              id="hotelcategory"
+              className="custom-input"
+              disabled
+              defaultValue={getHotel?.hotel_category}
+            />
+          </div>
+          {/* Meal Basis */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="hotelstar" className="custom-label">
+              Meal Basis
+            </label>
+
+            <input
+              disabled
+              defaultValue={getHotel?.meal_basis}
+              name="mealbasis"
+              id="mealbasis"
+              className="custom-input"
+            ></input>
+          </div>
+        </div>
+        <div className="flex mt-10 flex-col gap-5 md:flex-row items-center w-full">
           {/* Hotel Distance */}
           <div className="flex gap-3  w-full flex-col">
             <label htmlFor="hoteldistance" className="custom-label">
@@ -291,12 +245,9 @@ const CreateHotelPreview = () => {
               name="hoteldistance"
               id="hoteldistance"
               className="custom-input"
-              placeholder="Enter Hotel Distance"
-              {...register('hoteldistance')}
+              disabled
+              defaultValue={getHotel?.hotel_distance}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.hoteldistance?.message}
-            </span>
           </div>
           {/* Star */}
           <div className="flex gap-3  w-full flex-col">
@@ -308,12 +259,9 @@ const CreateHotelPreview = () => {
               name="star"
               id="star"
               className="custom-input"
-              placeholder="Enter Star"
-              {...register('star')}
+              disabled
+              defaultValue={getHotel?.hotel_star}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.star?.message}
-            </span>
           </div>
         </div>
 
@@ -329,12 +277,9 @@ const CreateHotelPreview = () => {
               min="0"
               id="doubleprice"
               className="custom-input"
-              placeholder="Enter Double Price"
-              {...register('doubleprice')}
+              disabled
+              defaultValue={getHotel?.rooms[0].double_price}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.doubleprice?.message}
-            </span>
           </div>
           {/* Triple Price */}
           <div className="flex gap-3  w-full flex-col">
@@ -347,12 +292,9 @@ const CreateHotelPreview = () => {
               min="0"
               id="tripleprice"
               className="custom-input"
-              placeholder="Enter Triple Price"
-              {...register('tripleprice')}
+              disabled
+              defaultValue={getHotel?.rooms[0].triple_price}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.tripleprice?.message}
-            </span>
           </div>
         </div>
 
@@ -368,12 +310,9 @@ const CreateHotelPreview = () => {
               min="0"
               id="packagename"
               className="custom-input"
-              placeholder="Enter Quint Price"
-              {...register('quintprice')}
+              disabled
+              defaultValue={getHotel?.rooms[0].quint_price}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.quintprice?.message}
-            </span>
           </div>
           {/* Quad Price */}
           <div className="flex gap-3  w-full flex-col">
@@ -386,12 +325,9 @@ const CreateHotelPreview = () => {
               min="0"
               id="quadprice"
               className="custom-input"
-              placeholder="Enter Quad Price"
-              {...register('quadprice')}
+              disabled
+              defaultValue={getHotel?.rooms[0].quad_price}
             />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.quadprice?.message}
-            </span>
           </div>
         </div>
       </div>
@@ -409,29 +345,15 @@ const CreateHotelPreview = () => {
                 <input
                   type="text"
                   name=""
-                  value={val}
-                  onChange={(e) => handleAmenities(e.target.value, index)}
+                  defaultValue={val}
+                  disabled
                   id="amenities"
                   className="w-10/12 mb-5 custom-input"
                   placeholder={`Amenity ${index + 1}`}
-                  required={index > 0}
                 />
-                {index === 0 ? null : (
-                  <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
-                    onClick={() => removeAmenities(index)}
-                  />
-                )}
               </div>
             );
           })}
-        </div>
-        <div
-          className="absolute top-0 md:top-2 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
-          onClick={addAmenities}
-        >
-          <Plus />
-          Add Amenities
         </div>
       </div>
 
@@ -447,29 +369,16 @@ const CreateHotelPreview = () => {
                 <input
                   type="text"
                   name="bookingterms"
-                  value={val}
-                  onChange={(e) => handleBookingTerms(e.target.value, index)}
+                  defaultValue={val}
+                  disabled
                   id="bookingterms"
                   className="w-10/12 mb-5 custom-input"
                   placeholder={`Booking Term ${index + 1}`}
                   required={index > 0}
                 />
-                {index === 0 ? null : (
-                  <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
-                    onClick={() => removeBookingTerms(index)}
-                  />
-                )}
               </div>
             );
           })}
-        </div>
-        <div
-          className="absolute top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
-          onClick={addBookingTerms}
-        >
-          <Plus />
-          Add Booking Terms
         </div>
       </div>
 
@@ -485,29 +394,16 @@ const CreateHotelPreview = () => {
                 <input
                   type="text"
                   name="termcondition"
-                  value={val}
-                  onChange={(e) => handleTermsCondition(e.target.value, index)}
+                  defaultValue={val}
                   id="termcondition"
+                  disabled
                   className="w-10/12 mb-5 custom-input"
                   placeholder={`Term & Condition ${index + 1}`}
                   required={index > 0}
                 />
-                {index === 0 ? null : (
-                  <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
-                    onClick={() => removeTerms(index)}
-                  />
-                )}
               </div>
             );
           })}
-        </div>
-        <div
-          className="absolute  top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
-          onClick={addTermsCondition}
-        >
-          <Plus />
-          Add Terms & Condition
         </div>
       </div>
 
@@ -523,47 +419,37 @@ const CreateHotelPreview = () => {
                 <input
                   type="text"
                   name="cancellationpolicy"
-                  value={val}
-                  onChange={(e) => handlePolicy(e.target.value, index)}
+                  defaultValue={val}
+                  disabled
                   id="bookingterms"
                   className="w-10/12 mb-5 custom-input"
                   placeholder={`Cancellation Policy ${index + 1}`}
                   required={index > 0}
                 />
-                {index === 0 ? null : (
-                  <X
-                    className="absolute top-[10px] right-7 md:right-0 lg:right-6 xl:right-8 cursor-pointer"
-                    onClick={() => removePolicy(index)}
-                  />
-                )}
               </div>
             );
           })}
-        </div>
-        <div
-          className="absolute  top-10 md:top-4 right-8 flex items-center justify-center gap-2 mt-5 cursor-pointer"
-          onClick={addPolicy}
-        >
-          <Plus />
-          Add Cancellation Policy
         </div>
       </div>
       {/* Form Buttons  */}
 
       <div className="mt-10 w-full lg:w-2/3 mx-auto flex gap-5 lg:gap-60 items-center justify-center">
         <NavLink
-          to="/admin/umrahpackages"
-          onClick={() => localStorage.clear()}
+          to={`/admin/hotel/update/${id}`}
+          onClick={() => handleNavigation()}
+          className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
+        >
+          Need to Update ?
+        </NavLink>
+
+        <NavLink
+          to="/admin/hotel"
+          type="submit"
+          onClick={() => handleNavigation()}
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >
           Back
         </NavLink>
-        <button
-          type="submit"
-          className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
-        >
-          Next
-        </button>
       </div>
     </form>
   );

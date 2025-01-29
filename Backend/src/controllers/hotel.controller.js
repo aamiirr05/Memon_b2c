@@ -44,6 +44,8 @@ const createHotel = asyncHandler(async (req, res) => {
     doubleprice,
   } = req.body;
 
+  console.log(req.body);
+
   if (
     [
       hotelname,

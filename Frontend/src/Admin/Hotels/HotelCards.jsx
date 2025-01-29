@@ -26,13 +26,13 @@ const HotelCards = ({ data, getPackages }) => {
       console.log(res);
       toast.dismiss(toastId);
       const msg = res.data.data;
-      toast.success(msg);
+      toast.success(msg, { autoClose: 5000 });
       getPackages.refresh();
     } catch (error) {
       console.log(error);
       toast.dismiss(toastId);
       const errmsg = error.response.data.message;
-      toast.error(errmsg);
+      toast.error(errmsg, { autoClose: 5000 });
     } finally {
       setIsCreating(false);
     }

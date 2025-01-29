@@ -23,6 +23,8 @@ const UmrahPackages = () => {
 
   const getPackages = useFetchPackages('/admin/packages/fetch-umrah-packages');
 
+  console.log(getPackages);
+
   useEffect(() => {
     if (getPackages.data) {
       setUmrahPackages(getPackages.data.data);

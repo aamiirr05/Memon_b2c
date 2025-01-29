@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import toast from 'react-hot-toast';
 import { X } from 'lucide-react';
@@ -117,6 +117,7 @@ const CreateHotelImg = () => {
   } = useForm();
 
   const [hotelImages, setHotelImages] = useState([]);
+  const { refreshPackages } = useOutletContext();
   const { isCreating, setIsCreating } = useHotelStore();
   const navigate = useNavigate();
   const [previewData] = useState(() => {
@@ -143,6 +144,9 @@ const CreateHotelImg = () => {
   formData.append('hotelname', previewData?.packageDetails.hotelname);
   formData.append('hotelcity', previewData?.packageDetails.hotelcity);
   formData.append('hotelcountry', previewData?.packageDetails.hotelcountry);
+  formData.append('hotelcategory', previewData?.packageDetails.hotelcategory);
+  formData.append('hotellocation', previewData?.packageDetails.hotellocation);
+  formData.append('mealbasis', previewData?.packageDetails.mealbasis);
   formData.append(
     'hoteldescription',
     previewData?.packageDetails.hoteldescription
@@ -151,7 +155,7 @@ const CreateHotelImg = () => {
   formData.append('isactive', previewData?.packageDetails.isactive);
   formData.append('featured', previewData?.packageDetails.isfeatured);
   //
-  formData.append('star', previewData?.packageDetails.star);
+  formData.append('star', previewData?.packageDetails.hotelstar);
   formData.append('hoteldistance', previewData?.packageDetails.hoteldistance);
   //
   formData.append('quintprice', previewData?.packageDetails.quintprice);
@@ -219,12 +223,10 @@ const CreateHotelImg = () => {
       const extractedId = res.data?.data[0].hotel_id;
       console.log(extractedId);
       toast.success(resMsg, { autoClose: 5000 });
+      refreshPackages();
       navigate(`/admin/hotel/createhotel-preview/${extractedId}`);
-      localStorage.removeItem('packagedetails');
-      localStorage.removeItem('packageimages');
     } catch (error) {
       console.error(error);
-
       const errorMsg =
         error.response?.data.message ||
         'Something went wrong. Please try again.';
@@ -232,6 +234,7 @@ const CreateHotelImg = () => {
       toast.error(errorMsg, { autoClose: 5000 });
     } finally {
       setIsCreating(false);
+      refreshPackages();
     }
   };
 

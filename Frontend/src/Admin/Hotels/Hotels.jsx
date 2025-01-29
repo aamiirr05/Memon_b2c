@@ -38,7 +38,7 @@ const Hotels = () => {
   const isChildRoute = currentPath !== '/admin/hotel';
   const isDetailForm = currentPath === '/admin/hotel/createhotel-form';
   const isImgForm = currentPath === '/admin/hotel/createhotel-package';
-  const isPreview = currentPath === '/admin/hotel/createhotel-preview';
+  const isPreview = currentPath.includes('/admin/hotel/createhotel-preview');
 
   return (
     <div

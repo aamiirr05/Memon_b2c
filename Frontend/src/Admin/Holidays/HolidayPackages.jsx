@@ -186,7 +186,12 @@ const HolidayPackages = () => {
       )}
       {/* Outlet */}
       <div className="mt-10">
-        <Outlet context={{ getPackages: getPackages }} />
+        <Outlet
+          context={{
+            getPackages: getPackages,
+            refreshPackages: getPackages.refresh,
+          }}
+        />
       </div>
     </div>
   );
