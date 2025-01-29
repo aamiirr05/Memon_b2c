@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { LucideChevronDown } from 'lucide-react';
 
 const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   // Filter options based on the search query
   const filteredOptions = options.filter((option) =>
@@ -15,8 +16,25 @@ const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    // Add event listener for outside clicks
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    // Clean up event listener
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       {/* Button with a down arrow to toggle the dropdown */}
       <button
         onClick={toggleDropdown}
