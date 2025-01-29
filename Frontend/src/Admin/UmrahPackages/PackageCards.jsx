@@ -458,13 +458,13 @@ const PackageCards = ({
   return (
     <>
       <div
-        className={`w-full md:w-2/5 lg:w-1/4 xl:w-1/4 p-3 rounded-xl shadow-lg ${isModalOpen ? 'blur-sm' : 'blur-0'}`}
+        className={`w-full md:w-2/5 xl:w-1/4 p-3 rounded-xl shadow-lg ${isModalOpen ? 'blur-sm' : 'blur-0'}`}
       >
         <div className="">
           <img
             src={data?.mak_hotel_images[0].secure_url}
             alt=""
-            className="aspect-[2/1] rounded-md"
+            className="w-full h-[150px] lg:h-[200px] rounded-md"
           />
         </div>
         <div className="relative mt-5 px-2">

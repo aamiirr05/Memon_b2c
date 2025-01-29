@@ -23,7 +23,8 @@ const umrahSchema = yup.object().shape({
     .number()
     .typeError('Discount must be a number')
     .required('Discount is required')
-    .min(1, 'Discount must be at least 1'),
+    .min(0, 'Discount should not be less than zero.')
+    .max(100, 'Discount should be atmost 100.'),
   totalnights: yup
     .number()
     .typeError('Total Nights must be a number')

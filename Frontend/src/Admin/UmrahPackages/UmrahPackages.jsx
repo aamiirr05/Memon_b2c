@@ -76,7 +76,9 @@ const UmrahPackages = () => {
         <>
           <NavLink
             to="/admin/umrahpackages/createpackage-form"
-            onClick={() => localStorage.clear()}
+            onClick={() => {
+              localStorage.clear();
+            }}
             className={`flex w-2/3 md:w-1/2 lg:w-1/4 items-center justify-center outline-none border border-darkgreen hover:bg-peach hover:bg-opacity-40 font-semibold font-jakarta hover:text-darkgreen transition-colors hover:animate-shift-up gap-1 bg-darkgreen text-peach p-3 rounded-lg ${isModalOpen ? 'blur-sm pointer-events-none' : 'blur-0'}`}
           >
             <Plus />

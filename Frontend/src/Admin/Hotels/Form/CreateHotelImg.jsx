@@ -195,7 +195,7 @@ const CreateHotelImg = () => {
 
   const onSubmit = async (data) => {
     const toastId = toast.loading(
-      'Creating package. This may take some time...',
+      'Creating Hotel. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
@@ -265,7 +265,7 @@ const CreateHotelImg = () => {
           disabled={isCreating}
           className={` w-full p-2  rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center text-sm md:text-base ${isCreating ? 'hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen' : 'bg-darkgreen text-peach'}`}
         >
-          {isCreating ? 'Creating Package...' : 'Create Package'}
+          {isCreating ? 'Creating Hotel...' : 'Create Hotel'}
         </button>
       </div>
     </form>

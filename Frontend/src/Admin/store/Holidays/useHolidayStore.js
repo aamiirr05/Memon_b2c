@@ -6,8 +6,10 @@ const useHolidayStore = create((set) => ({
   isCreating: false,
   isUpdating: false,
   isModalOpen: false,
+  warning: false,
   categories: [],
 
+  setWarning: (val) => set({ warning: val }),
   setCategories: (cat) => {
     set((state) => ({
       categories: [...state.categories, cat],

@@ -100,6 +100,8 @@ const App = () => {
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isLoginPage = location.pathname.startsWith('/login');
   const isSignupPage = location.pathname.startsWith('/signup');
+  const isOtpPage = location.pathname.startsWith('/verify');
+  const isErrorPage = location.pathname == '/error' || location.pathname == '*';
 
   const [isMore, setIsMore] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -117,17 +119,21 @@ const App = () => {
 
   return (
     <div className="w-full h-full bg-lightpeach bg-opacity-20">
-      {!isAdminRoute && !isLoginPage && !isSignupPage && (
-        <>
-          <PrimaryNav />
-          <SecondaryNav
-            setIsMore={setIsMore}
-            setIsHovered={setIsHovered}
-            isHovered={isHovered}
-            isMore={isMore}
-          />
-        </>
-      )}
+      {!isAdminRoute &&
+        !isLoginPage &&
+        !isSignupPage &&
+        !isOtpPage &&
+        !isErrorPage && (
+          <>
+            <PrimaryNav />
+            <SecondaryNav
+              setIsMore={setIsMore}
+              setIsHovered={setIsHovered}
+              isHovered={isHovered}
+              isMore={isMore}
+            />
+          </>
+        )}
 
       <Routes>
         {/* Public Routes */}
@@ -225,7 +231,9 @@ const App = () => {
         <Route path="*" element={<ErrorPage />} />
       </Routes>
 
-      {!isAdminRoute && !isLoginPage && !isSignupPage && <Footer />}
+      {!isAdminRoute && !isLoginPage && !isSignupPage && !isOtpPage && (
+        <Footer />
+      )}
 
       <Toaster
         toastOptions={{
