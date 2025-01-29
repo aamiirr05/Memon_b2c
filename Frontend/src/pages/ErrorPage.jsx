@@ -4,7 +4,7 @@ import { MoveRight } from 'lucide-react';
 
 const ErrorPage = () => {
   return (
-    <div className="w-full flex items-center flex-col-reverse md:flex-row justify-center gap-20 md:gap-0 h-screen bg-peach/50">
+    <div className="w-screen fixed top-0 right-0 z-50 flex items-center flex-col-reverse md:flex-row justify-center gap-20 md:gap-0 h-screen bg-peach">
       <div className="font-zodiak flex items-center w-full md:w-1/2 md:items-start justify-center flex-col gap-10 text-darkgreen text-lg lg:text-3xl">
         <div className="text-center md:text-left md:w-3/4">
           &quot;We Couldn&apos;t Find Your Destination. Try Another Route!&quot;

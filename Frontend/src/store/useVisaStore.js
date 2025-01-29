@@ -22,5 +22,15 @@ export const useVisaStore = create((set) => ({
     }
   },
 
-  fetchVisaById: () => {},
+  fetchVisaById: async (id) => {
+    set({ isFetching: true });
+    try {
+      const res = await axiosInstance.get(`/users/fetch-visa/${id}`);
+      set({ selectedVisa: res.data.data });
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isFetching: false });
+    }
+  },
 }));

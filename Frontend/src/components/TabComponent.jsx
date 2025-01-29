@@ -5,16 +5,16 @@ const TabComponent = ({ tabs }) => {
 
   return (
     <div>
-      <div className="flex border-b gap-12 mt-6">
+      <div className="flex font-jakarta  gap-10 border-b border-darkgreen/10 overflow-x-scroll no-scrollbar">
         {tabs.map((tab, index) => (
           <button
             key={index}
             onClick={() => setActiveTab(index)}
-            className={`py-2 ${
+            className={`py-2 text-lg tracking-tight text-nowrap ${
               activeTab === index
                 ? 'border-b-2 border-darkgreen text-darkgreen'
-                : 'text-neutral-600'
-            }`}
+                : 'text-neutral-400 hover:text-darkgreen'
+            } transition-colors duration-300`}
           >
             {tab.title}
           </button>
