@@ -17,18 +17,18 @@ const Tab1 = () => {
     <>
       <div className="flex flex-col md:flex-row pb-8">
         <div className="w-full md:w-2/3 pr-8 mb-4">
-          <h2 className="text-2xl font-medium text-neutral-700 mb-4">
+          <h2 className="text-2xl font-medium font-zodiak text-neutral-700 mb-4">
             About The Destination
           </h2>
-          <p className="text-neutral-700 tracking-tight mb-6">
+          <p className="text-neutral-700 font-jakarta tracking-tight mb-6">
             {selectedPackage.description}
           </p>
           {selectedPackage.prices && selectedPackage.prices.length > 0 && (
             <div className="mt-8">
-              <h3 className="text-2xl font-medium text-neutral-700 mb-4">
+              <h3 className="text-2xl font-medium font-zodiak text-neutral-700 mb-4">
                 Pricing Details
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 ">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 font-jakarta">
                 {Object.entries(selectedPackage.prices[0]).map(
                   ([key, value]) => {
                     if (
@@ -66,7 +66,7 @@ const Tab1 = () => {
           )}
         </div>
 
-        <div className="py-4 w-full md:w-1/3">
+        <div className="py-4 w-full md:w-1/3 font-jakarta">
           <div className="h-full border-2 border-darkgreen/10 rounded-lg p-4">
             {/* Pricing Section */}
             <div className="mb-6">

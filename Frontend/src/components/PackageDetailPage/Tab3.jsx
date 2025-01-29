@@ -14,13 +14,13 @@ const Tab3 = () => {
               <h3 className="text-lg font-semibold text-darkgreen leading-snug font-zodiak">
                 Day
               </h3>
-              <p className="text-center leading-tight text-3xl text-darkgreen font-semibold font-zodiak">
+              <p className="text-center leading-tight text-lg text-darkgreen font-semibold font-zodiak">
                 {index + 1}
               </p>
             </div>{' '}
             <div className="bg-peach/60 w-full rounded-lg flex items-center px-4 border border-dashed border-darkgreen">
-              <p className="text-darkgreen text-lg sm:text-xl">
-                {item.itenary}
+              <p className="text-darkgreen text-lg sm:text-base font-jakarta">
+                {item.activities}
               </p>
             </div>
           </li>
@@ -32,7 +32,7 @@ const Tab3 = () => {
   return (
     <div className="w-full mt-8 pb-12">
       {/* Tab Headers */}
-      <div className="flex gap-4 sm:gap-8 border-b border-darkgreen/10 mb-8">
+      <div className="flex gap-4 sm:gap-8 border-b border-darkgreen/10 mb-8 font-jakarta">
         <button
           className={`py-2 text-[15px] font-medium ${
             activeTab === 'makkah'

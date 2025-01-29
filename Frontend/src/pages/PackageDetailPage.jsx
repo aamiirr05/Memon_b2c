@@ -51,7 +51,7 @@ const PackageDetailPage = () => {
       <section>
         <div className="max-w-7xl mx-auto px-4 lg:px-0">
           <div className="grid grid-cols-[70%,auto] py-12">
-            <h1 className="text-4xl text-darkgreen font-medium flex-1">
+            <h1 className="text-4xl text-darkgreen font-medium flex-1 font-zodiak">
               {selectedPackage.package_name}
             </h1>
             <ShareButton url={pageUrl} title={pageTitle} />
