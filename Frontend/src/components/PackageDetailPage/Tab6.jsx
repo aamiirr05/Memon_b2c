@@ -9,10 +9,10 @@ const Tab6 = () => {
 
   return (
     <div className="w-full mt-8 pb-12">
-      <h2 className="text-2xl font-bold text-darkgreen mb-6">
+      <h2 className="text-2xl font-bold text-darkgreen mb-6 font-zodiak">
         Frequently Asked Questions
       </h2>
-      <div className="space-y-4">
+      <div className="space-y-4 font-jakarta">
         {faqs.map((faq, index) => (
           <div
             key={index}

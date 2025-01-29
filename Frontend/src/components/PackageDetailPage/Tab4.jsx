@@ -42,7 +42,7 @@ const Tab4 = () => {
   return (
     <div className="w-full mt-8 pb-12">
       {/* Tab Headers */}
-      <div className="flex gap-4 sm:gap-8 border-b border-darkgreen/10 mb-8">
+      <div className="flex gap-4 sm:gap-8 border-b border-darkgreen/10 mb-8 font-jakarta">
         <button
           className={`py-2 text-[15px] font-medium ${
             activeTab === 'makkah'
@@ -67,6 +67,14 @@ const Tab4 = () => {
 
       {/* Hotel Information */}
       <div className="space-y-6">
+        {/* Hotel Name */}
+        <h2 className="text-2xl sm:text-3xl font-bold font-zodiak text-darkgreen !mt-2">
+          {hotelData}{' '}
+          <i className="text-neutral-600 text-lg font-medium font-jakarta">
+            ({hotelStar} Star)
+          </i>
+        </h2>
+
         {/* Hotel Star Rating */}
         <div className="flex items-center gap-2 !mt-2">
           {[...Array(hotelStar)].map((_, index) => (
@@ -75,14 +83,6 @@ const Tab4 = () => {
             </span>
           ))}
         </div>
-
-        {/* Hotel Name */}
-        <h2 className="text-2xl sm:text-3xl font-bold text-darkgreen !mt-2">
-          {hotelData}{' '}
-          <i className="text-neutral-600 text-lg font-medium">
-            ({hotelStar} Star)
-          </i>
-        </h2>
 
         {/* Hotel Image Layout */}
         <div className="my-6 flex flex-col md:flex-row gap-4">
@@ -117,7 +117,7 @@ const Tab4 = () => {
 
         {/* Google Map Location */}
         <div className="pt-8">
-          <h2 className="text-2xl font-medium text-neutral-700 mb-4">
+          <h2 className="text-2xl font-medium font-jakarta text-neutral-700 mb-4">
             Map Location
           </h2>
           <iframe

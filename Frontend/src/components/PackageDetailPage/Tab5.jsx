@@ -9,7 +9,7 @@ const Tab5 = () => {
   const renderContent = () => {
     const content = selectedPackage[activeTab] || [];
     return (
-      <ul className="text-neutral-700">
+      <ul className="text-neutral-700 font-jakarta">
         {content.map((item, index) => (
           <li key={index} className="flex items-start gap-4 mb-2">
             <div className="bg-darkgreen/40 text-darkgreen rounded-full p-1 mt-1">
@@ -17,7 +17,7 @@ const Tab5 = () => {
               {activeTab === 'booking_terms' && <Check size={16} />}
               {activeTab === 'cancellation_policy' && <X size={16} />}
             </div>
-            <span className="text-lg text-neutral-700 tracking-tight">
+            <span className="text-base text-neutral-700 tracking-tight">
               {item}
             </span>
           </li>
@@ -29,7 +29,7 @@ const Tab5 = () => {
   return (
     <div className="w-full mt-8 pb-12">
       {/* Tab Headers */}
-      <div className="flex gap-4 sm:gap-8 border-b border-darkgreen/10 mb-4">
+      <div className="flex gap-4 sm:gap-8 border-b border-darkgreen/10 mb-4 font-jakarta">
         <button
           className={`py-2 text-[15px] font-medium ${
             activeTab === 'term_condition'
