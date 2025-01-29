@@ -22,7 +22,7 @@ const navLinks = [
   { name: 'Ziyarat', path: '/ziyarat' },
   { name: 'Holidays', path: '/holidays' },
   { name: 'Hotels', path: '/hotels' },
-  { name: 'Visa', path: '/visa' },
+  { name: 'Visa', path: '/visas' },
   { name: 'Forex', path: '/forex' },
   { name: 'Our Partners', path: '/partners' },
   { name: 'Nusuk', path: '/nusuk' },
