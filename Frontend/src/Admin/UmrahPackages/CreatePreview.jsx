@@ -330,21 +330,6 @@ const CreatePreview = () => {
         </div>
         {/* Arrival City and Dept City */}
         <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
-          {/* Arrival City */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="packagename" className="custom-label">
-              Arrival City
-            </label>
-            <input
-              type="text"
-              name="arrivalcity"
-              id="arrivalcity"
-              className="custom-input"
-              placeholder="Enter Arrival City"
-              disabled
-              defaultValue={previewData?.arrival_city}
-            />
-          </div>
           {/* Package Type */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="packagetype" className="custom-label">
@@ -358,6 +343,21 @@ const CreatePreview = () => {
               placeholder="Enter  Departure City"
               disabled
               defaultValue={previewData?.departure_city}
+            />
+          </div>
+          {/* Arrival City */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="packagename" className="custom-label">
+              Arrival City
+            </label>
+            <input
+              type="text"
+              name="arrivalcity"
+              id="arrivalcity"
+              className="custom-input"
+              placeholder="Enter Arrival City"
+              disabled
+              defaultValue={previewData?.arrival_city}
             />
           </div>
         </div>

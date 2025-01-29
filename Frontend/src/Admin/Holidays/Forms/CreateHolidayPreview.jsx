@@ -15,7 +15,6 @@ const CreateHolidayPreview = () => {
     getPackages.refresh();
   };
 
-
   if (!singlePackage) {
     return (
       <div className="flex items-center font-jakarta text-lg font-semibold justify-center w-full h-full">
@@ -313,21 +312,6 @@ const CreateHolidayPreview = () => {
         </div>
         {/* Arrival City and Dept City */}
         <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
-          {/* Arrival City */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="packagename" className="custom-label">
-              Arrival City
-            </label>
-            <input
-              type="text"
-              name="arrivalcity"
-              disabled
-              id="arrivalcity"
-              className="custom-input"
-              placeholder="Enter Arrival City"
-              value={singlePackage?.arrival_city}
-            />
-          </div>
           {/* Dept City */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="packagetype" className="custom-label">
@@ -341,6 +325,21 @@ const CreateHolidayPreview = () => {
               className="custom-input"
               placeholder="Enter  Departure City"
               value={singlePackage?.departure_city}
+            />
+          </div>
+          {/* Arrival City */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="packagename" className="custom-label">
+              Arrival City
+            </label>
+            <input
+              type="text"
+              name="arrivalcity"
+              disabled
+              id="arrivalcity"
+              className="custom-input"
+              placeholder="Enter Arrival City"
+              value={singlePackage?.arrival_city}
             />
           </div>
         </div>

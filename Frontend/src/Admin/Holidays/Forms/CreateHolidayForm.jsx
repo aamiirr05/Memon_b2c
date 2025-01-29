@@ -350,16 +350,24 @@ const CreateHolidayForm = () => {
             <label htmlFor="discount" className="custom-label">
               Discount
             </label>
-            <input
-              type="number"
-              name="discount"
-              id="discount"
-              min="0"
-              className="custom-input"
-              placeholder="Enter  Discount"
-              defaultValue={previewData?.discount}
-              {...register('discount')}
-            />
+            <div className="w-full flex gap-1">
+              <input
+                type="text"
+                value="%"
+                disabled
+                className="custom-input w-14 border-r-0"
+              />
+              <input
+                type="number"
+                name="discount"
+                id="discount"
+                min="0"
+                className="custom-input w-full"
+                placeholder="Enter Discount"
+                defaultValue={previewData?.discount}
+                {...register('discount')}
+              />
+            </div>
             <span className="text-sm text-red-600 my-2">
               {errors?.discount?.message}
             </span>

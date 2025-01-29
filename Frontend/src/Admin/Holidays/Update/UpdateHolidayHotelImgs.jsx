@@ -127,7 +127,7 @@ const UpdateHolidayHotelImgs = () => {
 
   const onFormSubmit = async () => {
     const loadingtoast = toast.loading(
-      'Updating Package Images. This may take some time...',
+      'Updating hotel images. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">

@@ -435,7 +435,7 @@ const CreateHotelPreview = () => {
 
       <div className="mt-10 w-full lg:w-2/3 mx-auto flex gap-5 lg:gap-60 items-center justify-center">
         <NavLink
-          to={`/admin/hotel/update/${id}`}
+          to={`/admin/hotel/update/${id}/details`}
           onClick={() => handleNavigation()}
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >

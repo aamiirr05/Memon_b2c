@@ -193,7 +193,7 @@ const UpdateHolidayDetails = () => {
   // Functions for form submission
   const onFormSubmit = async (data) => {
     const loadingToast = toast.loading(
-      'Updating package. This may take some time...',
+      'Updating holiday details. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
@@ -353,16 +353,24 @@ const UpdateHolidayDetails = () => {
             <label htmlFor="discount" className="custom-label">
               Discount
             </label>
-            <input
-              type="number"
-              name="discount"
-              id="discount"
-              min="0"
-              className="custom-input"
-              placeholder="Enter  Discount"
-              defaultValue={extractedPackages?.discount}
-              {...register('discount')}
-            />
+            <div className="w-full flex gap-1">
+              <input
+                type="text"
+                value="%"
+                disabled
+                className="custom-input w-14 border-r-0"
+              />
+              <input
+                type="number"
+                name="discount"
+                id="discount"
+                min="0"
+                className="custom-input w-full"
+                placeholder="Enter Discount"
+                defaultValue={extractedPackages?.discount}
+                {...register('discount')}
+              />
+            </div>
             <span className="text-sm text-red-600 my-2">
               {errors?.discount?.message}
             </span>
@@ -588,24 +596,6 @@ const UpdateHolidayDetails = () => {
         </div>
         {/* Arrival City and Dept City */}
         <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
-          {/* Arrival City */}
-          <div className="flex gap-3  w-full flex-col">
-            <label htmlFor="packagename" className="custom-label">
-              Arrival City
-            </label>
-            <input
-              type="text"
-              name="arrivalcity"
-              id="arrivalcity"
-              className="custom-input"
-              placeholder="Enter Arrival City"
-              defaultValue={extractedPackages?.arrival_city}
-              {...register('arrivalcity')}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.arrivalcity?.message}
-            </span>
-          </div>
           {/* Dept City */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="packagetype" className="custom-label">
@@ -622,6 +612,24 @@ const UpdateHolidayDetails = () => {
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.departurecity?.message}
+            </span>
+          </div>
+          {/* Arrival City */}
+          <div className="flex gap-3  w-full flex-col">
+            <label htmlFor="packagename" className="custom-label">
+              Arrival City
+            </label>
+            <input
+              type="text"
+              name="arrivalcity"
+              id="arrivalcity"
+              className="custom-input"
+              placeholder="Enter Arrival City"
+              defaultValue={extractedPackages?.arrival_city}
+              {...register('arrivalcity')}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.arrivalcity?.message}
             </span>
           </div>
         </div>
@@ -936,7 +944,7 @@ const UpdateHolidayDetails = () => {
           type="submit"
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >
-          Next
+          Update
         </button>
       </div>
     </form>

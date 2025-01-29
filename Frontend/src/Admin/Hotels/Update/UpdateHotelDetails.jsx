@@ -56,6 +56,8 @@ const UpdateHotelDetails = () => {
     setIsUpdating,
   } = useHotelStore();
 
+  console.log(isFeatured);
+
   useEffect(() => {
     if (extractedPackages?.featured) {
       updateIsFeatured(extractedPackages?.featured === 'true');
@@ -104,7 +106,7 @@ const UpdateHotelDetails = () => {
     resolver: yupResolver(HotelSchema),
     values: {
       isactive: isActive,
-      isfeatured: isFeatured,
+      featured: isFeatured,
       cancellationpolicy: cancelpolicy,
       bookingterms: bookingterms,
       termcondition: termcondition,
@@ -147,7 +149,7 @@ const UpdateHotelDetails = () => {
   const onFormSubmit = async (data) => {
     setIsUpdating(true);
     const loadingToast = toast.loading(
-      'Updating package. This may take some time...',
+      'Updating hotel details. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
@@ -164,7 +166,8 @@ const UpdateHotelDetails = () => {
       );
       console.log(res);
       toast.dismiss(loadingToast);
-      toast.success('Package updated successfully!', { autoClose: 5000 });
+      const smsg = res.data.message;
+      toast.success(smsg, { autoClose: 5000 });
       navigate('/admin/hotel');
     } catch (error) {
       const errMsg = error?.response?.data.message || 'An error occurred.';
@@ -722,7 +725,7 @@ const UpdateHotelDetails = () => {
           type="submit"
           className=" bg-darkgreen w-full lg:w-1/3 p-2 text-peach rounded-lg font-semibold font-jakarta hover:animate-shift-up hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen mx-auto transition-colors text-center"
         >
-          Next
+          Update
         </button>
       </div>
     </form>

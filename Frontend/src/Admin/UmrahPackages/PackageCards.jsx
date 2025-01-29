@@ -458,7 +458,7 @@ const PackageCards = ({
   return (
     <>
       <div
-        className={`w-full md:w-2/5 lg:w-1/4 xl:w-1/4 p-3 rounded-xl shadow-lg ${isModalOpen ? 'blur-sm' : 'blur-0'}`}
+        className={`w-full md:w-2/5 xl:w-1/4 p-3 rounded-xl shadow-lg ${isModalOpen ? 'blur-sm' : 'blur-0'}`}
       >
         <div className="">
           <img

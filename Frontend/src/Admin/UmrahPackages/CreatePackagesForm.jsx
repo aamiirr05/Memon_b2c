@@ -263,16 +263,24 @@ const CreatePackagesForm = () => {
             <label htmlFor="discount" className="custom-label">
               Discount
             </label>
-            <input
-              type="number"
-              name="discount"
-              id="discount"
-              min="0"
-              className="custom-input"
-              placeholder="Enter  Discount"
-              defaultValue={previewData?.packageDetails.discount}
-              {...register('discount')}
-            />
+            <div className="w-full flex gap-1">
+              <input
+                type="text"
+                value="%"
+                disabled
+                className="custom-input w-14 border-r-0"
+              />
+              <input
+                type="number"
+                name="discount"
+                id="discount"
+                min="0"
+                className="custom-input w-full"
+                placeholder="Enter Discount"
+                defaultValue={previewData?.packageDetails.discount}
+                {...register('discount')}
+              />
+            </div>
             <span className="text-sm text-red-600 my-2">
               {errors?.discount?.message}
             </span>
@@ -459,6 +467,24 @@ const CreatePackagesForm = () => {
         </div>
         {/* Arrival City and Dept City */}
         <div className="flex flex-col mt-5 gap-5 md:flex-row items-center w-full">
+          {/* dep city */}
+          <div className="flex gap-3 w-full flex-col">
+            <label htmlFor="packagetype" className="custom-label">
+              Departure City
+            </label>
+            <input
+              type="text"
+              name="departurecity"
+              id="departurecity"
+              className="custom-input"
+              placeholder="Enter  Departure City"
+              {...register('departurecity')}
+              defaultValue={previewData?.packageDetails.departurecity}
+            />
+            <span className="text-sm text-red-600 my-2">
+              {errors?.packagetype?.message}
+            </span>
+          </div>
           {/* Arrival City */}
           <div className="flex gap-3  w-full flex-col">
             <label htmlFor="packagename" className="custom-label">
@@ -475,24 +501,6 @@ const CreatePackagesForm = () => {
             />
             <span className="text-sm text-red-600 my-2">
               {errors?.packagename?.message}
-            </span>
-          </div>
-          {/* Package Type */}
-          <div className="flex gap-3 w-full flex-col">
-            <label htmlFor="packagetype" className="custom-label">
-              Departure City
-            </label>
-            <input
-              type="text"
-              name="departurecity"
-              id="departurecity"
-              className="custom-input"
-              placeholder="Enter  Departure City"
-              {...register('departurecity')}
-              defaultValue={previewData?.packageDetails.departurecity}
-            />
-            <span className="text-sm text-red-600 my-2">
-              {errors?.packagetype?.message}
             </span>
           </div>
         </div>
