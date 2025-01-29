@@ -14,7 +14,7 @@ const PackageCard = ({ pkg }) => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="flex flex-col md:flex-row bg-darkgreen/10 rounded-xl shadow-md overflow-hidden">
+    <div className="flex flex-col md:flex-row bg-darkgreen/10 rounded-xl shadow-md overflow-hidden font-jakarta ">
       {/* Image Section */}
       <div className="w-full md:w-[40%] h-56 md:max-h-56 flex-shrink-0">
         <img
@@ -25,13 +25,13 @@ const PackageCard = ({ pkg }) => {
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-col justify-between p-6 space-y-4 w-full">
+      <div className="flex flex-col justify-between p-6 space-y-4 w-full ">
         <div>
           {/* Package Name and Category */}
           <Link
             to={`package-details/${pkg?.package_id}`}
             onClick={() => setSelectedPackage(pkg)}
-            className="text-xl font-semibold text-darkgreen hover:text-darkgreen/90 hover:underline transition-colors"
+            className="text-xl font-zodiak font-semibold text-darkgreen hover:text-darkgreen/90 hover:underline transition-colors"
           >
             {pkg?.package_name}
           </Link>
@@ -40,10 +40,14 @@ const PackageCard = ({ pkg }) => {
             <strong>{pkg?.category}</strong> | <strong>{pkg?.basePrice}</strong>
           </p> */}
           {/* Package Duration */}
-          <p className="text-sm text-neutral-800 mt-4">
-            <strong>{pkg?.total_days}</strong> Days,{' '}
-            <strong>{pkg?.total_nights}</strong> Nights
-          </p>
+          <div className="flex">
+            <p className="text-sm text-neutral-800 mt-4 mb-3 mr-3">
+              <strong>{pkg?.total_days}</strong> Days
+            </p>
+            <p className="text-sm text-neutral-800 mt-4 mb-3">
+              <strong>{pkg?.total_nights}</strong> Nights
+            </p>
+          </div>
           {/* Description */}
           <p className="text-neutral-900 text-md leading-tight line-clamp-2 mt-1 font-medium">
             {pkg?.description}

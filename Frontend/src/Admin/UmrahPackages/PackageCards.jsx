@@ -245,7 +245,7 @@ const ViewPackageDetails = ({ isOpen, onClose, selectedPackage }) => {
                     className="flex font-jakarta items-start mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen"
                   >
                     <h1 className="">{item.day} :</h1>
-                    <h1 className="font-semibold">{item.itenary}</h1>
+                    <h1 className="font-semibold">{item.activities}</h1>
                   </div>
                 );
               })}
@@ -267,7 +267,7 @@ const ViewPackageDetails = ({ isOpen, onClose, selectedPackage }) => {
                     className="flex font-jakarta items-start mt-5 justify-between gap-3 border-b border-opacity-50 pb-5 border-darkgreen"
                   >
                     <h1 className="">{item.day} :</h1>
-                    <h1 className="font-semibold">{item.itenary}</h1>
+                    <h1 className="font-semibold">{item.activities}</h1>
                   </div>
                 );
               })}
@@ -462,8 +462,8 @@ const PackageCards = ({
       >
         <div className="">
           <img
-            src={data?.mak_hotel_images[0].secure_url}
-            alt=""
+            src={data?.package_image[0].secure_url}
+            alt="Package Image"
             className="aspect-[2/1] rounded-md"
           />
         </div>
