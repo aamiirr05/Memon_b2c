@@ -1205,6 +1205,7 @@ const getHotelById = asyncHandler(async (req, res) => {
 
   const existingHotel = await prisma.hotel.findUnique({
     where: { hotel_id: hotelId },
+    include: { rooms: true },
   });
 
   if (!existingHotel) {
