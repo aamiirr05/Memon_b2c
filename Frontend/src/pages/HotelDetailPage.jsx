@@ -11,6 +11,7 @@ import AmenitiesTab from '../components/HotelDetailPage/Tabs/AmenitiesTab';
 import RoomsTab from '../components/HotelDetailPage/Tabs/RoomsTab';
 import TermsTab from '../components/HotelDetailPage/Tabs/TermsTab';
 import CancellationTab from '../components/HotelDetailPage/Tabs/CancellationTab';
+import BookingTermsTab from '../components/HotelDetailPage/Tabs/BookingTermsTab';
 
 const HotelDetailPage = () => {
   const { hotelId } = useParams();
@@ -66,7 +67,8 @@ const HotelDetailPage = () => {
             tabs={[
               { title: 'Details', content: <DetailsTab /> },
               { title: 'Amenities', content: <AmenitiesTab /> },
-              { title: 'Rooms & Prices', content: <RoomsTab /> },
+              // { title: 'Rooms & Prices', content: <RoomsTab /> },
+              { title: 'Booking Terms', content: <BookingTermsTab /> },
               { title: 'Terms & Conditions', content: <TermsTab /> },
               { title: 'Cancellation Policy', content: <CancellationTab /> },
             ]}

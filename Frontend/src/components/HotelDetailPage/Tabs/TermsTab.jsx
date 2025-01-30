@@ -5,7 +5,7 @@ const TermsTab = () => {
   const { selectedHotel } = useHotelStore();
 
   return (
-    <ul>
+    <ul className="mt-4">
       {selectedHotel.term_condition?.length ? (
         selectedHotel.term_condition.map((term, index) => (
           <li key={index} className="flex items-start gap-4 mb-2">
