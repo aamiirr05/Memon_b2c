@@ -1,292 +1,127 @@
-import { CircleX } from 'lucide-react';
+import { NavLink, Outlet } from 'react-router-dom';
+import useFetchPackages from '../hooks/UseFetchPackages';
+import Loader from '../../components/Loader';
+import useEnquiryStore from '../store/Enquiry/useEnquiryStore';
+import { RefreshCw } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const Enquiry = () => {
-  const enquiries = [
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Pending',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Pending',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Rejected',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Pending',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Rejected',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Pending',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Approved',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Pending',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Rejected',
-      created_at: '2025-01-15',
-    },
-    {
-      enquiry_id: 'bbee38b0-3443-4a2c-9237-f9094c4eb3d4',
-      salutation: 'Mr.',
-      first_name: 'John',
-      last_name: 'Doe',
-      email: 'john.doe@example.com',
-      package_type: 'Economy',
-      package_name: 'Umrah Basic',
-      contact: '9876543210',
-      traveller_date: '2025-05-10',
-      total_adults: 2,
-      total_children: 1,
-      total_infants: 0,
-      status: 'Pending',
-      created_at: '2025-01-15',
-    },
-  ];
+  const { checkPending } = useEnquiryStore();
+  const umrahEnquiry = useFetchPackages('admin/enquiry/fetch-umrah-enquiries');
+  const visaEnquiry = useFetchPackages('admin/enquiry/fetch-visa-enquiries');
+  const forexEnquiry = useFetchPackages('admin/enquiry/fetch-forex-enquiries');
+  const customEnquiry = useFetchPackages(
+    'admin/enquiry/fetch-custom-package-enquiries'
+  );
+  const contactEnquiry = useFetchPackages(
+    'admin/enquiry/fetch-contact-enquiries'
+  );
 
-  const getStatusClass = (status) => {
-    switch (status) {
-      case 'Approved':
-        return 'text-green-800 bg-green-100 border border-green-900 ';
-      case 'Rejected':
-        return 'text-red-600 border border-red-900 bg-red-100';
-      default:
-        return 'text-yellow-800 bg-yellow-100 border border-yellow-900';
-    }
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const refreshPackages = () => {
+    setIsUpdating(true); // Set to true immediately
+    umrahEnquiry.refresh();
+    forexEnquiry.refresh();
+    visaEnquiry.refresh();
+    customEnquiry.refresh();
   };
 
-  const isPending = (status) => {
-    if (status === 'Pending') {
-      return true;
-    } else {
-      return false;
+  // Use useEffect to monitor data updates
+  useEffect(() => {
+    if (umrahEnquiry?.data?.data?.length > 0) {
+      setIsUpdating(false); // Reset once data updates
     }
-  };
+  }, [customEnquiry.data]);
+
+  if (!umrahEnquiry) {
+    return <Loader />;
+  }
 
   return (
-    <div className="overflow-x-scroll lg:overflow-hidden w-full p-4 sm:p-6">
-      <h1 className="text-xl font-semibold mb-4">Umrah Enquiry Records</h1>
-      <div className="relative grid grid-rows-2 gap-5">
+    <div className=" w-full">
+      <div className="flex items-center justify-between mb-10">
+        <h1 className="text-xl font-semibold font-zodiak">Enquiry Records</h1>
         <div
-          className=" grid gap-1 w-full bg-darkgreen shadow-lg rounded-lg row-span-full text-center text-peach text-md font-zodiak p-2 grid-cols-[repeat(21,minmax(70px,1fr))] lg:grid-cols-[repeat(21,minmax(0,1fr))]"
-          // style={{ gridTemplateColumns: 'repeat(21, minmax(0, 1fr))' }}
+          className={`font-semibold cursor-pointer ${isUpdating ? 'animate-spin' : 'animate-none'}`}
+          onClick={() => {
+            refreshPackages();
+          }}
         >
-          <div className="py-2 px-2 col-span-2">Enquiry ID</div>
-          <div className="py-2 px-2 col-span-2">Name</div>
-          <div className="py-2 px-2 col-span-2">Email</div>
-          <div className="py-2 px-2 col-span-2">Contact</div>
-          <div className="py-2 px-2 col-span-2">Package</div>
-          <div className="py-2 px-2 col-span-2">Total Person</div>
-          <div className="py-2 px-2 col-span-3 ">Traveller Date</div>
-          <div className="py-2 px-2 col-span-2">Status</div>
-          <div className="py-2 px-2 col-span-2">Created At</div>
-          <div className="py-2 px-2 col-span-2">Action</div>
+          <RefreshCw />
         </div>
-        {/*  */}
-        <div className="rounded-xl flex flex-col gap-3 w-full  ">
-          {enquiries.map((e, i) => {
-            return (
-              <div
-                key={i}
-                className="grid gap-1 hover:bg-darkgreen/5 shadow-lg rounded-md bg-peach/30 text-darkgreen text-center text-xs font-jakarta p-2 grid-cols-[repeat(21,minmax(70px,1fr))] lg:grid-cols-[repeat(21,minmax(0,1fr))]"
-                // style={{ gridTemplateColumns: 'repeat(21, minmax(0, 1fr))' }}
-              >
-                <div className="py-2 px-2 col-span-2">
-                  <span key={i}>{e.enquiry_id}</span>
-                </div>
-                <div className="py-2 px-2 col-span-2">
-                  <span key={i}>{`${e.first_name} ${e.last_name}`}</span>
-                </div>
-                <div className="py-2 px-2 col-span-2 break-all">
-                  <span key={i}>{e.email}</span>
-                </div>
-                <div className="py-2 px-2 col-span-2">
-                  <span key={i}>{e.contact}</span>
-                </div>
-                <div className="py-2 px-2 col-span-2">
-                  <span key={i}>
-                    {e.package_name} ({e.package_type})
-                  </span>
-                </div>
-                <div className="py-2 px-2 col-span-2 flex flex-col gap-1 justify-start items-center">
-                  <>
-                    <span> Adults({e.total_adults})</span>
-                    <span>
-                      Children(
-                      {e.total_children})
-                    </span>
-                    <span>
-                      Infants(
-                      {e.total_infants})
-                    </span>
-                    <span className="font-bold text-sm">
-                      {' '}
-                      Total:{' '}
-                      {e.total_adults + e.total_children + e.total_infants}
-                    </span>
-                  </>
-                </div>
-                <div className="py-2 px-2 col-span-3 ">
-                  <span key={i}>{e.traveller_date}</span>
-                </div>
-                <div className="py-2 px-2 flex flex-col items-center justify-center col-span-2">
-                  <span
-                    className={`px-4 py-1 rounded-lg border text-sm ${getStatusClass(e.status)}`}
-                    key={i}
-                  >
-                    {e.status}
-                  </span>
-                </div>
-                <div className="py-2 px-2 col-span-2">
-                  <span key={i}>{e.created_at}</span>
-                </div>
-                <div className="py-2 px-2 col-span-2 flex flex-col justify-center items-center ">
-                  {isPending(e.status) ? (
-                    <>
-                      <span
-                        key={i}
-                        className="cursor-pointer text-red-600 rounded-full hover:bg-red-600 hover:text-white   "
-                      >
-                        <CircleX size={30} />
-                      </span>
-                      <span className="text-md py-2 px-4 my-2 rounded-lg border border-darkgreen bg-green-100 cursor-pointer hover:bg-green-700 hover:text-peach">
-                        Approve
-                      </span>
-                    </>
-                  ) : (
-                    <span
-                      className={`px-4 py-1 rounded-lg border text-sm ${getStatusClass(e.status)}`}
-                      key={i}
-                    >
-                      {e.status}
-                    </span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-          {/*  */}
-        </div>
+      </div>
+      <div className="w-full border-b border-darkgreen border-opacity-50 flex items-center justify-start gap-10 overflow-x-scroll md:overflow-x-auto text-nowrap pb-5 md:pb-0">
+        {[
+          {
+            label: 'Umrah',
+            route: '/admin/enquiry/umrah',
+            req: checkPending(umrahEnquiry),
+          },
+          {
+            label: 'Forex',
+            route: '/admin/enquiry/forex',
+            req: checkPending(forexEnquiry),
+          },
+          {
+            label: 'Contact',
+            route: '/admin/enquiry/contact',
+            req: checkPending(contactEnquiry),
+          },
+
+          {
+            label: 'Visa',
+            route: '/admin/enquiry/visa',
+            req: checkPending(visaEnquiry),
+          },
+          {
+            label: 'Holiday',
+            route: '/admin/enquiry/holiday',
+          },
+          {
+            label: 'Hotel',
+            route: '/admin/enquiry/hotel',
+          },
+          {
+            label: 'Customised Package',
+            route: '/admin/enquiry/custom-package',
+            req: checkPending(customEnquiry),
+          },
+        ].map((i, index) => (
+          <div className="relative flex items-start justify-center" key={index}>
+            <NavLink
+              to={i.route}
+              className={({ isActive }) =>
+                `
+              p-2
+              ${isActive ? 'border-b-4 rounded-sm border-darkgreen ' : ''}
+              `
+              }
+            >
+              {i.label}
+            </NavLink>
+            <div
+              className={`absolute top-0 -right-2 w-5 h-5 text-xs text-lightpeach flex justify-center font-semibold rounded-full bg-green-600 ${
+                i.req === undefined || i.req === null
+                  ? 'animate-pulse items-start'
+                  : 'animate-none items-center'
+              }`}
+            >
+              {i.req === undefined || i.req === null ? '...' : i.req}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-10">
+        <Outlet
+          context={{
+            umrahEnquiry,
+            forexEnquiry,
+            visaEnquiry,
+            contactEnquiry,
+            customEnquiry,
+          }}
+        />
       </div>
     </div>
   );

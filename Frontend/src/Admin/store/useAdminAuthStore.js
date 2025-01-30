@@ -21,7 +21,7 @@ const useAdminAuthStore = create((set, get) => ({
       set({ AuthAdmin: res.data.data });
       console.log(res);
       toast.success(res.data.message);
-      navigate('/admin/enquiry');
+      navigate('/admin/enquiry/umrah');
     } catch (error) {
       toast.error(error.response?.data.message);
     } finally {

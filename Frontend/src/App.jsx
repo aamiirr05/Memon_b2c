@@ -3,7 +3,6 @@ import Homepage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import Signup from './pages/auth/SignupPage';
 import OtpPage from './pages/auth/OtpPage';
-
 import ErrorPage from './pages/ErrorPage';
 import { Toaster } from 'react-hot-toast';
 import offlineImg from './assets/img/offline.svg';
@@ -58,6 +57,13 @@ import UpdateHotelDetails from './Admin/Hotels/Update/UpdateHotelDetails';
 import UpdateHotelImages from './Admin/Hotels/Update/UpdateHotelImages';
 import VisasPage from './pages/VisasPage';
 import VisaDetailPage from './pages/VisaDetailPage';
+import EnquiryForex from './Admin/Enquiry/EnquiryForex';
+import EnquiryContact from './Admin/Enquiry/EnquiryContact';
+import EnquiryUmrah from './Admin/Enquiry/EnquiryUmrah';
+import EnquiryVisa from './Admin/Enquiry/EnquiryVisa';
+import EnquiryHoliday from './Admin/Enquiry/EnquiryHoliday';
+import EnquiryCustom from './Admin/Enquiry/EnquiryCustom';
+import EnquiryHotel from './Admin/Enquiry/EnquiryHotel';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -174,7 +180,15 @@ const App = () => {
         <Route path="admin-signup" element={<AdminSignup />} />
 
         <Route path="admin" element={<AdminLayout />}>
-          <Route path="enquiry" element={<Enquiry />} />
+          <Route path="enquiry" element={<Enquiry />}>
+            <Route path="forex" element={<EnquiryForex />} />
+            <Route path="contact" element={<EnquiryContact />} />
+            <Route path="umrah" element={<EnquiryUmrah />} />
+            <Route path="visa" element={<EnquiryVisa />} />
+            <Route path="holiday" element={<EnquiryHoliday />} />
+            <Route path="custom-package" element={<EnquiryCustom />} />
+            <Route path="hotel" element={<EnquiryHotel />} />
+          </Route>
 
           {/* Hotel */}
           <Route path="hotel" element={<Hotels />}>
