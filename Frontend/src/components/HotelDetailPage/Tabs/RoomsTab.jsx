@@ -11,11 +11,11 @@ const RoomsTab = () => {
   console.log(selectedHotel);
 
   return (
-    <table className="table-auto w-full border-collapse border border-gray-300">
+    <table className="table-auto w-full border-collapse border border-darkgreen/30 text-neutral-800 mt-6 mb-12">
       <thead>
         <tr>
-          <th className="border border-gray-300 px-4 py-2">Room Type</th>
-          <th className="border border-gray-300 px-4 py-2">Price (USD)</th>
+          <th className="border border-darkgreen/30 px-4 py-2">Room Type</th>
+          <th className="border border-darkgreen/30 px-4 py-2">Price (INR)</th>
         </tr>
       </thead>
       <tbody>
@@ -23,33 +23,41 @@ const RoomsTab = () => {
           <React.Fragment key={room.room_id}>
             {room.quint_price && (
               <tr>
-                <td className="border border-gray-300 px-4 py-2">Quintuple</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  ${room.quint_price}
+                <td className="border border-darkgreen/30 px-4 py-2">
+                  Quintuple
+                </td>
+                <td className="border border-darkgreen/30 px-4 py-2">
+                  <span className="text-sm">₹ </span>
+                  {room.quint_price}
                 </td>
               </tr>
             )}
             {room.quad_price && (
               <tr>
-                <td className="border border-gray-300 px-4 py-2">Quadruple</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  ${room.quad_price}
+                <td className="border border-darkgreen/30 px-4 py-2">
+                  Quadruple
+                </td>
+                <td className="border border-darkgreen/30 px-4 py-2">
+                  <span className="text-sm">₹ </span>
+                  {room.quad_price}
                 </td>
               </tr>
             )}
             {room.triple_price && (
               <tr>
-                <td className="border border-gray-300 px-4 py-2">Triple</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  ${room.triple_price}
+                <td className="border border-darkgreen/30 px-4 py-2">Triple</td>
+                <td className="border border-darkgreen/30 px-4 py-2">
+                  <span className="text-sm">₹ </span>
+                  {room.triple_price}
                 </td>
               </tr>
             )}
             {room.double_price && (
               <tr>
-                <td className="border border-gray-300 px-4 py-2">Double</td>
-                <td className="border border-gray-300 px-4 py-2">
-                  ${room.double_price}
+                <td className="border border-darkgreen/30 px-4 py-2">Double</td>
+                <td className="border border-darkgreen/30 px-4 py-2">
+                  <span className="text-sm">₹ </span>
+                  {room.double_price}
                 </td>
               </tr>
             )}
