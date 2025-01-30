@@ -49,7 +49,7 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-xl flex flex-col gap-6 mb-4 mt-4"
+      className="max-w-xl flex flex-col gap-6 mb-4 mt-4 max-h-96 overflow-y-scroll modal-scrollbar py-4 px-1 pr-3"
     >
       <div className="grid sm:grid-cols-2 gap-4">
         <div id="input" className="relative">

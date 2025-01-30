@@ -5,14 +5,14 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     <div
       id="modal-overlay"
       onClick={(e) => e.target.id === 'modal-overlay' && onClose()}
-      className="fixed inset-0 flex items-center justify-center bg-black backdrop-blur-sm bg-opacity-80 z-50 overflow-y-scroll no-scrollbar"
+      className="fixed inset-0 flex items-center justify-center bg-black backdrop-blur-sm bg-opacity-80 z-50"
     >
-      <div className="bg-darkgreen p-4 rounded-lg shadow-lg">
+      <div className="bg-darkgreen p-4 pr-1 rounded-lg shadow-lg">
         <h2 className="text-xl font-bold mt-4 mb-6 text-center text-peach">
           {title} Enquiry
         </h2>
         <div>{children}</div>
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end mt-6 px-4 pb-1">
           <button
             onClick={onClose}
             className="px-4 py-2 text-white border text-sm font-semibold rounded-md transition-colors bg-red-500 hover:bg-red-600"
