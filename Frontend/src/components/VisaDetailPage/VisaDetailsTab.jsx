@@ -5,9 +5,9 @@ const VisaDetailsTab = () => {
   const { selectedVisa } = useVisaStore();
 
   return (
-    <div className="flex flex-col md:flex-row pb-8">
+    <div className="flex flex-col md:flex-row pb-8 ">
       {/* description */}
-      <div className="w-full md:w-2/3 pr-8 mb-4">
+      <div className="w-full md:w-2/3 pr-8 mb-4 ">
         <h2 className="text-2xl font-medium font-zodiak text-neutral-700 mt-4 mb-4">
           About the Visa
         </h2>
@@ -29,8 +29,9 @@ const VisaDetailsTab = () => {
           </div>
 
           <div>
-            <h1 className="text-2xl text-darkgreen font-bold mt-2 inline-flex items-center gap-2">
-              <MapPin className="-mb-0.5" /> {selectedVisa.visa_country}
+            <h1 className="text-xl text-darkgreen font-bold mt-2 inline-flex items-center gap-2">
+              <MapPin className="-mb-0.5" size={20} />{' '}
+              {selectedVisa.visa_country}
             </h1>
           </div>
 

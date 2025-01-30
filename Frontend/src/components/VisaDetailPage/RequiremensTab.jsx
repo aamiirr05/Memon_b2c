@@ -5,7 +5,7 @@ const RequirementsTab = () => {
   const { selectedVisa } = useVisaStore();
   return (
     <div className="pb-12">
-      <div className="flex flex-col md:flex-row gap-2 mt-4">
+      <div className="flex flex-col md:flex-row gap-2 mt-4 ">
         {/* Basic Requirements */}
         <div className="w-full md:w-1/2">
           <h2 className="text-2xl font-medium font-zodiak text-neutral-700 mb-4">
