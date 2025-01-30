@@ -50,7 +50,7 @@ const HotelDetailPage = () => {
     <main className="bg-peach/50">
       <section>
         <div className="max-w-7xl mx-auto px-4 lg:px-0">
-          <div className="grid grid-cols-[70%,auto] py-12">
+          <div className="flex justify-between items-start lg:items-center py-12">
             <h1 className="text-4xl text-darkgreen font-medium flex-1 font-zodiak">
               {selectedHotel.hotel_name}
             </h1>
