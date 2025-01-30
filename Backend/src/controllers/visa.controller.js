@@ -124,29 +124,38 @@ const createVisa = asyncHandler(async (req, res) => {
 
   const visaImageArray = Object.values(uploadedVisaImage)[0];
 
-  const createdVisa = await prisma.visa.create({
-    data: {
-      admin_id: adminId,
-      visa_country: visacountry,
-      visa_type: visatype,
-      visa_image: visaImageArray,
-      price: intPrice,
-      description,
-      processing_time: processingtime,
-      validity,
-      stay_period: intStayPeriod,
-      entry,
-      document_requirement: documentRequirementArray,
-      basic_requirement: basicRequirementArray,
-      term_condition: termConditionArray,
-      booking_terms: bookinTermArray,
-      cancellation_policy: cancellationPolicyArray,
-    },
-  });
+  try {
+    const createdVisa = await prisma.visa.create({
+      data: {
+        admin_id: adminId,
+        visa_country: visacountry,
+        visa_type: visatype,
+        visa_image: visaImageArray,
+        price: intPrice,
+        description,
+        processing_time: processingtime,
+        validity,
+        stay_period: intStayPeriod,
+        entry,
+        document_requirement: documentRequirementArray,
+        basic_requirement: basicRequirementArray,
+        term_condition: termConditionArray,
+        booking_terms: bookinTermArray,
+        cancellation_policy: cancellationPolicyArray,
+      },
+    });
 
-  return res
-    .status(200)
-    .json(new ApiResponse(201, createdVisa, "Visa Created Sucessfully"));
+    return res
+      .status(200)
+      .json(new ApiResponse(201, createdVisa, "Visa Created Sucessfully"));
+  } catch (error) {
+    if (visaImageArray && visaImageArray.length > 0) {
+      for (const image of visaImageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error While Creating Visa");
+  }
 });
 
 // ********** Get All Visas  **********
@@ -367,17 +376,26 @@ const updateVisaImage = asyncHandler(async (req, res) => {
 
   const visaimageArray = Object.values(newUploadedImages)[0];
 
-  const updatedvisaimage = await prisma.visa.update({
-    where: { visa_id: visaId },
-    data: { visa_image: visaimageArray },
-    select: { visa_image: true },
-  });
+  try {
+    const updatedvisaimage = await prisma.visa.update({
+      where: { visa_id: visaId },
+      data: { visa_image: visaimageArray },
+      select: { visa_image: true },
+    });
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(200, updatedvisaimage, "Visa Image Updated Sucessfully")
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, updatedvisaimage, "Visa Image Updated Sucessfully")
+      );
+  } catch (error) {
+    if (visaimageArray && visaimageArray.length > 0) {
+      for (const image of visaimageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error While Updating Visa Image");
+  }
 });
 
 // ********** Delete Visa **********

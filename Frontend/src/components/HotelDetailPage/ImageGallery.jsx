@@ -1,6 +1,10 @@
 import { useState } from 'react';
+import { useHotelStore } from '../../store/useHotelStore';
 
-const ImageGallery = ({ images }) => {
+const ImageGallery = () => {
+  const { selectedHotel } = useHotelStore();
+  const images = selectedHotel.hotel_images;
+
   const [selectedImage, setSelectedImage] = useState(images[0]?.secure_url);
 
   return (
@@ -11,7 +15,7 @@ const ImageGallery = ({ images }) => {
           <img
             src={selectedImage}
             alt="Selected Hotel"
-            className="w-full h-[250px] sm:h-[300px] md:h-[500px] object-cover rounded-md shadow-md ring-2 ring-darkgreen"
+            className="w-full h-[250px] sm:h-[300px] md:h-[500px] object-cover rounded-md shadow-md "
           />
         )}
       </div>

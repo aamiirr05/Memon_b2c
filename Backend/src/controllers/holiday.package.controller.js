@@ -205,46 +205,61 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
 
   const hotelImageArray = Object.values(uploadedHotelImage)[0];
 
-  const createdHolidayPackage = await prisma.holidayPackage.create({
-    data: {
-      admin_id: adminId,
-      package_name: packagename,
-      package_type: packagetype,
-      category: categoryArray,
-      package_images: packageImageArray,
-      description,
-      country,
-      city,
-      hotel_name: hotelname,
-      hotel_star: intHotelStar,
-      hotel_images: hotelImageArray,
-      itinerary: itineraryArray,
-      group_dates: groupDatesArray,
-      total_days: intTotalDays,
-      total_nights: intTotalNights,
-      base_price: intBasePrice,
-      discount: intDiscount,
-      final_price: finalPrice,
-      you_saved: youSaved,
-      inclusion: inclusionArray,
-      exclusion: exclusionArray,
-      booking_deadline: bookingdeadline,
-      cancellation_policy: cancellationPolicyArray,
-      term_condition: termConditionArray,
-      booking_terms: bookingTermArray,
-      departure_city: departurecity,
-      arrival_city: arrivalcity,
-      transport_mode: transportmode,
-      is_active: isactive,
-      featured,
-    },
-  });
+  const allImagesArray = [...packageImageArray, ...hotelImageArray];
 
-  res
-    .status(200)
-    .json(
-      new ApiResponse(201, createdHolidayPackage, "Package Created Sucessfully")
-    );
+  try {
+    const createdHolidayPackage = await prisma.holidayPackage.create({
+      data: {
+        admin_id: adminId,
+        package_name: packagename,
+        package_type: packagetype,
+        category: categoryArray,
+        package_images: packageImageArray,
+        description,
+        country,
+        city,
+        hotel_name: hotelname,
+        hotel_star: intHotelStar,
+        hotel_images: hotelImageArray,
+        itinerary: itineraryArray,
+        group_dates: groupDatesArray,
+        total_days: intTotalDays,
+        total_nights: intTotalNights,
+        base_price: intBasePrice,
+        discount: intDiscount,
+        final_price: finalPrice,
+        you_saved: youSaved,
+        inclusion: inclusionArray,
+        exclusion: exclusionArray,
+        booking_deadline: bookingdeadline,
+        cancellation_policy: cancellationPolicyArray,
+        term_condition: termConditionArray,
+        booking_terms: bookingTermArray,
+        departure_city: departurecity,
+        arrival_city: arrivalcity,
+        transport_mode: transportmode,
+        is_active: isactive,
+        featured,
+      },
+    });
+
+    res
+      .status(200)
+      .json(
+        new ApiResponse(
+          201,
+          createdHolidayPackage,
+          "Package Created Sucessfully"
+        )
+      );
+  } catch (error) {
+    if (allImagesArray && allImagesArray.length > 0) {
+      for (const image of allImagesArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error While Creating Package");
+  }
 });
 
 // ********** Get All Holiday Package **********
@@ -555,21 +570,30 @@ const updateHolidayPackageImage = asyncHandler(async (req, res) => {
 
   const packageImageArray = Object.values(newUploadedImages)[0];
 
-  const updatedHolidayPackageImage = await prisma.holidayPackage.update({
-    where: { package_id: packageId },
-    data: { package_images: packageImageArray },
-    select: { package_images: true },
-  });
+  try {
+    const updatedHolidayPackageImage = await prisma.holidayPackage.update({
+      where: { package_id: packageId },
+      data: { package_images: packageImageArray },
+      select: { package_images: true },
+    });
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        updatedHolidayPackageImage,
-        "Holiday Package Images Updated Sucessfully"
-      )
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          updatedHolidayPackageImage,
+          "Holiday Package Images Updated Sucessfully"
+        )
+      );
+  } catch (error) {
+    if (packageImageArray && packageImageArray.length > 0) {
+      for (const image of packageImageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error While Updating Package Images");
+  }
 });
 
 // ********** Update Holiday Package Hotel Image **********
@@ -649,21 +673,30 @@ const updateHolidayPackageHotelImage = asyncHandler(async (req, res) => {
 
   const hotelImageArray = Object.values(newUploadedImages)[0];
 
-  const updatedHolidayPackageHotelImage = await prisma.holidayPackage.update({
-    where: { package_id: packageId },
-    data: { hotel_images: hotelImageArray },
-    select: { hotel_images: true },
-  });
+  try {
+    const updatedHolidayPackageHotelImage = await prisma.holidayPackage.update({
+      where: { package_id: packageId },
+      data: { hotel_images: hotelImageArray },
+      select: { hotel_images: true },
+    });
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        updatedHolidayPackageHotelImage,
-        "Holiday Package Hotel Images Updated Successfully"
-      )
-    );
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          updatedHolidayPackageHotelImage,
+          "Holiday Package Hotel Images Updated Successfully"
+        )
+      );
+  } catch (error) {
+    if (hotelImageArray && hotelImageArray.length > 0) {
+      for (const image of hotelImageArray) {
+        deleteImageFromCloudinary(image.public_id);
+      }
+    }
+    throw new ApiError(500, "Error Updating Hotel Images");
+  }
 });
 
 // ********** Delete Holiday Package **********
