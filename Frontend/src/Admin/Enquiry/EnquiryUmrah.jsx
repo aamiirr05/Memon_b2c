@@ -176,6 +176,7 @@ const EnquiryUmrah = () => {
                             <span
                               onClick={() => {
                                 handleDelete(
+                                  'delete-umrah-enquiry',
                                   e.enquiry_id,
                                   umrahEnquiry.refresh
                                 );
@@ -203,7 +204,11 @@ const EnquiryUmrah = () => {
                         <div className="flex flex-col gap-3 items-center">
                           <span
                             onClick={() => {
-                              handleDelete(e.enquiry_id, umrahEnquiry.refresh);
+                              handleDelete(
+                                'delete-umrah-enquiry',
+                                e.enquiry_id,
+                                umrahEnquiry.refresh
+                              );
                             }}
                             className="cursor-pointer text-red-600"
                           >

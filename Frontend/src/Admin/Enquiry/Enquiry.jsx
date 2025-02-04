@@ -29,10 +29,20 @@ const Enquiry = () => {
 
   // Use useEffect to monitor data updates
   useEffect(() => {
-    if (umrahEnquiry?.data?.data?.length > 0) {
+    if (
+      umrahEnquiry?.data?.data?.length >= 0 ||
+      forexEnquiry?.data?.data?.length >= 0 ||
+      visaEnquiry?.data?.data?.length >= 0 ||
+      customEnquiry?.data?.data?.length >= 0
+    ) {
       setIsUpdating(false); // Reset once data updates
     }
-  }, [customEnquiry.data]);
+  }, [
+    umrahEnquiry.data,
+    customEnquiry.data,
+    forexEnquiry.data,
+    visaEnquiry.data,
+  ]);
 
   if (!umrahEnquiry) {
     return <Loader />;
@@ -41,7 +51,12 @@ const Enquiry = () => {
   return (
     <div className=" w-full">
       <div className="flex items-center justify-between mb-10">
-        <h1 className="text-xl font-semibold font-zodiak">Enquiry Records</h1>
+        <h1
+          className="text-xl font-semibold font-zodiak"
+          onClick={() => umrahEnquiry.refresh()}
+        >
+          Enquiry Records
+        </h1>
         <div
           className={`font-semibold cursor-pointer ${isUpdating ? 'animate-spin' : 'animate-none'}`}
           onClick={() => {

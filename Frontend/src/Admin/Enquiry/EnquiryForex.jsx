@@ -163,7 +163,7 @@ const EnquiryForex = () => {
                             <span
                               onClick={() => {
                                 handleStatus(
-                                  'update-umrah-enquiry',
+                                  'update-forex-enquiry',
                                   'Rejected',
                                   e.enquiry_id,
                                   forexEnquiry.refresh
@@ -176,6 +176,7 @@ const EnquiryForex = () => {
                             <span
                               onClick={() => {
                                 handleDelete(
+                                  'delete-forex-enquiry',
                                   e.enquiry_id,
                                   forexEnquiry.refresh
                                 );
@@ -188,7 +189,7 @@ const EnquiryForex = () => {
                           <span
                             onClick={() => {
                               handleStatus(
-                                'update-umrah-enquiry',
+                                'update-forex-enquiry',
                                 'Approved',
                                 e.enquiry_id,
                                 forexEnquiry.refresh
@@ -203,7 +204,11 @@ const EnquiryForex = () => {
                         <div className="flex flex-col gap-3 items-center">
                           <span
                             onClick={() => {
-                              handleDelete(e.enquiry_id, forexEnquiry.refresh);
+                              handleDelete(
+                                'delete-forex-enquiry',
+                                e.enquiry_id,
+                                forexEnquiry.refresh
+                              );
                             }}
                             className="cursor-pointer text-red-600"
                           >

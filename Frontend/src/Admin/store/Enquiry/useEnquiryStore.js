@@ -72,15 +72,13 @@ const useEnquiryStore = create((set) => ({
     }
   },
 
-  handleDelete: async (id, refresh) => {
+  handleDelete: async (url, id, refresh) => {
     const loadingToast = toast.loading('Deleting Status. Please wait...');
 
     set({ isUpdating: true });
 
     try {
-      const res = await axiosInstance.delete(
-        `admin/enquiry/delete-umrah-enquiry/${id}`
-      );
+      const res = await axiosInstance.delete(`admin/enquiry/${url}/${id}`);
 
       console.log(res);
       const msg = res?.data?.message;
