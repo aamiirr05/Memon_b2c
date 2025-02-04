@@ -110,7 +110,11 @@ const getAllForexEnquiries = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized Request");
   }
 
-  const allForexEnquiry = await prisma.enquiryForex.findMany();
+  const allForexEnquiry = await prisma.enquiryForex.findMany({
+    orderBy: {
+      created_at: "desc", // Latest updated records first
+    },
+  });
 
   return res
     .status(200)
