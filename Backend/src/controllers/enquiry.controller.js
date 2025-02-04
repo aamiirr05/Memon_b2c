@@ -16,7 +16,11 @@ const getAllUmrahEnquiries = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized Request");
   }
 
-  const allUmrahEnquiry = await prisma.enquiryUmrah.findMany();
+  const allUmrahEnquiry = await prisma.enquiryUmrah.findMany({
+    orderBy: {
+      created_at: "desc", // Latest updated records first
+    },
+  });
 
   return res
     .status(200)
@@ -110,7 +114,11 @@ const getAllForexEnquiries = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized Request");
   }
 
-  const allForexEnquiry = await prisma.enquiryForex.findMany();
+  const allForexEnquiry = await prisma.enquiryForex.findMany({
+    orderBy: {
+      created_at: "desc", // Latest updated records first
+    },
+  });
 
   return res
     .status(200)
@@ -204,7 +212,11 @@ const getAllVisaEnquiries = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized Request");
   }
 
-  const allVisaEnquiry = await prisma.enquiryVisa.findMany();
+  const allVisaEnquiry = await prisma.enquiryVisa.findMany({
+    orderBy: {
+      created_at: "desc", // Latest updated records first
+    },
+  });
 
   return res
     .status(200)
@@ -298,7 +310,11 @@ const getAllContactEnquiries = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized Request");
   }
 
-  const allContactEnquiry = await prisma.enquiryContact.findMany();
+  const allContactEnquiry = await prisma.enquiryContact.findMany({
+    orderBy: {
+      created_at: "desc", // Latest updated records first
+    },
+  });
 
   return res
     .status(200)
@@ -392,7 +408,11 @@ const getAllCustomizedPackageEnquiries = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized Request");
   }
 
-  const allCustomizedPackageEnquiry = await prisma.customizedPackage.findMany();
+  const allCustomizedPackageEnquiry = await prisma.customizedPackage.findMany({
+    orderBy: {
+      created_at: "desc", // Latest updated records first
+    },
+  });
 
   return res
     .status(200)
@@ -487,7 +507,11 @@ const getAllTestimonials = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized Request");
   }
 
-  const allTestimonials = await prisma.testimonial.findMany();
+  const allTestimonials = await prisma.testimonial.findMany({
+    orderBy: {
+      created_at: "desc", // Latest updated records first
+    },
+  });
 
   return res
     .status(200)
