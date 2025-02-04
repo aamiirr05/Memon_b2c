@@ -25,6 +25,7 @@ const Enquiry = () => {
     forexEnquiry.refresh();
     visaEnquiry.refresh();
     customEnquiry.refresh();
+    contactEnquiry.refresh();
   };
 
   // Use useEffect to monitor data updates
@@ -33,7 +34,8 @@ const Enquiry = () => {
       umrahEnquiry?.data?.data?.length >= 0 ||
       forexEnquiry?.data?.data?.length >= 0 ||
       visaEnquiry?.data?.data?.length >= 0 ||
-      customEnquiry?.data?.data?.length >= 0
+      customEnquiry?.data?.data?.length >= 0 ||
+      contactEnquiry?.data?.data?.length >= 0
     ) {
       setIsUpdating(false); // Reset once data updates
     }
@@ -42,6 +44,7 @@ const Enquiry = () => {
     customEnquiry.data,
     forexEnquiry.data,
     visaEnquiry.data,
+    contactEnquiry.data,
   ]);
 
   if (!umrahEnquiry) {

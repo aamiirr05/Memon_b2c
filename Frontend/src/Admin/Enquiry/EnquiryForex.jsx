@@ -84,16 +84,16 @@ const EnquiryForex = () => {
       >
         <div className="mt-5 relative grid grid-rows-2 gap-5">
           <div
-            className=" grid gap-1 w-full bg-darkgreen shadow-lg rounded-lg row-span-full text-center text-peach text-md font-zodiak p-2 grid-cols-[repeat(21,minmax(70px,1fr))] lg:grid-cols-[repeat(21,minmax(0,1fr))]"
+            className=" grid gap-1 w-full bg-darkgreen shadow-lg rounded-lg row-span-full text-center text-peach text-md font-zodiak p-2 grid-cols-[repeat(21,minmax(70px,1fr))] lg:grid-cols-[repeat(19,minmax(0,1fr))]"
             // style={{ gridTemplateColumns: 'repeat(21, minmax(0, 1fr))' }}
           >
             <div className="py-2 px-2 col-span-2">Enquiry ID</div>
             <div className="py-2 px-2 col-span-2">Name</div>
             <div className="py-2 px-2 col-span-2">Email</div>
             <div className="py-2 px-2 col-span-2">Contact</div>
-            <div className="py-2 px-2 col-span-2">Package</div>
-            <div className="py-2 px-2 col-span-2">Total Person</div>
-            <div className="py-2 px-2 col-span-3 ">Traveller Date</div>
+            {/* <div className="py-2 px-2 col-span-2">Package</div> */}
+            <div className="py-2 px-2 col-span-2">Amount Req</div>
+            <div className="py-2 px-2 col-span-3 ">Address</div>
             <div className="py-2 px-2 col-span-2">Status</div>
             <div className="py-2 px-2 col-span-2">Created At</div>
             <div className="py-2 px-2 col-span-2">Action</div>
@@ -105,14 +105,18 @@ const EnquiryForex = () => {
                 return (
                   <div
                     key={i}
-                    className="grid gap-1 hover:bg-darkgreen/5 shadow-lg rounded-md bg-peach/30 text-darkgreen text-center text-xs font-jakarta p-2 grid-cols-[repeat(21,minmax(70px,1fr))] lg:grid-cols-[repeat(21,minmax(0,1fr))]"
+                    className="grid gap-1 hover:bg-darkgreen/5 shadow-lg rounded-md bg-peach/30 text-darkgreen text-center text-xs font-jakarta p-2 grid-cols-[repeat(21,minmax(70px,1fr))] lg:grid-cols-[repeat(19,minmax(0,1fr))]"
                     // style={{ gridTemplateColumns: 'repeat(21, minmax(0, 1fr))' }}
                   >
                     <div className="py-2 px-2 col-span-2">
                       <span>{e.enquiry_id}</span>
                     </div>
                     <div className="py-2 px-2 col-span-2">
-                      <span>{`${e.first_name} ${e.last_name}`}</span>
+                      <span className="flex gap-2">
+                        {' '}
+                        <p className="font-bold">{e.salutation}</p>
+                        {`${e.first_name} ${e.last_name}`}
+                      </span>
                     </div>
                     <div className="py-2 px-2 col-span-2 break-all">
                       <span>{e.email}</span>
@@ -120,31 +124,16 @@ const EnquiryForex = () => {
                     <div className="py-2 px-2 col-span-2">
                       <span>{e.contact}</span>
                     </div>
-                    <div className="py-2 px-2 col-span-2">
-                      <span>
-                        {e.package_name} ({e.package_type})
-                      </span>
-                    </div>
+
                     <div className="py-2 px-2 col-span-2 flex flex-col gap-1 justify-start items-center">
                       <>
-                        <span> Adults({e.total_adults})</span>
-                        <span>
-                          Children(
-                          {e.total_children})
-                        </span>
-                        <span>
-                          Infants(
-                          {e.total_infants})
-                        </span>
-                        <span className="font-bold text-sm">
-                          {' '}
-                          Total:{' '}
-                          {e.total_adults + e.total_children + e.total_infants}
+                        <span className="font-semibold">
+                          {e.amount_required}
                         </span>
                       </>
                     </div>
                     <div className="py-2 px-2 col-span-3 ">
-                      <span>{e.traveller_date}</span>
+                      <span>{e.address}</span>
                     </div>
                     <div className="py-2 px-2 flex flex-col items-center justify-center col-span-2">
                       <span
