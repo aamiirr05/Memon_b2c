@@ -1,31 +1,5 @@
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 /* eslint-disable react/prop-types */
 const MainContent = ({ isMenuOpen }) => {
-  useGSAP(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    function PageOneAnimation() {
-      const tl = gsap.timeline();
-
-      tl.from('.section-one-heading h1', {
-        duration: 0.9,
-        opacity: 0,
-        y: 200,
-        // stagger: 0.15,
-      });
-
-      tl.from('.section-one-heading p', {
-        duration: 0.9,
-        opacity: 0,
-        y: 200,
-        // stagger: 0.15,
-      });
-    }
-
-    PageOneAnimation();
-  });
   return (
     <>
       <section
