@@ -10,7 +10,7 @@ model CustomizedPackage {
   makkah_hotel_name String?
   medina_hotel_name String?
   room_type         String?
-  adults            Int
+  adults            Int                     @default(0)
   kids              Int?                    @default(0)
   status            StatusCustomizedPackage @default(Pending)
   additional_info   String?                 @db.VarChar(300)
