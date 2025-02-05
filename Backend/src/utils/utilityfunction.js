@@ -346,6 +346,48 @@ const uploadImages = async (imageCategory, imagePaths) => {
 
 // ***************************** SEND CONFIRMATION MAIL ************************************************
 
+const sendMailOnEnquiry = async (userName, email) => {
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "contactEnquiryEmailTemplate.html"
+  );
+
+  let htmlContent;
+  try {
+    htmlContent = fs.readFileSync(templatePath, "utf-8");
+  } catch (error) {
+    throw new ApiError(500, "Failed to read email template");
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  htmlContent = htmlContent
+    .replace("{{recipientName}}", userName)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Confirmation",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
+};
+
 // ********** EXPORT *********
 
 export {
@@ -363,4 +405,5 @@ export {
   isValidImage,
   deleteTempFiles,
   uploadImages,
+  sendMailOnEnquiry,
 };
