@@ -36,6 +36,8 @@ const CreateHotelForm = () => {
     setAmenities,
   } = useHotelStore();
 
+  console.log(amenities,bookingterms,cancelpolicy,termcondition)
+
   // navigate
   const navigate = useNavigate();
 
