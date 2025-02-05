@@ -52,22 +52,75 @@ const Footer = ({ isMenuOpen }) => {
           <h3 className="text-2xl font-bold font-zodiak">Contact Us</h3>
           <div className="flex flex-col font-semibold gap-4 mt-5 font-jakarta">
             <div className="flex items-center gap-4">
-              <Mail />
-              <MessageCircle />
-              {/* <Facebook /> */}
-              <Instagram />
+              <a
+                href="mailto:memonhajumrahtours.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Mail />
+              </a>
+              <a
+                href="https://wa.me/918108403376"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircle />
+              </a>
+              <a
+                href="https://www.instagram.com/memonhajumrahtours/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram />
+              </a>
             </div>
             <div className="flex items-center gap-3">
-              <MessageCircleMore />
-              <div className="">+91 XXXXX XXXXX</div>
+              <a
+                href="https://wa.me/918108403376"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircleMore />
+              </a>
+              <a
+                href="https://wa.me/918108403376"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div>+91 8108404376</div>
+              </a>
             </div>
             <div className="flex items-center gap-3">
-              <MessageCircleMore />
-              <div className="">+91 XXXXX XXXXX</div>
+              <a
+                href="https://wa.me/919022549162"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircleMore />
+              </a>
+              <a
+                href="https://wa.me/919022549162"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div>+91 9022549162</div>
+              </a>
             </div>
-            <div className="flex items-center gap-3 opacity-0">
-              <MessageCircleMore />
-              <div className="">+91 XXXXX XXXXX</div>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://wa.me/918268979705"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircleMore />
+              </a>
+              <a
+                href="https://wa.me/918268979705"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div>+91 8268979705</div>
+              </a>
             </div>
           </div>
         </div>
