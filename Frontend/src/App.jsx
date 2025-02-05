@@ -101,7 +101,7 @@ const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { checkAdminAuth } = useAdminAuthStore();
+  const { checkAdminAuth, AuthAdmin } = useAdminAuthStore();
   useEffect(() => {
     checkAuth();
     checkAdminAuth();
@@ -186,74 +186,91 @@ const App = () => {
         <Route path="admin-login" element={<AdminLogin />} />
         <Route path="admin-signup" element={<AdminSignup />} />
 
-        <Route path="admin" element={<AdminLayout />}>
-          <Route path="enquiry" element={<Enquiry />}>
-            <Route path="forex" element={<EnquiryForex />} />
-            <Route path="contact" element={<EnquiryContact />} />
-            <Route path="umrah" element={<EnquiryUmrah />} />
-            <Route path="visa" element={<EnquiryVisa />} />
-            <Route path="holiday" element={<EnquiryHoliday />} />
-            <Route path="custom-package" element={<EnquiryCustom />} />
-            <Route path="hotel" element={<EnquiryHotel />} />
-          </Route>
+        {AuthAdmin && (
+          <Route path="admin" element={<AdminLayout />}>
+            <Route path="enquiry" element={<Enquiry />}>
+              <Route path="forex" element={<EnquiryForex />} />
+              <Route path="contact" element={<EnquiryContact />} />
+              <Route path="umrah" element={<EnquiryUmrah />} />
+              <Route path="visa" element={<EnquiryVisa />} />
+              <Route path="holiday" element={<EnquiryHoliday />} />
+              <Route path="custom-package" element={<EnquiryCustom />} />
+              <Route path="hotel" element={<EnquiryHotel />} />
+            </Route>
 
-          {/* Hotel */}
-          <Route path="hotel" element={<Hotels />}>
-            <Route path="update/:updateid" element={<UpdateHotel />}>
-              <Route path="details" element={<UpdateHotelDetails />} />
-              <Route path="hotelimages" element={<UpdateHotelImages />} />
+            {/* Hotel */}
+            <Route path="hotel" element={<Hotels />}>
+              <Route path="update/:updateid" element={<UpdateHotel />}>
+                <Route path="details" element={<UpdateHotelDetails />} />
+                <Route path="hotelimages" element={<UpdateHotelImages />} />
+              </Route>
+              <Route path="createhotel-form" element={<CreateHotelForm />} />
+              <Route path="createhotel-package" element={<CreateHotelImg />} />
+              <Route
+                path="createhotel-preview/:id"
+                element={<CreateHotelPreview />}
+              />
             </Route>
-            <Route path="createhotel-form" element={<CreateHotelForm />} />
-            <Route path="createhotel-package" element={<CreateHotelImg />} />
-            <Route
-              path="createhotel-preview/:id"
-              element={<CreateHotelPreview />}
-            />
-          </Route>
-          {/* Umrah Packages */}
-          <Route path="umrahpackages" element={<UmrahPackages />}>
-            <Route path="update/:updateid" element={<UpdateUmrahPackage />}>
-              <Route path="details" element={<UpdateUmrahDetails />} />
-              <Route path="packageimages" element={<UpdateUmrahPackImgs />} />
-              <Route path="meccaimages" element={<UpdateUmrahMeccaImgs />} />
-              <Route path="madinaimages" element={<UpdateUmrahMadinaImgs />} />
+            {/* Umrah Packages */}
+            <Route path="umrahpackages" element={<UmrahPackages />}>
+              <Route path="update/:updateid" element={<UpdateUmrahPackage />}>
+                <Route path="details" element={<UpdateUmrahDetails />} />
+                <Route path="packageimages" element={<UpdateUmrahPackImgs />} />
+                <Route path="meccaimages" element={<UpdateUmrahMeccaImgs />} />
+                <Route
+                  path="madinaimages"
+                  element={<UpdateUmrahMadinaImgs />}
+                />
+              </Route>
+              <Route
+                path="createpackage-form"
+                element={<CreatePackagesForm />}
+              />
+              <Route
+                path="createpackage-images"
+                element={<CreatePackageImgs />}
+              />
+              <Route
+                path="createpackage-preview/:id"
+                element={<CreatePreview />}
+              />
             </Route>
-            <Route path="createpackage-form" element={<CreatePackagesForm />} />
-            <Route
-              path="createpackage-images"
-              element={<CreatePackageImgs />}
-            />
-            <Route
-              path="createpackage-preview/:id"
-              element={<CreatePreview />}
-            />
-          </Route>
-          {/* Holiday Packages */}
-          <Route path="holidays" element={<HolidayPackages />}>
-            <Route path="update/:updateid" element={<UpdateHoliday />}>
-              <Route path="details" element={<UpdateHolidayDetails />} />
-              <Route path="packageimages" element={<UpdateHolidayPackImgs />} />
-              <Route path="hotelimages" element={<UpdateHolidayHotelImgs />} />
+            {/* Holiday Packages */}
+            <Route path="holidays" element={<HolidayPackages />}>
+              <Route path="update/:updateid" element={<UpdateHoliday />}>
+                <Route path="details" element={<UpdateHolidayDetails />} />
+                <Route
+                  path="packageimages"
+                  element={<UpdateHolidayPackImgs />}
+                />
+                <Route
+                  path="hotelimages"
+                  element={<UpdateHolidayHotelImgs />}
+                />
+              </Route>
+              <Route
+                path="createholiday-form"
+                element={<CreateHolidayForm />}
+              />
+              <Route
+                path="createholiday-package"
+                element={<CreateHolidayImg />}
+              />
+              <Route
+                path="createholiday-preview/:id"
+                element={<CreateHolidayPreview />}
+              />
             </Route>
-            <Route path="createholiday-form" element={<CreateHolidayForm />} />
-            <Route
-              path="createholiday-package"
-              element={<CreateHolidayImg />}
-            />
-            <Route
-              path="createholiday-preview/:id"
-              element={<CreateHolidayPreview />}
-            />
-          </Route>
-          {/* Visa Routes */}
-          <Route path="visa" element={<Visa />}>
-            <Route path="update/:updateid" element={<UpdateVisa />}>
-              <Route path="details" element={<UpdateVisaDetails />} />
-              <Route path="visaimage" element={<UpdateVisaImage />} />
+            {/* Visa Routes */}
+            <Route path="visa" element={<Visa />}>
+              <Route path="update/:updateid" element={<UpdateVisa />}>
+                <Route path="details" element={<UpdateVisaDetails />} />
+                <Route path="visaimage" element={<UpdateVisaImage />} />
+              </Route>
+              <Route path="createvisa-form" element={<CreateVisaForm />} />
             </Route>
-            <Route path="createvisa-form" element={<CreateVisaForm />} />
           </Route>
-        </Route>
+        )}
 
         {/* Catch all error route */}
         <Route path="*" element={<ErrorPage />} />

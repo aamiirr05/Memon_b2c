@@ -5,7 +5,6 @@ const FloatingButtons = () => {
   const [hover, setHover] = useState(false);
   const [hoverMsg, setHoverMsg] = useState(false);
   const [hoverPhone, setHoverPhone] = useState(false);
-  console.log(hover);
   return (
     <div className="fixed right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50">
       {/* WhatsApp Button */}
