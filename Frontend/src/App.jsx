@@ -64,6 +64,8 @@ import EnquiryVisa from './Admin/Enquiry/EnquiryVisa';
 import EnquiryHoliday from './Admin/Enquiry/EnquiryHoliday';
 import EnquiryCustom from './Admin/Enquiry/EnquiryCustom';
 import EnquiryHotel from './Admin/Enquiry/EnquiryHotel';
+import HolidaysPage from './pages/HolidaysPage';
+import HolidayDetailPage from './pages/HolidayDetailPage';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -166,6 +168,11 @@ const App = () => {
         <Route
           path="/hotels/hotel-details/:hotelId"
           element={<HotelDetailPage />}
+        />
+        <Route path="/holidays" element={<HolidaysPage />} />
+        <Route
+          path="/holidays/holiday-details/:holidayId"
+          element={<HolidayDetailPage />}
         />
         <Route path="/visas" element={<VisasPage />} />
         <Route
