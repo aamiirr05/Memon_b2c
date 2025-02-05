@@ -63,7 +63,8 @@ model EnquiryContact {
 }
 
 model EnquiryHotel {
-  enquiry_id         String  @id @default(uuid())
+  enquiry_id         String   @id @default(uuid())
+  user_id            String?
   full_name          String
   contact            String
   email              String
@@ -73,22 +74,29 @@ model EnquiryHotel {
   number_of_rooms    Int
   room_type          String
   meal_plan          String
-  number_of_adults   Int     @default(0)
-  number_of_children Int     @default(0)
+  number_of_adults   Int      @default(0)
+  number_of_children Int      @default(0)
   special_request    String?
+  status             Status   @default(Pending)
+  created_at         DateTime @default(now())
+  user               User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
 }
 
 model EnquiryHoliday {
-  enquiry_id               String @id @default(uuid())
+  enquiry_id               String   @id @default(uuid())
+  user_id                  String?
   full_name                String
   contact                  String
   email                    String
   nationlaity              String
   preferred_date           String
   number_of_nights         Int
-  number_of_adults         Int    @default(0)
-  number_of_children       Int    @default(0)
+  number_of_adults         Int      @default(0)
+  number_of_children       Int      @default(0)
   preferred_departure_city String
+  status                   Status   @default(Pending)
+  created_at               DateTime @default(now())
+  user                     User?    @relation(fields: [user_id], references: [registration_id], onDelete: Cascade)
 }
 
 enum Status {
