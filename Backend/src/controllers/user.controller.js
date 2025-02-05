@@ -24,6 +24,8 @@ import {
   customizedPackageValidation,
   userContactEnquiryValidation,
   userForexEnquiryValidation,
+  userHolidayEnquiryValidation,
+  userHotelEnquiryValidation,
   userUmrahEnquiryValidation,
   userVisaEnquiryValidation,
 } from "../validator/enquiry.validator.js";
@@ -962,6 +964,268 @@ const enquiryVisa = asyncHandler(async (req, res) => {
     );
 });
 
+// *************** Enquiry Hotel ***************
+
+const enquiryHotel = asyncHandler(async (req, res) => {
+  const {
+    fullname,
+    contact,
+    email,
+    checkindate,
+    checkoutdate,
+    numberofnights,
+    numberofrooms,
+    roomtype,
+    mealplan,
+    numberofadults,
+    numberofchildren,
+    specialrequest,
+  } = req.body;
+
+  if (
+    [
+      fullname,
+      contact,
+      email,
+      checkindate,
+      checkoutdate,
+      numberofnights,
+      numberofrooms,
+      roomtype,
+      mealplan,
+      numberofadults,
+      numberofchildren,
+    ].some((field) => !field || field?.trim() === "")
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
+
+  const user = req.user;
+
+  const intNights = safeConvertToNumber(numberofnights);
+  const intRooms = safeConvertToNumber(numberofrooms);
+  const intAdults = safeConvertToNumber(numberofadults);
+  const intChildren = safeConvertToNumber(numberofchildren);
+
+  const enquiryInputError = userHotelEnquiryValidation({
+    fullname,
+    contact,
+    email,
+    checkindate,
+    checkoutdate,
+    numberofnights: intNights,
+    numberofrooms: intRooms,
+    roomtype,
+    mealplan,
+    numberofadults: intAdults,
+    numberofchildren: intChildren,
+    specialrequest,
+  });
+
+  if (enquiryInputError) {
+    throw new ApiError(
+      400,
+      `Validation Error: ${enquiryInputError[0].message}`
+    );
+  }
+
+  const currentUser = user?.registration_id;
+
+  const createdHotelEnquiry = await prisma.enquiryHotel.create({
+    data: {
+      user_id: currentUser,
+      full_name: fullname,
+      contact,
+      email,
+      check_in_date: checkindate,
+      check_out_date: checkoutdate,
+      number_of_nights: intNights,
+      number_of_rooms: intRooms,
+      room_type: roomtype,
+      meal_plan: mealplan,
+      number_of_adults: intAdults,
+      number_of_children: intChildren,
+      special_request: specialrequest,
+    },
+  });
+
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "contactEnquiryEmailTemplate.html"
+  );
+
+  let htmlContent;
+  try {
+    htmlContent = fs.readFileSync(templatePath, "utf-8");
+  } catch (error) {
+    throw new ApiError(500, "Failed to read email template");
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  htmlContent = htmlContent
+    .replace("{{recipientName}}", fullname)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Confirmation",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error sending enquiry confirmation email:", error);
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        201,
+        createdHotelEnquiry,
+        "Your Hotel Enquiry Sent Sucessfully"
+      )
+    );
+});
+
+// *************** Enquiry Holiday ***************
+
+const enquiryHoliday = asyncHandler(async (req, res) => {
+  const {
+    fullname,
+    contact,
+    email,
+    nationality,
+    preferreddate,
+    numberofnights,
+    numberofadults,
+    numberofchildren,
+    preferreddeparturecity,
+  } = req.body;
+
+  if (
+    [
+      fullname,
+      contact,
+      email,
+      nationality,
+      preferreddate,
+      numberofnights,
+      numberofadults,
+      numberofchildren,
+      preferreddeparturecity,
+    ].some((field) => !field || field?.trim() === "")
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
+
+  const user = req.user;
+
+  const intNights = safeConvertToNumber(numberofnights);
+  const intAdults = safeConvertToNumber(numberofadults);
+  const intChildren = safeConvertToNumber(numberofchildren);
+
+  const enquiryInputError = userHolidayEnquiryValidation({
+    fullname,
+    contact,
+    email,
+    nationality,
+    preferreddate,
+    numberofnights: intNights,
+    numberofadults: intAdults,
+    numberofchildren: intChildren,
+    preferreddeparturecity,
+  });
+
+  if (enquiryInputError) {
+    throw new ApiError(
+      400,
+      `Validation Error: ${enquiryInputError[0].message}`
+    );
+  }
+
+  const currentUser = user?.registration_id;
+
+  const createdHolidayEnquiry = await prisma.enquiryHoliday.create({
+    data: {
+      user_id: currentUser,
+      full_name: fullname,
+      contact,
+      email,
+      nationality,
+      preferred_date: preferreddate,
+      number_of_nights: intNights,
+      number_of_adults: intAdults,
+      number_of_children: intChildren,
+      preferred_departure_city: preferreddeparturecity,
+    },
+  });
+
+  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+  const normalizedDirname = path.resolve(
+    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+    ".."
+  );
+
+  const templatePath = path.join(
+    normalizedDirname,
+    "email",
+    "contactEnquiryEmailTemplate.html"
+  );
+
+  let htmlContent;
+  try {
+    htmlContent = fs.readFileSync(templatePath, "utf-8");
+  } catch (error) {
+    throw new ApiError(500, "Failed to read email template");
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  htmlContent = htmlContent
+    .replace("{{recipientName}}", fullname)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Confirmation",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error sending enquiry confirmation email:", error);
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        201,
+        createdHolidayEnquiry,
+        "Your Holiday Enquiry Sent Sucessfully"
+      )
+    );
+});
+
 // ****************** Enquiry Customized Package **********************
 
 const enquiryCustomizedPackage = asyncHandler(async (req, res) => {
@@ -1313,6 +1577,8 @@ export {
   enquiryForex,
   enquiryUmrah,
   enquiryVisa,
+  enquiryHotel,
+  enquiryHoliday,
   enquiryCustomizedPackage,
   testimonial,
   getAllUmrahPackages,

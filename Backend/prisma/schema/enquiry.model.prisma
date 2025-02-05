@@ -88,7 +88,7 @@ model EnquiryHoliday {
   full_name                String
   contact                  String
   email                    String
-  nationlaity              String
+  nationality              String
   preferred_date           String
   number_of_nights         Int
   number_of_adults         Int      @default(0)

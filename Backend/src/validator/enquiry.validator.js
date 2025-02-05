@@ -236,10 +236,145 @@ function customizedPackageValidation(data) {
   return error ? error.details : null;
 }
 
+function userHotelEnquiryValidation(data) {
+  const enquirySchema = Joi.object({
+    fullname: Joi.string().max(100).required().messages({
+      "string.max": '"full_name" cannot exceed 100 characters',
+      "any.required": '"full_name" is required',
+    }),
+
+    contact: Joi.string()
+      .pattern(/^[0-9]{10,15}$/)
+      .required()
+      .messages({
+        "string.pattern.base": '"contact" must be a 10-15 digit number',
+        "any.required": '"contact" is required',
+      }),
+
+    email: Joi.string().email().required().messages({
+      "string.email": '"email" must be a valid email address',
+      "any.required": '"email" is required',
+    }),
+
+    checkindate: Joi.string().required().messages({
+      "any.required": '"check_in_date" is required',
+    }),
+
+    checkoutdate: Joi.string().required().messages({
+      "any.required": '"check_out_date" is required',
+    }),
+
+    numberofnights: Joi.number().integer().min(1).required().messages({
+      "number.base": '"number_of_nights" must be a number',
+      "number.integer": '"number_of_nights" must be an integer',
+      "number.min": '"number_of_nights" must be at least 1',
+      "any.required": '"number_of_nights" is required',
+    }),
+
+    numberofrooms: Joi.number().integer().min(1).required().messages({
+      "number.base": '"number_of_rooms" must be a number',
+      "number.integer": '"number_of_rooms" must be an integer',
+      "number.min": '"number_of_rooms" must be at least 1',
+      "any.required": '"number_of_rooms" is required',
+    }),
+
+    roomtype: Joi.string().max(100).required().messages({
+      "string.max": '"room_type" cannot exceed 100 characters',
+      "any.required": '"room_type" is required',
+    }),
+
+    mealplan: Joi.string().max(100).required().messages({
+      "string.max": '"meal_plan" cannot exceed 100 characters',
+      "any.required": '"meal_plan" is required',
+    }),
+
+    numberofadults: Joi.number().integer().min(0).messages({
+      "number.base": '"number_of_adults" must be a number',
+      "number.integer": '"number_of_adults" must be an integer',
+      "number.min": '"number_of_adults" must be at least 0',
+    }),
+
+    numberofchildren: Joi.number().integer().min(0).messages({
+      "number.base": '"number_of_children" must be a number',
+      "number.integer": '"number_of_children" must be an integer',
+      "number.min": '"number_of_children" must be at least 0',
+    }),
+
+    specialrequest: Joi.string().max(300).optional().messages({
+      "string.max": '"special_request" cannot exceed 300 characters',
+    }),
+  });
+
+  let { error } = enquirySchema.validate(data);
+  return error ? error.details : null;
+}
+
+function userHolidayEnquiryValidation(data) {
+  const enquirySchema = Joi.object({
+    fullname: Joi.string().max(100).required().messages({
+      "string.max": '"full_name" cannot exceed 100 characters',
+      "any.required": '"full_name" is required',
+    }),
+
+    contact: Joi.string()
+      .pattern(/^[0-9]{10,15}$/)
+      .required()
+      .messages({
+        "string.pattern.base": '"contact" must be a 10-15 digit number',
+        "any.required": '"contact" is required',
+      }),
+
+    email: Joi.string().email().required().messages({
+      "string.email": '"email" must be a valid email address',
+      "any.required": '"email" is required',
+    }),
+
+    nationality: Joi.string().max(50).required().messages({
+      "string.max": '"nationality" cannot exceed 50 characters',
+      "any.required": '"nationality" is required',
+    }),
+
+    preferreddate: Joi.string().required().messages({
+      "string.isoDate":
+        '"preferred_date" must be a valid ISO date (YYYY-MM-DD)',
+      "any.required": '"preferred_date" is required',
+    }),
+
+    numberofnights: Joi.number().integer().min(1).required().messages({
+      "number.base": '"number_of_nights" must be a number',
+      "number.integer": '"number_of_nights" must be an integer',
+      "number.min": '"number_of_nights" must be at least 1',
+      "any.required": '"number_of_nights" is required',
+    }),
+
+    numberofadults: Joi.number().integer().min(0).messages({
+      "number.base": '"number_of_adults" must be a number',
+      "number.integer": '"number_of_adults" must be an integer',
+      "number.min": '"number_of_adults" must be at least 0',
+    }),
+
+    numberofchildren: Joi.number().integer().min(0).messages({
+      "number.base": '"number_of_children" must be a number',
+      "number.integer": '"number_of_children" must be an integer',
+      "number.min": '"number_of_children" must be at least 0',
+    }),
+
+    preferreddeparturecity: Joi.string().max(100).required().messages({
+      "string.max": '"preferred_departure_city" cannot exceed 100 characters',
+      "any.required": '"preferred_departure_city" is required',
+    }),
+  });
+
+  let { error } = enquirySchema.validate(data);
+  return error ? error.details : null;
+}
+
 export {
   userContactEnquiryValidation,
   userForexEnquiryValidation,
   userUmrahEnquiryValidation,
   userVisaEnquiryValidation,
   customizedPackageValidation,
+  userHotelEnquiryValidation,
+  userHolidayEnquiryValidation,
 };
