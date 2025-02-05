@@ -12,26 +12,31 @@ const AboutUs = ({ isMenuOpen }) => {
             WELCOME TO
           </h3>
           <h1 className="heading-com-one text-3xl md:text-5xl font-zodiak uppercase text-darkgreen">
-            memon
+            Memon Haj Umrah tours & Travels
           </h1>
           <h1 className="heading-com-two text-2xl md:text-4xl font-zodiak uppercase text-darkgreen">
-            Haj Umrah tours & Travels
+            Your Trusted Partner for Spiritual and Leisure Journeys 🌍✨
           </h1>
           <p className="para-one tracking-tight text-left my-6 font-jakarta text-mediumgreen font-medium">
-            Memon Makka Madina tour is a journey of a lifetime, offering
-            spiritual enrichment, cultural exploration, and a connection to the
-            roots of Islam. Pilgrims return with a renewed sense of faith, a
-            deeper understanding of Islamic history, and memories that will last
-            a lifetime. As the cradle of Islam, Makka and Madina beckon
-            believers to embark on this transformative pilgrimage, seeking
-            spiritual elevation and closeness to Allah.Makka Madina tour is a
-            journey of a lifetime, offering spiritual enrichment, cultural
-            exploration, and a connection to the roots of Islam. Pilgrims return
-            with a renewed sense of faith, a deeper understanding of Islamic
-            history, and memories that will last a lifetime. As the cradle of
-            Islam, Makka and Madina beckon believers to embark on this
-            transformative pilgrimage, seeking spiritual elevation and closeness
-            to Allah.
+            where your spiritual journey is our priority. We offer a variety of
+            Haj and Umrah packages that cater to all needs, whether you are
+            seeking a budget-friendly option or a luxurious experience. From
+            comfortable accommodations 🏨 to expert guides 🕌, we ensure your
+            pilgrimage is smooth and spiritually enriching. We also provide
+            Ziyarat packages 🕌, offering guided tours to significant religious
+            sites like Makka, Madina, Iraq, Iran, Turkey, and more 🌍, enriching
+            your connection to Islamic history. Our top-notch transportation
+            services 🚗 include direct flights ✈️, comfortable ground
+            transportation 🚍, and private options 🏎️, ensuring a hassle-free
+            experience. For those seeking relaxation, we offer holiday packages
+            🏖️ to destinations like Dubai, Malaysia, Turkey, and Egypt, allowing
+            you to explore rich cultures while maintaining your spiritual
+            connection 🌙. We also specialize in custom packages 🛠️, tailoring
+            every aspect of your journey to fit your unique preferences, from
+            accommodation choices 🏨 to specific travel dates 📅. At MEMON HAJ
+            UMRAH TOURS AND TRAVELS, we are committed to making your pilgrimage
+            meaningful 🙏, comfortable 🏨, and memorable 🌟. Let us guide you
+            every step of the way 💫.
           </p>
 
           {/* <h3 className="heading-who text-2xl md:text-4xl font-zodiak uppercase text-darkgreen text-left">

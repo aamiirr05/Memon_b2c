@@ -14,4 +14,6 @@ model User {
   enquiry_forex      EnquiryForex[]
   enquiry_umrah      EnquiryUmrah[]
   enquiry_visa       EnquiryVisa[]
+  enquiry_hotel      EnquiryHotel[]
+  enquiry_holiday    EnquiryHoliday[]
 }
