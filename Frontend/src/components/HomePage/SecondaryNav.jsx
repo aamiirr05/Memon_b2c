@@ -14,18 +14,16 @@ const navLinks = [
     dropdown: [
       { name: 'All Packages', path: '/packages' },
       { name: 'Umrah Packages', path: '/packages/umrah' },
-      { name: 'Ramadan Packages', path: '/packages/ramadan' },
       { name: 'Customized Packages', path: '/packages/customized-package' },
     ],
   },
+  { name: 'Ramadan 2025', path: '/ramadan-2025' },
   { name: 'Hajj 2025', path: '/hajj-2025' },
   { name: 'Ziyarat', path: '/ziyarat' },
   { name: 'Holidays', path: '/holidays' },
   { name: 'Hotels', path: '/hotels' },
   { name: 'Visa', path: '/visas' },
   { name: 'Forex', path: '/forex' },
-  { name: 'Our Partners', path: '/partners' },
-  { name: 'Nusuk', path: '/nusuk' },
   { name: 'Contact Us', path: '/contact' },
 ];
 
