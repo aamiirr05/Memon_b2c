@@ -464,7 +464,7 @@ const PackageCards = ({
           <img
             src={data?.package_image[0].secure_url}
             alt="Package Image"
-            className="aspect-[2/1] rounded-md"
+            className="w-full h-[150px] lg:h-[200px] rounded-md"
           />
         </div>
         <div className="relative mt-5 px-2">
