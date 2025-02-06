@@ -7,8 +7,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
                                         ALL UMRAH ENQUIRY ROUTES
    ****************************************************************************************************************/
 
-// ****************** Get All Umrah Enquiries ******************
-
 const getAllUmrahEnquiries = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -18,7 +16,7 @@ const getAllUmrahEnquiries = asyncHandler(async (req, res) => {
 
   const allUmrahEnquiry = await prisma.enquiryUmrah.findMany({
     orderBy: {
-      created_at: "desc", // Latest updated records first
+      created_at: "desc",
     },
   });
 
@@ -32,8 +30,6 @@ const getAllUmrahEnquiries = asyncHandler(async (req, res) => {
       )
     );
 });
-
-// *************** Update Enquiry ***************
 
 const updateUmrahEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -73,8 +69,6 @@ const updateUmrahEnquiry = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedEnquiry, "Status Updated Sucessfully"));
 });
 
-// *************** Delete Enquiry ***************
-
 const deleteUmrahEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -105,8 +99,6 @@ const deleteUmrahEnquiry = asyncHandler(async (req, res) => {
                                         ALL FOREX ENQUIRY ROUTES
    ****************************************************************************************************************/
 
-// ****************** Get All Forex Enquiries ******************
-
 const getAllForexEnquiries = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -116,7 +108,7 @@ const getAllForexEnquiries = asyncHandler(async (req, res) => {
 
   const allForexEnquiry = await prisma.enquiryForex.findMany({
     orderBy: {
-      created_at: "desc", // Latest updated records first
+      created_at: "desc",
     },
   });
 
@@ -130,8 +122,6 @@ const getAllForexEnquiries = asyncHandler(async (req, res) => {
       )
     );
 });
-
-// *************** Update Enquiry ***************
 
 const updateForexEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -171,8 +161,6 @@ const updateForexEnquiry = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedEnquiry, "Status Updated Sucessfully"));
 });
 
-// *************** Delete Enquiry ***************
-
 const deleteForexEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -203,8 +191,6 @@ const deleteForexEnquiry = asyncHandler(async (req, res) => {
                                         ALL VISA ENQUIRY ROUTES
    ****************************************************************************************************************/
 
-// ****************** Get All Forex Enquiries ******************
-
 const getAllVisaEnquiries = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -214,7 +200,7 @@ const getAllVisaEnquiries = asyncHandler(async (req, res) => {
 
   const allVisaEnquiry = await prisma.enquiryVisa.findMany({
     orderBy: {
-      created_at: "desc", // Latest updated records first
+      created_at: "desc",
     },
   });
 
@@ -228,8 +214,6 @@ const getAllVisaEnquiries = asyncHandler(async (req, res) => {
       )
     );
 });
-
-// *************** Update Enquiry ***************
 
 const updateVisaEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -269,8 +253,6 @@ const updateVisaEnquiry = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedEnquiry, "Status Updated Sucessfully"));
 });
 
-// *************** Delete Enquiry ***************
-
 const deleteVisaEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -301,8 +283,6 @@ const deleteVisaEnquiry = asyncHandler(async (req, res) => {
                                         ALL CONTACT ENQUIRY ROUTES
    ****************************************************************************************************************/
 
-// ****************** Get All Contact Enquiries ******************
-
 const getAllContactEnquiries = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -312,7 +292,7 @@ const getAllContactEnquiries = asyncHandler(async (req, res) => {
 
   const allContactEnquiry = await prisma.enquiryContact.findMany({
     orderBy: {
-      created_at: "desc", // Latest updated records first
+      created_at: "desc",
     },
   });
 
@@ -326,8 +306,6 @@ const getAllContactEnquiries = asyncHandler(async (req, res) => {
       )
     );
 });
-
-// *************** Update Enquiry ***************
 
 const updateContactEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -367,8 +345,6 @@ const updateContactEnquiry = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedEnquiry, "Status Updated Sucessfully"));
 });
 
-// *************** Delete Enquiry ***************
-
 const deleteContactEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -396,10 +372,192 @@ const deleteContactEnquiry = asyncHandler(async (req, res) => {
 });
 
 /* ***************************************************************************************************************
-                                        ALL CUSTOMIZED PACKAGE ENQUIRY ROUTES
+                                        ALL HOLIDAY  ENQUIRY ROUTES
    ****************************************************************************************************************/
 
-// ****************** Get All Customized Package Enquiries ******************
+const getAllHolidayEnquiries = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const allHolidayEnquiry = await prisma.enquiryHoliday.findMany({
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        allHolidayEnquiry,
+        `${allHolidayEnquiry.length} Holiday Enquiry Fetched Successfully`
+      )
+    );
+});
+
+const updateHolidayEnquiry = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const enquiryId = req.params.id;
+
+  const existingEnquiry = await prisma.enquiryHoliday.findUnique({
+    where: { enquiry_id: enquiryId },
+  });
+
+  if (!existingEnquiry) {
+    throw new ApiError(404, "No Enquiry Found");
+  }
+
+  const { status } = req.body;
+
+  const validStatuses = ["pending", "rejected", "approved"];
+
+  if (!status || !validStatuses.includes(status?.toLowerCase())) {
+    throw new ApiError(
+      400,
+      "Invalid or missing status. Allowed values are: Pending, Rejected, Approved."
+    );
+  }
+
+  const updatedEnquiry = await prisma.enquiryHoliday.update({
+    where: { enquiry_id: enquiryId },
+    data: { status: status },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedEnquiry, "Status Updated Sucessfully"));
+});
+
+const deleteHolidayEnquiry = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const enquiryId = req.params.id;
+
+  const existingEnquiry = await prisma.enquiryHoliday.findUnique({
+    where: { enquiry_id: enquiryId },
+  });
+
+  if (!existingEnquiry) {
+    throw new ApiError(404, "No Enquiry Found");
+  }
+
+  await prisma.enquiryHoliday.delete({
+    where: { enquiry_id: enquiryId },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Enquiry Deleted Sucessfully"));
+});
+
+/* ***************************************************************************************************************
+                                        ALL HOTEL  ENQUIRY ROUTES
+   ****************************************************************************************************************/
+
+const getAllHotelEnquiries = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const allHotelEnquiry = await prisma.enquiryHotel.findMany({
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        allHotelEnquiry,
+        `${allHotelEnquiry.length} Hotel Enquiry Fetched Successfully`
+      )
+    );
+});
+
+const updateHotelEnquiry = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const enquiryId = req.params.id;
+
+  const existingEnquiry = await prisma.enquiryHotel.findUnique({
+    where: { enquiry_id: enquiryId },
+  });
+
+  if (!existingEnquiry) {
+    throw new ApiError(404, "No Enquiry Found");
+  }
+
+  const { status } = req.body;
+
+  const validStatuses = ["pending", "rejected", "approved"];
+
+  if (!status || !validStatuses.includes(status?.toLowerCase())) {
+    throw new ApiError(
+      400,
+      "Invalid or missing status. Allowed values are: Pending, Rejected, Approved."
+    );
+  }
+
+  const updatedEnquiry = await prisma.enquiryHotel.update({
+    where: { enquiry_id: enquiryId },
+    data: { status: status },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updatedEnquiry, "Status Updated Sucessfully"));
+});
+
+const deleteHotelEnquiry = asyncHandler(async (req, res) => {
+  const admin = req.admin;
+
+  if (!admin) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const enquiryId = req.params.id;
+
+  const existingEnquiry = await prisma.enquiryHotel.findUnique({
+    where: { enquiry_id: enquiryId },
+  });
+
+  if (!existingEnquiry) {
+    throw new ApiError(404, "No Enquiry Found");
+  }
+
+  await prisma.enquiryHotel.delete({
+    where: { enquiry_id: enquiryId },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "Enquiry Deleted Sucessfully"));
+});
+
+/* ***************************************************************************************************************
+                                        ALL CUSTOMIZED PACKAGE ENQUIRY ROUTES
+   ****************************************************************************************************************/
 
 const getAllCustomizedPackageEnquiries = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -410,7 +568,7 @@ const getAllCustomizedPackageEnquiries = asyncHandler(async (req, res) => {
 
   const allCustomizedPackageEnquiry = await prisma.customizedPackage.findMany({
     orderBy: {
-      created_at: "desc", // Latest updated records first
+      created_at: "desc",
     },
   });
 
@@ -424,8 +582,6 @@ const getAllCustomizedPackageEnquiries = asyncHandler(async (req, res) => {
       )
     );
 });
-
-// *************** Update Enquiry ***************
 
 const updateCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -466,8 +622,6 @@ const updateCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedEnquiry, "Status Updated Sucessfully"));
 });
 
-// *************** Delete Enquiry ***************
-
 const deleteCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -498,8 +652,6 @@ const deleteCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
                                         ALL TESTIMONIAL ROUTES
    ****************************************************************************************************************/
 
-// ****************** Get All Testimonial ******************
-
 const getAllTestimonials = asyncHandler(async (req, res) => {
   const admin = req.admin;
 
@@ -509,7 +661,7 @@ const getAllTestimonials = asyncHandler(async (req, res) => {
 
   const allTestimonials = await prisma.testimonial.findMany({
     orderBy: {
-      created_at: "desc", // Latest updated records first
+      created_at: "desc",
     },
   });
 
@@ -523,8 +675,6 @@ const getAllTestimonials = asyncHandler(async (req, res) => {
       )
     );
 });
-
-// *************** Delete Testimonial ***************
 
 const deleteTestimonial = asyncHandler(async (req, res) => {
   const admin = req.admin;
@@ -567,6 +717,12 @@ export {
   getAllContactEnquiries,
   updateContactEnquiry,
   deleteContactEnquiry,
+  getAllHolidayEnquiries,
+  updateHolidayEnquiry,
+  deleteHolidayEnquiry,
+  getAllHotelEnquiries,
+  updateHotelEnquiry,
+  deleteHotelEnquiry,
   getAllCustomizedPackageEnquiries,
   updateCustomizedPackageEnquiry,
   deleteCustomizedPackageEnquiry,

@@ -4,18 +4,24 @@ import {
   deleteContactEnquiry,
   deleteCustomizedPackageEnquiry,
   deleteForexEnquiry,
+  deleteHolidayEnquiry,
+  deleteHotelEnquiry,
   deleteTestimonial,
   deleteUmrahEnquiry,
   deleteVisaEnquiry,
   getAllContactEnquiries,
   getAllCustomizedPackageEnquiries,
   getAllForexEnquiries,
+  getAllHolidayEnquiries,
+  getAllHotelEnquiries,
   getAllTestimonials,
   getAllUmrahEnquiries,
   getAllVisaEnquiries,
   updateContactEnquiry,
   updateCustomizedPackageEnquiry,
   updateForexEnquiry,
+  updateHolidayEnquiry,
+  updateHotelEnquiry,
   updateUmrahEnquiry,
   updateVisaEnquiry,
 } from "../controllers/enquiry.controller.js";
@@ -75,6 +81,34 @@ router
 router
   .route("/delete-contact-enquiry/:id")
   .delete(verifyAdminJwt, deleteContactEnquiry);
+
+// ********************************** HOLIDAY ENQUIRY ROUTES ********************************************
+
+router
+  .route("/fetch-holiday-enquiries")
+  .get(verifyAdminJwt, getAllHolidayEnquiries);
+
+router
+  .route("/update-holiday-enquiry/:id")
+  .post(verifyAdminJwt, updateHolidayEnquiry);
+
+router
+  .route("/delete-holiday-enquiry/:id")
+  .delete(verifyAdminJwt, deleteHolidayEnquiry);
+
+// ********************************** HOTEL ENQUIRY ROUTES ********************************************
+
+router
+  .route("/fetch-hotel-enquiries")
+  .get(verifyAdminJwt, getAllHotelEnquiries);
+
+router
+  .route("/update-hotel-enquiry/:id")
+  .post(verifyAdminJwt, updateHotelEnquiry);
+
+router
+  .route("/delete-hotel-enquiry/:id")
+  .delete(verifyAdminJwt, deleteHotelEnquiry);
 
 // ********************************** CUSTOMIZED PACKAGE ENQUIRY ROUTES ******************************************
 
