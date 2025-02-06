@@ -73,7 +73,7 @@ const HotelCard = ({ hotel }) => {
               onClick={() => setSelectedHotel(hotel)}
               className="text-peach bg-darkgreen px-4 py-2 rounded-md hover:bg-darkgreen/80 transition-colors text-sm md:w-auto"
             >
-              View More
+              View Details
             </Link>
           </div>
         </div>

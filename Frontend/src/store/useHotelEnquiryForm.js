@@ -31,7 +31,7 @@ export const useHotelEnquiryFormStore = create((set) => ({
       toast.error(error.response?.data?.message || 'Submission failed');
     } finally {
       set({ isSubmitting: false });
-      // closeModal();
+      closeModal();
     }
   },
 }));
