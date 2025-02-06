@@ -10,10 +10,9 @@ const navLinks = [
   { name: 'Home', path: '/' },
   {
     name: 'Packages',
-    path: '/packages',
+    // path: '/packages',
     dropdown: [
-      { name: 'All Packages', path: '/packages' },
-      { name: 'Umrah Packages', path: '/packages/umrah' },
+      { name: 'Umrah Packages', path: '/umrah-packages' },
       { name: 'Customized Packages', path: '/packages/customized-package' },
     ],
   },

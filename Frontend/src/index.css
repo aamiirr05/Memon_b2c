@@ -247,11 +247,11 @@
 } */
 
 .forex-input-fields {
-  @apply block w-full text-md h-[50px] px-4 text-peach bg-darkgreen/10 rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0 min-w-64 placeholder-transparent caret-peach;
+  @apply block w-full text-md h-[50px] px-4 text-peach bg-darkgreen/10 rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0 min-w-64 placeholder-transparent caret-peach z-50;
 }
 
 .forex-input-labels {
-  @apply absolute text-sm font-medium px-2 py-0.5 left-2 transition-all text-peach/60 bg-transparent rounded-full;
+  @apply absolute z-10 text-sm font-medium px-2 py-0.5 left-2 transition-all text-peach/60 bg-transparent rounded-full;
   top: 22%; /* Initial position */
   transform: translateY(-8%); /* Center vertically */
 }
@@ -260,4 +260,8 @@
 .forex-input-fields:not(:placeholder-shown) ~ .forex-input-labels {
   @apply -top-3 text-darkgreen bg-peach px-3 rounded-full;
   font-size: 0.75rem; /* Adjust size when floating */
+}
+
+.form-input {
+  @apply w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-peach;
 }

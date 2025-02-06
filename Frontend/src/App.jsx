@@ -66,6 +66,7 @@ import EnquiryCustom from './Admin/Enquiry/EnquiryCustom';
 import EnquiryHotel from './Admin/Enquiry/EnquiryHotel';
 import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
+import Ramadan2025Page from './pages/Ramadan2025Page';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -168,6 +169,30 @@ const App = () => {
         <Route
           path="/hotels/hotel-details/:hotelId"
           element={<HotelDetailPage />}
+        />
+
+        {/* packages page by category*/}
+        <Route path="/ramadan-2025" element={<PackagesPage />} />
+        <Route
+          path="/ramadan-2025/package-details/:packageId"
+          element={<PackageDetailPage />}
+        />
+
+        <Route path="/umrah-packages" element={<PackagesPage />} />
+        <Route
+          path="/umrah-packages/package-details/:packageId"
+          element={<PackageDetailPage />}
+        />
+
+        <Route path="/hajj-2025" element={<PackagesPage />} />
+        <Route
+          path="/hajj-2025/package-details/:packageId"
+          element={<PackageDetailPage />}
+        />
+
+        <Route
+          path="/holidays/holiday-details/:holidayId"
+          element={<HolidayDetailPage />}
         />
         <Route path="/holidays" element={<HolidaysPage />} />
         <Route
