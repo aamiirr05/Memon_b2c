@@ -9,6 +9,7 @@ import {
   getHolidayPackageById,
   getHotelById,
   getUmrahPackageById,
+  getUmrahPackagesByType,
   getVisaById,
   loginUser,
   logoutUser,
@@ -34,6 +35,7 @@ router.route("/fetch-all-hotels").get(getAllHotel);
 router.route("/fetch-hotel/:id").get(getHotelById);
 router.route("/fetch-all-visas").get(getAllVisa);
 router.route("/fetch-visa/:id").get(getVisaById);
+router.route("/fetch-umrah-by-type/:packagetype").get(getUmrahPackagesByType);
 
 // ********** Protected Routes **********
 

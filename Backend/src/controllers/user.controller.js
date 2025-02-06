@@ -1286,6 +1286,31 @@ const getVisaById = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, existingVisa, "Visa Fetched Sucessfully"));
 });
 
+// ********************************* GET UMRAH PACKAGE BY TYPE ********************************************
+
+const getUmrahPackagesByType = asyncHandler(async (req, res) => {
+  const packageType = req.params.packagetype;
+
+  if (!packageType) {
+    throw new ApiError(400, "Package ID is Required");
+  }
+
+  const umrahPackages = await prisma.umrahPackage.findMany({
+    where: { package_type: { contains: packageType, mode: "insensitive" } },
+    include: { prices: true },
+  });
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        umrahPackages,
+        `${umrahPackages.length} Packages Fetched Successfully`
+      )
+    );
+});
+
 // *************** Export Controller ***************
 
 export {
@@ -1313,4 +1338,5 @@ export {
   getHotelById,
   getAllVisa,
   getVisaById,
+  getUmrahPackagesByType,
 };
