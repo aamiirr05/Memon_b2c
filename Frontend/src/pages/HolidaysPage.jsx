@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useHolidayStore } from '../store/useHolidayStore';
 import Filter from '../components/PackagesPage/Filter';
 import HolidayCard from '../components/HolidaysPage/HolidayCard';
+import Sidebar from '../components/Sidebar';
 
 const HolidaysPage = () => {
   const { fetchHolidays, holidays, isFetching, areHolidaysFetched } =
@@ -31,7 +32,7 @@ const HolidaysPage = () => {
 
           <div className="pb-14">
             <div className=" flex gap-6">
-              <Filter />
+              <Sidebar />
 
               {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
               <div className="flex flex-col gap-6 w-full">
