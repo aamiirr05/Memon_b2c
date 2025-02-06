@@ -71,19 +71,43 @@ const AboutUs = ({ isMenuOpen }) => {
 
           <div className="flex items-center gap-3">
             <MessageCircleMore />
-            <div className="">+91 XXXXX XXXXX</div>
+            <div className="">
+              <a
+                href="https://wa.me/918108404376"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +91 8108404376
+              </a>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <MessageCircleMore />
-            <div className="">+91 XXXXX XXXXX</div>
+            <div className="">
+              <a
+                href="https://wa.me/919022549162"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +91 9022549162
+              </a>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <MessageCircleMore />
-            <div className="">+91 XXXXX XXXXX</div>
+            <div className="">
+              <a
+                href="https://wa.me/918268979705"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +91 8268979705
+              </a>
+            </div>
           </div>
 
           <span className="font-semibold underline">
-            memonhajumrah@gmail.com
+            <a href="mailto:memonhajumrah@gmail.com">memonhajumrah@gmail.com</a>
           </span>
         </div>
       </section>
