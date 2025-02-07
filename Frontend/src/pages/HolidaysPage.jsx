@@ -3,15 +3,11 @@ import { useHolidayStore } from '../store/useHolidayStore';
 import HolidayCard from '../components/HolidaysPage/HolidayCard';
 import Sidebar from '../components/Sidebar';
 import { useLocation } from 'react-router-dom';
+import PackageCardSkeleton from '../components/PackagesPage/PackageCardSkeleton';
 
 const HolidaysPage = () => {
-  const {
-    fetchHolidays,
-    holidays,
-    isFetching,
-    areHolidaysFetched,
-    fetchZiyarat,
-  } = useHolidayStore();
+  const { fetchHolidays, holidays, isFetching, fetchZiyarat } =
+    useHolidayStore();
   const location = useLocation();
   const path = location.pathname;
 
@@ -48,12 +44,15 @@ const HolidaysPage = () => {
             <div className=" flex gap-6">
               <Sidebar />
 
-              {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
               <div className="flex flex-col gap-6 w-full">
                 {isFetching ? (
                   Array(3)
                     .fill()
-                    .map((_, index) => <div key={index}>ss</div>)
+                    .map((_, index) => (
+                      <div key={index}>
+                        <PackageCardSkeleton />
+                      </div>
+                    ))
                 ) : (
                   <>
                     {' '}
