@@ -157,14 +157,9 @@ const App = () => {
 
         {/* Not Protected Route */}
         <Route path="/packages" element={<PackagesPage />} />
-        <Route
-          path="packages/customized-package"
-          element={<CustomizedPackagePage />}
-        />
-        <Route
-          path="/packages/package-details/:packageId"
-          element={<PackageDetailPage />}
-        />
+        <Route path="customized-package" element={<CustomizedPackagePage />} />
+
+        {/* hotel page*/}
         <Route path="/hotels" element={<HotelsPage />} />
         <Route
           path="/hotels/hotel-details/:hotelId"
@@ -190,15 +185,19 @@ const App = () => {
           element={<PackageDetailPage />}
         />
 
-        <Route
-          path="/holidays/holiday-details/:holidayId"
-          element={<HolidayDetailPage />}
-        />
+        {/* holiday page */}
         <Route path="/holidays" element={<HolidaysPage />} />
         <Route
           path="/holidays/holiday-details/:holidayId"
           element={<HolidayDetailPage />}
         />
+
+        <Route path="/ziyarat" element={<HolidaysPage />} />
+        <Route
+          path="/ziyarat/holiday-details/:holidayId"
+          element={<HolidayDetailPage />}
+        />
+
         <Route path="/visas" element={<VisasPage />} />
         <Route
           path="/visas/visa-details/:visaId"

@@ -1,18 +1,32 @@
 import { useEffect } from 'react';
 import { useHolidayStore } from '../store/useHolidayStore';
-import Filter from '../components/PackagesPage/Filter';
 import HolidayCard from '../components/HolidaysPage/HolidayCard';
 import Sidebar from '../components/Sidebar';
+import { useLocation } from 'react-router-dom';
 
 const HolidaysPage = () => {
-  const { fetchHolidays, holidays, isFetching, areHolidaysFetched } =
-    useHolidayStore();
+  const {
+    fetchHolidays,
+    holidays,
+    isFetching,
+    areHolidaysFetched,
+    fetchZiyarat,
+  } = useHolidayStore();
+  const location = useLocation();
+  const path = location.pathname;
 
   useEffect(() => {
-    if (!areHolidaysFetched) {
-      fetchHolidays();
+    switch (path) {
+      case '/holidays':
+        fetchHolidays();
+        break;
+      case '/ziyarat':
+        fetchZiyarat();
+        break;
+      default:
+        break;
     }
-  }, [fetchHolidays, areHolidaysFetched]);
+  }, [fetchHolidays, fetchZiyarat, path]);
 
   return (
     <main className="bg-peach/50">
