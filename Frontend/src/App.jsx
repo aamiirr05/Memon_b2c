@@ -131,20 +131,45 @@ const App = () => {
   }
 
   return (
-    <div className="w-full h-full bg-lightpeach bg-opacity-20">
+    <div className={`w-full h-full relative bg-peach/20`}>
+      <div
+        className={`absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
+        style={{
+          backgroundImage: `url('/hero-bg.jpg')`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          width: '100%',
+        }}
+      >
+        <div className="mt-36 p-5 md:p-0 flex flex-col gap-5 md:w-11/12 mx-auto items-center text-[#386641]">
+          <q className="font-bold font-sans">
+            إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ
+          </q>
+          <h1 className="text-5xl text-center font-bold font-zodiak">
+            Search, Book and Relax
+          </h1>
+          <p className="font-jakarta font-semibold max-w-md text-center">
+            No hidden fees or gimmicks, just straight forward and hassle-free
+            booking for all your travel needs.
+          </p>
+        </div>
+      </div>
       {!isAdminRoute &&
         !isLoginPage &&
         !isSignupPage &&
         !isOtpPage &&
         !isErrorPage && (
           <>
-            <PrimaryNav />
-            <SecondaryNav
+            {/* <PrimaryNav /> */}
+            {/* <SecondaryNav
               setIsMore={setIsMore}
               setIsHovered={setIsHovered}
               isHovered={isHovered}
               isMore={isMore}
-            />
+            /> */}
+
+            <SecondaryNav />
           </>
         )}
 

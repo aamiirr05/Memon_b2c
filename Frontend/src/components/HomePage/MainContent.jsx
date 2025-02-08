@@ -1,17 +1,13 @@
+import SecondaryNav from './SecondaryNav';
+
 /* eslint-disable react/prop-types */
 const MainContent = ({ isMenuOpen }) => {
   return (
     <>
       <section
-        className={`mx-auto rounded-xl relative mb-20 w-[99%] flex lg:mt-0 h-[calc(100vh-112px)] md:h-[calc(100vh-116px)] ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
-        style={{
-          backgroundImage: `url('/hero-bg.jpg')`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
-          // width: '100%',
-        }}
+        className={`w-full  mb-20 h-[calc(100vh-112px)] md:h-[calc(100vh-116px)]`}
       >
+        {/* <SecondaryNav /> */}
         <div className="section-one-heading p-5 md:p-0 flex flex-col gap-5 mt-10 md:w-11/12 mx-auto items-center text-[#386641]">
           <q className="font-bold font-sans">
             إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ

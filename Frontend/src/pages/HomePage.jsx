@@ -14,7 +14,7 @@ const Homepage = () => {
   const [isMenuOpen] = useState(false);
 
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="overflow-x-hidden w-full h-full">
       <FloatingButtons />
       <ScrollToTopButton />
 
