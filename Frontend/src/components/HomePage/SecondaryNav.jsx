@@ -13,7 +13,7 @@ const navLinks = [
     // path: '/packages',
     dropdown: [
       { name: 'Umrah Packages', path: '/umrah-packages' },
-      { name: 'Customized Packages', path: '/customized-package' },
+      { name: 'Customize Packages', path: '/customized-package' },
     ],
   },
   { name: 'Ramadan 2025', path: '/ramadan-2025' },
@@ -49,16 +49,17 @@ const SecondaryNav = () => {
                   onMouseEnter={() => setDropdownOpen(true)}
                   onMouseLeave={() => setDropdownOpen(false)}
                 >
-                  <span className="flex items-center space-x-1">
+                  <span className="flex items-center space-x-1 group">
                     <NavLink
                       to={link.path}
                       className={({ isActive }) =>
-                        `text-md font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600 hover:text-darkgreen'}`
+                        `text-md font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600'}`
                       }
                     >
                       {link.name}
                     </NavLink>
-                    <ChevronDown className="h-4 w-4 mt-[3px] text-neutral-600" />
+
+                    <ChevronDown className="h-4 w-4 mt-[3px]  group-hover:rotate-180 ease-in-out group-hover:text-darkgreen" />
                   </span>
 
                   {/* Dropdown */}
@@ -73,7 +74,7 @@ const SecondaryNav = () => {
                           <div className="flex items-center w-full group">
                             <span>{dropdownLink.name}</span>
                             <ChevronRight
-                              className="opacity-0 group-hover:opacity-100 ml-2 transition-opacity duration-100 ease-in-out pt-1"
+                              className="opacity-0 group-hover:opacity-100 ml-2 transition-opacity duration-100 ease-in-out pt-1 hover:text-darkgreen"
                               size={22}
                             />
                           </div>

@@ -34,20 +34,20 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full h-full md:h-screen bg-peach/50">
+    <div className="flex flex-col lg:flex-row w-full h-full md:h-screen bg-peach/30">
       {/* Left Side (Form) */}
       <div className="w-full lg:w-2/3 flex flex-col justify-center items-center p-4">
         <h2 className="text-5xl font-bold mb-6 text-darkgreen">Get in Touch</h2>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full max-w-lg bg-darkgreen/30 shadow-lg rounded-lg p-6 space-y-4"
+          className="w-full max-w-lg  p-6 space-y-4 text-darkgreen"
         >
           {/* Salutation */}
           <div>
             <select
               {...register('salutation')}
-              className="form-input focus:ring-darkgreen/50"
+              className="form-input focus:ring-darkgreen/50  text-darkgreen bg-transparent border-darkgreen"
             >
               <option value="">Select Salutation</option>
               <option value="Mr.">Mr.</option>
@@ -58,12 +58,12 @@ const ContactPage = () => {
           </div>
 
           {/* First & Last Name */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 ">
             <div>
               <input
                 type="text"
                 {...register('firstname')}
-                className="form-input focus:ring-darkgreen/50"
+                className="form-input focus:ring-darkgreen/50 placeholder:text-darkgreen  bg-transparent border-darkgreen"
                 placeholder="First Name"
               />
               <p className="text-red-400 text-sm">
@@ -74,7 +74,7 @@ const ContactPage = () => {
               <input
                 type="text"
                 {...register('lastname')}
-                className="form-input focus:ring-darkgreen/50"
+                className="form-input focus:ring-darkgreen/50 placeholder:text-darkgreen  bg-transparent border-darkgreen"
                 placeholder="Last Name"
               />
               <p className="text-red-400 text-sm">{errors.lastname?.message}</p>
@@ -87,7 +87,7 @@ const ContactPage = () => {
               <input
                 type="email"
                 {...register('email')}
-                className="form-input focus:ring-darkgreen/50"
+                className="form-input focus:ring-darkgreen/50 placeholder:text-darkgreen  bg-transparent border-darkgreen"
                 placeholder="Email"
               />
               <p className="text-red-400 text-sm">{errors.email?.message}</p>
@@ -96,7 +96,7 @@ const ContactPage = () => {
               <input
                 type="text"
                 {...register('contact')}
-                className="form-input focus:ring-darkgreen/50"
+                className="form-input focus:ring-darkgreen/50 placeholder:text-darkgreen bg-transparent border-darkgreen"
                 placeholder="Contact Number"
               />
               <p className="text-red-400 text-sm">{errors.contact?.message}</p>
@@ -107,8 +107,8 @@ const ContactPage = () => {
           <div>
             <textarea
               {...register('message')}
-              className="form-input focus:ring-darkgreen/50 h-32"
-              placeholder="Your Message"
+              className="form-input focus:ring-darkgreen/50 placeholder:text-darkgreen bg-transparent border-darkgreen h-32 "
+              placeholder="Your Message  "
             />
             <p className="text-red-400 text-sm">{errors.message?.message}</p>
           </div>
@@ -124,16 +124,46 @@ const ContactPage = () => {
         </form>
 
         {/* Contact Details */}
-        <div className="mt-6 text-darkgreen text-center">
-          <p>
-            <strong>PHONE:</strong> 03 5432 1234
-          </p>
-          <p>
+        <div className="my-6 text-darkgreen ml-4 ">
+          <div className="flex pb-4">
+            <p className="pr-2">
+              <strong>PHONE:</strong>
+            </p>
+            <div className="flex gap-4">
+              <a
+                href="https://wa.me/918108404376"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +91 8108404376
+              </a>
+              <a
+                href="https://wa.me/919022549162"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +91 9022549162
+              </a>
+              <a
+                href="https://wa.me/918268979705"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +91 8268979705
+              </a>
+              <p></p>
+              <p></p>
+            </div>
+          </div>
+          {/* <p>
             <strong>FAX:</strong> 03 5432 1234
-          </p>
-          <p>
-            <strong>EMAIL:</strong> info@marc.com.au
-          </p>
+          </p> */}
+          <div className="flex">
+            <p className="pr-2">
+              <strong>EMAIL:</strong>
+            </p>
+            <a href="mailto:memonhajumrahtours.com">memonhajumrahtours.com</a>
+          </div>
         </div>
       </div>
 
