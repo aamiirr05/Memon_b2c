@@ -4,10 +4,11 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import AboutUs from '../components/HomePage/AboutUs';
 import MainContent from '../components/HomePage/MainContent';
-import PackageSlider from '../components/HomePage/PackageSlider';
-import TestimonialWrapper from '../components/HomePage/TestimonialWrapper';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import FloatingButtons from '../components/FoatingButtons';
+import UmrahPackages from '../components/HomePage/UmrahPackages';
+import HolidayGrid from '../components/HomePage/HoildayGrid';
+import Testimonials from '../components/HomePage/Testimonials';
 
 const Homepage = () => {
   const [isMenuOpen] = useState(false);
@@ -16,26 +17,6 @@ const Homepage = () => {
     <div className="relative overflow-x-hidden">
       <FloatingButtons />
       <ScrollToTopButton />
-      {/* Primary Navbar */}
-      {/* <PrimaryNav isMenuOpen={isMenuOpen} /> */}
-      {/* Secondary Navbar */}
-      {/* <SecondaryNav
-        setIsMore={setIsMore}
-        setIsHovered={setIsHovered}
-        isHovered={isHovered}
-        isMore={isMore}
-      /> */}
-      {/* Logo Section (Hamburger) */}
-
-      {/* <HamburgerLogo isMenuOpen={isMenuOpen} /> */}
-
-      {/* Hamburger */}
-      {/* <Hamburger
-        setIsHovered={setIsHovered}
-        isHovered={isHovered}
-        isMenuOpen={isMenuOpen}
-        setIsMenuOpen={setIsMenuOpen}
-      /> */}
 
       {/* Main content  */}
       <MainContent isMenuOpen={isMenuOpen} />
@@ -45,31 +26,28 @@ const Homepage = () => {
 
       {/* Package Slider  */}
 
-      <section className="h-full py-10 my-20 w-full bg-peach bg-opacity-30 shadow-sm">
-        <PackageSlider isMenuOpen={isMenuOpen} heading={'Our Umrah Packages'} />
+      <section className="h-full w-full bg-peach bg-opacity-20 shadow-sm">
+        <HolidayGrid />
       </section>
 
       {/* A section to be added  */}
       <section className="h-full py-10 my-20 w-full">
-        <PackageSlider
-          isMenuOpen={isMenuOpen}
-          heading={'Our Holiday Packages'}
-        />
+        <UmrahPackages />
       </section>
 
       {/* Package Slider  */}
 
-      <section className="h-full py-10 my-20 w-full bg-peach bg-opacity-30 shadow-sm">
-        <PackageSlider
+      <section className="h-full py-10 my-20 w-full bg-peach bg-opacity-20 shadow-sm">
+        {/* <PackageSlider
           isMenuOpen={isMenuOpen}
           heading={'Recommended Packages'}
-        />
+        /> */}
       </section>
 
       {/* Book Now Section  */}
       {/* <BookNow isMenuOpen={isMenuOpen} /> */}
       {/* Testimonials */}
-      <TestimonialWrapper isMenuOpen={isMenuOpen} />
+      <Testimonials isMenuOpen={isMenuOpen} />
       {/* Footer  */}
 
       {/* <Footer isMenuOpen={isMenuOpen} /> */}

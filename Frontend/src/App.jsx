@@ -105,7 +105,9 @@ const App = () => {
   useEffect(() => {
     checkAuth();
     checkAdminAuth();
-  }, []);
+  }, [checkAdminAuth, checkAuth]);
+
+  console.log(AuthAdmin);
 
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isLoginPage = location.pathname.startsWith('/login');

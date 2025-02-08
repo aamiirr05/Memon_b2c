@@ -32,7 +32,7 @@ const SecondaryNav = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <nav className="bg-peach shadow-md sticky top-0 z-50 transform transition">
+    <nav className="bg-peach shadow-md sticky top-0 z-50 transform transition mb-3">
       <div className="mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center">

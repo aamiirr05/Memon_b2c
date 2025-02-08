@@ -50,10 +50,10 @@
 }
 
 .link-hover-green {
-  @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-darkgreen after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer;
+  @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-darkgreen after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer w-fit;
 }
 .link-hover-peach {
-  @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-peach after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer inline-block;
+  @apply after:rounded-xl after:content-[''] after:absolute after:-bottom-2 after:left-0 after:block after:h-[3px] after:bg-peach after:w-full after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform duration-700 hover:-translate-y-[1.5px] relative cursor-pointer w-fit;
 }
 
 .skew-heading {

@@ -18,7 +18,7 @@ const useAdminAuthStore = create((set, get) => ({
     set({ isAdminLoggingIn: true });
     try {
       const res = await axiosInstance.post('/admin/login', data);
-      set({ AuthAdmin: res.data.data });
+      if (res.data) set({ AuthAdmin: res.data.data });
       console.log(res);
       toast.success(res.data.message);
       navigate('/admin/enquiry/umrah');
@@ -33,9 +33,10 @@ const useAdminAuthStore = create((set, get) => ({
     set({ isCheckingAuth: true });
     try {
       const res = await axiosInstance.get('/admin/check-auth-admin');
-      set({ authAdmin: res.data.data });
+      console.log(res.data);
+      set({ AuthAdmin: res.data });
     } catch (error) {
-      set({ authAdmin: null });
+      set({ AuthAdmin: null });
     } finally {
       set({ isCheckingAuth: false });
     }

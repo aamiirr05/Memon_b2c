@@ -3,13 +3,13 @@ const MainContent = ({ isMenuOpen }) => {
   return (
     <>
       <section
-        className={`relative mb-52 w-full flex lg:mt-0 h-[calc(100vh-112px)] md:h-[calc(100vh-116px)] ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
+        className={`mx-auto rounded-xl relative mb-20 w-[99%] flex lg:mt-0 h-[calc(100vh-112px)] md:h-[calc(100vh-116px)] ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
         style={{
           backgroundImage: `url('/hero-bg.jpg')`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          width: '100%',
+          // width: '100%',
         }}
       >
         <div className="section-one-heading p-5 md:p-0 flex flex-col gap-5 mt-10 md:w-11/12 mx-auto items-center text-[#386641]">
