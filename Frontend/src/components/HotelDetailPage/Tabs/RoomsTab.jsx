@@ -8,8 +8,6 @@ const RoomsTab = () => {
     return <p>No room details available</p>;
   }
 
-  console.log(selectedHotel);
-
   return (
     <table className="table-auto w-full border-collapse border border-darkgreen/30 text-neutral-800 mt-6 mb-12">
       <thead>

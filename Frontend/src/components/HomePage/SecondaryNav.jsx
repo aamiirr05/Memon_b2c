@@ -4,17 +4,16 @@ import logo from '../../assets/img/logo.png';
 
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 
 const navLinks = [
   { name: 'Home', path: '/' },
   {
     name: 'Packages',
-    path: '/packages',
+    // path: '/packages',
     dropdown: [
-      { name: 'All Packages', path: '/packages' },
-      { name: 'Umrah Packages', path: '/packages/umrah' },
-      { name: 'Customized Packages', path: '/packages/customized-package' },
+      { name: 'Umrah Packages', path: '/umrah-packages' },
+      { name: 'Customize Packages', path: '/customized-package' },
     ],
   },
   { name: 'Ramadan 2025', path: '/ramadan-2025' },
@@ -50,28 +49,35 @@ const SecondaryNav = () => {
                   onMouseEnter={() => setDropdownOpen(true)}
                   onMouseLeave={() => setDropdownOpen(false)}
                 >
-                  <span className="flex items-center space-x-1">
+                  <span className="flex items-center space-x-1 group">
                     <NavLink
                       to={link.path}
                       className={({ isActive }) =>
-                        `text-md font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600 hover:text-darkgreen'}`
+                        `text-md font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600'}`
                       }
                     >
                       {link.name}
                     </NavLink>
-                    <ChevronDown className="h-4 w-4 mt-[3px] text-neutral-600" />
+
+                    <ChevronDown className="h-4 w-4 mt-[3px]  group-hover:rotate-180 ease-in-out group-hover:text-darkgreen" />
                   </span>
 
                   {/* Dropdown */}
                   {dropdownOpen && (
-                    <div className="absolute top-full left-0 bg-darkgreen shadow-md rounded-md py-2 w-48">
+                    <div className="absolute top-full left-0 bg-darkgreen shadow-md rounded-md py-2 w-52">
                       {link.dropdown.map((dropdownLink) => (
                         <NavLink
                           key={dropdownLink.name}
                           to={dropdownLink.path}
-                          className="block px-4 py-2 text-md text-peach hover:bg-peach/50"
+                          className="flex items-center justify-between px-4 py-2 text-md text-peach hover:bg-peach/10"
                         >
-                          {dropdownLink.name}
+                          <div className="flex items-center w-full group">
+                            <span>{dropdownLink.name}</span>
+                            <ChevronRight
+                              className="opacity-0 group-hover:opacity-100 ml-2 transition-opacity duration-100 ease-in-out pt-1 hover:text-darkgreen"
+                              size={22}
+                            />
+                          </div>
                         </NavLink>
                       ))}
                     </div>

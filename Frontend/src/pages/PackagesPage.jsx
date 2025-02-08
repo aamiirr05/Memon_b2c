@@ -3,16 +3,43 @@ import Filter from '../components/PackagesPage/Filter';
 import PackageCard from '../components/PackagesPage/PackageCard';
 import { usePackageStore } from '../store/usePackageStore';
 import PackageCardSkeleton from '../components/PackagesPage/PackageCardSkeleton';
+import { useLocation } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 
 const PackagesPage = () => {
-  const { packages, fetchPackages, isFetching, arePackagesFetched } =
-    usePackageStore();
+  const {
+    packages,
+    fetchUmrahPackages,
+    fetchRamadanPackages,
+    isFetching,
+    areUmrahPackagesFetched,
+    areRamadanPackagesFetched,
+    fetchHajjPackages,
+  } = usePackageStore();
+  const location = useLocation();
+  const path = location.pathname;
 
   useEffect(() => {
-    if (!arePackagesFetched) {
-      fetchPackages();
+    switch (path) {
+      case '/umrah-packages':
+        fetchUmrahPackages();
+        break;
+      case '/ramadan-2025':
+        fetchRamadanPackages();
+        break;
+      case '/hajj-2025':
+        fetchHajjPackages();
+        break;
+      default:
+        break;
     }
-  }, [fetchPackages, arePackagesFetched]);
+  }, [
+    fetchUmrahPackages,
+    fetchRamadanPackages,
+    areUmrahPackagesFetched,
+    fetchHajjPackages,
+    path,
+  ]);
 
   return (
     <main className="bg-peach/50">
@@ -32,7 +59,7 @@ const PackagesPage = () => {
 
           <div className="pb-14">
             <div className=" flex gap-6">
-              <Filter />
+              <Sidebar />
 
               {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
               <div className="flex flex-col gap-6 w-full">

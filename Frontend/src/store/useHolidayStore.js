@@ -40,4 +40,20 @@ export const useHolidayStore = create((set) => ({
       set({ isFetching: false });
     }
   },
+
+  fetchZiyarat: async () => {
+    set({ isFetching: true });
+
+    try {
+      const res = await axiosInstance.get(
+        '/users/fetch-holiday-by-type/ziyarat'
+      );
+      set({ holidays: res.data.data, areHolidaysFetched: true });
+    } catch (error) {
+      toast.error(error.response.data.message);
+      console.error('Error fetching holidays:', error);
+    } finally {
+      set({ isFetching: false });
+    }
+  },
 }));
