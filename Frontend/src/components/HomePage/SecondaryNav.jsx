@@ -13,7 +13,7 @@ const navLinks = [
     // path: '/packages',
     dropdown: [
       { name: 'Umrah Packages', path: '/umrah-packages' },
-      { name: 'Customize Package', path: '/packages/customized-package' },
+      { name: 'Customized Packages', path: '/customized-package' },
     ],
   },
   { name: 'Ramadan 2025', path: '/ramadan-2025' },

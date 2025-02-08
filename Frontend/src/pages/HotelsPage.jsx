@@ -3,6 +3,7 @@ import Filter from '../components/PackagesPage/Filter';
 import { useHotelStore } from '../store/useHotelStore';
 import HotelCard from '../components/HotelsPage/HotelCard';
 import HotelCardSkeleton from '../components/HotelsPage/HotelCardSkeleton';
+import Sidebar from '../components/Sidebar';
 
 const HotelsPage = () => {
   const { fetchHotels, isFetching, hotels, areHotelsFetched } = useHotelStore();
@@ -32,7 +33,7 @@ const HotelsPage = () => {
 
           <div className="pb-14">
             <div className=" flex gap-6">
-              <Filter />
+              <Sidebar />
 
               {/* list all hotels */}
               <div className="flex flex-col gap-6 w-full">

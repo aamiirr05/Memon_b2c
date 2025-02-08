@@ -5,6 +5,7 @@ import Modal from '../Modal';
 // import UmrahEnquiryForm from '../PackagesPage/EnquiryForms/UmrahEnquiryForm';
 import { useState } from 'react';
 import { useHolidayStore } from '../../store/useHolidayStore';
+import HolidayEnquiryForm from '../HolidaysPage/HolidayEnquiryForm';
 
 const Tab1 = () => {
   const { selectedHoliday } = useHolidayStore();
@@ -176,11 +177,11 @@ const Tab1 = () => {
         onClose={closeModal}
         title={selectedHoliday?.package_name}
       >
-        {/* <UmrahEnquiryForm
+        <HolidayEnquiryForm
           onClose={closeModal}
-          packageName={selectedHoliday?.package_name}
-          packageType={selectedHoliday?.package_type}
-        /> */}
+          // packageName={selectedHoliday?.package_name}
+          // packageType={selectedHoliday?.package_type}
+        />
       </Modal>
     </>
   );

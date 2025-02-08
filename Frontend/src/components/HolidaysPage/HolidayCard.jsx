@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from '../Modal';
 import { useHolidayStore } from '../../store/useHolidayStore';
+import HolidayEnquiryForm from './HolidayEnquiryForm';
 // import UmrahEnquiryForm from './EnquiryForms/UmrahEnquiryForm';
 
 const HolidayCard = ({ pkg }) => {
@@ -90,11 +91,7 @@ const HolidayCard = ({ pkg }) => {
         onClose={closeModal}
         title={pkg?.package_name}
       >
-        {/* <UmrahEnquiryForm
-          onClose={closeModal}
-          packageName={pkg?.package_name}
-          packageType={pkg?.package_type}
-        /> */}
+        <HolidayEnquiryForm onClose={closeModal} />
       </Modal>
     </div>
   );

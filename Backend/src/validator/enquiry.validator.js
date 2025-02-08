@@ -4,7 +4,7 @@ import Joi from "joi";
 
 function userContactEnquiryValidation(data) {
   const contactSchema = Joi.object({
-    salutation: Joi.string().valid("Mr", "Ms", "Mrs").required(),
+    salutation: Joi.string().valid("Mr.", "Ms.", "Mrs.").required(),
     firstname: Joi.string().trim().min(1).max(50).required().messages({
       "any.required": "First name is required.",
     }),

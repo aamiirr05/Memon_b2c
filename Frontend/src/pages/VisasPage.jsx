@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useVisaStore } from '../store/useVisaStore';
 import VisaCard from '../components/VisasPage/VisaCard';
 import SearchableDropdown from '../components/VisasPage/SearchableDropdown';
+import VisaCardSkeleton from '../components/VisasPage/VisaCardSkeleton';
 
 const VisasPage = () => {
-  const { visas, fetchVisas, areVisasFetched } = useVisaStore();
+  const { visas, isFetching, fetchVisas, areVisasFetched } = useVisaStore();
   const [selectedCountry, setSelectedCountry] = useState('');
 
   useEffect(() => {
@@ -43,10 +44,18 @@ const VisasPage = () => {
       </div>
 
       {/* Display filtered visas */}
-      <div className="flex gap-4 justify-center flex-wrap mt-12 pb-12">
-        {filteredVisas.map((visa) => (
-          <VisaCard key={visa.visa_id} visaData={visa} />
-        ))}
+      <div className="flex gap-4 justify-center flex-wrap mt-4 pb-12 transition-all">
+        {isFetching ? (
+          Array(4)
+            .fill()
+            .map((_, index) => <VisaCardSkeleton key={index} />)
+        ) : (
+          <>
+            {filteredVisas.map((visa) => (
+              <VisaCard key={visa.visa_id} visaData={visa} />
+            ))}
+          </>
+        )}
       </div>
     </main>
   );

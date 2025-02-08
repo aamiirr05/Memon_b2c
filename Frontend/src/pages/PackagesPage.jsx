@@ -4,6 +4,7 @@ import PackageCard from '../components/PackagesPage/PackageCard';
 import { usePackageStore } from '../store/usePackageStore';
 import PackageCardSkeleton from '../components/PackagesPage/PackageCardSkeleton';
 import { useLocation } from 'react-router-dom';
+import Sidebar from '../components/Sidebar';
 
 const PackagesPage = () => {
   const {
@@ -58,7 +59,7 @@ const PackagesPage = () => {
 
           <div className="pb-14">
             <div className=" flex gap-6">
-              <Filter />
+              <Sidebar />
 
               {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
               <div className="flex flex-col gap-6 w-full">
