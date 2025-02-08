@@ -4,7 +4,7 @@ import logo from '../../assets/img/logo.png';
 
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -13,7 +13,7 @@ const navLinks = [
     // path: '/packages',
     dropdown: [
       { name: 'Umrah Packages', path: '/umrah-packages' },
-      { name: 'Customized Packages', path: '/packages/customized-package' },
+      { name: 'Customize Package', path: '/packages/customized-package' },
     ],
   },
   { name: 'Ramadan 2025', path: '/ramadan-2025' },
@@ -63,14 +63,20 @@ const SecondaryNav = () => {
 
                   {/* Dropdown */}
                   {dropdownOpen && (
-                    <div className="absolute top-full left-0 bg-darkgreen shadow-md rounded-md py-2 w-48">
+                    <div className="absolute top-full left-0 bg-darkgreen shadow-md rounded-md py-2 w-52">
                       {link.dropdown.map((dropdownLink) => (
                         <NavLink
                           key={dropdownLink.name}
                           to={dropdownLink.path}
-                          className="block px-4 py-2 text-md text-peach hover:bg-peach/50"
+                          className="flex items-center justify-between px-4 py-2 text-md text-peach hover:bg-peach/10"
                         >
-                          {dropdownLink.name}
+                          <div className="flex items-center w-full group">
+                            <span>{dropdownLink.name}</span>
+                            <ChevronRight
+                              className="opacity-0 group-hover:opacity-100 ml-2 transition-opacity duration-100 ease-in-out pt-1"
+                              size={22}
+                            />
+                          </div>
                         </NavLink>
                       ))}
                     </div>
