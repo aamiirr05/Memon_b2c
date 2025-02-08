@@ -64,7 +64,7 @@ const SecondaryNav = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-6">
+        <div className="hidden xl:flex items-center space-x-6">
           {navLinks.map((link) => (
             <div key={link.name} className="relative">
               {link.dropdown ? (
@@ -136,7 +136,7 @@ const SecondaryNav = () => {
         </div>
 
         {/*  */}
-        <div className="hidden lg:flex items-center text-sm justify-center gap-5 font-medium ">
+        <div className="hidden xl:flex items-center text-sm justify-center gap-5 font-medium ">
           <div className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen">
             Login
           </div>
@@ -149,7 +149,7 @@ const SecondaryNav = () => {
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="lg:hidden">
+        <div className="xl:hidden">
           <button onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? (
               <X className="h-6 w-6 text-darkgreen transition-all" />
@@ -162,93 +162,106 @@ const SecondaryNav = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="lg:hidden rounded-b-xl flex items-start justify-center gap-6 bg-lightpeach/70 shadow-md text-sm transform transition-all p-5">
-          <div className="w-full flex flex-col gap-5">
-            {navLinks.map((link) => (
-              <div
-                key={link.name}
-                className=""
-                onClick={() => {
-                  !link.dropdown && setMenuOpen(!menuOpen);
-                }}
-              >
-                {link.dropdown ? (
-                  <details>
-                    <summary className="px-4 py-2 cursor-pointer flex justify-between items-center text-neutral-600 font-medium">
-                      <div className="flex gap-4">
-                        {link.icon} {link.name}
-                      </div>
+        <div className="xl:hidden rounded-b-xl flex flex-col md:flex-row items-start justify-center gap-6 bg-lightpeach/70 shadow-md text-sm transform transition-all p-5">
+          <div className="w-full flex items-start justify-between">
+            <div className="w-full flex flex-col gap-5">
+              {navLinks.map((link) => (
+                <div
+                  key={link.name}
+                  className=""
+                  onClick={() => {
+                    !link.dropdown && setMenuOpen(!menuOpen);
+                  }}
+                >
+                  {link.dropdown ? (
+                    <details>
+                      <summary className="px-4 py-2 cursor-pointer flex justify-between items-center text-neutral-600 font-medium">
+                        <div className="flex gap-4">
+                          {link.icon} {link.name}
+                        </div>
 
-                      <ChevronDown className="h-4 w-4" />
-                    </summary>
-                    <div className="py-2 pl-14">
-                      {link.dropdown.map((dropdownLink) => (
-                        <NavLink
-                          onClick={() => setMenuOpen(!menuOpen)}
-                          key={dropdownLink.name}
-                          to={dropdownLink.path}
-                          className="block px-4 py-2 text-sm text-neutral-600 hover:bg-darkgreen/40 hover:text-darkgreen rounded-md"
-                        >
-                          {dropdownLink.name}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </details>
-                ) : (
-                  <NavLink
-                    to={link.path}
-                    className={({ isActive }) =>
-                      `flex gap-4 px-4 py-2 text-sm font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600 hover:text-darkgreen'}`
-                    }
-                  >
-                    <div className="">{link.icon}</div>
-                    {link.name}
-                  </NavLink>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="w-full flex flex-col gap-5">
-            {navLinkTwo.map((link) => (
-              <div
-                key={link.name}
-                className=""
-                onClick={() => {
-                  !link.dropdown && setMenuOpen(!menuOpen);
-                }}
-              >
-                {link.dropdown ? (
-                  <details>
-                    <summary className="px-4 py-2 cursor-pointer flex justify-between items-center text-neutral-600 font-medium">
+                        <ChevronDown className="h-4 w-4" />
+                      </summary>
+                      <div className="py-2 pl-14">
+                        {link.dropdown.map((dropdownLink) => (
+                          <NavLink
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            key={dropdownLink.name}
+                            to={dropdownLink.path}
+                            className="block px-4 py-2 text-sm text-neutral-600 hover:bg-darkgreen/40 hover:text-darkgreen rounded-md"
+                          >
+                            {dropdownLink.name}
+                          </NavLink>
+                        ))}
+                      </div>
+                    </details>
+                  ) : (
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) =>
+                        `flex gap-4 px-4 py-2 text-sm font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600 hover:text-darkgreen'}`
+                      }
+                    >
+                      <div className="">{link.icon}</div>
                       {link.name}
-                      <ChevronDown className="h-4 w-4" />
-                    </summary>
-                    <div className="px-4 pb-2">
-                      {link.dropdown.map((dropdownLink) => (
-                        <NavLink
-                          onClick={() => setMenuOpen(!menuOpen)}
-                          key={dropdownLink.name}
-                          to={dropdownLink.path}
-                          className="block px-4 py-2 text-sm text-neutral-600 hover:bg-darkgreen/40 hover:text-darkgreen rounded-md"
-                        >
-                          {dropdownLink.name}
-                        </NavLink>
-                      ))}
-                    </div>
-                  </details>
-                ) : (
-                  <NavLink
-                    to={link.path}
-                    className={({ isActive }) =>
-                      `flex gap-4 px-4 py-2 text-sm font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600 hover:text-darkgreen'}`
-                    }
-                  >
-                    <div className="">{link.icon}</div>
-                    {link.name}
-                  </NavLink>
-                )}
-              </div>
-            ))}
+                    </NavLink>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="w-full flex flex-col gap-5">
+              {navLinkTwo.map((link) => (
+                <div
+                  key={link.name}
+                  className=""
+                  onClick={() => {
+                    !link.dropdown && setMenuOpen(!menuOpen);
+                  }}
+                >
+                  {link.dropdown ? (
+                    <details>
+                      <summary className="px-4 py-2 cursor-pointer flex justify-between items-center text-neutral-600 font-medium">
+                        {link.name}
+                        <ChevronDown className="h-4 w-4" />
+                      </summary>
+                      <div className="px-4 pb-2">
+                        {link.dropdown.map((dropdownLink) => (
+                          <NavLink
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            key={dropdownLink.name}
+                            to={dropdownLink.path}
+                            className="block px-4 py-2 text-sm text-neutral-600 hover:bg-darkgreen/40 hover:text-darkgreen rounded-md"
+                          >
+                            {dropdownLink.name}
+                          </NavLink>
+                        ))}
+                      </div>
+                    </details>
+                  ) : (
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) =>
+                        `flex gap-4 px-4 py-2 text-sm font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600 hover:text-darkgreen'}`
+                      }
+                    >
+                      <div className="">{link.icon}</div>
+                      {link.name}
+                    </NavLink>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex md:flex-col-reverse items-center md:w-1/3 text-sm justify-center w-full md:justify-start gap-5 font-medium ">
+            <div className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen">
+              Login
+            </div>
+            <div className="cursor-pointer text-neutral-600 hover:text-darkgreen">
+              Signup
+            </div>
+            <div className="cursor-pointer text-neutral-600 hover:text-darkgreen">
+              B2B Login
+            </div>
           </div>
         </div>
       )}
