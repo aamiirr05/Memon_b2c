@@ -79,7 +79,7 @@ const Marquee = ({ imagesurl, direction }) => {
           <div className="relative bg-lightpeach rounded-lg w-9/12 md:max-w-lg">
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute cursor-pointer top-2 right-2 text-xl font-bold text-darkgreen bg-white rounded-full"
+              className="absolute z-40 cursor-pointer top-2 right-2 text-xl font-bold text-darkgreen bg-white rounded-full"
             >
               <CircleX size={32} />
             </button>

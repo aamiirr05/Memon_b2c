@@ -6,10 +6,11 @@ import AboutUs from '../components/HomePage/AboutUs';
 import MainContent from '../components/HomePage/MainContent';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import FloatingButtons from '../components/FoatingButtons';
-import UmrahPackages from '../components/HomePage/UmrahPackages';
+import UmrahPackages from '../components/HomePage/RecommendedPackages';
 import HolidayGrid from '../components/HomePage/HoildayGrid';
 import Testimonials from '../components/HomePage/Testimonials';
 import Marquees from '../components/HomePage/Marquees';
+import RecommendedPackages from '../components/HomePage/RecommendedPackages';
 
 const Homepage = () => {
   const [isMenuOpen] = useState(false);
@@ -33,7 +34,7 @@ const Homepage = () => {
 
       {/* A section to be added  */}
       <section className="h-full py-10 mt-20 w-full shadow-md">
-        <UmrahPackages />
+        <RecommendedPackages />
       </section>
 
       {/* Package Slider  */}

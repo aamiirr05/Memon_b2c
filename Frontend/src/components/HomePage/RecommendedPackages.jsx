@@ -1,17 +1,22 @@
 /* eslint-disable react/prop-types */
-import { ChevronLeft, ChevronRight, ThumbsUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MoveRight, ThumbsUp } from 'lucide-react';
 import { useRef, useState } from 'react';
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react';
-import imgOne from '../../assets/img/lp-1.avif';
+import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
 
 const UmrahCards = ({
-  title,
+  description,
+  image,
   cardRef,
   index,
   activeIndex,
   cardWidth,
   setCardWidth,
+  title,
+  days,
+  nights,
+  price,
 }) => {
   useEffect(() => {
     if (cardRef.current) {
@@ -23,34 +28,36 @@ const UmrahCards = ({
       className="w-full md:w-1/2 xl:w-[30%] flex flex-col flex-shrink-0 shadow-lg overflow-hidden rounded-xl gap-2 transition-all ease-in-out duration-700"
       ref={index === 0 ? cardRef : null}
       style={{
-        transform: `translateX(-${activeIndex * (cardWidth + 20)}px)`,
+        transform: `translateX(-${activeIndex * (cardWidth + 40)}px)`,
         transition: 'transform 0.5s ease-in-out',
       }}
     >
       <div className="w-full flex items-center justify-center">
         <div className="h-[280px] md:h-[200px] lg:h-[280px] w-11/12 overflow-hidden">
           <img
-            src={imgOne}
+            src={image || ''}
             alt=""
             className="w-full  rounded-xl mx-auto h-full"
           />
         </div>
       </div>
-      <div className="w-full mx-auto flex items-center justify-between pt-4 px-5">
-        <span className="font-zodiak text-lg text-darkgreen">
-          Umrah Package Name
+      <div className="w-full mx-auto flex md:flex-col items-start justify-between pt-4 px-5">
+        <span className="font-zodiak  text-md text-darkgreen">
+          {title.split(' ').slice(0, 5).join(' ')}
+          {title.split(' ').length > 5 && '...'}
         </span>
         <span className="font-jakarta text-xs text-mediumgreen">
-          3 Days / 4 nights
+          {days} Days / {nights} nights
         </span>
       </div>
       <div className="p-3 w-full text-left text-sm mx-auto font-jakarta text-darkgreen font-medium">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente
-        reprehenderit
+        {description.split(' ').slice(0, 20).join(' ')}
+        {description.split(' ').length > 20 && '...'}
       </div>
+
       <div className="w-full text-sm font-jakarta p-3 flex items-center justify-between">
         <div className="border text-darkgreen border-darkgreen/60 p-2 px-4 rounded-full">
-          From $100
+          From ₹ {price}
         </div>
         <div className="bg-mediumgreen text-white p-2 px-4 rounded-full">
           Book Now
@@ -60,24 +67,24 @@ const UmrahCards = ({
   );
 };
 
-const UmrahPackages = ({ isMenuOpen }) => {
+const RecommendedPackages = ({ isMenuOpen }) => {
+  const getPackages = useFetchPackages('users/fetch-all-umrah-packages');
+
+  const filterCards = getPackages?.data?.data.filter((_, i) => i < 6) || [];
+
+  console.log(filterCards);
+
   const cards = [
-    { title: '01', description: 'Description for Card 1' },
-    { title: '02', description: 'Description for Card 2' },
-    { title: '03', description: 'Description for Card 3' },
-    { title: '04', description: 'Description for Card 4' },
-    { title: '05', description: 'Description for Card 5' },
-    { title: '06', description: 'Description for Card 6' },
+    ...filterCards,
+
+    { title: 'Explore All', description: 'Description for Card 6' },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
   const [cardWidth, setCardWidth] = useState(0);
   const cardRef = useRef(null);
 
   const handleNext = () => {
-    if (activeIndex < cards.length - 2) {
-      // if (activeIndex >= cards.length - 1) {
-      //   return;
-      // }
+    if (activeIndex < cards.length - 3) {
       if (window.outerWidth <= 425) {
         setActiveIndex((prev) => prev + 1);
       } else {
@@ -88,7 +95,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
 
   const handlePrev = () => {
     if (activeIndex > 0) {
-      setActiveIndex((prev) => prev - 2);
+      setActiveIndex((prev) => prev - 1);
     }
   };
 
@@ -166,19 +173,35 @@ const UmrahPackages = ({ isMenuOpen }) => {
           </div>
         </div>
 
-        <div className="w-full flex items-center gap-10 mt-5 md:mt-10">
+        <div className="w-full flex relative items-center gap-10 mt-5 md:mt-10">
           {/* Card */}
           {cards.map((i, index) => (
             <>
-              <UmrahCards
-                title={i.title}
-                activeIndex={activeIndex}
-                cardRef={cardRef}
-                index={index}
-                key={index}
-                cardWidth={cardWidth}
-                setCardWidth={setCardWidth}
-              />
+              {i.title == 'Explore All' ? (
+                <div
+                  className={`text-xl absolute top-1/3 flex items-center justify-center gap-4 cursor-pointer ease-in-out transition-all duration-1000 right-32 bg-peach text-darkgreen shadow-md hover:animate-shift-up overflow-hidden font-jakarta p-2 px-6 rounded-xl ${activeIndex == cards.length - 3 ? 'translate-x-0 z-0' : 'translate-x-96 -z-10'}
+                   before:absolute before:inset-0 before:w-0 before:bg-darkgreen before:z-[-1] before:transition-all before:duration-400 hover:before:w-full hover:text-peach before:rounded-xl before:ease-in-out
+                  
+                  `}
+                >
+                  {i.title} <MoveRight />
+                </div>
+              ) : (
+                <UmrahCards
+                  description={i?.description}
+                  title={i?.package_name}
+                  days={i?.total_days}
+                  nights={i?.total_nights}
+                  price={i?.prices[0].quint_price}
+                  image={i?.package_image[0].secure_url}
+                  activeIndex={activeIndex}
+                  cardRef={cardRef}
+                  index={index}
+                  key={index}
+                  cardWidth={cardWidth}
+                  setCardWidth={setCardWidth}
+                />
+              )}
             </>
           ))}
         </div>
@@ -187,4 +210,4 @@ const UmrahPackages = ({ isMenuOpen }) => {
   );
 };
 
-export default UmrahPackages;
+export default RecommendedPackages;

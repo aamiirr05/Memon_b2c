@@ -1,9 +1,4 @@
-import {
-  Instagram,
-  Mail,
-  MessageCircle,
-  MessageCircleMore,
-} from 'lucide-react';
+import { MessageCircleMore } from 'lucide-react';
 
 import img1 from '../../assets/img/IATA_LOGO.png';
 import img2 from '../../assets/img/AIHUTOA_LOGO.png';
@@ -42,7 +37,7 @@ const Footer = ({ isMenuOpen }) => {
 
       {/*  */}
       <div className="w-11/12 mx-auto flex flex-col xl:flex-row items-start gap-32 justify-between font-jakarta font-medium border-b border-peach pb-10">
-        <div className="w-full flex  gap-10 lg:gap-0 lg:flex-row items-start justify-between">
+        <div className="w-full flex flex-col  gap-10 lg:gap-0 md:flex-row items-start justify-between">
           {/* 1 */}
           <div className="flex flex-col gap-5">
             <span className="font-zodiak text-2xl font-bold">About.</span>
