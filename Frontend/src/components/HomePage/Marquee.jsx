@@ -1,0 +1,109 @@
+/* eslint-disable react/prop-types */
+import { motion } from 'framer-motion';
+import { CircleX } from 'lucide-react';
+import { useState } from 'react';
+
+const Marquee = ({ imagesurl, direction }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  return (
+    <div className="flex w-full">
+      <motion.div
+        className="flex flex-shrink-0 gap-20 lg:py-10 pr-20"
+        initial={{ x: direction === 'left' ? '0' : '-100%' }}
+        animate={{ x: direction === 'left' ? '-100%' : '0' }}
+        transition={{ ease: 'linear', duration: '60', repeat: Infinity }}
+      >
+        {imagesurl.map((url, index) => (
+          <div
+            onClick={() => setSelectedImage(url)}
+            key={index}
+            className="w-[200px] h-[100px] md:w-[250px] md:h-[150px]"
+          >
+            {url.includes('.mp4') ? (
+              <video
+                className="w-full h-full cursor-pointer flex-shrink-0 rounded-xl object-cover"
+                key={index}
+                src={url}
+                autoPlay
+                loop
+                muted
+              ></video>
+            ) : (
+              <img
+                src={url}
+                className="w-full h-full cursor-pointer flex-shrink-0 rounded-xl"
+                key={index}
+              />
+            )}
+          </div>
+        ))}
+      </motion.div>
+      <motion.div
+        className="flex flex-shrink-0 gap-20 lg:py-10 pr-20 mb-20"
+        initial={{ x: direction === 'right' ? '-100%' : '0' }}
+        animate={{ x: direction === 'right' ? '0' : '-100%' }}
+        transition={{ ease: 'linear', duration: '60', repeat: Infinity }}
+      >
+        {imagesurl.map((url, index) => (
+          <div
+            onClick={() => setSelectedImage(url)}
+            key={index}
+            className="w-[200px] h-[100px] md:w-[250px] md:h-[150px]"
+          >
+            {url.includes('.mp4') ? (
+              <video
+                className="w-full h-full cursor-pointer flex-shrink-0 rounded-xl object-cover"
+                key={index}
+                src={url}
+                autoPlay
+                loop
+                muted
+              ></video>
+            ) : (
+              <img
+                src={url}
+                className="w-full cursor-pointer h-full -20 flex-shrink-0 rounded-xl"
+                key={index}
+              />
+            )}
+          </div>
+        ))}
+      </motion.div>
+
+      {selectedImage && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black/60 z-50 "
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative bg-lightpeach rounded-lg w-9/12 md:max-w-lg">
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute cursor-pointer top-2 right-2 text-xl font-bold text-darkgreen bg-white rounded-full"
+            >
+              <CircleX size={32} />
+            </button>
+            {selectedImage.includes('.mp4') ? (
+              <video
+                className="w-[500px] h-[300px] object-cover  rounded-lg"
+                src={selectedImage}
+                autoPlay
+                controls
+                loop
+                muted
+              ></video>
+            ) : (
+              <img
+                src={selectedImage}
+                alt="Selected"
+                className="w-full rounded-lg"
+              />
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Marquee;

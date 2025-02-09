@@ -9,6 +9,7 @@ import FloatingButtons from '../components/FoatingButtons';
 import UmrahPackages from '../components/HomePage/UmrahPackages';
 import HolidayGrid from '../components/HomePage/HoildayGrid';
 import Testimonials from '../components/HomePage/Testimonials';
+import Marquees from '../components/HomePage/Marquees';
 
 const Homepage = () => {
   const [isMenuOpen] = useState(false);
@@ -26,22 +27,19 @@ const Homepage = () => {
 
       {/* Package Slider  */}
 
-      <section className="h-full w-full bg-peach bg-opacity-20 shadow-sm">
+      <section className="h-full w-full bg-peach bg-opacity-20 shadow-md">
         <HolidayGrid />
       </section>
 
       {/* A section to be added  */}
-      <section className="h-full py-10 my-20 w-full">
+      <section className="h-full py-10 mt-20 w-full shadow-md">
         <UmrahPackages />
       </section>
 
       {/* Package Slider  */}
 
-      <section className="h-full py-10 my-20 w-full bg-peach bg-opacity-20 shadow-sm">
-        {/* <PackageSlider
-          isMenuOpen={isMenuOpen}
-          heading={'Recommended Packages'}
-        /> */}
+      <section className="h-full w-full bg-peach bg-opacity-20 shadow-md">
+        <Marquees />
       </section>
 
       {/* Book Now Section  */}

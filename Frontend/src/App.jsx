@@ -35,7 +35,6 @@ import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
 import PackagesPage from './pages/PackagesPage';
 import PackageDetailPage from './pages/PackageDetailPage';
-import PrimaryNav from './components/HomePage/PrimaryNav';
 import SecondaryNav from './components/HomePage/SecondaryNav';
 import Footer from './components/HomePage/Footer';
 import useAdminAuthStore from './Admin/store/useAdminAuthStore';
@@ -66,7 +65,6 @@ import EnquiryCustom from './Admin/Enquiry/EnquiryCustom';
 import EnquiryHotel from './Admin/Enquiry/EnquiryHotel';
 import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
-import Ramadan2025Page from './pages/Ramadan2025Page';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -108,16 +106,12 @@ const App = () => {
     checkAdminAuth();
   }, [checkAdminAuth, checkAuth]);
 
-  console.log(AuthAdmin);
-
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isLoginPage = location.pathname.startsWith('/login');
   const isSignupPage = location.pathname.startsWith('/signup');
   const isOtpPage = location.pathname.startsWith('/verify');
   const isErrorPage = location.pathname == '/error' || location.pathname == '*';
 
-  const [isMore, setIsMore] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const isOnline = useOnlineStatus();
 
   useEffect(() => {
@@ -133,13 +127,13 @@ const App = () => {
   return (
     <div className={`w-full h-full relative bg-peach/20`}>
       <div
-        className={`absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
+        className={`w-[99%] -translate-x-[50%] rounded-xl mt-2 left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
         style={{
           backgroundImage: `url('/hero-bg.jpg')`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center',
-          width: '100%',
+          // width: '100%',
         }}
       >
         <div className="mt-36 p-5 md:p-0 flex flex-col gap-5 md:w-11/12 mx-auto items-center text-[#386641]">

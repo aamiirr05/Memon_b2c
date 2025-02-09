@@ -20,7 +20,7 @@ const UmrahCards = ({
   }, [cardRef, setCardWidth]);
   return (
     <div
-      className="w-full md:w-1/2 lg:w-[30%] flex flex-col flex-shrink-0 shadow-lg overflow-hidden rounded-xl gap-2 transition-all ease-in-out duration-700"
+      className="w-full md:w-1/2 xl:w-[30%] flex flex-col flex-shrink-0 shadow-lg overflow-hidden rounded-xl gap-2 transition-all ease-in-out duration-700"
       ref={index === 0 ? cardRef : null}
       style={{
         transform: `translateX(-${activeIndex * (cardWidth + 20)}px)`,
@@ -72,8 +72,6 @@ const UmrahPackages = ({ isMenuOpen }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [cardWidth, setCardWidth] = useState(0);
   const cardRef = useRef(null);
-
-  console.log(cardWidth);
 
   const handleNext = () => {
     if (activeIndex < cards.length - 2) {
@@ -177,6 +175,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
                 activeIndex={activeIndex}
                 cardRef={cardRef}
                 index={index}
+                key={index}
                 cardWidth={cardWidth}
                 setCardWidth={setCardWidth}
               />

@@ -17,7 +17,7 @@ const HolidayGrid = ({ isMenuOpen }) => {
         </span>
 
         {/* Grid  */}
-        <div className="w-11/12 h-[60vh] lg:w-3/4 mt-40 md:mt-16 mx-auto flex-col md:flex-row flex items-start justify-center gap-3">
+        <div className="w-11/12 h-[60vh] lg:w-3/4 mt-40 mb-20 md:mb-0 md:mt-16 mx-auto flex-col md:flex-row flex items-start justify-center gap-3">
           {/* Grid 1  */}
           <div className="w-full flex flex-col gap-3">
             {/* 1 */}

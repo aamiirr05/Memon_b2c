@@ -3,7 +3,7 @@ import { Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Signature } from '@phosphor-icons/react';
 
-const Testimonials = ({ isMenuOpen }) => {
+const Testimonials = () => {
   const testimonials = [
     {
       id: 1,
@@ -72,9 +72,7 @@ const Testimonials = ({ isMenuOpen }) => {
 
   return (
     <section
-      className={`mb-10 flex flex-col items-center justify-center md:mb-20 p-5 md:p-10 w-[99%] mx-auto ${
-        isMenuOpen ? 'blur-sm' : 'blur-0'
-      }`}
+      className={`mt-20 mb-10 flex flex-col items-center justify-center md:mb-20 p-5 md:p-10 w-[99%] mx-auto`}
     >
       <span className="flex items-center justify-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta mb-10">
         {/* <Signature size={20} /> */}
