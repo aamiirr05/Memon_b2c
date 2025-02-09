@@ -34,7 +34,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full h-full bg-peach/30 font-jakarta">
+    <div className="flex flex-col lg:flex-row w-full h-full bg-peach/10 font-jakarta">
       {/* Left Side (Form) */}
       <div className="w-full lg:w-2/3 flex flex-col justify-center items-center p-4 lg:p-10">
         <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-darkgreen">

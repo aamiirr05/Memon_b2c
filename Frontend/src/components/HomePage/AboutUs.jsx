@@ -57,13 +57,20 @@ const AboutUs = ({ isMenuOpen }) => {
       </span>
       <div className="w-full mx-auto mt-5 md:mt-8 lg:my-10 flex items-center justify-center">
         <div className="w-full font-zodiak text-darkgreen flex flex-col gap-5">
-          <div className="md:w-1/1 lg:w-1/2 leading-snug text-4xl   mx-auto">
+          <div className="md:w-1/1 lg:w-1/2 leading-snug text-4xl ">
             What&apos;s so special about this ?
           </div>
-          <div className="md:w-9/12 lg:w-1/2 mb-10 lg:mb-5 mx-auto text-mediumgreen font-jakarta font-medium leading-normal">
-          At Memon Haj Umrah Tours and Travels, we specialize in providing seamless and spiritually enriching journeys for Umrah 🕋, Ziyarat 🕌, Holidays ✈️, and more. With years of expertise in the travel industry, we ensure hassle-free bookings ✅, premium accommodations 🏨, and top-notch services 🌟 tailored to your needs. Our commitment to transparency 🔍 and customer satisfaction 😊 makes us a trusted partner for travel agents across India. Whether you seek a spiritual pilgrimage 🙏 or a memorable getaway 🌍, we are here to make your journey smooth, comfortable, and unforgettable.
-
-✨ Travel with trust, experience with peace. ✨
+          <div className="md:w-9/12 lg:w-10/12 mb-10 lg:mb-5  text-mediumgreen font-jakarta font-medium leading-normal">
+            At Memon Haj Umrah Tours and Travels, we specialize in providing
+            seamless and spiritually enriching journeys for Umrah 🕋, Ziyarat
+            🕌, Holidays ✈️, and more. With years of expertise in the travel
+            industry, we ensure hassle-free bookings ✅, premium accommodations
+            🏨, and top-notch services tailored to your needs. Our commitment to
+            transparency and customer satisfaction 😊 makes us a trusted partner
+            for travel agents across India. Whether you seek a spiritual
+            pilgrimage or a memorable getaway 🌍, we are here to make your
+            journey smooth, comfortable, and unforgettable. Travel with trust,
+            experience with peace.
           </div>
         </div>
       </div>

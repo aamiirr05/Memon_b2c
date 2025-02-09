@@ -116,11 +116,15 @@ const RecommendedPackages = ({ isMenuOpen }) => {
               Your next favourite place awaits
             </div>
             {/*  */}
-            <div className="flex flex-col gap-5 md:w-1/2 lg:w-1/3">
+            <div className="flex flex-col gap-5 md:w-1/2 lg:w-2/3">
               <div className="mb-10 lg:mb-5 text-darkgreen font-jakarta font-medium leading-normal">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-                accusantium natus eius illo enim nostrum adipisci assumenda aut
-                voluptatem impedit?
+                🌍 Your Journey, Our Commitment 🕋 Explore the beauty of
+                spiritual travel with ease and comfort. From delicious meals 🍛
+                to seamless transportation 🚌 and heartfelt moments in the holy
+                lands, we ensure a hassle-free experience. Let us take care of
+                the details while you focus on your journey of faith and
+                discovery. Would you like any adjustments to better fit your
+                brand voice?
               </div>
               <button className="cursor-pointer flex items-center gap-10 bg-mediumgreen p-3 px-10 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-mediumgreen w-fit hover:shadow-md group">
                 See All

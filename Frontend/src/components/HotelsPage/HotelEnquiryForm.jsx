@@ -52,9 +52,12 @@ const HotelEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('fullName')}
-            className="form-input"
-            placeholder="Full Name"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="full_name" className="custom-forex-input-labels">
+            Fullname
+          </label>
           <p className="text-red-400 text-sm">{errors.fullName?.message}</p>
         </div>
 
@@ -62,9 +65,12 @@ const HotelEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('contactNumber')}
-            className="form-input"
-            placeholder="Phone No."
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="contact" className="custom-forex-input-labels">
+            Contact
+          </label>
           <p className="text-red-400 text-sm">
             {errors.contactNumber?.message}
           </p>
@@ -76,9 +82,12 @@ const HotelEnquiryForm = ({ onClose }) => {
         <input
           type="email"
           {...register('email')}
-          className="form-input"
-          placeholder="Email"
+          className="custom-forex-input-fields peer"
+          placeholder=""
         />
+        <label htmlFor="email" className="custom-forex-input-labels">
+          Email
+        </label>
         <p className="text-red-400 text-sm">{errors.email?.message}</p>
       </div>
 
@@ -88,8 +97,14 @@ const HotelEnquiryForm = ({ onClose }) => {
           <input
             type="date"
             {...register('checkInDate')}
-            className="form-input"
+            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           />
+          <label
+            htmlFor="checkin_date"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
+          >
+            CheckIn Date
+          </label>
           <p className="text-red-400 text-sm">{errors.checkInDate?.message}</p>
         </div>
 
@@ -97,8 +112,14 @@ const HotelEnquiryForm = ({ onClose }) => {
           <input
             type="date"
             {...register('checkOutDate')}
-            className="form-input"
+            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           />
+          <label
+            htmlFor="checkout_date"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
+          >
+            CheckOut Date
+          </label>
           <p className="text-red-400 text-sm">{errors.checkOutDate?.message}</p>
         </div>
       </div>
@@ -109,9 +130,12 @@ const HotelEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('numberOfNights')}
-            className="form-input"
-            placeholder="Number of Nights"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="nights" className="custom-forex-input-labels">
+            Total Nights
+          </label>
           <p className="text-red-400 text-sm">
             {errors.numberOfNights?.message}
           </p>
@@ -121,9 +145,12 @@ const HotelEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('numberOfRooms')}
-            className="form-input"
-            placeholder="Number of Rooms"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="rooms" className="custom-forex-input-labels">
+            Total Rooms
+          </label>
           <p className="text-red-400 text-sm">
             {errors.numberOfRooms?.message}
           </p>
@@ -131,27 +158,45 @@ const HotelEnquiryForm = ({ onClose }) => {
       </div>
 
       {/* Room Type & Meal Plan */}
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div className="relative">
-          <select {...register('roomType')} className="form-input">
-            <option value="">Select Room Type</option>
+      <div className="grid sm:grid-cols-2 gap-4 ">
+        <div className="relative ">
+          <select
+            {...register('roomType')}
+            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+          >
+            <option value="">Select</option>
             <option value="Single">Single</option>
             <option value="Double">Double</option>
             <option value="Triple">Triple</option>
             <option value="Quad">Quad</option>
             <option value="Suite">Suite</option>
           </select>
+          <label
+            htmlFor="select_room_type"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
+          >
+            Room Type
+          </label>
           <p className="text-red-400 text-sm">{errors.roomType?.message}</p>
         </div>
 
         <div className="relative">
-          <select {...register('mealPlan')} className="form-input">
-            <option value="">Select Meal Plan</option>
+          <select
+            {...register('mealPlan')}
+            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+          >
+            <option value="">Select</option>
             <option value="Room Only">Room Only</option>
             <option value="Bed & Breakfast">Bed & Breakfast</option>
             <option value="Half Board">Half Board</option>
             <option value="Full Board">Full Board</option>
           </select>
+          <label
+            htmlFor="meal_plan"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
+          >
+            Meal Plan
+          </label>
           <p className="text-red-400 text-sm">{errors.mealPlan?.message}</p>
         </div>
       </div>
@@ -162,9 +207,12 @@ const HotelEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('numberOfAdults')}
-            className="form-input"
-            placeholder="Number of Adults"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="adults" className="custom-forex-input-labels">
+            Total Adults
+          </label>
           <p className="text-red-400 text-sm">
             {errors.numberOfAdults?.message}
           </p>
@@ -174,9 +222,12 @@ const HotelEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('numberOfChildren')}
-            className="form-input"
-            placeholder="Number of Children"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="children" className="custom-forex-input-labels">
+            Total Children
+          </label>
           <p className="text-red-400 text-sm">
             {errors.numberOfChildren?.message}
           </p>
@@ -187,16 +238,19 @@ const HotelEnquiryForm = ({ onClose }) => {
       <div className="relative">
         <textarea
           {...register('specialRequests')}
-          className="form-input"
-          placeholder="Special Requests"
+          className="custom-forex-input-fields peer"
+          placeholder=""
         />
+        <label htmlFor="special_request" className="custom-forex-input-labels">
+          Special Request
+        </label>
       </div>
 
       {/* Submit Button */}
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-3 bg-peach text-darkgreen rounded-md mt-4"
+        className="w-full py-3 bg-darkgreen text-peach rounded-md mt-4"
       >
         {isSubmitting ? 'Submitting...' : 'Submit'}
       </button>
