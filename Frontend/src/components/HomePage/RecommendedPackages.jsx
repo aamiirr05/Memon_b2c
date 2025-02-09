@@ -110,7 +110,7 @@ const RecommendedPackages = ({ isMenuOpen }) => {
         </span>
         <div className="w-full mt-5 md:mt-8">
           <div className="flex flex-col gap-3 md:gap-0 md:flex-row items-start justify-between">
-            <div className="md:w-1/2 lg:w-1/2 mt-4 text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl md:text-3xl">
+            <div className="md:w-1/2 lg:w-1/2  text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl md:text-3xl">
               Your next favourite place awaits
             </div>
             {/*  */}
