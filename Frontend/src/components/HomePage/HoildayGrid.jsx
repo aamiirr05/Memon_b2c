@@ -2,8 +2,16 @@
 import { MoveRight, TicketsPlane, TreePalm } from 'lucide-react';
 import img from '../../assets/img/lp-1.avif';
 import { SuitcaseRolling } from '@phosphor-icons/react';
+import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
+import { NavLink } from 'react-router-dom';
 
 const HolidayGrid = ({ isMenuOpen }) => {
+  const getPackages = useFetchPackages('users/fetch-all-holiday-packages');
+
+  const filterCards = getPackages?.data?.data.filter((_, i) => i < 2) || [];
+
+  const cards = [...filterCards];
+  console.log(cards[0]);
   return (
     <>
       <section
@@ -22,9 +30,16 @@ const HolidayGrid = ({ isMenuOpen }) => {
           <div className="w-full flex flex-col gap-3">
             {/* 1 */}
             <div className="w-full flex gap-3 h-[30vw] md:h-[25vh] lg:h-[13vw]">
-              <div className="w-3/4 rounded-lg overflow-hidden shadow-md">
-                <img src={img} alt="" className="w-full h-full" />
-              </div>
+              <NavLink
+                to={`holidays/holiday-details/${cards[0]?.package_id}`}
+                className="w-3/4 rounded-lg overflow-hidden shadow-md cursor-pointer"
+              >
+                <img
+                  src={cards[0]?.package_images[0]?.secure_url}
+                  alt=""
+                  className="w-full h-full hover:opacity-60"
+                />
+              </NavLink>
               <div className="w-full shadow-md bg-darkgreen text-peach rounded-lg flex gap-3 flex-col items-end justify-center p-2 md:p-5">
                 <h1 className="font-zodiak font-semibold text-lg italic">
                   <TreePalm size={60} />
@@ -36,9 +51,16 @@ const HolidayGrid = ({ isMenuOpen }) => {
             </div>
             {/* 2 */}
             <div className="w-full flex flex-row-reverse gap-3 h-[30vw] md:h-[24vh] lg:h-[12vw]">
-              <div className="w-3/4 rounded-lg overflow-hidden shadow-md">
-                <img src={img} alt="" className="w-full h-full" />
-              </div>
+              <NavLink
+                to={`holidays/holiday-details/${cards[1]?.package_id}`}
+                className="w-3/4 rounded-lg overflow-hidden shadow-md cursor-pointer"
+              >
+                <img
+                  src={cards[1]?.package_images[0]?.secure_url}
+                  alt=""
+                  className="w-full h-full hover:opacity-60"
+                />
+              </NavLink>
               <div className="w-full shadow-md bg-peach text-darkgreen rounded-lg flex gap-3 flex-col items-start justify-center p-2 md:p-5">
                 <h1 className="font-zodiak font-semibold italic">
                   <TicketsPlane size={60} />

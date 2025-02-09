@@ -72,8 +72,6 @@ const RecommendedPackages = ({ isMenuOpen }) => {
 
   const filterCards = getPackages?.data?.data.filter((_, i) => i < 6) || [];
 
-  console.log(filterCards);
-
   const cards = [
     ...filterCards,
 
@@ -183,7 +181,7 @@ const RecommendedPackages = ({ isMenuOpen }) => {
             <>
               {i.title == 'Explore All' ? (
                 <div
-                  className={`text-xl absolute top-1/3 flex items-center justify-center gap-4 cursor-pointer ease-in-out transition-all duration-1000 right-32 bg-peach text-darkgreen shadow-md hover:animate-shift-up overflow-hidden font-jakarta p-2 px-6 rounded-xl ${activeIndex == cards.length - 3 ? 'translate-x-0 z-0' : 'translate-x-96 -z-10'}
+                  className={`text-xl  hidden xl:flex absolute top-1/3 items-center justify-center gap-4 cursor-pointer ease-in-out transition-all duration-1000 right-32 bg-peach text-darkgreen shadow-md hover:animate-shift-up overflow-hidden font-jakarta p-2 px-6 rounded-xl ${activeIndex == cards.length - 3 ? 'translate-x-0 z-0' : 'translate-x-96 -z-10'}
                    before:absolute before:inset-0 before:w-0 before:bg-darkgreen before:z-[-1] before:transition-all before:duration-400 hover:before:w-full hover:text-peach before:rounded-xl before:ease-in-out
                   
                   `}

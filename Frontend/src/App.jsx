@@ -1,5 +1,6 @@
+import { lazy, useEffect, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Homepage from './pages/HomePage';
+const Homepage = lazy(() => import('./pages/HomePage'));
 import LoginPage from './pages/auth/LoginPage';
 import Signup from './pages/auth/SignupPage';
 import OtpPage from './pages/auth/OtpPage';
@@ -30,7 +31,6 @@ import UpdateUmrahDetails from './Admin/UmrahPackages/Update/UpdateUmrahDetails'
 import UpdateUmrahPackImgs from './Admin/UmrahPackages/Update/UpdateUmrahPackImgs';
 import UpdateUmrahMeccaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMeccaImgs';
 import UpdateUmrahMadinaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMadinaImgs';
-import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
 import PackagesPage from './pages/PackagesPage';
@@ -150,15 +150,11 @@ const App = () => {
           <h1 className="mt-6 text-3xl lg:text-3xl md:text-3xl text-center font-bold font-zodiak">
             Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
           </h1>
-          <div className="font-jakarta font-semibold md:text-md  text-center">
-            <p className="">
-              Seamless, transparent, and reliable—book with confidence and
-              embark on your spiritual journey with ease.
-            </p>
-            <p className="">
-              No hidden charges, just a commitment to exceptional service.
-            </p>
-          </div>
+          <p className="font-jakarta font-semibold md:text-md max-w-md text-center">
+            Seamless, transparent, and reliable—book with confidence and embark
+            on your spiritual journey with ease. No hidden charges, just a
+            commitment to exceptional service.
+          </p>
         </div>
       </div>
       {!isAdminRoute &&
