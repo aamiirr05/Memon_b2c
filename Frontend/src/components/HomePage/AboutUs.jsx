@@ -61,9 +61,9 @@ const AboutUs = ({ isMenuOpen }) => {
             What&apos;s so special about this ?
           </div>
           <div className="md:w-9/12 lg:w-1/2 mb-10 lg:mb-5 mx-auto text-mediumgreen font-jakarta font-medium leading-normal">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-            accusantium natus eius illo enim nostrum adipisci assumenda aut
-            voluptatem impedit?
+          At Memon Haj Umrah Tours and Travels, we specialize in providing seamless and spiritually enriching journeys for Umrah 🕋, Ziyarat 🕌, Holidays ✈️, and more. With years of expertise in the travel industry, we ensure hassle-free bookings ✅, premium accommodations 🏨, and top-notch services 🌟 tailored to your needs. Our commitment to transparency 🔍 and customer satisfaction 😊 makes us a trusted partner for travel agents across India. Whether you seek a spiritual pilgrimage 🙏 or a memorable getaway 🌍, we are here to make your journey smooth, comfortable, and unforgettable.
+
+✨ Travel with trust, experience with peace. ✨
           </div>
         </div>
       </div>
