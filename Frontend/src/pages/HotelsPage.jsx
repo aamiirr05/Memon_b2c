@@ -14,7 +14,7 @@ const HotelsPage = () => {
   }, [fetchHotels]);
 
   return (
-    <main className="bg-peach/50">
+    <main className="bg-peach/10">
       <section>
         <div className="max-w-6xl mx-auto px-4 lg:px-0">
           <div className="pt-12 pb-8">

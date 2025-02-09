@@ -56,7 +56,7 @@ const HolidayGrid = ({ isMenuOpen }) => {
           </div>
           {/* Grid 2 */}
           <div className="w-full md:w-1/2 shadow-md flex flex-col items-start justify-center cursor-pointer bg-peach hover:bg-darkgreen transition-colors duration-500 rounded-lg h-full group p-5 gap-14">
-            <h1 className="font-zodiak text-darkgreen text-xl md:text-lg lg:text-2xl group-hover:text-peach transition-colors duration-500">
+            <h1 className="font-zodiak text-darkgreen text-xl md:text-lg lg:text-xl group-hover:text-peach transition-colors duration-500">
               “Experience the perfect blend of luxury, culture, and adventure.”
             </h1>
             <button className="flex items-center gap-3 text-sm xl:text-md font-semibold bg-darkgreen text-peach p-2 px-6 lg:px-10 rounded-full group-hover:bg-peach group-hover:text-darkgreen transition-colors duration-500">

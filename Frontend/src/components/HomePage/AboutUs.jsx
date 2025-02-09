@@ -55,12 +55,12 @@ const AboutUs = ({ isMenuOpen }) => {
       <span className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
         <Info size={20} weight="duotone" /> About Us
       </span>
-      <div className="w-full mx-auto mt-5 md:mt-8 flex items-center justify-center">
+      <div className="w-full mx-auto mt-5 md:mt-8 lg:my-10 flex items-center justify-center">
         <div className="w-full font-zodiak text-darkgreen flex flex-col gap-5">
-          <div className="md:w-1/2 lg:w-1/3 leading-snug text-4xl lg:text-5xl mx-auto">
+          <div className="md:w-1/1 lg:w-1/2 leading-snug text-4xl   mx-auto">
             What&apos;s so special about this ?
           </div>
-          <div className="md:w-1/2 lg:w-1/3 mb-10 lg:mb-5 mx-auto text-mediumgreen font-jakarta font-medium leading-normal">
+          <div className="md:w-9/12 lg:w-1/2 mb-10 lg:mb-5 mx-auto text-mediumgreen font-jakarta font-medium leading-normal">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. In
             accusantium natus eius illo enim nostrum adipisci assumenda aut
             voluptatem impedit?

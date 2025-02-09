@@ -136,14 +136,14 @@ const App = () => {
           // width: '100%',
         }}
       >
-        <div className="mt-36 p-5 md:p-0 flex flex-col gap-5 md:w-11/12 mx-auto items-center text-[#386641]">
+        <div className="mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-4 md:w-11/12 mx-auto items-center text-[#386641]">
           <q className="font-bold font-sans">
             إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ
           </q>
-          <h1 className="text-5xl text-center font-bold font-zodiak">
+          <h1 className="text-5xl lg:text-4xl md:text-3xl text-center font-bold font-zodiak">
             Search, Book and Relax
           </h1>
-          <p className="font-jakarta font-semibold max-w-md text-center">
+          <p className="font-jakarta font-semibold md:text-md max-w-md text-center">
             No hidden fees or gimmicks, just straight forward and hassle-free
             booking for all your travel needs.
           </p>
