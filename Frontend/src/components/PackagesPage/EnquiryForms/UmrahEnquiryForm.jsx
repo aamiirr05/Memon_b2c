@@ -56,24 +56,24 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
           <select
             {...register('salutation')}
             id="salutation"
-            className="block w-full text-sm h-[50px] px-4 text-peach bg-darkgreen rounded-[8px] border border-peach appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-peach focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           >
-            <option value="" className="text-peach/60">
+            <option value="" className="text-darkgreen/60">
               Select Salutation
             </option>
-            <option value="Mr " className="text-peach">
+            <option value="Mr " className="text-darkgreen">
               Mr
             </option>
-            <option value="Mrs" className="text-peach">
+            <option value="Mrs" className="text-darkgreen">
               Mrs
             </option>
-            <option value="Ms" className="text-peach">
+            <option value="Ms" className="text-darkgreen">
               Ms
             </option>
           </select>
           <label
             htmlFor="salutation"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-0.5 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-peach text-darkgreen rounded-full  disabled:bg-gray-50-background- px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-[1.2rem] leading-tight"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
           >
             Salutation
           </label>
@@ -92,10 +92,10 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="text"
             {...register('firstname')}
             id="firstname"
-            className="forex-input-fields peer"
+            className="custom-forex-input-fields peer "
             placeholder=" "
           />
-          <label htmlFor="firstname" className="forex-input-labels">
+          <label htmlFor="firstname" className="custom-forex-input-labels ">
             Firstname
           </label>
           <p
@@ -111,10 +111,10 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="text"
             {...register('lastname')}
             id="lastname"
-            className="forex-input-fields peer"
+            className="custom-forex-input-fields peer"
             placeholder=" "
           />
-          <label htmlFor="lastname" className="forex-input-labels">
+          <label htmlFor="lastname" className="custom-forex-input-labels">
             Lastname
           </label>
           <p
@@ -133,10 +133,10 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="email"
             {...register('email')}
             id="email"
-            className="forex-input-fields peer"
+            className="custom-forex-input-fields peer"
             placeholder=" "
           />
-          <label htmlFor="email" className="forex-input-labels">
+          <label htmlFor="email" className="custom-forex-input-labels">
             Email
           </label>
           <p
@@ -152,10 +152,10 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="text"
             {...register('contact')}
             id="contact"
-            className="forex-input-fields peer"
+            className="custom-forex-input-fields peer"
             placeholder=" "
           />
-          <label htmlFor="contact" className="forex-input-labels">
+          <label htmlFor="contact" className="custom-forex-input-labels">
             Contact
           </label>
           <p
@@ -174,10 +174,13 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="date"
             {...register('traveller_date')}
             id="traveller_date"
-            className="forex-input-fields peer bg-peach"
+            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
             placeholder=" "
           />
-          <label htmlFor="traveller_date" className="forex-input-labels">
+          <label
+            htmlFor="traveller_date"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
+          >
             Traveller Date
           </label>
           <p
@@ -194,10 +197,10 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="text"
             {...register('total_adults')}
             id="total_adults"
-            className="forex-input-fields peer"
+            className="custom-forex-input-fields peer"
             placeholder=" "
           />
-          <label htmlFor="total_adults" className="forex-input-labels">
+          <label htmlFor="total_adults" className="custom-forex-input-labels">
             Total Adults
           </label>
           <p
@@ -215,10 +218,10 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="text"
             {...register('total_children')}
             id="total_children"
-            className="forex-input-fields peer"
+            className="custom-forex-input-fields peer"
             placeholder=" "
           />
-          <label htmlFor="total_children" className="forex-input-labels">
+          <label htmlFor="total_children" className="custom-forex-input-labels">
             Total Children
           </label>
           <p
@@ -234,10 +237,10 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="text"
             {...register('total_infants')}
             id="total_infants"
-            className="forex-input-fields peer"
+            className="custom-forex-input-fields peer"
             placeholder=" "
           />
-          <label htmlFor="total_infants" className="forex-input-labels">
+          <label htmlFor="total_infants" className="custom-forex-input-labels">
             Total Infants
           </label>
           <p
@@ -252,7 +255,7 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-3 px-8 bg-peach text-darkgreen text-sm font-medium rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-darkgreen focus:ring-offset-2"
+        className="w-full py-3 px-8 bg-darkgreen text-peach text-sm font-medium rounded-md hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-darkgreen focus:ring-offset-2"
       >
         {isSubmitting ? 'Submitting...' : 'Submit'}
       </button>
