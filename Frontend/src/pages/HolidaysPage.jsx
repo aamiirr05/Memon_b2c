@@ -25,7 +25,7 @@ const HolidaysPage = () => {
   }, [fetchHolidays, fetchZiyarat, path]);
 
   return (
-    <main className="bg-peach/50">
+    <main className="bg-peach/10">
       <section>
         <div className="max-w-6xl mx-auto px-4 lg:px-0">
           <div className="pt-12 pb-8">
@@ -36,7 +36,7 @@ const HolidaysPage = () => {
               </strong>
             </h1>
             <h2 className="text-center text-4xl text-darkgreen font-zodiak mt-4 mb-6">
-              Explore Our Exclusive Umrah & Hajj Packages
+              Explore Our Exclusive Ziyarat & Holiday Packages
             </h2>
           </div>
 

@@ -16,7 +16,7 @@ const Footer = ({ isMenuOpen }) => {
       className={`w-full bg-darkgreen text flex flex-col gap-5 text-peach py-5 ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
     >
       <div className="w-11/12 mx-auto flex flex-col lg:flex-row lg:justify-between gap-10 pt-10 pb-5">
-        <h2 className="font-zodiak text text-2xl lg:text-3xl text-center">
+        <h2 className="font-zodiak text text-2xl text-center">
           &quot;Let&apos;s Make Travel Memories Together!&quot;
         </h2>
         <div className="flex items-center justify-center gap-4">
@@ -42,7 +42,7 @@ const Footer = ({ isMenuOpen }) => {
 
       {/*  */}
       <div className="w-11/12 mx-auto flex flex-col xl:flex-row items-start gap-32 justify-between font-jakarta font-medium border-b border-peach pb-10">
-        <div className="w-full flex flex-col gap-10 lg:gap-0 lg:flex-row items-start justify-between">
+        <div className="w-full flex  gap-10 lg:gap-0 lg:flex-row items-start justify-between">
           {/* 1 */}
           <div className="flex flex-col gap-5">
             <span className="font-zodiak text-2xl font-bold">About.</span>
@@ -113,35 +113,35 @@ const Footer = ({ isMenuOpen }) => {
             </div>
           </div>
         </div>
-        <div className="w-full flex items-center justify-end gap-3">
-          <div className="w-20 h-20 bg-peach rounded-full flex items-center justify-center">
+        <div className="w-full flex items-center justify-end md:justify-start gap-3">
+          <div className="w-20 h-20 md:w-16 md:h-16 bg-peach rounded-full flex items-center justify-center">
             <img src={img1} alt="" className="w-full" />
           </div>
-          <div className="w-20 h-20 bg-peach rounded-full flex items-center justify-center">
+          <div className="w-20 h-20 md:w-16 md:h-16 bg-peach rounded-full flex items-center justify-center">
             <img src={img2} alt="" className="w-10/12 " />
           </div>
         </div>
       </div>
       {/*   */}
 
-      <div className="w-11/12 mx-auto flex flex-col gap-10 lg:gap-0 lg:flex-row items-center justify-between">
+      <div className="w-11/12 mx-auto flex flex-col gap-10  lg:flex-row items-center justify-between">
         <div className="w-full flex items-center gap-4">
-          <img src={logo} alt="logo" className="w-14 " />
-          <h1 className="text-2xl font-bold font-jakarta">
-            Memon Tours & Travels.
+          <img src={logo} alt="logo" className="w-16 " />
+          <h1 className="text-2xl lg:text-xl font-bold font-jakarta">
+            Memon Haj Umrah Tours & Travels.
           </h1>
         </div>
-        <div className="w-full flex items-center text-sm lg:text-md justify-between gap-3 font-jakarta">
-          <span className="bg-peach p-2 px-6 text-darkgreen rounded-full font-semibold ">
+        <div className="w-full flex items-center text-sm lg:text-sm justify-between gap-3 font-jakarta">
+          <span className="bg-peach py-2 px-6 lg:py-1 lg:px-4 text-darkgreen rounded-full font-semibold cursor-pointer">
             Home
           </span>
-          <span className="">Umrah</span>
-          <span className="">Holiday</span>
-          <span className="">Hotel</span>
-          <span className="">About Us</span>
+          <span className="cursor-pointer">Umrah</span>
+          <span className="cursor-pointer">Holiday</span>
+          <span className="cursor-pointer">Hotel</span>
+          <span className="cursor-pointer">AboutUs</span>
         </div>
         <div className="w-full">
-          <h1 className="w-full flex items-center justify-end">
+          <h1 className="w-full flex items-center justify-end md:justify-start">
             &#169; {`${new Date().getFullYear()}`} All Rights Reserved.
           </h1>
         </div>

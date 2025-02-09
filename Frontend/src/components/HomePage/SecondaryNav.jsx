@@ -93,9 +93,9 @@ const SecondaryNav = () => {
                         <NavLink
                           key={dropdownLink.name}
                           to={dropdownLink.path}
-                          className="flex items-center justify-between px-4 py-2 text-sm text-peach hover:bg-peach/10"
+                          className="flex items-center justify-between px-4 py-2 text-sm text-peach group hover:bg-peach/10"
                         >
-                          <div className="flex items-center w-full group">
+                          <div className="flex items-center w-full ">
                             <span>{dropdownLink.name}</span>
                             <ChevronRight
                               className="opacity-0 group-hover:opacity-100 ml-2 transition-opacity duration-100 ease-in-out pt-1 hover:text-darkgreen"

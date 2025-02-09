@@ -1,4 +1,4 @@
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Bold } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const ScrollToTopButton = () => {
@@ -30,9 +30,9 @@ const ScrollToTopButton = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`flex gap-1 items-center fixed z-50 bottom-5 right-5 px-3 py-2 bg-darkgreen text-peach rounded-lg shadow-lg hover:bg-darkgreen/90 transition-all transform ${isVisible ? 'translate-x-0' : 'translate-x-36'}`}
+      className={`flex flex-col gap-1 items-center fixed z-50 bottom-20 right-5 p-4 bg-darkgreen text-peach rounded-full shadow-xl hover:bg-darkgreen/90 transition-all transform ${isVisible ? 'translate-x-0' : 'translate-x-36'}`}
     >
-      Go to top <ArrowUp size={20} />
+      <ArrowUp size={20} />
     </button>
   );
 };

@@ -25,14 +25,14 @@ const AboutUsCard = ({
       }}
     >
       <div className="w-full flex items-start justify-between">
-        <div className="h-[200px] w-2/3 lg:w-[40%] rounded-lg overflow-hidden">
+        <div className="h-[150px] w-2/3 lg:w-[40%] rounded-lg overflow-hidden">
           <img src={imgOne} alt="" className="w-full h-full" />
         </div>
         <span className="text-xl md:text-2xl font-jakarta text-darkgreen font-semibold">
           {title}
         </span>
       </div>
-      <div className="w-full font-jakarta p-1 text-mediumgreen font-medium">
+      <div className="w-full md:text-sm font-jakarta p-1 text-mediumgreen font-medium">
         Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente
         reprehenderit laboriosam veniam cum obcaecati tempore quo suscipit
         ducimus molestiae at?
