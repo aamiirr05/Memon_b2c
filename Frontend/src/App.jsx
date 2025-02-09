@@ -129,7 +129,7 @@ const App = () => {
   return (
     <div className={`w-full h-full relative bg-peach/20`}>
       <div
-        className={`w-[99%] -translate-x-[50%] rounded-xl mt-1 left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
+        className={`w-[99%] -translate-x-[50%] rounded-xl mt-2 left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
         style={{
           backgroundImage: `url('/hero-bg.jpg')`,
           backgroundSize: 'cover',
@@ -138,7 +138,7 @@ const App = () => {
           // width: '100%',
         }}
       >
-        <div className="mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
+        <div className="mt-28 md:mt-40 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
           <div className="flex flex-col items-center gap-1">
             <q className="font-bold font-sans">
               (Surah Aal-e-Imran 3:96) إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ
