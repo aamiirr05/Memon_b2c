@@ -138,14 +138,15 @@ const App = () => {
       >
         <div className="mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-4 md:w-11/12 mx-auto items-center text-[#386641]">
           <q className="font-bold font-sans">
-            إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ
+          (Surah Aal-e-Imran 3:96) إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ
+         
+          Indeed, the first House [of worship] established for mankind was at Bakkah 🕋 – blessed and a guidance for the worlds.
           </q>
           <h1 className="text-5xl lg:text-4xl md:text-3xl text-center font-bold font-zodiak">
-            Search, Book and Relax
+          Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond  
           </h1>
           <p className="font-jakarta font-semibold md:text-md max-w-md text-center">
-            No hidden fees or gimmicks, just straight forward and hassle-free
-            booking for all your travel needs.
+          Seamless, transparent, and reliable—book with confidence and embark on your spiritual journey with ease. No hidden charges, just a commitment to exceptional service.
           </p>
         </div>
       </div>
