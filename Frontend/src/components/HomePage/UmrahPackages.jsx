@@ -1,18 +1,61 @@
 /* eslint-disable react/prop-types */
 import { ChevronLeft, ChevronRight, Info } from 'lucide-react';
-import AboutUsCard from './AboutUsCard';
 import { useRef, useState } from 'react';
 import { Mosque } from '@phosphor-icons/react';
+/* eslint-disable react/prop-types */
+import { useEffect } from 'react';
+import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
+import { NavLink } from 'react-router-dom';
 
-const AboutUs = ({ isMenuOpen }) => {
-  const cards = [
-    { title: '01', description: 'Description for Card 1' },
-    { title: '02', description: 'Description for Card 2' },
-    { title: '03', description: 'Description for Card 3' },
-    { title: '04', description: 'Description for Card 4' },
-    { title: '05', description: 'Description for Card 5' },
-    { title: '06', description: 'Description for Card 6' },
-  ];
+const AboutUsCard = ({
+  description,
+  price,
+  image,
+  cardRef,
+  index,
+  activeIndex,
+  cardWidth,
+  setCardWidth,
+  id,
+}) => {
+  useEffect(() => {
+    if (cardRef.current) {
+      setCardWidth(cardRef.current.offsetWidth);
+    }
+  }, [cardRef, setCardWidth]);
+  return (
+    <NavLink
+      to={`/umrah-packages/package-details/${id}`}
+      className="hover:bg-darkgreen/10 transition-colors w-full md:w-[48%] flex flex-col flex-shrink-0 gap-5 border-[1.5px] border-opacity-40 shadow-sm border-darkgreen p-3 rounded-xl transition-all ease-in-out duration-700"
+      ref={index === 0 ? cardRef : null}
+      style={{
+        transform: `translateX(-${activeIndex * (cardWidth + 20)}px)`,
+        transition: 'transform 0.5s ease-in-out',
+      }}
+    >
+      <div className="w-full flex items-start justify-between">
+        <div className="h-[150px] w-2/3 lg:w-[40%] rounded-lg overflow-hidden">
+          <img src={image} alt="" className="w-full h-full" />
+        </div>
+        <span className="text-xl md:text-2xl font-jakarta text-darkgreen font-semibold">
+          ₹ {price}
+        </span>
+      </div>
+      <div className="w-full md:text-sm font-jakarta p-1 text-mediumgreen font-medium">
+        {description.split(' ').slice(0, 25).join(' ')}
+        {description.split(' ').length > 25 && '...'}
+      </div>
+    </NavLink>
+  );
+};
+
+const UmrahPackages = ({ isMenuOpen }) => {
+  const getPackages = useFetchPackages('users/fetch-all-umrah-packages');
+
+  const filterCards = getPackages?.data?.data.filter((_, i) => i < 6) || [];
+
+  const cards = [...filterCards];
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [cardWidth, setCardWidth] = useState(0);
   const cardRef = useRef(null);
@@ -61,9 +104,16 @@ const AboutUs = ({ isMenuOpen }) => {
             What&apos;s so special about this ?
           </div>
           <div className="md:w-9/12 lg:w-1/2 mb-10 lg:mb-5 mx-auto text-mediumgreen font-jakarta font-medium leading-normal">
-          At Memon Haj Umrah Tours and Travels, we specialize in providing seamless and spiritually enriching journeys for Umrah 🕋, Ziyarat 🕌, Holidays ✈️, and more. With years of expertise in the travel industry, we ensure hassle-free bookings ✅, premium accommodations 🏨, and top-notch services 🌟 tailored to your needs. Our commitment to transparency 🔍 and customer satisfaction 😊 makes us a trusted partner for travel agents across India. Whether you seek a spiritual pilgrimage 🙏 or a memorable getaway 🌍, we are here to make your journey smooth, comfortable, and unforgettable.
-
-✨ Travel with trust, experience with peace. ✨
+            At Memon Haj Umrah Tours and Travels, we specialize in providing
+            seamless and spiritually enriching journeys for Umrah 🕋, Ziyarat
+            🕌, Holidays ✈️, and more. With years of expertise in the travel
+            industry, we ensure hassle-free bookings ✅, premium accommodations
+            🏨, and top-notch services 🌟 tailored to your needs. Our commitment
+            to transparency 🔍 and customer satisfaction 😊 makes us a trusted
+            partner for travel agents across India. Whether you seek a spiritual
+            pilgrimage 🙏 or a memorable getaway 🌍, we are here to make your
+            journey smooth, comfortable, and unforgettable. ✨ Travel with
+            trust, experience with peace. ✨
           </div>
         </div>
       </div>
@@ -90,22 +140,31 @@ const AboutUs = ({ isMenuOpen }) => {
         <Mosque size={24} weight="duotone" /> Umrah Packages
       </span>
       <div
-        className="w-full flex items-center gap-5 mt-5 md:mt-10"
+        className={`w-full flex items-center gap-5 mt-5 md:mt-10 ${!getPackages?.data ? 'justify-center' : ''}`}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {cards.map((i, index) => (
-          <AboutUsCard
-            key={index}
-            title={i.title}
-            activeIndex={activeIndex}
-            cardRef={cardRef}
-            index={index}
-            cardWidth={cardWidth}
-            setCardWidth={setCardWidth}
-          />
-        ))}
+        {getPackages?.data ? (
+          cards.map((i, index) => (
+            <AboutUsCard
+              key={index}
+              description={i?.description}
+              image={i?.package_image[0].secure_url}
+              price={i?.prices[0].quint_price}
+              activeIndex={activeIndex}
+              cardRef={cardRef}
+              index={index}
+              cardWidth={cardWidth}
+              setCardWidth={setCardWidth}
+              id={i?.package_id}
+            />
+          ))
+        ) : (
+          <div className="flex items-center font-jakarta text-darkgreen justify-center text-xl font-semibold text-center">
+            Loading Please Wait...
+          </div>
+        )}
       </div>
       <div className="w-full flex items-center justify-between mt-14">
         <div className="h-1 w-2/3 md:w-1/4 rounded-full bg-darkgreen/20 overflow-hidden">
@@ -135,4 +194,4 @@ const AboutUs = ({ isMenuOpen }) => {
   );
 };
 
-export default AboutUs;
+export default UmrahPackages;

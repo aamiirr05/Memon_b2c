@@ -76,7 +76,7 @@ const Marquee = ({ imagesurl, direction }) => {
           className="fixed inset-0 flex items-center justify-center bg-black/60 z-50 "
           onClick={() => setSelectedImage(null)}
         >
-          <div className="relative bg-lightpeach rounded-lg w-9/12 md:max-w-lg">
+          <div className="relative bg-lightpeach rounded-lg w-9/12 md:w-auto md:max-w-lg">
             <button
               onClick={() => setSelectedImage(null)}
               className="absolute z-40 cursor-pointer top-2 right-2 text-xl font-bold text-darkgreen bg-white rounded-full"
@@ -85,7 +85,7 @@ const Marquee = ({ imagesurl, direction }) => {
             </button>
             {selectedImage.includes('.mp4') ? (
               <video
-                className="w-[500px] h-[300px] object-cover  rounded-lg"
+                className="w-[500px] h-[300px] object-cover rounded-lg"
                 src={selectedImage}
                 autoPlay
                 controls

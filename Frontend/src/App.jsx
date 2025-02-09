@@ -1,5 +1,6 @@
+import { lazy, useEffect, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Homepage from './pages/HomePage';
+const Homepage = lazy(() => import('./pages/HomePage'));
 import LoginPage from './pages/auth/LoginPage';
 import Signup from './pages/auth/SignupPage';
 import OtpPage from './pages/auth/OtpPage';
@@ -30,7 +31,6 @@ import UpdateUmrahDetails from './Admin/UmrahPackages/Update/UpdateUmrahDetails'
 import UpdateUmrahPackImgs from './Admin/UmrahPackages/Update/UpdateUmrahPackImgs';
 import UpdateUmrahMeccaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMeccaImgs';
 import UpdateUmrahMadinaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMadinaImgs';
-import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
 import PackagesPage from './pages/PackagesPage';
@@ -138,15 +138,18 @@ const App = () => {
       >
         <div className="mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-4 md:w-11/12 mx-auto items-center text-[#386641]">
           <q className="font-bold font-sans">
-          (Surah Aal-e-Imran 3:96) إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ
-         
-          Indeed, the first House [of worship] established for mankind was at Bakkah 🕋 – blessed and a guidance for the worlds.
+            (Surah Aal-e-Imran 3:96) إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ
+            لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ Indeed, the
+            first House [of worship] established for mankind was at Bakkah 🕋 –
+            blessed and a guidance for the worlds.
           </q>
           <h1 className="text-5xl lg:text-4xl md:text-3xl text-center font-bold font-zodiak">
-          Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond  
+            Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
           </h1>
           <p className="font-jakarta font-semibold md:text-md max-w-md text-center">
-          Seamless, transparent, and reliable—book with confidence and embark on your spiritual journey with ease. No hidden charges, just a commitment to exceptional service.
+            Seamless, transparent, and reliable—book with confidence and embark
+            on your spiritual journey with ease. No hidden charges, just a
+            commitment to exceptional service.
           </p>
         </div>
       </div>
