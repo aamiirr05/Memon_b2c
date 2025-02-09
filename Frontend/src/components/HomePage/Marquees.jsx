@@ -40,15 +40,28 @@ const Marquees = () => {
           <div className="flex flex-col gap-3 md:gap-0 md:flex-row items-start justify-between">
             {/*  */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-5 w-full">
-              <div className="md:w-1/2 text-darkgreen font-zodiak leading-snug text-4xl lg:text-5xl">
-                Your next favourite place awaits
+              <div className="md:w-1/2 text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl">
+                Memorable Moments: A Visual Journey
               </div>
-              <div className="mb-5 md:w-1/3 text-darkgreen font-jakarta font-medium leading-normal">
-              🌍 Your Journey, Our Commitment 🕋
-              
-Explore the beauty of spiritual travel with ease and comfort. From delicious meals 🍛 to seamless transportation 🚌 and heartfelt moments in the holy lands, we ensure a hassle-free experience. Let us take care of the details while you focus on your journey of faith and discovery.
-
-Would you like any adjustments to better fit your brand voice? 😊
+              <div className="mb-5 md:w-1/2 text-darkgreen font-jakarta font-medium leading-normal">
+                <p className="pb-2">
+                  {' '}
+                  Take a look at beautiful memories from amazing journeys! This
+                  gallery captures special moments, stunning places, and the joy
+                  of travel.{' '}
+                </p>
+                <p>
+                  🌍 Explore New Destinations – See breathtaking views.
+                </p>{' '}
+                <p>🕋 Spiritual Journeys – Feel the peace and connection.</p>{' '}
+                <p>
+                  🍛 Delicious Food – Enjoy tasty meals from different places.
+                </p>{' '}
+                <p>🚌 Smooth Travel – Experience comfort and adventure.</p>{' '}
+                <p className="pt-2">
+                  Every picture tells a story. Let these moments inspire your
+                  next journey! ✨
+                </p>
               </div>
             </div>
           </div>

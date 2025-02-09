@@ -46,7 +46,7 @@ const HolidayDetailPage = () => {
   const pageTitle = selectedHoliday.package_name;
 
   return (
-    <main className="bg-peach/40">
+    <main className="bg-peach/10">
       <section>
         <div className="max-w-7xl mx-auto px-4 lg:px-0">
           <div className="flex justify-between items-start lg:items-center py-12">

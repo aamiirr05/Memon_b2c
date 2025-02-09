@@ -62,7 +62,7 @@ const VisaDetailPage = () => {
   ];
 
   return (
-    <main className="bg-peach/40 font-jakarta">
+    <main className="bg-peach/10 font-jakarta">
       <section>
         <div className="max-w-7xl mx-auto px-4 lg:px-0">
           {/* Title */}

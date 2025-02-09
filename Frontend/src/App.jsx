@@ -138,14 +138,18 @@ const App = () => {
           // width: '100%',
         }}
       >
-        <div className="mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-4 md:w-11/12 mx-auto items-center text-[#386641]">
-          <q className="font-bold font-sans">
-            (Surah Aal-e-Imran 3:96) إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ
-            لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ Indeed, the
-            first House [of worship] established for mankind was at Bakkah 🕋 –
-            blessed and a guidance for the worlds.
-          </q>
-          <h1 className="text-5xl lg:text-4xl md:text-3xl text-center font-bold font-zodiak">
+        <div className="mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
+          <div className="flex flex-col items-center gap-1">
+            <q className="font-bold font-sans">
+              (Surah Aal-e-Imran 3:96) إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ
+              لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ
+            </q>
+            <q className="text-xs">
+              Indeed, the first House [of worship] established for mankind was
+              at Bakkah 🕋 – blessed and a guidance for the worlds.
+            </q>
+          </div>
+          <h1 className="mt-6 text-3xl lg:text-3xl md:text-3xl text-center font-bold font-zodiak">
             Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
           </h1>
           <p className="font-jakarta font-semibold md:text-md max-w-md text-center">

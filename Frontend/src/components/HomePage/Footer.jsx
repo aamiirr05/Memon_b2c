@@ -108,11 +108,11 @@ const Footer = ({ isMenuOpen }) => {
             </div>
           </div>
         </div>
-        <div className="w-full flex items-center justify-end md:justify-start gap-3">
-          <div className="w-20 h-20 md:w-16 md:h-16 bg-peach rounded-full flex items-center justify-center">
+        <div className="w-full flex items-center md:justify-start xl:justify-end lg:justify-start gap-3">
+          <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
             <img src={img1} alt="" className="w-full" />
           </div>
-          <div className="w-20 h-20 md:w-16 md:h-16 bg-peach rounded-full flex items-center justify-center">
+          <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
             <img src={img2} alt="" className="w-10/12 " />
           </div>
         </div>
@@ -136,7 +136,7 @@ const Footer = ({ isMenuOpen }) => {
           <span className="cursor-pointer">AboutUs</span>
         </div>
         <div className="w-full">
-          <h1 className="w-full flex items-center justify-end md:justify-start">
+          <h1 className="w-full flex items-center md:justify-start lg:justify-end">
             &#169; {`${new Date().getFullYear()}`} All Rights Reserved.
           </h1>
         </div>

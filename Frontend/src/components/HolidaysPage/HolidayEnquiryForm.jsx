@@ -51,9 +51,12 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('fullName')}
-            className="form-input"
-            placeholder="Full Name"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="full_name" className="custom-forex-input-labels">
+            Full Name
+          </label>
           <p className="text-red-400 text-sm">{errors.fullName?.message}</p>
         </div>
 
@@ -61,9 +64,12 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('contact')}
-            className="form-input"
-            placeholder="Contact"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="contact" className="custom-forex-input-labels">
+            Contact
+          </label>
           <p className="text-red-400 text-sm">{errors.contact?.message}</p>
         </div>
       </div>
@@ -73,9 +79,12 @@ const HolidayEnquiryForm = ({ onClose }) => {
         <input
           type="email"
           {...register('email')}
-          className="form-input"
-          placeholder="Email"
+          className="custom-forex-input-fields peer"
+          placeholder=""
         />
+        <label htmlFor="email" className="custom-forex-input-labels">
+          Email
+        </label>
         <p className="text-red-400 text-sm">{errors.email?.message}</p>
       </div>
 
@@ -85,9 +94,12 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('nationality')}
-            className="form-input"
+            className="custom-forex-input-fields peer"
             placeholder="Nationality"
           />
+          <label htmlFor="nationality" className="custom-forex-input-labels">
+            Nationality
+          </label>
           <p className="text-red-400 text-sm">{errors.nationality?.message}</p>
         </div>
 
@@ -95,8 +107,14 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="date"
             {...register('preferredDate')}
-            className="form-input"
+            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           />
+          <label
+            htmlFor="traveller_date"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
+          >
+            Traveller Date
+          </label>
           <p className="text-red-400 text-sm">
             {errors.preferredDate?.message}
           </p>
@@ -109,9 +127,12 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('numberOfNights')}
-            className="form-input"
-            placeholder="Number of Nights"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="nights" className="custom-forex-input-labels">
+            Total Nights
+          </label>
           <p className="text-red-400 text-sm">
             {errors.numberOfNights?.message}
           </p>
@@ -121,9 +142,12 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('numberOfAdults')}
-            className="form-input"
-            placeholder="Number of Adults"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="adults" className="custom-forex-input-labels">
+            Total Adults
+          </label>
           <p className="text-red-400 text-sm">
             {errors.numberOfAdults?.message}
           </p>
@@ -136,9 +160,12 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('numberOfChildren')}
-            className="form-input"
-            placeholder="Number of Children"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="children" className="custom-forex-input-labels">
+            Total Children
+          </label>
           <p className="text-red-400 text-sm">
             {errors.numberOfChildren?.message}
           </p>
@@ -148,9 +175,12 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="text"
             {...register('preferredDepartureCity')}
-            className="form-input"
-            placeholder="Preferred Departure City"
+            className="custom-forex-input-fields peer"
+            placeholder=""
           />
+          <label htmlFor="city" className="custom-forex-input-labels">
+            Preferred Departure City
+          </label>
           <p className="text-red-400 text-sm">
             {errors.preferredDepartureCity?.message}
           </p>
@@ -161,7 +191,7 @@ const HolidayEnquiryForm = ({ onClose }) => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-3 bg-peach text-darkgreen rounded-md mt-4"
+        className="w-full py-3 bg-darkgreen text-peach rounded-md mt-4"
       >
         {isSubmitting ? 'Submitting...' : 'Submit'}
       </button>
