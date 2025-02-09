@@ -1,6 +1,5 @@
-import { lazy, useEffect, useState } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-const Homepage = lazy(() => import('./pages/HomePage'));
+import Homepage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import Signup from './pages/auth/SignupPage';
 import OtpPage from './pages/auth/OtpPage';
@@ -31,6 +30,7 @@ import UpdateUmrahDetails from './Admin/UmrahPackages/Update/UpdateUmrahDetails'
 import UpdateUmrahPackImgs from './Admin/UmrahPackages/Update/UpdateUmrahPackImgs';
 import UpdateUmrahMeccaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMeccaImgs';
 import UpdateUmrahMadinaImgs from './Admin/UmrahPackages/Update/UpdateUmrahMadinaImgs';
+import { useEffect, useState } from 'react';
 import { useAuthStore } from './store/useAuthStore';
 import ForexPage from './pages/ForexPage';
 import PackagesPage from './pages/PackagesPage';
@@ -106,6 +106,8 @@ const App = () => {
     checkAdminAuth();
   }, [checkAdminAuth, checkAuth]);
 
+  console.log(AuthAdmin);
+
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isLoginPage = location.pathname.startsWith('/login');
   const isSignupPage = location.pathname.startsWith('/signup');
@@ -127,7 +129,7 @@ const App = () => {
   return (
     <div className={`w-full h-full relative bg-peach/20`}>
       <div
-        className={`w-[99%] -translate-x-[50%] rounded-xl mt-2 left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
+        className={`w-[99%] -translate-x-[50%] rounded-xl mt-1 left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
         style={{
           backgroundImage: `url('/hero-bg.jpg')`,
           backgroundSize: 'cover',

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { MoveRight, TicketsPlane, TreePalm } from 'lucide-react';
-import img from '../../assets/img/lp-1.avif';
 import { SuitcaseRolling } from '@phosphor-icons/react';
 import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
 import { NavLink } from 'react-router-dom';
