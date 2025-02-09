@@ -6,6 +6,7 @@ import { Mosque } from '@phosphor-icons/react';
 import { useEffect } from 'react';
 import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
 import { NavLink } from 'react-router-dom';
+import { useScroll, motion, useTransform } from 'framer-motion';
 
 const AboutUsCard = ({
   description,
@@ -26,7 +27,7 @@ const AboutUsCard = ({
   return (
     <NavLink
       to={`/umrah-packages/package-details/${id}`}
-      className="hover:bg-darkgreen/10 transition-colors w-full md:w-[48%] flex flex-col flex-shrink-0 gap-5 border-[1.5px] border-opacity-40 shadow-sm border-darkgreen p-3 rounded-xl transition-all ease-in-out duration-700"
+      className="hover:bg-darkgreen/10 w-full md:w-[48%] flex flex-col flex-shrink-0 gap-5 border-[1.5px] border-opacity-40 shadow-sm border-darkgreen p-3 rounded-xl transition-all ease-in-out duration-700"
       ref={index === 0 ? cardRef : null}
       style={{
         transform: `translateX(-${activeIndex * (cardWidth + 20)}px)`,
@@ -91,8 +92,18 @@ const UmrahPackages = ({ isMenuOpen }) => {
     }
   };
 
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'], // Trigger animation when section starts
+  });
+  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]); // Smooth scaling effect
+  const yHeading = useTransform(scrollYProgress, [0, 0.3], [50, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
+
   return (
     <section
+      ref={ref}
       className={`mb-10 md:mb-20 p-5 md:p-10 w-[99%] mx-auto ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
     >
       <span className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
@@ -100,9 +111,13 @@ const UmrahPackages = ({ isMenuOpen }) => {
       </span>
       <div className="w-full mx-auto mt-5 md:mt-8 lg:my-10 flex items-center justify-center">
         <div className="w-full font-zodiak text-darkgreen flex flex-col gap-5">
-          <div className="md:w-1/1 lg:w-1/2 leading-snug text-4xl ">
+          <motion.div
+            initial={{ x: '-100' }}
+            animate={{ x: '0' }}
+            className="md:w-1/1 lg:w-1/2 leading-snug text-4xl "
+          >
             What&apos;s so special about this ?
-          </div>
+          </motion.div>
           <div className="md:w-9/12 lg:w-10/12 mb-10 lg:mb-5  text-mediumgreen font-jakarta font-medium leading-normal">
             At Memon Haj Umrah Tours and Travels, we specialize in providing
             seamless and spiritually enriching journeys for Umrah 🕋, Ziyarat
