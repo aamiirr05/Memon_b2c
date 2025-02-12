@@ -159,7 +159,7 @@ const App = () => {
             initial={{ y: 200, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'tween', duration: 1, delay: 1 }}
-            className="mt-3 md:mt-6 text-xl lg:text-2xl text-center font-bold font-zodiak"
+            className="mt-3 md:mt-6 text-xl xl:text-3xl lg:text-2xl  text-center font-bold font-zodiak"
           >
             Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
           </motion.h1>
@@ -167,7 +167,7 @@ const App = () => {
             initial={{ y: 200, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'tween', duration: 1, delay: 1.3 }}
-            className="font-jakarta text-xs md:text-[10px] font-semibold xl:text-md w-4/5 xl:mt-2  text-center"
+            className="font-jakarta md:text-[10px] font-semibold xl:text-xs w-4/5 mt-1 text-center"
           >
             Seamless, transparent, and reliable—book with confidence and embark
             on your spiritual journey with ease. No hidden charges, just a
