@@ -43,7 +43,7 @@ const AdminLogin = () => {
 
   return (
     <>
-      <div className="absolute z-50 bg-lightpeach bg-opacity-30 w-full lg:items-center h-full lg:h-screen lg:justify-center lg:p-10 xl:p-0 xl:gap-32 flex flex-col lg:flex-row items-center justify-center">
+      <div className="absolute z-50 bg-lightpeach bg-opacity-30 w-full lg:items-center h-full lg:justify-center lg:p-10 xl:p-0 xl:gap-32 flex flex-col lg:flex-row items-center justify-center">
         <div
           className="absolute top-7 left-7 cursor-pointer text-darkgreen text-3xl"
           onClick={() => navigate('/')}
@@ -113,7 +113,7 @@ const AdminLogin = () => {
 
             <div className="text-center flex items-center justify-center gap-1 font-jakarta tracking-tight">
               Don&apos;t have an account?
-              <NavLink to="/signup" className="underline">
+              <NavLink to="/admin-signup" className="underline">
                 Signup
               </NavLink>
             </div>

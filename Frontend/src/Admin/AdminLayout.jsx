@@ -15,7 +15,7 @@ const AdminLayout = () => {
   return (
     <>
       <div
-        className={`overflow-x-hidden relative w-full h-screen
+        className={`relative w-full h-full
         
         `}
       >

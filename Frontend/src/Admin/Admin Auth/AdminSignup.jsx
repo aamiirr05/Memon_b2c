@@ -249,7 +249,7 @@ const AdminSignup = () => {
 
             <div className="text-center flex items-center justify-center gap-1 font-jakarta tracking-tight">
               Already have an account?
-              <NavLink to="/login" className="underline">
+              <NavLink to="/admin-login" className="underline">
                 Login
               </NavLink>
             </div>
