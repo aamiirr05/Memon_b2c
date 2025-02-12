@@ -4,6 +4,7 @@ import logo from '../../assets/img/logo.png';
 
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Menu,
   X,
@@ -56,7 +57,12 @@ const SecondaryNav = () => {
 
   return (
     <nav className="w-[93.8%] backdrop-blur-sm font-jakarta mx-auto shadow-md bg-peach/70 rounded-xl sticky top-5 z-50 transform transition">
-      <div className="mx-auto px-4 py-3 flex items-center justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.6, type: 'spring' }}
+        className="mx-auto px-4 py-3 flex items-center justify-between"
+      >
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center">
           <img src={logo} alt="logo" className="w-10" />
@@ -137,12 +143,18 @@ const SecondaryNav = () => {
 
         {/*  */}
         <div className="hidden xl:flex items-center text-sm justify-center gap-5 font-medium ">
-          <div className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen">
+          <NavLink
+            to="/login"
+            className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
+          >
             Login
-          </div>
-          <div className="cursor-pointer text-neutral-600 hover:text-darkgreen">
+          </NavLink>
+          <NavLink
+            to="/signup"
+            className="cursor-pointer text-neutral-600 hover:text-darkgreen"
+          >
             Signup
-          </div>
+          </NavLink>
           <div className="cursor-pointer text-neutral-600 hover:text-darkgreen">
             B2B Login
           </div>
@@ -158,7 +170,7 @@ const SecondaryNav = () => {
             )}
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Mobile Menu */}
       {menuOpen && (
@@ -182,7 +194,7 @@ const SecondaryNav = () => {
 
                         <ChevronDown className="h-4 w-4" />
                       </summary>
-                      <div className="py-2 pl-14">
+                      <div className="py-2 pl-3 md:pl-14">
                         {link.dropdown.map((dropdownLink) => (
                           <NavLink
                             onClick={() => setMenuOpen(!menuOpen)}
@@ -253,15 +265,24 @@ const SecondaryNav = () => {
             </div>
           </div>
           <div className="flex md:flex-col-reverse items-center md:w-1/3 text-sm justify-center w-full md:justify-start gap-5 font-medium ">
-            <div className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen">
+            <NavLink
+              to="/login"
+              className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
+            >
               Login
-            </div>
-            <div className="cursor-pointer text-neutral-600 hover:text-darkgreen">
+            </NavLink>
+            <NavLink
+              to="/signup"
+              className="cursor-pointer text-neutral-600 hover:text-darkgreen"
+            >
               Signup
-            </div>
-            <div className="cursor-pointer text-neutral-600 hover:text-darkgreen">
+            </NavLink>
+            <NavLink
+              to="/"
+              className="cursor-pointer text-neutral-600 hover:text-darkgreen"
+            >
               B2B Login
-            </div>
+            </NavLink>
           </div>
         </div>
       )}

@@ -65,6 +65,7 @@ import EnquiryCustom from './Admin/Enquiry/EnquiryCustom';
 import EnquiryHotel from './Admin/Enquiry/EnquiryHotel';
 import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
+import { motion } from 'framer-motion';
 
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -129,7 +130,7 @@ const App = () => {
   return (
     <div className={`w-full h-full relative bg-peach/20`}>
       <div
-        className={`w-[99%] -translate-x-[50%] rounded-xl mt-2 left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
+        className={`w-[99%] text-center -translate-x-[50%] rounded-xl mt-2 left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
         style={{
           backgroundImage: `url('/hero-bg.jpg')`,
           backgroundSize: 'cover',
@@ -138,25 +139,40 @@ const App = () => {
           // width: '100%',
         }}
       >
-        <div className="mt-28 md:mt-40 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
-          <div className="flex flex-col items-center gap-1">
-            <q className="font-bold font-sans">
+        <div className="mt-20 md:mt-40 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
+          <motion.div
+            initial={{ y: 200, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: 'tween', duration: 1, delay: 0.8 }}
+            className="flex flex-col items-center gap-1"
+          >
+            <q className="font-bold font-sans text-sm">
               (Surah Aal-e-Imran 3:96) إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ
               لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ
             </q>
-            <q className="text-xs">
+            <q className="text-xs font-jakarta">
               Indeed, the first House [of worship] established for mankind was
               at Bakkah 🕋 – blessed and a guidance for the worlds.
             </q>
-          </div>
-          <h1 className="mt-6 text-3xl lg:text-3xl md:text-3xl text-center font-bold font-zodiak">
+          </motion.div>
+          <motion.h1
+            initial={{ y: 200, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: 'tween', duration: 1, delay: 1 }}
+            className="mt-3 md:mt-6 text-xl lg:text-3xl md:text-3xl text-center font-bold font-zodiak"
+          >
             Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
-          </h1>
-          <p className="font-jakarta font-semibold md:text-md max-w-md text-center">
+          </motion.h1>
+          <motion.p
+            initial={{ y: 200, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ type: 'tween', duration: 1, delay: 1.3 }}
+            className="font-jakarta text-xs font-semibold md:text-md w-4/5 mt-3 md:mt-5 text-center"
+          >
             Seamless, transparent, and reliable—book with confidence and embark
             on your spiritual journey with ease. No hidden charges, just a
             commitment to exceptional service.
-          </p>
+          </motion.p>
         </div>
       </div>
       {!isAdminRoute &&

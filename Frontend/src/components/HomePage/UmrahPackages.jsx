@@ -6,7 +6,7 @@ import { Mosque } from '@phosphor-icons/react';
 import { useEffect } from 'react';
 import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
 import { NavLink } from 'react-router-dom';
-import { useScroll, motion, useTransform } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 const AboutUsCard = ({
   description,
@@ -93,32 +93,34 @@ const UmrahPackages = ({ isMenuOpen }) => {
   };
 
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'], // Trigger animation when section starts
-  });
-  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]); // Smooth scaling effect
-  const yHeading = useTransform(scrollYProgress, [0, 0.3], [50, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
 
+  const isInView = useInView(ref, {
+    amount: 'all',
+  });
   return (
     <section
-      ref={ref}
       className={`mb-10 md:mb-20 p-5 md:p-10 w-[99%] mx-auto ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
     >
       <span className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
         <Info size={20} weight="duotone" /> About Us
       </span>
-      <div className="w-full mx-auto mt-5 md:mt-8 lg:my-10 flex items-center justify-center">
+      <div
+        ref={ref}
+        className="w-full mx-auto mt-5 md:mt-8 lg:my-10 flex items-center justify-center"
+      >
         <div className="w-full font-zodiak text-darkgreen flex flex-col gap-5">
           <motion.div
-            initial={{ x: '-100' }}
-            animate={{ x: '0' }}
+            animate={{ x: isInView ? 0 : '-10vw', opacity: isInView ? 1 : 0 }}
+            transition={{ duration: 0.8, stiffness: 120 }}
             className="md:w-1/1 lg:w-1/2 leading-snug text-4xl "
           >
             What&apos;s so special about this ?
           </motion.div>
-          <div className="md:w-9/12 lg:w-10/12 mb-10 lg:mb-5  text-mediumgreen font-jakarta font-medium leading-normal">
+          <motion.div
+            animate={{ x: isInView ? 0 : '-20vw', opacity: isInView ? 1 : 0 }}
+            transition={{ duration: 1, delay: 0.1, stiffness: 120 }}
+            className="md:w-9/12 lg:w-10/12 mb-10 lg:mb-5 text-mediumgreen font-jakarta font-medium leading-normal"
+          >
             At Memon Haj Umrah Tours and Travels, we specialize in providing
             seamless and spiritually enriching journeys for Umrah 🕋, Ziyarat
             🕌, Holidays ✈️, and more. With years of expertise in the travel
@@ -129,11 +131,15 @@ const UmrahPackages = ({ isMenuOpen }) => {
             pilgrimage or a memorable getaway 🌍, we are here to make your
             journey smooth, comfortable, and unforgettable. Travel with trust,
             experience with peace.
-          </div>
+          </motion.div>
         </div>
       </div>
       <div className="w-full flex items-center justify-end">
-        <button className="cursor-pointer flex items-center gap-10 bg-darkgreen p-3 px-7 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-darkgreen hover:shadow-md group">
+        <motion.button
+          animate={{ x: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
+          transition={{ duration: 0.8, type: 'tween' }}
+          className="cursor-pointer flex items-center gap-10 bg-darkgreen p-3 px-7 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-darkgreen hover:shadow-md group"
+        >
           Learn More
           <span className="relative pt-1 flex items-center justify-center text-sm">
             <ChevronRight
@@ -149,7 +155,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
               className="absolute -left-8 group-hover:-left-4 transition-all duration-300"
             />
           </span>
-        </button>
+        </motion.button>
       </div>
       <span className="mt-20 flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
         <Mosque size={24} weight="duotone" /> Umrah Packages
