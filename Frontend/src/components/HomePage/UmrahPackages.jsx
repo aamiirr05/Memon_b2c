@@ -110,15 +110,15 @@ const UmrahPackages = ({ isMenuOpen }) => {
       >
         <div className="w-full font-zodiak text-darkgreen flex flex-col gap-5">
           <motion.div
-            animate={{ x: isInView ? 0 : '-10vw', opacity: isInView ? 1 : 0 }}
-            transition={{ duration: 0.8, stiffness: 120 }}
+            animate={{ x: isInView ? 0 : '-20vw', opacity: isInView ? 1 : 0 }}
+            transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
             className="md:w-1/1 lg:w-1/2 leading-snug text-4xl "
           >
             What&apos;s so special about this ?
           </motion.div>
           <motion.div
             animate={{ x: isInView ? 0 : '-20vw', opacity: isInView ? 1 : 0 }}
-            transition={{ duration: 1, delay: 0.1, stiffness: 120 }}
+            transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
             className="md:w-9/12 lg:w-10/12 mb-10 lg:mb-5 text-mediumgreen font-jakarta font-medium leading-normal"
           >
             At Memon Haj Umrah Tours and Travels, we specialize in providing
@@ -136,8 +136,14 @@ const UmrahPackages = ({ isMenuOpen }) => {
       </div>
       <div className="w-full flex items-center justify-end">
         <motion.button
-          animate={{ x: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
-          transition={{ duration: 0.4, type: 'spring' }}
+          animate={{ y: isInView ? 0 : '10vh', opacity: isInView ? 1 : 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 0.2,
+            type: 'spring',
+            stiffness: 120,
+            ease: 'easeInOut',
+          }}
           className="cursor-pointer flex items-center gap-10 bg-darkgreen p-3 px-7 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-darkgreen hover:shadow-md group"
         >
           Learn More

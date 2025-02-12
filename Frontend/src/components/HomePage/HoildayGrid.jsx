@@ -42,7 +42,7 @@ const HolidayGrid = ({ isMenuOpen }) => {
             {/* 1 */}
             <motion.div
               animate={{ x: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
-              transition={{ duration: 0.8, type: 'spring' }}
+              transition={{ duration: 2, type: 'spring', delay: 0.1 }}
               className="w-full flex gap-3 h-[30vw] md:h-[25vh] lg:h-[13vw]"
             >
               <NavLink
@@ -67,7 +67,7 @@ const HolidayGrid = ({ isMenuOpen }) => {
             {/* 2 */}
             <motion.div
               animate={{ x: isInView ? 0 : '-10vw', opacity: isInView ? 1 : 0 }}
-              transition={{ duration: 0.8, type: 'spring' }}
+              transition={{ duration: 2, type: 'spring', delay: 0.1 }}
               className="w-full flex flex-row-reverse gap-3 h-[30vw] md:h-[24vh] lg:h-[12vw]"
             >
               <NavLink
@@ -93,7 +93,7 @@ const HolidayGrid = ({ isMenuOpen }) => {
             {/* 3 */}
             <motion.div
               animate={{ y: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
-              transition={{ duration: 0.8, type: 'spring' }}
+              transition={{ duration: 2, type: 'spring', delay: 0.1 }}
               className="w-full h-[7.3vh] shadow-md rounded-lg bg-peach/70 flex items-center justify-center font-jakarta font-semibold text-xs lg:text-sm text-darkgreen p-2"
             >
               “Book now and enjoy up to 30% off select holiday packages!”
@@ -102,7 +102,7 @@ const HolidayGrid = ({ isMenuOpen }) => {
           {/* Grid 2 */}
           <motion.div
             animate={{ x: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
-            transition={{ duration: 0.3, type: 'spring' }}
+            transition={{ duration: 1, type: 'spring', delay: 0.1 }}
             className="w-full md:w-1/2 shadow-md flex flex-col items-start justify-center cursor-pointer bg-peach hover:bg-darkgreen transition-colors duration-500 rounded-lg h-full group p-5 gap-14"
           >
             <h1 className="font-zodiak text-darkgreen text-xl md:text-lg lg:text-xl group-hover:text-peach transition-colors duration-500">

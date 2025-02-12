@@ -139,18 +139,18 @@ const App = () => {
           // width: '100%',
         }}
       >
-        <div className="mt-20 md:mt-40 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
+        <div className="mt-20 xl:mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
           <motion.div
             initial={{ y: 200, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'tween', duration: 1, delay: 0.8 }}
             className="flex flex-col items-center gap-1"
           >
-            <q className="font-bold font-sans text-sm">
+            <q className="font-bold font-sans lg:text-md text-sm">
               (Surah Aal-e-Imran 3:96) إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ
               لَلَّذِي بِبَكَّةَ مُبَارَكًا وَهُدًى لِلْعَالَمِينَ
             </q>
-            <q className="text-xs font-jakarta">
+            <q className="lg:text-xs text-[8px] font-jakarta">
               Indeed, the first House [of worship] established for mankind was
               at Bakkah 🕋 – blessed and a guidance for the worlds.
             </q>
@@ -159,7 +159,7 @@ const App = () => {
             initial={{ y: 200, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'tween', duration: 1, delay: 1 }}
-            className="mt-3 md:mt-6 text-xl lg:text-3xl md:text-3xl text-center font-bold font-zodiak"
+            className="mt-3 md:mt-6 text-xl lg:text-2xl text-center font-bold font-zodiak"
           >
             Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
           </motion.h1>
@@ -167,7 +167,7 @@ const App = () => {
             initial={{ y: 200, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'tween', duration: 1, delay: 1.3 }}
-            className="font-jakarta text-xs font-semibold md:text-md w-4/5 mt-3 md:mt-5 text-center"
+            className="font-jakarta text-xs md:text-[10px] font-semibold xl:text-md w-4/5 xl:mt-2  text-center"
           >
             Seamless, transparent, and reliable—book with confidence and embark
             on your spiritual journey with ease. No hidden charges, just a
