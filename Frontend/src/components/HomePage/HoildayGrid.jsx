@@ -3,8 +3,17 @@ import { MoveRight, TicketsPlane, TreePalm } from 'lucide-react';
 import { SuitcaseRolling } from '@phosphor-icons/react';
 import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
 import { NavLink } from 'react-router-dom';
+import { useInView, motion } from 'framer-motion';
+import { useRef } from 'react';
 
 const HolidayGrid = ({ isMenuOpen }) => {
+  const ref = useRef(null);
+
+  const isInView = useInView(ref, {
+    amount: 'all',
+    once: true,
+  });
+
   const getPackages = useFetchPackages('users/fetch-all-holiday-packages');
 
   const filterCards = getPackages?.data?.data.filter((_, i) => i < 2) || [];
@@ -22,13 +31,20 @@ const HolidayGrid = ({ isMenuOpen }) => {
           </span>
           Holiday Packages
         </span>
-
         {/* Grid  */}
-        <div className="w-11/12 h-[60vh] lg:w-3/4 mt-40 mb-20 md:mb-10 md:mt-16 mx-auto flex-col md:flex-row flex items-start justify-center gap-3">
+
+        <div
+          ref={ref}
+          className="w-11/12 h-[60vh] lg:w-3/4 mt-40 mb-20 md:mb-10 md:mt-16 mx-auto flex-col md:flex-row flex items-start justify-center gap-3"
+        >
           {/* Grid 1  */}
           <div className="w-full flex flex-col gap-3">
             {/* 1 */}
-            <div className="w-full flex gap-3 h-[30vw] md:h-[25vh] lg:h-[13vw]">
+            <motion.div
+              animate={{ x: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
+              transition={{ duration: 0.8, type: 'spring' }}
+              className="w-full flex gap-3 h-[30vw] md:h-[25vh] lg:h-[13vw]"
+            >
               <NavLink
                 to={`holidays/holiday-details/${cards[0]?.package_id}`}
                 className="w-3/4 rounded-lg overflow-hidden shadow-md cursor-pointer"
@@ -47,9 +63,13 @@ const HolidayGrid = ({ isMenuOpen }) => {
                   “Curated for Comfort & Elegance”
                 </h3>{' '}
               </div>
-            </div>
+            </motion.div>
             {/* 2 */}
-            <div className="w-full flex flex-row-reverse gap-3 h-[30vw] md:h-[24vh] lg:h-[12vw]">
+            <motion.div
+              animate={{ x: isInView ? 0 : '-10vw', opacity: isInView ? 1 : 0 }}
+              transition={{ duration: 0.8, type: 'spring' }}
+              className="w-full flex flex-row-reverse gap-3 h-[30vw] md:h-[24vh] lg:h-[12vw]"
+            >
               <NavLink
                 to={`holidays/holiday-details/${cards[1]?.package_id}`}
                 className="w-3/4 rounded-lg overflow-hidden shadow-md cursor-pointer"
@@ -68,22 +88,30 @@ const HolidayGrid = ({ isMenuOpen }) => {
                   “Seamless Travel Experiences”
                 </h3>{' '}
               </div>
-            </div>
+            </motion.div>
 
             {/* 3 */}
-            <div className="w-full h-[7.3vh] shadow-md rounded-lg bg-peach/70 flex items-center justify-center font-jakarta font-semibold text-xs lg:text-sm text-darkgreen p-2">
+            <motion.div
+              animate={{ y: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
+              transition={{ duration: 0.8, type: 'spring' }}
+              className="w-full h-[7.3vh] shadow-md rounded-lg bg-peach/70 flex items-center justify-center font-jakarta font-semibold text-xs lg:text-sm text-darkgreen p-2"
+            >
               “Book now and enjoy up to 30% off select holiday packages!”
-            </div>
+            </motion.div>
           </div>
           {/* Grid 2 */}
-          <div className="w-full md:w-1/2 shadow-md flex flex-col items-start justify-center cursor-pointer bg-peach hover:bg-darkgreen transition-colors duration-500 rounded-lg h-full group p-5 gap-14">
+          <motion.div
+            animate={{ x: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
+            transition={{ duration: 0.3, type: 'spring' }}
+            className="w-full md:w-1/2 shadow-md flex flex-col items-start justify-center cursor-pointer bg-peach hover:bg-darkgreen transition-colors duration-500 rounded-lg h-full group p-5 gap-14"
+          >
             <h1 className="font-zodiak text-darkgreen text-xl md:text-lg lg:text-xl group-hover:text-peach transition-colors duration-500">
               “Experience the perfect blend of luxury, culture, and adventure.”
             </h1>
             <button className="flex items-center gap-3 text-sm xl:text-md font-semibold bg-darkgreen text-peach p-2 px-6 lg:px-10 rounded-full group-hover:bg-peach group-hover:text-darkgreen transition-colors duration-500">
               Explore All <MoveRight />
             </button>
-          </div>
+          </motion.div>
         </div>
       </section>
     </>

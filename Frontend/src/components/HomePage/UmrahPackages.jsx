@@ -137,7 +137,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
       <div className="w-full flex items-center justify-end">
         <motion.button
           animate={{ x: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
-          transition={{ duration: 0.8, type: 'tween' }}
+          transition={{ duration: 0.4, type: 'spring' }}
           className="cursor-pointer flex items-center gap-10 bg-darkgreen p-3 px-7 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-darkgreen hover:shadow-md group"
         >
           Learn More
