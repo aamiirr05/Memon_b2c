@@ -277,6 +277,7 @@
 }
 
 .custom-forex-input-fields:focus ~ .custom-forex-input-labels,
-.custom-forex-input-fields:not(:placeholder-shown) ~ .forex-input-labels {
+.custom-forex-input-fields:not(:placeholder-shown)
+  ~ .custom-forex-input-labels {
   @apply -top-3 text-peach bg-darkgreen px-3 rounded-full text-[0.6rem] sm:text-[0.75rem];
 }
