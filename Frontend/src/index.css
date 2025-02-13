@@ -267,17 +267,16 @@
 }
 
 .custom-forex-input-fields {
-  @apply block w-full text-md h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 min-w-64 placeholder-transparent caret-darkgreen z-50;
+  @apply block w-full text-md h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen z-50;
 }
 
 .custom-forex-input-labels {
-  @apply absolute z-10 text-sm font-medium px-2 py-0.5 left-2 transition-all text-darkgreen/60 bg-transparent rounded-full;
+  @apply absolute z-10 text-xs sm:text-sm font-medium px-2 py-0.5 left-2 transition-all text-darkgreen/60 bg-transparent rounded-full;
   top: 22%; /* Initial position */
   transform: translateY(-8%); /* Center vertically */
 }
 
 .custom-forex-input-fields:focus ~ .custom-forex-input-labels,
 .custom-forex-input-fields:not(:placeholder-shown) ~ .forex-input-labels {
-  @apply -top-3 text-peach bg-darkgreen px-3 rounded-full;
-  font-size: 0.75rem; /* Adjust size when floating */
+  @apply -top-3 text-peach bg-darkgreen px-3 rounded-full text-[0.6rem] sm:text-[0.75rem];
 }

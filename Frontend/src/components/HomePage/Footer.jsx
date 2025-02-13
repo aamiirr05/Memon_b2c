@@ -3,6 +3,7 @@ import { MessageCircleMore } from 'lucide-react';
 import img1 from '../../assets/img/IATA_LOGO.png';
 import img2 from '../../assets/img/AIHUTOA_LOGO.png';
 import logo from '../../assets/img/logo.png';
+import { NavLink } from 'react-router-dom';
 
 /* eslint-disable react/prop-types */
 const Footer = ({ isMenuOpen }) => {
@@ -24,13 +25,13 @@ const Footer = ({ isMenuOpen }) => {
         </div>
       </div>
       <div className="mx-auto border-b border-peach pb-10 mb-5 w-11/12 flex gap-3 items-center justify-center lg:justify-start">
-        <div className="border border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+        <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
           Whatsapp
         </div>
-        <div className="border border-peach p-2 rounded-full px-6 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+        <div className="border text-sm border-peach p-2 rounded-full px-6 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
           Email
         </div>
-        <div className="border border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+        <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
           Instagram
         </div>
       </div>
@@ -126,14 +127,31 @@ const Footer = ({ isMenuOpen }) => {
             Memon Haj Umrah Tours & Travels.
           </h1>
         </div>
-        <div className="w-full flex items-center text-sm lg:text-sm justify-between gap-3 font-jakarta">
-          <span className="bg-peach py-2 px-6 lg:py-1 lg:px-4 text-darkgreen rounded-full font-semibold cursor-pointer">
+        <div className="w-full hidden sm:flex flex-col sm:flex-row gap-5 items-center text-sm justify-between sm:gap-3 font-jakarta">
+          <NavLink
+            to="/"
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+              })
+            }
+            className="bg-peach py-2 px-6 lg:py-1 lg:px-4 text-darkgreen rounded-full font-semibold cursor-pointer"
+          >
             Home
-          </span>
-          <span className="cursor-pointer">Umrah</span>
-          <span className="cursor-pointer">Holiday</span>
-          <span className="cursor-pointer">Hotel</span>
-          <span className="cursor-pointer">AboutUs</span>
+          </NavLink>
+          <NavLink to="/umrah-packages" className="cursor-pointer">
+            Umrah
+          </NavLink>
+          <NavLink to="/holidays" className="cursor-pointer">
+            Holiday
+          </NavLink>
+          <NavLink to="/hotels" className="cursor-pointer">
+            Hotel
+          </NavLink>
+          <NavLink to="/" className="cursor-pointer">
+            AboutUs
+          </NavLink>
         </div>
         <div className="w-full">
           <h1 className="w-full flex items-center md:justify-start lg:justify-end">

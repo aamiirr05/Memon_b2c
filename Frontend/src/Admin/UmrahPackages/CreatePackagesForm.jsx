@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import umrahSchema from '../schema/UmrahSchema';
-import useCreateUmrahStore from '../store/Umrah/useCreateUmrahStore';
+import useCreateUmrahStore from '../store/Umrah/UseCreateUmrahStore';
 
 const CreatePackagesForm = () => {
   const [previewData] = useState(() => {

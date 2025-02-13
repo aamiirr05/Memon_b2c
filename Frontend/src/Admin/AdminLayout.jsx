@@ -39,7 +39,7 @@ const AdminLayout = () => {
         {/* Outlet Section */}
 
         <div
-          className={`flex p-5 lg:p-10 items-center justify-between transition-all duration-500 ${
+          className={`flex h-full p-5 lg:p-10 items-center justify-between transition-all duration-500 ${
             isMenuOpen
               ? 'ml-[17rem] lg:ml-[18rem] blur-sm lg:blur-none'
               : 'blur-none ml-[4rem] lg:ml-[5rem]'

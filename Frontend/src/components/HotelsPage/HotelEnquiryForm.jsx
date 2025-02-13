@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -29,7 +30,6 @@ const HotelEnquiryForm = ({ onClose }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -44,10 +44,10 @@ const HotelEnquiryForm = ({ onClose }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full flex flex-col gap-6 mb-4 mt-4 max-h-96 overflow-y-scroll modal-scrollbar py-4 px-1 pr-3"
+      className="w-full flex flex-col gap-4 lg:gap-6 mb-4 mt-4 h-full py-4 px-1 pr-3"
     >
       {/* Full Name & Contact Number */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
             type="text"
@@ -92,31 +92,31 @@ const HotelEnquiryForm = ({ onClose }) => {
       </div>
 
       {/* Check-in & Check-out Dates */}
-      <div className="grid sm:grid-cols-2 gap-4">
-        <div className="relative">
+      <div className="w-full flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
+        <div className="w-full relative">
           <input
             type="date"
             {...register('checkInDate')}
-            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+            className="block w-full text-[0.63rem] sm:text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           />
           <label
             htmlFor="checkin_date"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-xs sm:text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
           >
             CheckIn Date
           </label>
           <p className="text-red-400 text-sm">{errors.checkInDate?.message}</p>
         </div>
 
-        <div className="relative">
+        <div className="w-full relative">
           <input
             type="date"
             {...register('checkOutDate')}
-            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+            className="block w-full text-[0.63rem] sm:text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           />
           <label
             htmlFor="checkout_date"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-xs sm:text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
           >
             CheckOut Date
           </label>
@@ -125,7 +125,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       </div>
 
       {/* Number of Nights & Rooms */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
             type="text"
@@ -158,11 +158,11 @@ const HotelEnquiryForm = ({ onClose }) => {
       </div>
 
       {/* Room Type & Meal Plan */}
-      <div className="grid sm:grid-cols-2 gap-4 ">
-        <div className="relative ">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
+        <div className="relative w-full">
           <select
             {...register('roomType')}
-            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+            className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           >
             <option value="">Select</option>
             <option value="Single">Single</option>
@@ -173,17 +173,17 @@ const HotelEnquiryForm = ({ onClose }) => {
           </select>
           <label
             htmlFor="select_room_type"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-xs sm:text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
           >
             Room Type
           </label>
           <p className="text-red-400 text-sm">{errors.roomType?.message}</p>
         </div>
 
-        <div className="relative">
+        <div className="relative w-full">
           <select
             {...register('mealPlan')}
-            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+            className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           >
             <option value="">Select</option>
             <option value="Room Only">Room Only</option>
@@ -193,7 +193,7 @@ const HotelEnquiryForm = ({ onClose }) => {
           </select>
           <label
             htmlFor="meal_plan"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-xs sm:text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
           >
             Meal Plan
           </label>
@@ -202,7 +202,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       </div>
 
       {/* Number of Adults & Children */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
             type="text"

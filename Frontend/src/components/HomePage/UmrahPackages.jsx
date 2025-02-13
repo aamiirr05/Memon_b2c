@@ -117,8 +117,8 @@ const UmrahPackages = ({ isMenuOpen }) => {
             What&apos;s so special about this ?
           </motion.div>
           <motion.div
-            animate={{ x: isInView ? 0 : '-20vw', opacity: isInView ? 1 : 0 }}
-            transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
+            animate={{ x: isInView ? 0 : '-35vw', opacity: isInView ? 1 : 0 }}
+            transition={{ duration: 0.7, delay: 0.3, stiffness: 120 }}
             className="md:w-9/12 lg:w-10/12 mb-10 lg:mb-5 text-mediumgreen font-jakarta font-medium leading-normal"
           >
             At Memon Haj Umrah Tours and Travels, we specialize in providing
@@ -136,9 +136,9 @@ const UmrahPackages = ({ isMenuOpen }) => {
       </div>
       <div className="w-full flex items-center justify-end">
         <motion.button
-          animate={{ y: isInView ? 0 : '10vh', opacity: isInView ? 1 : 0 }}
+          animate={{ z: isInView ? 0 : 200, opacity: isInView ? 1 : 0 }}
           transition={{
-            duration: 0.5,
+            duration: 0.7,
             delay: 0.2,
             type: 'spring',
             stiffness: 120,

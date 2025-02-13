@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -49,14 +50,14 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-xl flex flex-col gap-6 mb-4 mt-4 max-h-96 overflow-y-scroll modal-scrollbar py-4 px-1 pr-3"
+      className="flex flex-col gap-4 sm:gap-6 mb-4 mt-4 h-full py-4 px-1 pr-3"
     >
       <div className="grid sm:grid-cols-2 gap-4">
         <div id="input" className="relative">
           <select
             {...register('salutation')}
             id="salutation"
-            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+            className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           >
             <option value="" className="text-darkgreen/60">
               Select Salutation
@@ -73,7 +74,7 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
           </select>
           <label
             htmlFor="salutation"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-xs sm:text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75 leading-tight"
           >
             Salutation
           </label>
@@ -85,7 +86,7 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         {/* First Name */}
         <div id="input" className="relative">
           <input
@@ -126,7 +127,7 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
       </div>
 
       {/* Email and Contact */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         {/* Email */}
         <div id="input" className="relative">
           <input
@@ -174,12 +175,12 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
             type="date"
             {...register('traveller_date')}
             id="traveller_date"
-            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+            className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
             placeholder=" "
           />
           <label
             htmlFor="traveller_date"
-            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
+            className="peer-placeholder-shown:-z-10 peer-focus:z-10 absolute text-xs sm:text-md py-1 text-primary peer-focus:text-primary peer-invalid:text-error-500 focus:invalid:text-error-500 duration-300 transform -translate-y-[1.2rem] scale-75 font-medium left-2 top-1.5 z-10 origin-[0] bg-darkgreen text-peach rounded-full  disabled:bg-gray-50-background- px-4 peer-focus:px-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2  peer-focus:scale-75  leading-tight"
           >
             Traveller Date
           </label>
@@ -211,7 +212,7 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         {/* Total Children */}
         <div id="input" className="relative">
           <input

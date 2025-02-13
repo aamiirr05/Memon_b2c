@@ -22,7 +22,7 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
     {
       icon: <FileUser />,
       name: 'Enquiry',
-      path: '/admin/enquiry',
+      path: '/admin/enquiry/umrah',
     },
     {
       icon: <Hotel />,

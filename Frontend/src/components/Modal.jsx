@@ -1,11 +1,12 @@
-import { CircleX, X } from 'lucide-react';
+/* eslint-disable react/prop-types */
+import { CircleX } from 'lucide-react';
 
 const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
 
   return (
     <div
-      id="modal-overlay "
+      id="modal-overlay"
       onClick={(e) => e.target.id === 'modal-overlay' && onClose()}
       className="fixed inset-0 flex items-center justify-center bg-black backdrop-blur-sm bg-opacity-80 z-50"
     >
@@ -16,7 +17,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         >
           <CircleX size={32} />
         </button>
-        <h2 className="text-xl font-bold mt-10 mb-6  text-center text-darkgreen">
+        <h2 className="text-md sm:text-xl font-bold mt-10 mb-6  text-center text-darkgreen">
           {title}
         </h2>
 

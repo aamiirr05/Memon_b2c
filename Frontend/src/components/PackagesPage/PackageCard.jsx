@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
 
 import { usePackageStore } from '../../store/usePackageStore';
@@ -14,7 +15,7 @@ const PackageCard = ({ pkg }) => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="flex flex-col md:flex-row bg-darkgreen/10 rounded-xl shadow-md overflow-hidden font-jakarta ">
+    <div className="flex flex-col md:flex-row bg-darkgreen/10 rounded-xl shadow-md h-full font-jakarta ">
       {/* Image Section */}
       <div className="w-full md:w-[40%] h-56 md:max-h-56 flex-shrink-0">
         <img
