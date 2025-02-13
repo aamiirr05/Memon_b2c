@@ -67,7 +67,6 @@ import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
 import { motion } from 'framer-motion';
 import { ReactLenis } from './utils/lenis';
-import Lenis from '@studio-freight/lenis';
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -130,7 +129,7 @@ const App = () => {
     <ReactLenis root>
       <div className={`w-full h-full  bg-peach/20`}>
         <div
-          className={`w-[99%] text-center -translate-x-[50%] rounded-xl mt-2 left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
+          className={`w-full text-center -translate-x-[50%] left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
           style={{
             backgroundImage: `url('/hero-bg.jpg')`,
             backgroundSize: 'cover',
