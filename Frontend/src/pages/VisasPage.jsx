@@ -28,7 +28,7 @@ const VisasPage = () => {
   };
 
   return (
-    <main className="bg-peach/50">
+    <main className="bg-peach/10">
       <div className="pt-10 pb-10 flex items-center flex-col">
         <h1 className="text-4xl pb-4 text-center text-darkgreen font-semibold font-zodiak">
           Find Your Perfect Visa

@@ -76,7 +76,7 @@ const OtpPage = () => {
 
   return (
     <>
-      <div className="bg-lightpeach bg-opacity-30 flex-col gap-5 xl:gap-16 flex items-center justify-center h-screen w-full">
+      <div className="bg-peach/10 flex-col gap-5 xl:gap-16 flex items-center justify-center h-screen w-full">
         <h3 className="font-zodiak text-4xl text-darkgreen">Otp Sent!</h3>
         <div className="w-11/12 md:w-2/3 shadow-2xl lg:w-1/2 xl:w-1/3 rounded-3xl p-10 flex flex-col items-center justify-center gap-5 bg-peach">
           <div className="w-full flex items-center justify-center">

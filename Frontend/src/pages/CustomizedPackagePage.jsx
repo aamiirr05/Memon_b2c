@@ -45,7 +45,7 @@ const CustomizedPackagePage = () => {
   };
 
   return (
-    <div className="bg-peach py-12 font-jakarta px-4 sm:px-8">
+    <div className="bg-peach/10 py-12 font-jakarta px-4 sm:px-8">
       <div className="flex flex-col gap-12 pt-6 pb-20 rounded-lg px-6 sm:px-12 lg:px-16 justify-center items-center bg-darkgreen max-w-5xl mx-auto">
         <h1 className="text-2xl sm:text-3xl font-semibold text-peach tracking-tight mt-6 font-zodiak text-center">
           CUSTOMIZE PACKAGE

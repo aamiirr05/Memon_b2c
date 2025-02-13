@@ -79,7 +79,7 @@ const Signup = () => {
 
   return (
     <>
-      <div className="bg-lightpeach bg-opacity-30 w-full lg:pt-28 xl:pt-12 h-full lg:h-screen lg:justify-center lg:items-center lg:p-5 xl:p-10 flex flex-col lg:flex-row items-center justify-start">
+      <div className="bg-peach/10 w-full lg:pt-28 xl:pt-12 h-full lg:h-screen lg:justify-center lg:items-center lg:p-5 xl:p-10 flex flex-col lg:flex-row items-center justify-start">
         {/* Navigating arrow */}
         <div
           className="absolute top-5 left-7 cursor-pointer text-darkgreen text-3xl"
