@@ -21,25 +21,25 @@ const Tab1 = () => {
         <div className="w-full md:w-2/3 pr-8 mb-4">
           <div className="grid grid-cols-2 space-y-2 my-4 text-neutral-700">
             <div>
-              <p className="text-neutral-500 text-[15px] leading-tight">
+              <p className="text-neutral-700 text-xl leading-tight mb-4">
                 Depature City
               </p>
-              <p className="font-medium text-xl">
+              <p className="font-medium text-lg text-darkgreen">
                 {selectedHoliday.departure_city}
               </p>
             </div>
             <div>
-              <p className="text-neutral-500 text-[15px] leading-tight">
+              <p className="text-neutral-700 text-lg leading-tight mb-4">
                 Arrival City
               </p>
-              <p className="font-medium text-xl">
+              <p className="font-medium text-xl text-darkgreen">
                 {selectedHoliday.arrival_city}
               </p>
             </div>
           </div>
 
           <div>
-            <h2 className="text-2xl font-medium font-zodiak text-neutral-700 mb-4">
+            <h2 className="text-2xl font-medium font-zodiak text-neutral-700 mb-4 mt-10">
               About The Destination
             </h2>
             <p className="text-neutral-700 font-jakarta tracking-tight mb-6">

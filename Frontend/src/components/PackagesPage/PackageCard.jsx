@@ -15,9 +15,9 @@ const PackageCard = ({ pkg }) => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="flex flex-col md:flex-row bg-darkgreen/10 rounded-xl shadow-md h-full font-jakarta ">
+    <div className="flex flex-col md:flex-row overflow-clip bg-darkgreen/10 rounded-xl shadow-md h-full font-jakarta ">
       {/* Image Section */}
-      <div className="w-full md:w-[40%] h-56 md:max-h-56 flex-shrink-0">
+      <div className="w-full md:w-[40%] h-56  md:max-h-56 flex-shrink-0">
         <img
           src={`${pkg.package_image[1].secure_url}`}
           alt={pkg?.package_name}
@@ -41,7 +41,7 @@ const PackageCard = ({ pkg }) => {
             <strong>{pkg?.category}</strong> | <strong>{pkg?.basePrice}</strong>
           </p> */}
           {/* Package Duration */}
-          <div className="flex">
+          <div className="flex ">
             <p className="text-sm text-neutral-800 mt-4 mb-3 mr-3">
               <strong>{pkg?.total_days}</strong> Days
             </p>
@@ -50,7 +50,7 @@ const PackageCard = ({ pkg }) => {
             </p>
           </div>
           {/* Description */}
-          <p className="text-neutral-900 text-md leading-tight line-clamp-2 mt-1 font-medium">
+          <p className="text-neutral-600 text-sm leading-tight line-clamp-2 mt-1 font-medium">
             {pkg?.description}
           </p>
         </div>
