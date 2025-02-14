@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react';
 import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
-
+import { motion, useInView } from 'framer-motion';
 const UmrahCards = ({
   description,
   image,
@@ -97,25 +97,51 @@ const RecommendedPackages = ({ isMenuOpen }) => {
     }
   };
 
+  const ref = useRef(null);
+
+  const isInView = useInView(ref, {
+    amount: 'all',
+  });
+
   return (
     <>
       <section
         className={`mb-10 md:mb-20 p-5 md:p-10 w-[99%] mx-auto ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
       >
-        <span className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
-          <span>
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, ease: 'backInOut' }}
+          className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta"
+        >
+          <motion.span
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: 'backInOut' }}
+          >
             <ThumbsUp size={20} weight="duotone" />
-          </span>
+          </motion.span>
           Recommended Packages
-        </span>
-        <div className="w-full mt-5 md:mt-8">
+        </motion.span>
+        <div className="w-full mt-5 md:mt-8" ref={ref}>
           <div className="flex flex-col gap-3 md:gap-0 md:flex-row items-start justify-between">
-            <div className="md:w-1/2 lg:w-1/2  text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl md:text-3xl">
+            <motion.div
+              animate={{ x: isInView ? 0 : '-20vw', opacity: isInView ? 1 : 0 }}
+              transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
+              className="md:w-1/2 lg:w-1/2  text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl md:text-3xl"
+            >
               Your next favourite place awaits
-            </div>
+            </motion.div>
             {/*  */}
             <div className="flex flex-col gap-5 md:w-1/2 lg:w-2/3">
-              <div className="mb-10 lg:mb-5 text-darkgreen font-jakarta font-medium leading-normal">
+              <motion.div
+                animate={{
+                  x: isInView ? 0 : '20vw',
+                  opacity: isInView ? 1 : 0,
+                }}
+                transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
+                className="mb-10 lg:mb-5 text-darkgreen font-jakarta font-medium leading-normal"
+              >
                 🌍 Your Journey, Our Commitment 🕋 Explore the beauty of
                 spiritual travel with ease and comfort. From delicious meals 🍛
                 to seamless transportation 🚌 and heartfelt moments in the holy
@@ -123,8 +149,18 @@ const RecommendedPackages = ({ isMenuOpen }) => {
                 the details while you focus on your journey of faith and
                 discovery. Would you like any adjustments to better fit your
                 brand voice?
-              </div>
-              <button className="cursor-pointer flex items-center gap-10 bg-mediumgreen p-3 px-10 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-mediumgreen w-fit hover:shadow-md group">
+              </motion.div>
+              <motion.button
+                animate={{ z: isInView ? 0 : 200, opacity: isInView ? 1 : 0 }}
+                transition={{
+                  duration: 1,
+                  delay: 0.5,
+                  type: 'spring',
+                  stiffness: 120,
+                  ease: 'easeInOut',
+                }}
+                className="cursor-pointer flex items-center gap-10 bg-mediumgreen p-3 px-10 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-mediumgreen w-fit hover:shadow-md group"
+              >
                 See All
                 <span className="relative w-fit pt-1 flex items-center justify-center text-sm">
                   <ChevronRight
@@ -140,7 +176,7 @@ const RecommendedPackages = ({ isMenuOpen }) => {
                     className="absolute -left-8 group-hover:-left-4 transition-all duration-300"
                   />
                 </span>
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
@@ -181,6 +217,7 @@ const RecommendedPackages = ({ isMenuOpen }) => {
             <>
               {i.title == 'Explore All' ? (
                 <div
+                  key={index}
                   className={`text-xl  hidden xl:flex absolute top-1/3 items-center justify-center gap-4 cursor-pointer ease-in-out transition-all duration-1000 right-32 bg-peach text-darkgreen shadow-md hover:animate-shift-up overflow-hidden font-jakarta p-2 px-6 rounded-xl ${activeIndex == cards.length - 3 ? 'translate-x-0 z-0' : 'translate-x-96 -z-10'}
                    before:absolute before:inset-0 before:w-0 before:bg-darkgreen before:z-[-1] before:transition-all before:duration-400 hover:before:w-full hover:text-peach before:rounded-xl before:ease-in-out
                   

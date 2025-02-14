@@ -86,7 +86,7 @@ const UmrahEnquiryForm = ({ packageName, packageType, onClose }) => {
         </div>
       </div>
 
-      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
+      <div className="flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         {/* First Name */}
         <div id="input" className="relative">
           <input

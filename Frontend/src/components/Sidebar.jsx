@@ -46,7 +46,7 @@ const Sidebar = () => {
           <p className="text-sm text-neutral-600 flex items-center gap-2 mt-2 font-mono">
             <Phone size={16} className="text-blue-500" /> +123 456 7890
           </p>
-          <p className="text-sm text-neutral-600 flex items-center gap-2 font-mono">
+          <p className="text-xs lg:text-sm text-wrap text-neutral-600 flex items-center gap-2 font-mono">
             <Mail size={16} className="text-blue-500 shrink-0" />{' '}
             info@yourcompany.com
           </p>

@@ -74,11 +74,22 @@ const Testimonials = () => {
     <section
       className={`mt-20 mb-10 flex flex-col items-center justify-center md:mb-20 p-5 md:p-10 w-[99%] mx-auto`}
     >
-      <span className="flex items-center justify-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta mb-10">
+      <motion.span
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, ease: 'backInOut' }}
+        className="flex items-center justify-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta mb-10"
+      >
         {/* <Signature size={20} /> */}
-        <Signature size={22} weight="duotone" />
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: 'backInOut' }}
+        >
+          <Signature size={22} weight="duotone" />
+        </motion.span>
         Testimonials
-      </span>
+      </motion.span>
 
       {/* Grid */}
       <div className="w-11/12 font-jakarta md:mt-16 mx-auto flex flex-col gap-10 items-center justify-center">
