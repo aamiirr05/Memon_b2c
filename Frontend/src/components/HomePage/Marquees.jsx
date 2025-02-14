@@ -1,5 +1,7 @@
 import Marquee from './Marquee';
 import { FilmStrip } from '@phosphor-icons/react';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 
 const Marquees = () => {
   var images = [
@@ -27,41 +29,105 @@ const Marquees = () => {
       'https://res.cloudinary.com/memonb2c/image/upload/v1739085981/WhatsApp_Image_2025-02-08_at_13.23.28_4de7674c_xxrubk.jpg',
     ],
   ];
+
+  const ref = useRef(null);
+
+  const isInView = useInView(ref, {
+    amount: 'all',
+  });
   return (
     <>
       <div className="p-5 md:p-10 w-[99%] mx-auto mb-20">
-        <span className="mt-20 flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
-          <span>
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, ease: 'backInOut' }}
+          className="mt-20 flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta"
+        >
+          <motion.span
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: 'backInOut' }}
+          >
             <FilmStrip size={20} />
-          </span>
+          </motion.span>
           Photo Gallery
-        </span>
-        <div className="w-full mt-5 md:mt-8">
+        </motion.span>
+        <div className="w-full mt-5 md:mt-8" ref={ref}>
           <div className="flex flex-col gap-3 md:gap-0 md:flex-row items-start justify-between">
             {/*  */}
             <div className="flex flex-col md:flex-row items-center justify-between gap-5 w-full">
-              <div className="md:w-1/2 text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl">
+              <motion.div
+                animate={{
+                  x: isInView ? 0 : '-20vw',
+                  opacity: isInView ? 1 : 0,
+                }}
+                transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
+                className="md:w-1/2 text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl"
+              >
                 Memorable Moments: A Visual Journey
-              </div>
+              </motion.div>
               <div className="mb-5 md:w-1/2 text-darkgreen font-jakarta font-medium leading-normal">
-                <p className="pb-2">
+                <motion.p
+                  animate={{
+                    x: isInView ? 0 : '20vw',
+                    opacity: isInView ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
+                  className="pb-2"
+                >
                   {' '}
                   Take a look at beautiful memories from amazing journeys! This
                   gallery captures special moments, stunning places, and the joy
                   of travel.{' '}
-                </p>
-                <p>
+                </motion.p>
+                <motion.p
+                  animate={{
+                    x: isInView ? 0 : '20vw',
+                    opacity: isInView ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.5, delay: 0.5, stiffness: 120 }}
+                >
                   🌍 Explore New Destinations – See breathtaking views.
-                </p>{' '}
-                <p>🕋 Spiritual Journeys – Feel the peace and connection.</p>{' '}
-                <p>
+                </motion.p>{' '}
+                <motion.p
+                  animate={{
+                    x: isInView ? 0 : '20vw',
+                    opacity: isInView ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.5, delay: 0.7, stiffness: 120 }}
+                >
+                  🕋 Spiritual Journeys – Feel the peace and connection.
+                </motion.p>{' '}
+                <motion.p
+                  animate={{
+                    x: isInView ? 0 : '20vw',
+                    opacity: isInView ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.5, delay: 1, stiffness: 120 }}
+                >
                   🍛 Delicious Food – Enjoy tasty meals from different places.
-                </p>{' '}
-                <p>🚌 Smooth Travel – Experience comfort and adventure.</p>{' '}
-                <p className="pt-2">
+                </motion.p>{' '}
+                <motion.p
+                  animate={{
+                    x: isInView ? 0 : '20vw',
+                    opacity: isInView ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.5, delay: 1.2, stiffness: 120 }}
+                >
+                  🚌 Smooth Travel – Experience comfort and adventure.
+                </motion.p>{' '}
+                <motion.p
+                  animate={{
+                    x: isInView ? 0 : '20vw',
+                    opacity: isInView ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.5, delay: 1.5, stiffness: 120 }}
+                  className="pt-2"
+                >
                   Every picture tells a story. Let these moments inspire your
                   next journey! ✨
-                </p>
+                </motion.p>
               </div>
             </div>
           </div>

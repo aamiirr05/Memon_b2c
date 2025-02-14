@@ -19,18 +19,26 @@ const HolidayGrid = ({ isMenuOpen }) => {
   const filterCards = getPackages?.data?.data.filter((_, i) => i < 2) || [];
 
   const cards = [...filterCards];
-  console.log(cards[0]);
   return (
     <>
       <section
         className={`mb-10 md:mb-20 p-5 md:p-10 w-[99%] mx-auto ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
       >
-        <span className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
-          <span>
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, ease: 'backInOut' }}
+          className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta"
+        >
+          <motion.span
+            initial={{ scale: 0, opacity: 0 }}
+            whileInView={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: 'backInOut' }}
+          >
             <SuitcaseRolling size={20} weight="duotone" />
-          </span>
+          </motion.span>
           Holiday Packages
-        </span>
+        </motion.span>
         {/* Grid  */}
 
         <div

@@ -101,9 +101,21 @@ const UmrahPackages = ({ isMenuOpen }) => {
     <section
       className={`mb-10 md:mb-20 p-5 md:p-10 w-[99%] mx-auto ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
     >
-      <span className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
-        <Info size={20} weight="duotone" /> About Us
-      </span>
+      <motion.span
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, ease: 'backInOut' }}
+        className="flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta"
+      >
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: 'backInOut' }}
+        >
+          <Info size={20} weight="duotone" />
+        </motion.span>{' '}
+        About Us
+      </motion.span>
       <div
         ref={ref}
         className="w-full mx-auto mt-5 md:mt-8 lg:my-10 flex items-center justify-center"
@@ -163,9 +175,21 @@ const UmrahPackages = ({ isMenuOpen }) => {
           </span>
         </motion.button>
       </div>
-      <span className="mt-20 flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta">
-        <Mosque size={24} weight="duotone" /> Umrah Packages
-      </span>
+      <motion.span
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, ease: 'backInOut' }}
+        className="mt-20 flex items-center gap-2 w-fit border border-darkgreen p-1 px-5 text-md rounded-full text-darkgreen font-medium font-jakarta"
+      >
+        <motion.span
+          initial={{ scale: 0, opacity: 0 }}
+          whileInView={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: 'backInOut' }}
+        >
+          <Mosque size={24} weight="duotone" />
+        </motion.span>
+        Umrah Packages
+      </motion.span>
       <div
         className={`w-full flex items-center gap-5 mt-5 md:mt-10 ${!getPackages?.data ? 'justify-center' : ''}`}
         onTouchStart={handleTouchStart}
