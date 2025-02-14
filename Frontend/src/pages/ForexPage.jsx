@@ -48,7 +48,7 @@ const ForexInquiryForm = () => {
   return (
     <div className=" overflow-hidden w-11/12 my-8 mx-auto shadow-2xl rounded-xl font-jakarta ">
       <div className="h-full w-full   bg-darkgreen flex flex-col lg:flex-row pb-6 pl-0 lg:pl-6 rounded-xl overflow-hidden">
-        <div className="relative lg:w-5/12 mt-10 bg-peach m-4 rounded-xl flex flex-col items-center justify-center">
+        <div className="relative hidden lg:w-5/12 mt-10 bg-peach m-4 rounded-xl lg:flex flex-col items-center justify-center">
           <Link
             to="/"
             className="absolute top-8 left-8 text-sm font-medium text-darkgreen bg-darkgreen/20 hover:bg-darkgreen/80 transition-colors hover:text-peach rounded-full flex justify-center items-center gap-1 px-2 py-1"
