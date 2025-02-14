@@ -46,13 +46,13 @@ const PackagesPage = () => {
       <section>
         <div className="max-w-6xl mx-auto px-4 lg:px-0">
           <div className="pt-12 pb-8">
-            <h1 className="font-serif text-3xl font-semibold text-center text-darkgreen">
+            <h1 className="font-jakarta lg:text-3xl sm:text-2xl text-md font-semibold text-center text-darkgreen">
               <strong title="Indeed, the first House [of worship] established for mankind was that at Bakkah [Makkah], blessed and a guidance for the worlds. (Quran 3:96)">
                 إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ
                 مُبَارَكًا وَهُدًى لِّلْعَالَمِينَ
               </strong>
             </h1>
-            <h2 className="text-center text-4xl text-darkgreen font-zodiak mt-4 mb-6">
+            <h2 className="text-center sm:text-3xl lg:text-4xl text-lg text-darkgreen font-zodiak mt-4 mb-6">
               Explore Our Exclusive Umrah & Hajj Packages
             </h2>
           </div>

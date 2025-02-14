@@ -18,14 +18,14 @@ const HotelsPage = () => {
       <section>
         <div className="max-w-6xl mx-auto px-4 lg:px-0">
           <div className="pt-12 pb-8">
-            <h2 className="text-center text-4xl text-darkgreen font-zodiak mt-4 mb-4">
+            <h2 className="text-center sm:text-2xl lg:text-3xl text-lg text-darkgreen font-zodiak mt-4 mb-4">
               <span className="hidden md:inline">
                 {' '}
                 Discover Comfort and Convenience:{' '}
               </span>
               Our Handpicked Hotels for Umrah & Hajj Pilgrims
             </h2>
-            <p className="text-center text-lg text-darkgreen mb-6">
+            <p className="text-center lg:text-2xl sm:text-xl text-sm text-darkgreen mb-6">
               Stay Near the Holy Sites with Our Premium Hotel Options in Makkah
               & Madinah
             </p>

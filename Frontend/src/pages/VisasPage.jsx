@@ -30,11 +30,11 @@ const VisasPage = () => {
   return (
     <main className="bg-peach/10">
       <div className="pt-10 pb-10 flex items-center flex-col">
-        <h1 className="text-4xl pb-4 text-center text-darkgreen font-semibold font-zodiak">
+        <h1 className="sm:text-3xl lg:text-4xl text-lg pb-4 text-center text-darkgreen font-semibold font-zodiak">
           Find Your Perfect Visa
         </h1>
         {/* Searchable Dropdown for selecting visa country */}
-        <div className="mt-6 min-w-80">
+        <div className="mt-6 min-w-80 ">
           <SearchableDropdown
             options={uniqueCountries}
             selectedValue={selectedCountry}
