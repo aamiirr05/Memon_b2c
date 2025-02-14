@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -36,7 +37,7 @@ const VisaEnquiryForm = ({ onClose, visaCountry, visaType }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full flex flex-col gap-6 mb-4 mt-4 max-h-96 overflow-y-scroll modal-scrollbar py-4 px-1 pr-3"
+      className="flex flex-col gap-4 sm:gap-6 mb-4 mt-4 h-full py-4 px-1 pr-3"
     >
       {/* Salutation */}
       <div className="relative">

@@ -1,13 +1,7 @@
+/* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
 import { useVisaStore } from '../../store/useVisaStore';
-import {
-  Clock,
-  Calendar,
-  MapPin,
-  DollarSign,
-  IndianRupee,
-  BadgeIndianRupee,
-} from 'lucide-react';
+import { Clock, Calendar, MapPin, BadgeIndianRupee } from 'lucide-react';
 
 const VisaCard = ({ visaData }) => {
   const { setSelectedVisa } = useVisaStore();

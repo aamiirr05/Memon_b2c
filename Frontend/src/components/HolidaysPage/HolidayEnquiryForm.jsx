@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -43,10 +44,10 @@ const HolidayEnquiryForm = ({ onClose }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full flex flex-col gap-6 mb-4 mt-4 max-h-96 overflow-y-scroll modal-scrollbar py-4 px-1 pr-3"
+      className="flex flex-col gap-4 sm:gap-6 mb-4 mt-4 h-full py-4 px-1 pr-3"
     >
       {/* Full Name & Contact */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
             type="text"
@@ -89,7 +90,7 @@ const HolidayEnquiryForm = ({ onClose }) => {
       </div>
 
       {/* Nationality & Preferred Date */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
             type="text"
@@ -107,7 +108,7 @@ const HolidayEnquiryForm = ({ onClose }) => {
           <input
             type="date"
             {...register('preferredDate')}
-            className="block w-full text-sm h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
+            className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           />
           <label
             htmlFor="traveller_date"
@@ -122,7 +123,7 @@ const HolidayEnquiryForm = ({ onClose }) => {
       </div>
 
       {/* Number of Nights & Adults */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
             type="text"
@@ -155,7 +156,7 @@ const HolidayEnquiryForm = ({ onClose }) => {
       </div>
 
       {/* Number of Children & Preferred Departure City */}
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
             type="text"
