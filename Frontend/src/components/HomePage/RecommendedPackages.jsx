@@ -140,7 +140,7 @@ const RecommendedPackages = ({ isMenuOpen }) => {
                   opacity: isInView ? 1 : 0,
                 }}
                 transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
-                className="mb-10 lg:mb-5 text-darkgreen font-jakarta font-medium leading-normal"
+                className="mb-10 lg:mb-5 text-sm sm:text-md text-darkgreen font-jakarta font-medium leading-normal"
               >
                 🌍 Your Journey, Our Commitment 🕋 Explore the beauty of
                 spiritual travel with ease and comfort. From delicious meals 🍛
@@ -159,7 +159,7 @@ const RecommendedPackages = ({ isMenuOpen }) => {
                   stiffness: 120,
                   ease: 'easeInOut',
                 }}
-                className="cursor-pointer flex items-center gap-10 bg-mediumgreen p-3 px-10 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-mediumgreen w-fit hover:shadow-md group"
+                className="cursor-pointer flex items-center gap-10 bg-mediumgreen p-3 px-10 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-mediumgreen w-fit hover:shadow-md group text-sm sm:text-md"
               >
                 See All
                 <span className="relative w-fit pt-1 flex items-center justify-center text-sm">

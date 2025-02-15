@@ -67,7 +67,7 @@ const Marquees = () => {
               >
                 Memorable Moments: A Visual Journey
               </motion.div>
-              <div className="mb-5 md:w-1/2 text-darkgreen font-jakarta font-medium leading-normal">
+              <div className="text-sm sm:text-md mb-5 md:w-1/2 text-darkgreen font-jakarta font-medium leading-normal">
                 <motion.p
                   animate={{
                     x: isInView ? 0 : '20vw',
@@ -122,7 +122,7 @@ const Marquees = () => {
                     x: isInView ? 0 : '20vw',
                     opacity: isInView ? 1 : 0,
                   }}
-                  transition={{ duration: 0.5, delay: 1.5, stiffness: 120 }}
+                  transition={{ duration: 0.5, delay: 1.3, stiffness: 120 }}
                   className="pt-2"
                 >
                   Every picture tells a story. Let these moments inspire your

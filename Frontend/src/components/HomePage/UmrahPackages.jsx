@@ -118,9 +118,9 @@ const UmrahPackages = ({ isMenuOpen }) => {
       </motion.span>
       <div
         ref={ref}
-        className="w-full mx-auto mt-5 md:mt-8 lg:my-10 flex items-center justify-center"
+        className="w-full mx-auto sm:mt-5 md:mt-8 lg:my-10 flex items-center justify-center"
       >
-        <div className="w-full font-zodiak text-darkgreen flex flex-col gap-5">
+        <div className="w-full mt-5 sm:mt-0 font-zodiak text-darkgreen flex flex-col gap-5">
           <motion.div
             animate={{ x: isInView ? 0 : '-20vw', opacity: isInView ? 1 : 0 }}
             transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
@@ -131,7 +131,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
           <motion.div
             animate={{ x: isInView ? 0 : '-35vw', opacity: isInView ? 1 : 0 }}
             transition={{ duration: 0.7, delay: 0.3, stiffness: 120 }}
-            className="md:w-9/12 lg:w-10/12 mb-10 lg:mb-5 text-mediumgreen font-jakarta font-medium leading-normal"
+            className="md:w-9/12 text-sm sm:text-md lg:w-10/12 mb-10 lg:mb-5 text-mediumgreen font-jakarta font-medium leading-normal"
           >
             At Memon Haj Umrah Tours and Travels, we specialize in providing
             seamless and spiritually enriching journeys for Umrah 🕋, Ziyarat
@@ -156,7 +156,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
             stiffness: 120,
             ease: 'easeInOut',
           }}
-          className="cursor-pointer flex items-center gap-10 bg-darkgreen p-3 px-7 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-darkgreen hover:shadow-md group"
+          className="cursor-pointer flex items-center gap-10 bg-darkgreen p-3 px-7 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-darkgreen hover:shadow-md group text-sm sm:text-md"
         >
           Learn More
           <span className="relative pt-1 flex items-center justify-center text-sm">

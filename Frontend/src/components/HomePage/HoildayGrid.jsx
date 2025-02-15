@@ -47,12 +47,9 @@ const HolidayGrid = ({ isMenuOpen }) => {
         </motion.span>
         {/* Grid  */}
 
-        <div
-          ref={ref}
-          className="w-11/12 sm:h-[500px] lg:w-3/4 mt-40 mb-20 md:mb-10 md:mt-16 mx-auto flex-col md:flex-row flex items-start justify-center gap-3"
-        >
+        <div className="w-11/12 sm:h-[500px] lg:w-3/4 mt-10 mb-10 md:mt-16 mx-auto flex-col md:flex-row flex items-start justify-center gap-3">
           {/* Grid 1  */}
-          <div className="w-full flex flex-col gap-3">
+          <div className="w-full flex flex-col gap-3 " ref={ref}>
             {/* 1 */}
             <motion.div
               animate={{ x: isInView ? 0 : '10vw', opacity: isInView ? 1 : 0 }}
