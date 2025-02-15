@@ -10,11 +10,12 @@
 
 # Connect to Supabase via connection pooling with Supavisor.
 
-DATABASE_URL="postgresql://postgres.lymjtwtdvhanmvjyfjgb:MemonUmrahTravels@aws-0-ap-south-1.pooler.supabase.com:5432/postgres"
+DATABASE_URL="postgresql://postgres.lymjtwtdvhanmvjyfjgb:MemonUmrahTravels@aws-0-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=require"
 
 PORT = 3000
 
-CORS_ORIGIN = http://localhost:5173
+CLIENT_URL_LOCAL=http://localhost:5173
+CLIENT_URL_PROD=https://memon-b2c.vercel.app
 
 ACCESS_TOKEN_SECRET=gfKaG2OtLshcQZCoxirQqfRfLpCaXSPJ
 ACCESS_TOKEN_EXPIRY=1d
