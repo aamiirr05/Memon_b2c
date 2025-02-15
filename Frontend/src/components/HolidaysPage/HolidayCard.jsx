@@ -50,7 +50,7 @@ const HolidayCard = ({ pkg }) => {
             </p>
           </div>
           {/* Description */}
-          <p className="text-neutral-900 text-md leading-tight line-clamp-2 mt-1 font-medium">
+          <p className="text-neutral-600 text-sm leading-tight line-clamp-2 mt-1 font-medium">
             {pkg?.description}
           </p>
         </div>

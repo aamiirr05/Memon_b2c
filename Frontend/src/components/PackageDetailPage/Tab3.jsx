@@ -36,7 +36,7 @@ const Tab3 = () => {
         <button
           className={`py-2 text-[15px] font-medium ${
             activeTab === 'makkah'
-              ? 'border-b-2 border-darkgreen text-darkgreen'
+              ? 'border-b-2 border-darkgreen text-darkgreen font-bold'
               : 'text-neutral-600'
           }`}
           onClick={() => setActiveTab('makkah')}

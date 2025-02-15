@@ -29,10 +29,10 @@ const TabComponent = () => {
         {tabNames.map((tabName, index) => (
           <button
             key={index}
-            className={` py-2 text-lg tracking-tight text-nowrap ${
+            className={` py-2 text-md tracking-tight text-nowrap ${
               activeTab === index + 1
-                ? 'border-b-2 border-darkgreen text-darkgreen'
-                : 'text-neutral-400 hover:text-darkgreen'
+                ? 'border-b-2 border-darkgreen text-darkgreen font-bold'
+                : 'text-neutral-500 hover:text-darkgreen'
             } transition-colors duration-300`}
             onClick={() => handleTabClick(index + 1)}
           >
