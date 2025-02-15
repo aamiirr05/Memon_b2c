@@ -12,7 +12,7 @@
 
 DATABASE_URL="postgresql://postgres.lymjtwtdvhanmvjyfjgb:MemonUmrahTravels@aws-0-ap-south-1.pooler.supabase.com:5432/postgres?sslmode=require"
 
-PORT = 3000
+PORT = 10000
 
 CLIENT_URL_LOCAL=http://localhost:5173
 CLIENT_URL_PROD=https://memon-b2c.vercel.app

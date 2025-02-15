@@ -5,11 +5,13 @@ import prisma from "./db/db.config.js";
 
 dotenv.config({ path: "./.env" });
 
+const PORT = process.env.PORT || 3000;
+
 // Connects the DB before any request handling
 connectDB()
   .then(() => {
-    app.listen(process.env.PORT || 8000, () => {
-      console.log(`Server is running at port ${process.env.PORT || 8000}`);
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server is running at port ${PORT}`);
     });
   })
   .catch((err) => {
