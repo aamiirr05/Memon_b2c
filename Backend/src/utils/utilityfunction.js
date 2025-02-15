@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import prisma from "../db/db.config.js";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 // ****************** Nodemailer OTP config ******************
 
@@ -47,14 +48,19 @@ async function sendOtp(email, username) {
   // Generate OTP
   const generatedOtp = generateOTP();
 
+  const __filename = fileURLToPath(import.meta.url);
+
   // Resolve the directory for the email template
-  const __dirname = path.dirname(new URL(import.meta.url).pathname);
-  const normalizedDirname = path.resolve(
-    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
-    ".."
-  );
+  const __dirname = path.dirname(__filename);
+
+  // const normalizedDirname = path.resolve(
+  //   __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+  //   ".."
+  // );
+
   const templatePath = path.join(
-    normalizedDirname,
+    __dirname,
+    "..",
     "email",
     "otpEmailTemplate.html"
   );
@@ -347,15 +353,18 @@ const uploadImages = async (imageCategory, imagePaths) => {
 // ***************************** SEND CONFIRMATION MAIL ************************************************
 
 const sendMailOnEnquiry = async (userName, email) => {
-  const __dirname = path.dirname(new URL(import.meta.url).pathname);
+  const __filename = fileURLToPath(import.meta.url);
 
-  const normalizedDirname = path.resolve(
-    __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
-    ".."
-  );
+  const __dirname = path.dirname(__filename);
+
+  // const normalizedDirname = path.resolve(
+  //   __dirname.startsWith("/") ? __dirname.slice(1) : __dirname,
+  //   ".."
+  // );
 
   const templatePath = path.join(
-    normalizedDirname,
+    __dirname,
+    "..",
     "email",
     "contactEnquiryEmailTemplate.html"
   );
