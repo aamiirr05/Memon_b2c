@@ -4,10 +4,14 @@ import axiosInstance from '../lib/axios';
 
 export const useAuthStore = create((set, get) => ({
   authUser: null,
+
   isLoggingIn: false,
   isSigningUp: false,
   isCheckingAuth: false,
   isVerifyingOtp: false,
+  loading: false,
+
+  setLoading: (status) => set({ loading: status }),
 
   setAuthUserAccessToken: (accessToken) =>
     set((state) => ({

@@ -5,7 +5,7 @@ const TabComponent = ({ tabs }) => {
 
   return (
     <div>
-      <div className="flex font-jakarta  gap-10 border-b border-darkgreen/10 overflow-x-scroll no-scrollbar mt-6">
+      <div className="flex font-jakarta  gap-10 border-b border-darkgreen/10 overflow-x-scroll md:overflow-auto p-2 md:p-0 mt-6">
         {tabs.map((tab, index) => (
           <button
             key={index}

@@ -4,9 +4,23 @@ import img1 from '../../assets/img/IATA_LOGO.png';
 import img2 from '../../assets/img/AIHUTOA_LOGO.png';
 import logo from '../../assets/img/logo.png';
 import { NavLink } from 'react-router-dom';
+import { useAuthStore } from '../../store/useAuthStore';
 
 /* eslint-disable react/prop-types */
 const Footer = ({ isMenuOpen }) => {
+  const { authUser, logout, loading, setLoading } = useAuthStore();
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section
       className={`w-full bg-darkgreen text flex flex-col gap-5 text-peach py-5 ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
@@ -16,12 +30,29 @@ const Footer = ({ isMenuOpen }) => {
           &quot;Let&apos;s Make Travel Memories Together!&quot;
         </h2>
         <div className="flex items-center justify-center gap-4">
-          <button className="border border-peach rounded-full hover:animate-shift-up font-semibold text-peach p-2 px-10">
-            LogIn
-          </button>
-          <button className="bg-peach rounded-full hover:animate-shift-up font-semibold text-darkgreen p-2 px-10">
-            Signup
-          </button>
+          {authUser ? (
+            <div
+              className="border cursor-pointer border-peach rounded-full hover:animate-shift-up font-semibold text-peach p-2 px-10"
+              onClick={handleLogout}
+            >
+              {loading ? 'Logging out...' : 'Logout'}
+            </div>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="border border-peach cursor-pointer rounded-full hover:animate-shift-up font-semibold text-peach p-2 px-10"
+              >
+                LogIn
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="bg-peach rounded-full cursor-pointer hover:animate-shift-up font-semibold text-darkgreen p-2 px-10"
+              >
+                Signup
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
       <div className="mx-auto border-b border-peach pb-10 mb-5 w-11/12 flex gap-3 items-center justify-center lg:justify-start">

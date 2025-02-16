@@ -27,6 +27,13 @@ const VisasPage = () => {
     setSelectedCountry(country);
   };
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
   return (
     <main className="bg-peach/10">
       <div className="pt-10 pb-10 flex items-center flex-col">
