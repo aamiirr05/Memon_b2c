@@ -9,9 +9,20 @@ import { deleteTempFiles } from "./utils/utilityfunction.js";
 const app = express();
 
 // ******** Cors ********
+const allowedOrigins = [
+  process.env.CLIENT_URL_LOCAL,
+  process.env.CLIENT_URL_PROD,
+];
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );

@@ -30,6 +30,7 @@ import {
   userUmrahEnquiryValidation,
   userVisaEnquiryValidation,
 } from "../validator/enquiry.validator.js";
+import { fileURLToPath } from "url";
 
 // ****************** All user auth routes ******************
 
@@ -125,6 +126,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: "None",
   };
 
   return res
@@ -196,6 +198,7 @@ const loginUser = asyncHandler(async (req, res) => {
   const options = {
     httpOnly: true,
     secure: true,
+    sameSite: "None",
   };
 
   return res
@@ -257,21 +260,23 @@ const checkAuth = asyncHandler(async (req, res) => {
 const resendOtp = asyncHandler(async (req, res) => {
   let { email, username } = req.body;
 
-  const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
   if (!email || !username) {
     throw new ApiError(400, "Email is required");
   }
 
   const otp = generateOTP();
 
-  const normalizedDirname = __dirname.startsWith("/")
-    ? __dirname?.slice(1)
-    : __dirname;
+  // Proper directory handling for ESM
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
 
-  const parentDir = path.resolve(normalizedDirname, "..");
-
-  const templatePath = path.join(parentDir, "email/otpEmailTemplate.html");
+  // Directly resolve the template path
+  const templatePath = path.join(
+    __dirname,
+    "..",
+    "email",
+    "otpEmailTemplate.html"
+  );
 
   let htmlContent = fs.readFileSync(templatePath, "utf8");
 
@@ -362,6 +367,7 @@ const logoutUser = asyncHandler(
     const options = {
       httpOnly: true,
       secure: true,
+      sameSite: "None",
     };
 
     return res
@@ -412,6 +418,7 @@ const refreshToken = asyncHandler(async (req, res) => {
   const options = {
     secure: true,
     httpOnly: true,
+    sameSite: "None",
   };
 
   return res
