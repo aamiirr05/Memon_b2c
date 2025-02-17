@@ -49,7 +49,9 @@ export const useAuthStore = create((set, get) => ({
   login: async (data, navigate) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post('/users/login', data);
+      const res = await axiosInstance.post('/users/login', data, {
+        withCredentials: true,
+      });
       set({ authUser: res.data.data.user });
       toast.success(res.data.message);
       navigate('/');

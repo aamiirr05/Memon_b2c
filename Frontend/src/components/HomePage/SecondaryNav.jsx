@@ -78,8 +78,13 @@ const SecondaryNav = () => {
       >
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center">
-          <img src={logo} alt="logo" className="w-10" />
-          <img src={logoname} alt="Logo" className="h-10" />
+          <img src={logo} alt="logo" className="w-10 h-full" loading="lazy" />
+          <img
+            src={logoname}
+            alt="Logo"
+            className="h-10 w-full"
+            loading="lazy"
+          />
         </Link>
 
         {/* Desktop Navigation */}

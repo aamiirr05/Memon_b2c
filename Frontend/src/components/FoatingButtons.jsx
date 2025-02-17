@@ -12,6 +12,7 @@ const FloatingButtons = () => {
         href="https://wa.me/+918108404376"
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Whatsapp"
         className={`flex items-center font-jakarta w-40 h-12 bg-green-500 text-white rounded-xl shadow-lg hover:bg-green-600 transition-all ease-in-out duration-500 pointer-events-auto
             ${hover ? 'translate-x-4 justify-center gap-3' : 'translate-x-32 justify-start pl-3 opacity-50'}
             
@@ -20,12 +21,13 @@ const FloatingButtons = () => {
         onMouseLeave={() => setHover(false)}
       >
         <MessageCircle size={24} />
-        {hover ? <span className="">Whatsapp</span> : ''}
+        {hover && <span className="">Whatsapp</span>}
       </a>
 
       {/* Email Button */}
       <a
         href="mailto:memonhajumrah@gmail.com"
+        aria-label="Email"
         className={`flex items-center w-40 h-12 font-jakarta bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600 transition-all ease-in-out duration-500 pointer-events-auto
             ${hoverMsg ? 'translate-x-4 justify-center gap-3' : 'translate-x-32 justify-start pl-3 opacity-50'}
             
@@ -34,12 +36,13 @@ const FloatingButtons = () => {
         onMouseLeave={() => setHoverMsg(false)}
       >
         <Mail size={24} />
-        {hoverMsg ? <span className="">Mail</span> : ''}
+        {hoverMsg && <span className="">Mail</span>}
       </a>
 
       {/* Phone Call Button */}
       <a
         href="tel:+918108404376"
+        aria-label="Phone"
         className={`flex items-center font-jakarta w-40 h-12 bg-red-500 text-white rounded-xl shadow-lg hover:bg-red-600 transition-all ease-in-out duration-500 pointer-events-auto
             ${hoverPhone ? 'translate-x-4 justify-center gap-3' : 'translate-x-32 justify-start pl-3 opacity-50'}
             
@@ -48,7 +51,7 @@ const FloatingButtons = () => {
         onMouseLeave={() => setHoverPhone(false)}
       >
         <Phone size={24} />
-        {hoverPhone ? <span className="">Phone</span> : ''}
+        {hoverPhone && <span className="">Phone</span>}
       </a>
     </div>
   );
