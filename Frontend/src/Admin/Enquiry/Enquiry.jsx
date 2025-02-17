@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import useFetchPackages from '../hooks/UseFetchPackages';
 import Loader from '../../components/Loader';
 import useEnquiryStore from '../store/Enquiry/useEnquiryStore';
@@ -6,6 +6,8 @@ import { RefreshCw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const Enquiry = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { checkPending } = useEnquiryStore();
   const umrahEnquiry = useFetchPackages('admin/enquiry/fetch-umrah-enquiries');
   const visaEnquiry = useFetchPackages('admin/enquiry/fetch-visa-enquiries');
@@ -46,6 +48,10 @@ const Enquiry = () => {
     visaEnquiry.data,
     contactEnquiry.data,
   ]);
+
+  useEffect(() => {
+    if (location.pathname == '/admin/enquiry') navigate('/admin/enquiry/umrah');
+  });
 
   if (!umrahEnquiry) {
     return <Loader />;

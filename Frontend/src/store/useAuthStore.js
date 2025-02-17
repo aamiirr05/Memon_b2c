@@ -9,8 +9,10 @@ export const useAuthStore = create((set, get) => ({
   isSigningUp: false,
   isCheckingAuth: false,
   isVerifyingOtp: false,
+  isAvailable: true,
   loading: false,
 
+  setIsAvailable: (status) => set({ isAvailable: status }),
   setLoading: (status) => set({ loading: status }),
 
   setAuthUserAccessToken: (accessToken) =>
