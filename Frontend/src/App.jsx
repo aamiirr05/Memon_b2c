@@ -69,6 +69,8 @@ import { motion } from 'framer-motion';
 import { ReactLenis } from './utils/lenis';
 import logo from './assets/img/logo.png';
 import useFetchPackages from './Admin/hooks/UseFetchPackages';
+import Enquiries from './pages/Enquiries';
+import TestimonialForm from './pages/TestimonialForm';
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -231,7 +233,11 @@ const App = () => {
             <Route path="forex" element={<ForexPage />} />
             <Route path="contact" element={<ContactPage />} />
 
+            {/* User Route */}
+            <Route path="/enquiries" element={<Enquiries />} />
+
             {/* Not Protected Route */}
+            <Route path="/testimonials" element={<TestimonialForm />} />
             <Route path="/packages" element={<PackagesPage />} />
             <Route
               path="customized-package"
