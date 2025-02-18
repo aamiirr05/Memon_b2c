@@ -56,15 +56,30 @@ const Footer = ({ isMenuOpen }) => {
         </div>
       </div>
       <div className="mx-auto border-b border-peach pb-10 mb-5 w-11/12 flex gap-3 items-center justify-center lg:justify-start">
-        <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
-          Whatsapp
-        </div>
-        <div className="border text-sm border-peach p-2 rounded-full px-6 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
-          Email
-        </div>
-        <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
-          Instagram
-        </div>
+        <a
+          href="https://wa.me/918108404376?text=Hello%2C%20I%20am%20interested%20in%20your%20Haj%20and%20Umrah%20tours."
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+            Whatsapp
+          </div>
+        </a>
+
+        <a href="mailto:memonhajumrah@gmail.com?subject=Inquiry%20about%20Haj%20and%20Umrah%20Tours&body=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services.">
+          <div className="border text-sm border-peach p-2 rounded-full px-6 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+            Email
+          </div>
+        </a>
+        <a
+          href="https://www.instagram.com/memonhajumrahtours"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+            Instagram
+          </div>
+        </a>
       </div>
 
       {/*  */}
