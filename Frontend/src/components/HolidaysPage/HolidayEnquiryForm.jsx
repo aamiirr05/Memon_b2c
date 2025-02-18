@@ -126,7 +126,7 @@ const HolidayEnquiryForm = ({ onClose }) => {
 
         <div className="relative">
           <input
-            id="travller_date"
+            id="traveller_date"
             type="date"
             {...register('preferredDate')}
             className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
@@ -206,10 +206,10 @@ const HolidayEnquiryForm = ({ onClose }) => {
 
         <div className="relative">
           <input
-            id="city"
             type="text"
             {...register('preferredDepartureCity')}
             className="custom-forex-input-fields peer"
+            id="city"
             placeholder=" "
           />
           <label htmlFor="city" className="custom-forex-input-labels">

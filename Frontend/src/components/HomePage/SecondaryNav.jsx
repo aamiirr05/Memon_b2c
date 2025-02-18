@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import logoname from '../../assets/img/logoname.png';
-import logo from '../../assets/img/logo.png';
+// import logoname from '../../assets/img/logoname.png';
+// import logo from '../../assets/img/logo.png';
 
 import { Link, NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -88,10 +88,15 @@ const SecondaryNav = () => {
       >
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center">
-          <img src={logo} alt="logo" className="w-10 h-full" loading="lazy" />
           <img
-            src={logoname}
-            alt="Logo"
+            src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+            alt="logo"
+            className="w-10 h-full"
+            loading="lazy"
+          />
+          <img
+            src="https://res.cloudinary.com/memonb2c/image/upload/v1739887688/MEMON_LOGO_NAME_amywa1.png"
+            alt="Logo-name"
             className="h-10 w-full"
             loading="lazy"
           />
