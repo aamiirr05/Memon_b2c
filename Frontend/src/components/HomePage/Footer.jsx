@@ -2,7 +2,7 @@ import { MessageCircleMore } from 'lucide-react';
 
 import img1 from '../../assets/img/IATA_LOGO.png';
 import img2 from '../../assets/img/AIHUTOA_LOGO.png';
-import logo from '../../assets/img/logo.png';
+// import logo from '../../assets/img/logo.png';
 import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
 
@@ -153,7 +153,11 @@ const Footer = ({ isMenuOpen }) => {
 
       <div className="w-11/12 mx-auto flex flex-col gap-10  lg:flex-row items-center justify-between">
         <div className="w-full flex items-center gap-4">
-          <img src={logo} alt="logo" className="w-16 " />
+          <img
+            src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+            alt="logo"
+            className="w-16 "
+          />
           <h1 className="text-2xl lg:text-xl font-bold font-jakarta">
             Memon Haj Umrah Tours & Travels.
           </h1>
