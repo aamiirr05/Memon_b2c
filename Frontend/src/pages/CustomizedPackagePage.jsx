@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useCustomizedPackageStore from '../store/useCustomizedPackageStore';
+import { useEffect } from 'react';
 
 const schema = yup.object().shape({
   firstname: yup.string().required('First name is required'),
@@ -29,6 +30,13 @@ const schema = yup.object().shape({
 });
 
 const CustomizedPackagePage = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
   const {
     register,
     handleSubmit,

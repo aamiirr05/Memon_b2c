@@ -19,9 +19,11 @@ const HolidayDetailPage = () => {
   } = useHolidayStore();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }, []);
-
   useEffect(() => {
     if (!selectedHoliday || selectedHoliday.package_id !== holidayId) {
       const holiday = holidays.find((h) => h.package_id === holidayId);

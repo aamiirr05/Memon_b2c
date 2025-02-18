@@ -67,6 +67,8 @@ import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
 import { motion } from 'framer-motion';
 import { ReactLenis } from './utils/lenis';
+import logo from './assets/img/logo.png';
+import useFetchPackages from './Admin/hooks/UseFetchPackages';
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -96,10 +98,39 @@ const OfflineNotice = () => (
   </div>
 );
 
+const PreLoader = () => (
+  <div className="fixed inset-0 w-full bg-peach h-screen text-darkgreen flex flex-col gap-3 mx-auto items-center justify-center">
+    <div className="relative w-48 h-1 bg-darkgreen/30 overflow-hidden rounded-full">
+      <div className="absolute h-full w-1/3 bg-darkgreen rounded-full animate-loader"></div>
+    </div>
+
+    <div className="flex mt-3 items-end w-full gap-5 justify-center">
+      <img src={logo} alt="logo" className="w-10" loading="lazy" />
+      <p className=" font-jakarta font-semibold text-3xl">
+        Memon Tours & Travels.
+      </p>
+    </div>
+    <p className="mt-3 font-jakarta font-medium text-md">
+      Loading, please wait...
+    </p>
+  </div>
+);
+
 const App = () => {
   const { checkAuth } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAvailable, setIsAvailable } = useAuthStore();
+
+  console.log(isAvailable);
+
+  const getPackages = useFetchPackages('users/fetch-all-umrah-packages');
+
+  useEffect(() => {
+    if (getPackages?.data) {
+      setIsAvailable(false);
+    }
+  }, [getPackages?.data, setIsAvailable]);
 
   const { checkAdminAuth, AuthAdmin } = useAdminAuthStore();
   useEffect(() => {
@@ -125,9 +156,15 @@ const App = () => {
     return <OfflineNotice />;
   }
 
+  if (isAvailable) {
+    return <PreLoader />;
+  }
+
   return (
     <ReactLenis root>
-      <div className={`w-full h-full  bg-peach/20`}>
+      <div
+        className={`w-full h-full ${!location.pathname.includes('/admin') ? 'bg-peach/20' : ''}`}
+      >
         <div
           className={`w-full text-center -translate-x-[50%] left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
           style={{

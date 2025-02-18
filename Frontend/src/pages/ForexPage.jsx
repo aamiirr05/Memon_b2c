@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 
 import { useForexFormStore } from '../store/useForexFormStore';
 import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 // Validation schema
 const schema = yup.object().shape({
@@ -44,6 +45,13 @@ const ForexInquiryForm = () => {
     submit(data, navigate);
     reset();
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   return (
     <div className=" overflow-hidden w-11/12 my-8 mx-auto shadow-2xl rounded-xl font-jakarta ">

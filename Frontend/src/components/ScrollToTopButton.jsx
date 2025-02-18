@@ -1,4 +1,4 @@
-import { ArrowUp, Bold } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const ScrollToTopButton = () => {

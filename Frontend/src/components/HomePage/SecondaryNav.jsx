@@ -2,7 +2,6 @@
 import logoname from '../../assets/img/logoname.png';
 import logo from '../../assets/img/logo.png';
 
-import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -22,6 +21,8 @@ import {
   MoonStars,
   Mosque,
 } from '@phosphor-icons/react';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useState } from 'react';
 
 const navLinks = [
   { name: 'Home', path: '/', icon: <House size={20} /> },
@@ -54,6 +55,18 @@ const navLinkTwo = [
 const SecondaryNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { authUser, logout, loading, setLoading } = useAuthStore();
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <nav className="w-[93.8%] backdrop-blur-sm font-jakarta mx-auto shadow-md bg-peach/70 rounded-xl sticky top-5 z-50 transform transition">
@@ -65,8 +78,13 @@ const SecondaryNav = () => {
       >
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center">
-          <img src={logo} alt="logo" className="w-10" />
-          <img src={logoname} alt="Logo" className="h-10" />
+          <img src={logo} alt="logo" className="w-10 h-full" loading="lazy" />
+          <img
+            src={logoname}
+            alt="Logo"
+            className="h-10 w-full"
+            loading="lazy"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -143,18 +161,29 @@ const SecondaryNav = () => {
 
         {/*  */}
         <div className="hidden xl:flex items-center text-sm justify-center gap-5 font-medium ">
-          <NavLink
-            to="/login"
-            className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to="/signup"
-            className="cursor-pointer text-neutral-600 hover:text-darkgreen"
-          >
-            Signup
-          </NavLink>
+          {authUser ? (
+            <div
+              className={` p-2 px-6 rounded-lg  cursor-pointer ${loading ? 'text-darkgreen font-semibold border border-darkgreen' : 'bg-darkgreen text-peach'}`}
+              onClick={handleLogout}
+            >
+              {loading ? 'Logging out...' : 'Logout'}
+            </div>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="cursor-pointer text-neutral-600 hover:text-darkgreen"
+              >
+                Signup
+              </NavLink>
+            </>
+          )}
           <div className="cursor-pointer text-neutral-600 hover:text-darkgreen">
             B2B Login
           </div>
@@ -265,18 +294,30 @@ const SecondaryNav = () => {
             </div>
           </div>
           <div className="flex md:flex-col-reverse items-center md:w-1/3 text-sm justify-center w-full md:justify-start gap-5 font-medium ">
-            <NavLink
-              to="/login"
-              className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
-            >
-              Login
-            </NavLink>
-            <NavLink
-              to="/signup"
-              className="cursor-pointer text-neutral-600 hover:text-darkgreen"
-            >
-              Signup
-            </NavLink>
+            {authUser ? (
+              <div
+                className={` p-2 px-6 rounded-lg cursor-pointer ${loading ? 'text-darkgreen border border-darkgreen' : 'bg-darkgreen text-peach'}`}
+                onClick={handleLogout}
+              >
+                {loading ? 'Logging out...' : 'Logout'}
+              </div>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  className="cursor-pointer text-neutral-600 hover:text-darkgreen"
+                >
+                  Signup
+                </NavLink>
+              </>
+            )}
+
             <NavLink
               to="/"
               className="cursor-pointer text-neutral-600 hover:text-darkgreen"

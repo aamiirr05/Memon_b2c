@@ -13,6 +13,13 @@ const HotelsPage = () => {
     }
   }, [fetchHotels]);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
   return (
     <main className="bg-peach/10">
       <section>
