@@ -1,7 +1,7 @@
 import { MessageCircleMore } from 'lucide-react';
 
-import img1 from '../../assets/img/IATA_LOGO.png';
-import img2 from '../../assets/img/AIHUTOA_LOGO.png';
+// import img1 from '../../assets/img/IATA_LOGO.png';
+// import img2 from '../../assets/img/AIHUTOA_LOGO.png';
 // import logo from '../../assets/img/logo.png';
 import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -157,11 +157,15 @@ const Footer = ({ isMenuOpen }) => {
         </div>
         <div className="w-full flex items-center md:justify-start xl:justify-end lg:justify-start gap-3">
           <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
-            <img src={img1} alt="" className="w-full" />
+            <img
+              src="https://res.cloudinary.com/memonb2c/image/upload/f_auto,q_auto/v1739885803/m7htny213ruzah5vf9un.png"
+              alt="iata-logo"
+              className="w-full"
+            />
           </div>
-          <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
+          {/* <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
             <img src={img2} alt="" className="w-10/12 " />
-          </div>
+          </div> */}
         </div>
       </div>
       {/*   */}

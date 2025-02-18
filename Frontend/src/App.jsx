@@ -67,7 +67,7 @@ import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
 import { motion } from 'framer-motion';
 import { ReactLenis } from './utils/lenis';
-import logo from './assets/img/logo.png';
+// import logo from './assets/img/logo.png';
 import useFetchPackages from './Admin/hooks/UseFetchPackages';
 import Enquiries from './pages/Enquiries';
 import TestimonialForm from './pages/TestimonialForm';
@@ -106,8 +106,13 @@ const PreLoader = () => (
       <div className="absolute h-full w-1/3 bg-darkgreen rounded-full animate-loader"></div>
     </div>
 
-    <div className="flex mt-3 items-end w-full gap-5 justify-center">
-      <img src={logo} alt="logo" className="w-10" loading="lazy" />
+    <div className="flex mt-3 items-center w-full gap-5 justify-center">
+      <img
+        src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+        alt="logo"
+        className="w-14"
+        loading="lazy"
+      />
       <p className=" font-jakarta font-semibold text-3xl">
         Memon Haj Umrah Tours & Travels.
       </p>

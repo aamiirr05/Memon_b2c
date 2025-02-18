@@ -31,6 +31,12 @@ const HolidaysPage = () => {
     });
   }, []);
 
+  const imagesArray = [
+    'https://res.cloudinary.com/memonb2c/image/upload/v1739891421/ec2a38dc668244f68c08f444451d4616_uyx15y.webp',
+    'https://res.cloudinary.com/memonb2c/image/upload/v1739891296/64db55cbdc9a5377c129b1533856bdc8_vlnk3k.webp',
+    'https://res.cloudinary.com/memonb2c/image/upload/v1739891931/81f0db8467ae5ded650017f0a5bd0b83_jvu8cg.jpg',
+  ];
+
   return (
     <main className="bg-peach/10">
       <section>
@@ -47,9 +53,9 @@ const HolidaysPage = () => {
             </h2>
           </div>
 
-          <div className="pb-14">
-            <div className=" flex gap-6">
-              <Sidebar />
+          <div className="pb-14 ">
+            <div className=" flex gap-6 ">
+              <Sidebar images={imagesArray} />
 
               <div className="flex flex-col gap-6 w-full">
                 {isFetching ? (
