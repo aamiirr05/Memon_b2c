@@ -48,7 +48,10 @@ const Tab4 = () => {
           </div>
 
           {/* Thumbnail Images */}
-          <div className="flex flex-row md:flex-col gap-2 p-1 md:py-0.5 md:px-1.5 overflow-y-auto md:custom-scrollbar max-h-[500px]">
+          <div
+            className="flex flex-row md:flex-col gap-2 p-1 md:py-0.5 md:px-1.5 overflow-y-auto md:custom-scrollbar max-h-[500px]"
+            data-lenis-prevent
+          >
             {selectedHoliday.hotel_images.map((img) => (
               <img
                 src={img.secure_url}

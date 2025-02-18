@@ -462,31 +462,13 @@ const getCurrentUser = asyncHandler(async (req, res) => {
       last_name: true,
       email: true,
       contact: true,
-      enquiry_contact: {
-        select: {
-          enquiry_id: true,
-          salutation: true,
-          first_name: true,
-          last_name: true,
-          message: true,
-          status: true,
-        },
-      },
+      enquiry_contact: true,
       enquiry_forex: true,
-      enquiry_umrah: {
-        select: {
-          enquiry_id: true,
-          salutation: true,
-          first_name: true,
-          last_name: true,
-          package_type: true,
-          package_name: true,
-          status: true,
-          created_at: true,
-        },
-      },
+      enquiry_umrah: true,
       enquiry_visa: true,
       customized_package: true,
+      enquiry_hotel: true,
+      enquiry_holiday: true,
     },
   });
 

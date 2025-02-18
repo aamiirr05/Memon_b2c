@@ -66,14 +66,14 @@ import 'swiper/css/pagination';
 const Sidebar = () => {
   // Replace these image URLs with your actual image URLs
   const images = [
-    'https://media.istockphoto.com/id/1423469338/photo/photos-of-prophet-muhammad-mosque.jpg?s=2048x2048&w=is&k=20&c=Smxk_QAMC0Sj5HXqF18Dvubizj5f78PWl2FdboyJHiI=',
-    'https://res.cloudinary.com/memonb2c/image/upload/v1738835095/flvqg1atkuyhdnhqzl23.jpg',
-    'https://res.cloudinary.com/memonb2c/image/upload/v1738843624/hjhpyqmjmqfqndhxme04.jpg',
-    'https://res.cloudinary.com/memonb2c/image/upload/v1738125194/gqgvlxypyvl7tl5i6kj0.jpg',
+    'https://i.pinimg.com/736x/9c/55/ad/9c55ad55055af7c0d7e221b7a55b1464.jpg',
+    'https://i.pinimg.com/736x/e9/d9/e5/e9d9e548df23b1f0dbc8a1e917393a8e.jpg',
+    'https://i.pinimg.com/736x/59/52/1a/59521a32d39ba43ac18a6b90704c28bd.jpg',
+    'https://i.pinimg.com/736x/41/96/e3/4196e38a9f5bc91eb89856f601a7fdb9.jpg',
   ];
 
   return (
-    <div className="sticky top-24 bg-darkgreen/10 h-[calc(100dvh-64px)] w-72 hidden  md:flex flex-col items-center text-neutral-700 shadow-lg overflow-y-scroll no-scrollbar">
+    <div className="sticky top-24 bg-darkgreen/10 h-[calc(100dvh-64px)] w-72 hidden  md:flex flex-col items-center text-neutral-700 shadow-lg overflow-y-scroll no-scrollbar ">
       {/* Full-Height and Full-Width Image Slider */}
       <div className="w-full h-full rounded-xl overflow-hidden ">
         <Swiper

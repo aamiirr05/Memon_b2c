@@ -36,7 +36,8 @@ const UmrahCards = ({
         <div className="h-[280px] md:h-[200px] lg:h-[280px] w-11/12 overflow-hidden">
           <img
             src={image || ''}
-            alt=""
+            alt="package images"
+            loading="lazy"
             className="w-full  rounded-xl mx-auto h-full"
           />
         </div>

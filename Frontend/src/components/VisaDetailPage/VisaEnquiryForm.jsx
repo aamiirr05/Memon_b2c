@@ -63,6 +63,7 @@ const VisaEnquiryForm = ({ onClose, visaCountry, visaType }) => {
       <div className="grid sm:grid-cols-2 gap-4">
         <div className="relative">
           <input
+            id="firstname"
             type="text"
             {...register('firstname')}
             className="custom-forex-input-fields peer"
@@ -76,6 +77,7 @@ const VisaEnquiryForm = ({ onClose, visaCountry, visaType }) => {
 
         <div className="relative">
           <input
+            id="lastname"
             type="text"
             {...register('lastname')}
             className="custom-forex-input-fields peer"
@@ -91,6 +93,7 @@ const VisaEnquiryForm = ({ onClose, visaCountry, visaType }) => {
       {/* Email */}
       <div className="relative">
         <input
+          id="email"
           type="email"
           {...register('email')}
           className="custom-forex-input-fields peer"
@@ -105,6 +108,7 @@ const VisaEnquiryForm = ({ onClose, visaCountry, visaType }) => {
       {/* Contact */}
       <div className="relative">
         <input
+          id="contact"
           type="text"
           {...register('contact')}
           className="custom-forex-input-fields peer"

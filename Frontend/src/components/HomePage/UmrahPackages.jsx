@@ -36,7 +36,12 @@ const AboutUsCard = ({
     >
       <div className="w-full flex items-start justify-between">
         <div className="h-[150px] w-2/3 lg:w-[40%] rounded-lg overflow-hidden">
-          <img src={image} alt="" className="w-full h-full" />
+          <img
+            src={image}
+            alt="Failed to load image"
+            loading="lazy"
+            className="w-full h-full"
+          />
         </div>
         <span className="text-xl md:text-2xl font-jakarta text-darkgreen font-semibold">
           ₹ {price}

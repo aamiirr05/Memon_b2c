@@ -83,7 +83,8 @@ const HolidayGrid = ({ isMenuOpen }) => {
                 </div>
                 <img
                   src={cards[0]?.package_images[0]?.secure_url}
-                  alt=""
+                  alt="holiday image"
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -91,9 +92,9 @@ const HolidayGrid = ({ isMenuOpen }) => {
                 <h1 className="font-zodiak font-semibold text-lg italic">
                   <TreePalm size={60} />
                 </h1>
-                <h3 className="font-jakarta italic text-xs lg:text-sm font-semibold">
+                <h2 className="font-jakarta italic text-xs lg:text-sm font-semibold">
                   “Curated for Comfort & Elegance”
-                </h3>{' '}
+                </h2>{' '}
               </div>
             </motion.div>
             {/* 2 */}
@@ -129,7 +130,8 @@ const HolidayGrid = ({ isMenuOpen }) => {
                 </div>
                 <img
                   src={cards[1]?.package_images[0]?.secure_url}
-                  alt=""
+                  alt="holiday image"
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -137,9 +139,9 @@ const HolidayGrid = ({ isMenuOpen }) => {
                 <h1 className="font-zodiak font-semibold italic">
                   <TicketsPlane size={60} />
                 </h1>
-                <h3 className="font-jakarta italic text-xs lg:text-sm font-semibold">
+                <h2 className="font-jakarta italic text-xs lg:text-sm font-semibold">
                   “Seamless Travel Experiences”
-                </h3>{' '}
+                </h2>{' '}
               </div>
             </motion.div>
 

@@ -10,10 +10,10 @@ const TabComponent = ({ tabs }) => {
           <button
             key={index}
             onClick={() => setActiveTab(index)}
-            className={`py-2 text-lg tracking-tight text-nowrap ${
+            className={`py-2 text-md tracking-tight text-nowrap ${
               activeTab === index
-                ? 'border-b-2 border-darkgreen text-darkgreen'
-                : 'text-neutral-400 hover:text-darkgreen'
+                ? 'border-b-2 border-darkgreen text-darkgreen font-bold'
+                : 'text-neutral-500 hover:text-darkgreen'
             } transition-colors duration-300`}
           >
             {tab.title}

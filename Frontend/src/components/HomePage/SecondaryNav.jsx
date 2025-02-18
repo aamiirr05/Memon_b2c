@@ -42,6 +42,15 @@ const navLinks = [
   },
   { name: 'Hajj 2025', path: '/hajj-2025', icon: <Mosque size={20} /> },
   { name: 'Ziyarat', path: '/ziyarat', icon: <Mosque size={20} /> },
+  {
+    name: 'More',
+    icon: <Airplane size={20} />,
+    path: '/',
+    dropdowntwo: [
+      { name: 'Testimonials', path: '/testimonials' },
+      { name: 'Enquiries', path: '/enquiries' },
+    ],
+  },
 ];
 
 const navLinkTwo = [
@@ -54,6 +63,7 @@ const navLinkTwo = [
 
 const SecondaryNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMore, setIsMore] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { authUser, logout, loading, setLoading } = useAuthStore();
 
@@ -78,8 +88,13 @@ const SecondaryNav = () => {
       >
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center">
-          <img src={logo} alt="logo" className="w-10" />
-          <img src={logoname} alt="Logo" className="h-10" />
+          <img src={logo} alt="logo" className="w-10 h-full" loading="lazy" />
+          <img
+            src={logoname}
+            alt="Logo"
+            className="h-10 w-full"
+            loading="lazy"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -109,6 +124,46 @@ const SecondaryNav = () => {
                   {dropdownOpen && (
                     <div className="absolute top-full left-0 bg-darkgreen shadow-md rounded-md py-2 w-52">
                       {link.dropdown.map((dropdownLink) => (
+                        <NavLink
+                          key={dropdownLink.name}
+                          to={dropdownLink.path}
+                          className="flex items-center justify-between px-4 py-2 text-sm text-peach group hover:bg-peach/10"
+                        >
+                          <div className="flex items-center w-full ">
+                            <span>{dropdownLink.name}</span>
+                            <ChevronRight
+                              className="opacity-0 group-hover:opacity-100 ml-2 transition-opacity duration-100 ease-in-out pt-1 hover:text-darkgreen"
+                              size={22}
+                            />
+                          </div>
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : link.dropdowntwo ? (
+                <div
+                  className="cursor-pointer"
+                  onMouseEnter={() => setIsMore(true)}
+                  onMouseLeave={() => setIsMore(false)}
+                >
+                  <span className="flex items-center space-x-1 group">
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) =>
+                        `text-sm font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600'}`
+                      }
+                    >
+                      {link.name}
+                    </NavLink>
+
+                    <ChevronDown className="h-4 w-4 mt-[3px]  group-hover:rotate-180 ease-in-out group-hover:text-darkgreen" />
+                  </span>
+
+                  {/* Dropdown */}
+                  {isMore && (
+                    <div className="absolute top-full left-0 bg-darkgreen shadow-md rounded-md py-2 w-52">
+                      {link.dropdowntwo.map((dropdownLink) => (
                         <NavLink
                           key={dropdownLink.name}
                           to={dropdownLink.path}

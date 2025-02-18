@@ -32,6 +32,8 @@ const Marquee = ({ imagesurl, direction }) => {
             ) : (
               <img
                 src={url}
+                loading="lazy"
+                alt="photo grid images"
                 className="w-full h-full cursor-pointer flex-shrink-0 rounded-xl"
                 key={index}
               />
@@ -58,11 +60,14 @@ const Marquee = ({ imagesurl, direction }) => {
                 src={url}
                 autoPlay
                 loop
+                playsInline
                 muted
               ></video>
             ) : (
               <img
                 src={url}
+                alt="Grid Images"
+                loading="lazy"
                 className="w-full cursor-pointer h-full -20 flex-shrink-0 rounded-xl"
                 key={index}
               />
@@ -91,11 +96,13 @@ const Marquee = ({ imagesurl, direction }) => {
                 controls
                 loop
                 muted
+                playsInline
               ></video>
             ) : (
               <img
                 src={selectedImage}
-                alt="Selected"
+                alt="Selected Image"
+                loading="lazy"
                 className="w-full rounded-lg"
               />
             )}

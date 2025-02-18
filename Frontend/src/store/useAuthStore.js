@@ -9,8 +9,10 @@ export const useAuthStore = create((set, get) => ({
   isSigningUp: false,
   isCheckingAuth: false,
   isVerifyingOtp: false,
+  isAvailable: true,
   loading: false,
 
+  setIsAvailable: (status) => set({ isAvailable: status }),
   setLoading: (status) => set({ loading: status }),
 
   setAuthUserAccessToken: (accessToken) =>
@@ -49,7 +51,9 @@ export const useAuthStore = create((set, get) => ({
   login: async (data, navigate) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post('/users/login', data);
+      const res = await axiosInstance.post('/users/login', data, {
+        withCredentials: true,
+      });
       set({ authUser: res.data.data.user });
       toast.success(res.data.message);
       navigate('/');
