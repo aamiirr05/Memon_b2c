@@ -50,62 +50,83 @@ const HolidayEnquiryForm = ({ onClose }) => {
       <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
+            id="full_name"
             type="text"
             {...register('fullName')}
             className="custom-forex-input-fields peer"
-            placeholder=""
+            placeholder=" "
           />
           <label htmlFor="full_name" className="custom-forex-input-labels">
             Full Name
           </label>
-          <p className="text-red-400 text-sm">{errors.fullName?.message}</p>
+          <p
+            className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.fullName ? 'visible' : 'invisible'}`}
+          >
+            {errors.fullName?.message}
+          </p>
         </div>
 
         <div className="relative">
           <input
+            id="contact"
             type="text"
             {...register('contact')}
             className="custom-forex-input-fields peer"
-            placeholder=""
+            placeholder=" "
           />
           <label htmlFor="contact" className="custom-forex-input-labels">
             Contact
           </label>
-          <p className="text-red-400 text-sm">{errors.contact?.message}</p>
+          <p
+            className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.contact ? 'visible' : 'invisible'}`}
+          >
+            {errors.contact?.message}
+          </p>
         </div>
       </div>
 
       {/* Email */}
       <div className="relative">
         <input
+          id="email"
           type="email"
           {...register('email')}
           className="custom-forex-input-fields peer"
-          placeholder=""
+          placeholder=" "
         />
         <label htmlFor="email" className="custom-forex-input-labels">
           Email
         </label>
-        <p className="text-red-400 text-sm">{errors.email?.message}</p>
+        <p
+          className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.email ? 'visible' : 'invisible'}`}
+        >
+          {errors.email?.message}
+        </p>
       </div>
 
       {/* Nationality & Preferred Date */}
       <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
+            id="nationality"
             type="text"
             {...register('nationality')}
             className="custom-forex-input-fields peer"
-            placeholder="Nationality"
+            placeholder=" "
           />
           <label htmlFor="nationality" className="custom-forex-input-labels">
             Nationality
           </label>
-          <p className="text-red-400 text-sm">{errors.nationality?.message}</p>
+          <p
+            className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.nationality ? 'visible' : 'invisible'}`}
+          >
+            {errors.nationality?.message}
+          </p>
         </div>
 
         <div className="relative">
           <input
+            id="travller_date"
             type="date"
             {...register('preferredDate')}
             className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
@@ -116,7 +137,9 @@ const HolidayEnquiryForm = ({ onClose }) => {
           >
             Traveller Date
           </label>
-          <p className="text-red-400 text-sm">
+          <p
+            className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.preferredDate ? 'visible' : 'invisible'}`}
+          >
             {errors.preferredDate?.message}
           </p>
         </div>
@@ -126,30 +149,36 @@ const HolidayEnquiryForm = ({ onClose }) => {
       <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
+            id="nights"
             type="text"
             {...register('numberOfNights')}
             className="custom-forex-input-fields peer"
-            placeholder=""
+            placeholder=" "
           />
           <label htmlFor="nights" className="custom-forex-input-labels">
             Total Nights
           </label>
-          <p className="text-red-400 text-sm">
+          <p
+            className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.numberOfNights ? 'visible' : 'invisible'}`}
+          >
             {errors.numberOfNights?.message}
           </p>
         </div>
 
         <div className="relative">
           <input
+            id="adults"
             type="text"
             {...register('numberOfAdults')}
             className="custom-forex-input-fields peer"
-            placeholder=""
+            placeholder=" "
           />
           <label htmlFor="adults" className="custom-forex-input-labels">
             Total Adults
           </label>
-          <p className="text-red-400 text-sm">
+          <p
+            className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.numberOfAdults ? 'visible' : 'invisible'}`}
+          >
             {errors.numberOfAdults?.message}
           </p>
         </div>
@@ -159,30 +188,36 @@ const HolidayEnquiryForm = ({ onClose }) => {
       <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
+            id="children"
             type="text"
             {...register('numberOfChildren')}
             className="custom-forex-input-fields peer"
-            placeholder=""
+            placeholder=" "
           />
           <label htmlFor="children" className="custom-forex-input-labels">
             Total Children
           </label>
-          <p className="text-red-400 text-sm">
+          <p
+            className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.numberOfChildren ? 'visible' : 'invisible'}`}
+          >
             {errors.numberOfChildren?.message}
           </p>
         </div>
 
         <div className="relative">
           <input
+            id="city"
             type="text"
             {...register('preferredDepartureCity')}
             className="custom-forex-input-fields peer"
-            placeholder=""
+            placeholder=" "
           />
           <label htmlFor="city" className="custom-forex-input-labels">
             Preferred Departure City
           </label>
-          <p className="text-red-400 text-sm">
+          <p
+            className={`text-red-400 text-sm mt-0.5 mb-1 ${errors.preferredDepartureCity ? 'visible' : 'invisible'}`}
+          >
             {errors.preferredDepartureCity?.message}
           </p>
         </div>
