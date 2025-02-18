@@ -190,7 +190,7 @@ const App = () => {
               </q>
               <q className="lg:text-xs text-[8px] font-jakarta">
                 Indeed, the first House [of worship] established for mankind was
-                at Bakkah 🕋 – blessed and a guidance for the worlds.
+                at Bakkah (Mecca) 🕋 – blessed and a guidance for the worlds.
               </q>
             </motion.div>
             <motion.h1

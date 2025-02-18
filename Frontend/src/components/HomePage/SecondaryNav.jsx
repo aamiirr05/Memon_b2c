@@ -42,6 +42,14 @@ const navLinks = [
   },
   { name: 'Hajj 2025', path: '/hajj-2025', icon: <Mosque size={20} /> },
   { name: 'Ziyarat', path: '/ziyarat', icon: <Mosque size={20} /> },
+];
+
+const navLinkTwo = [
+  { name: 'Holidays', path: '/holidays', icon: <Island size={20} /> },
+  { name: 'Hotels', path: '/hotels', icon: <BuildingApartment size={20} /> },
+  { name: 'Visa', path: '/visas', icon: <GlobeHemisphereEast size={20} /> },
+  { name: 'Forex', path: '/forex', icon: <Money size={20} /> },
+  { name: 'Contact Us', path: '/contact', icon: <PhoneOutgoing size={18} /> },
   {
     name: 'More',
     icon: <Airplane size={20} />,
@@ -51,14 +59,6 @@ const navLinks = [
       { name: 'Enquiries', path: '/enquiries' },
     ],
   },
-];
-
-const navLinkTwo = [
-  { name: 'Holidays', path: '/holidays', icon: <Island size={20} /> },
-  { name: 'Hotels', path: '/hotels', icon: <BuildingApartment size={20} /> },
-  { name: 'Visa', path: '/visas', icon: <GlobeHemisphereEast size={20} /> },
-  { name: 'Forex', path: '/forex', icon: <Money size={20} /> },
-  { name: 'Contact Us', path: '/contact', icon: <PhoneOutgoing size={18} /> },
 ];
 
 const SecondaryNav = () => {
@@ -141,7 +141,21 @@ const SecondaryNav = () => {
                     </div>
                   )}
                 </div>
-              ) : link.dropdowntwo ? (
+              ) : (
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `text-sm font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600 hover:text-darkgreen'}`
+                  }
+                >
+                  {link.name}
+                </NavLink>
+              )}
+            </div>
+          ))}
+          {navLinkTwo.map((link) => (
+            <div key={link.name} className="relative">
+              {link.dropdowntwo ? (
                 <div
                   className="cursor-pointer"
                   onMouseEnter={() => setIsMore(true)}
@@ -162,12 +176,12 @@ const SecondaryNav = () => {
 
                   {/* Dropdown */}
                   {isMore && (
-                    <div className="absolute top-full left-0 bg-darkgreen shadow-md rounded-md py-2 w-52">
+                    <div className="absolute top-full left-0 bg-peach shadow-md rounded-md py-2 w-fit">
                       {link.dropdowntwo.map((dropdownLink) => (
                         <NavLink
                           key={dropdownLink.name}
                           to={dropdownLink.path}
-                          className="flex items-center justify-between px-4 py-2 text-sm text-peach group hover:bg-peach/10"
+                          className="flex items-center justify-between px-4 py-2 text-sm text-darkgreen group hover:bg-peach/10"
                         >
                           <div className="flex items-center w-full ">
                             <span>{dropdownLink.name}</span>
@@ -191,20 +205,6 @@ const SecondaryNav = () => {
                   {link.name}
                 </NavLink>
               )}
-            </div>
-          ))}
-          {navLinkTwo.map((link) => (
-            <div key={link.name} className="relative">
-              {
-                <NavLink
-                  to={link.path}
-                  className={({ isActive }) =>
-                    `text-sm font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600 hover:text-darkgreen'}`
-                  }
-                >
-                  {link.name}
-                </NavLink>
-              }
             </div>
           ))}
         </div>
