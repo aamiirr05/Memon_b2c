@@ -92,14 +92,14 @@ const Footer = ({ isMenuOpen }) => {
             <span className="font-zodiak text-2xl font-bold">Contact Us.</span>
             <div className="flex items-center gap-2">
               <a
-                href="https://wa.me/918108403376"
+                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                href="https://wa.me/918108403376"
+                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -108,14 +108,14 @@ const Footer = ({ isMenuOpen }) => {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href="https://wa.me/918108403376"
+                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                href="https://wa.me/919022549162"
+                href="https://wa.me/919022549162?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -124,14 +124,14 @@ const Footer = ({ isMenuOpen }) => {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href="https://wa.me/918108403376"
+                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                href="https://wa.me/918268979705"
+                href="https://wa.me/918268979705?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
