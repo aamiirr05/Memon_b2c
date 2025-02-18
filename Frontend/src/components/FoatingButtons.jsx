@@ -9,7 +9,7 @@ const FloatingButtons = () => {
     <div className="fixed right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50 pointer-events-none">
       {/* WhatsApp Button */}
       <a
-        href="https://wa.me/+918108404376"
+        href="https://wa.me/+918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Whatsapp"

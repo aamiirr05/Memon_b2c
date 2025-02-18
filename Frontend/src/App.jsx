@@ -95,7 +95,7 @@ const OfflineNotice = () => (
     <img src={offlineImg} alt="" className="w-1/3 lg:w-1/6 mb-10" />
     <h1 className="font-zodiak text-4xl font-bold">You are offline</h1>
     <h3 className="font-jakarta font-medium text-sm">
-      Go back online to use Memon Tours & Travels
+      Go back online to use Memon Haj Umrah Tours & Travels
     </h3>
   </div>
 );
@@ -109,7 +109,7 @@ const PreLoader = () => (
     <div className="flex mt-3 items-end w-full gap-5 justify-center">
       <img src={logo} alt="logo" className="w-10" loading="lazy" />
       <p className=" font-jakarta font-semibold text-3xl">
-        Memon Tours & Travels.
+        Memon Haj Umrah Tours & Travels.
       </p>
     </div>
     <p className="mt-3 font-jakarta font-medium text-md">
