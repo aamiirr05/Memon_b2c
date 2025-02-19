@@ -1,12 +1,26 @@
 import { MessageCircleMore } from 'lucide-react';
 
-import img1 from '../../assets/img/IATA_LOGO.png';
-import img2 from '../../assets/img/AIHUTOA_LOGO.png';
-import logo from '../../assets/img/logo.png';
+// import img1 from '../../assets/img/IATA_LOGO.png';
+// import img2 from '../../assets/img/AIHUTOA_LOGO.png';
+// import logo from '../../assets/img/logo.png';
 import { NavLink } from 'react-router-dom';
+import { useAuthStore } from '../../store/useAuthStore';
 
 /* eslint-disable react/prop-types */
 const Footer = ({ isMenuOpen }) => {
+  const { authUser, logout, loading, setLoading } = useAuthStore();
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section
       className={`w-full bg-darkgreen text flex flex-col gap-5 text-peach py-5 ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
@@ -16,24 +30,56 @@ const Footer = ({ isMenuOpen }) => {
           &quot;Let&apos;s Make Travel Memories Together!&quot;
         </h2>
         <div className="flex items-center justify-center gap-4">
-          <button className="border border-peach rounded-full hover:animate-shift-up font-semibold text-peach p-2 px-10">
-            LogIn
-          </button>
-          <button className="bg-peach rounded-full hover:animate-shift-up font-semibold text-darkgreen p-2 px-10">
-            Signup
-          </button>
+          {authUser ? (
+            <div
+              className="border cursor-pointer border-peach rounded-full hover:animate-shift-up font-semibold text-peach p-2 px-10"
+              onClick={handleLogout}
+            >
+              {loading ? 'Logging out...' : 'Logout'}
+            </div>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="border border-peach cursor-pointer rounded-full hover:animate-shift-up font-semibold text-peach p-2 px-10"
+              >
+                LogIn
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="bg-peach rounded-full cursor-pointer hover:animate-shift-up font-semibold text-darkgreen p-2 px-10"
+              >
+                Signup
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
       <div className="mx-auto border-b border-peach pb-10 mb-5 w-11/12 flex gap-3 items-center justify-center lg:justify-start">
-        <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
-          Whatsapp
-        </div>
-        <div className="border text-sm border-peach p-2 rounded-full px-6 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
-          Email
-        </div>
-        <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
-          Instagram
-        </div>
+        <a
+          href="https://wa.me/918108404376?text=Hello%2C%20I%20am%20interested%20in%20your%20Haj%20and%20Umrah%20tours."
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+            Whatsapp
+          </div>
+        </a>
+
+        <a href="mailto:memonhajumrah@gmail.com?subject=Inquiry%20about%20Haj%20and%20Umrah%20Tours&body=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services.">
+          <div className="border text-sm border-peach p-2 rounded-full px-6 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+            Email
+          </div>
+        </a>
+        <a
+          href="https://www.instagram.com/memonhajumrahtours"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
+            Instagram
+          </div>
+        </a>
       </div>
 
       {/*  */}
@@ -61,14 +107,14 @@ const Footer = ({ isMenuOpen }) => {
             <span className="font-zodiak text-2xl font-bold">Contact Us.</span>
             <div className="flex items-center gap-2">
               <a
-                href="https://wa.me/918108403376"
+                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                href="https://wa.me/918108403376"
+                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -77,14 +123,14 @@ const Footer = ({ isMenuOpen }) => {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href="https://wa.me/918108403376"
+                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                href="https://wa.me/919022549162"
+                href="https://wa.me/919022549162?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -93,14 +139,14 @@ const Footer = ({ isMenuOpen }) => {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href="https://wa.me/918108403376"
+                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                href="https://wa.me/918268979705"
+                href="https://wa.me/918268979705?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -111,18 +157,26 @@ const Footer = ({ isMenuOpen }) => {
         </div>
         <div className="w-full flex items-center md:justify-start xl:justify-end lg:justify-start gap-3">
           <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
-            <img src={img1} alt="" className="w-full" />
+            <img
+              src="https://res.cloudinary.com/memonb2c/image/upload/f_auto,q_auto/v1739885803/m7htny213ruzah5vf9un.png"
+              alt="iata-logo"
+              className="w-full"
+            />
           </div>
-          <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
+          {/* <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
             <img src={img2} alt="" className="w-10/12 " />
-          </div>
+          </div> */}
         </div>
       </div>
       {/*   */}
 
       <div className="w-11/12 mx-auto flex flex-col gap-10  lg:flex-row items-center justify-between">
         <div className="w-full flex items-center gap-4">
-          <img src={logo} alt="logo" className="w-16 " />
+          <img
+            src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+            alt="logo"
+            className="w-16 "
+          />
           <h1 className="text-2xl lg:text-xl font-bold font-jakarta">
             Memon Haj Umrah Tours & Travels.
           </h1>

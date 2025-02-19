@@ -1,5 +1,6 @@
-import { Phone, Mail, MessageCircle } from 'lucide-react';
+import {  Mail  } from 'lucide-react';
 import { useState } from 'react';
+import { WhatsappLogo, InstagramLogo } from '@phosphor-icons/react';
 
 const FloatingButtons = () => {
   const [hover, setHover] = useState(false);
@@ -9,9 +10,10 @@ const FloatingButtons = () => {
     <div className="fixed right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50 pointer-events-none">
       {/* WhatsApp Button */}
       <a
-        href="https://wa.me/+918108404376"
+        href="https://wa.me/+918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
         target="_blank"
         rel="noopener noreferrer"
+        aria-label="Whatsapp"
         className={`flex items-center font-jakarta w-40 h-12 bg-green-500 text-white rounded-xl shadow-lg hover:bg-green-600 transition-all ease-in-out duration-500 pointer-events-auto
             ${hover ? 'translate-x-4 justify-center gap-3' : 'translate-x-32 justify-start pl-3 opacity-50'}
             
@@ -19,13 +21,14 @@ const FloatingButtons = () => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <MessageCircle size={24} />
-        {hover ? <span className="">Whatsapp</span> : ''}
+        <WhatsappLogo size={24} />
+        {hover && <span className="">Whatsapp</span>}
       </a>
 
       {/* Email Button */}
       <a
         href="mailto:memonhajumrah@gmail.com"
+        aria-label="Email"
         className={`flex items-center w-40 h-12 font-jakarta bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600 transition-all ease-in-out duration-500 pointer-events-auto
             ${hoverMsg ? 'translate-x-4 justify-center gap-3' : 'translate-x-32 justify-start pl-3 opacity-50'}
             
@@ -34,12 +37,15 @@ const FloatingButtons = () => {
         onMouseLeave={() => setHoverMsg(false)}
       >
         <Mail size={24} />
-        {hoverMsg ? <span className="">Mail</span> : ''}
+        {hoverMsg && <span className="">Mail</span>}
       </a>
 
       {/* Phone Call Button */}
       <a
-        href="tel:+918108404376"
+        href="https://www.instagram.com/memonhajumrahtours"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
         className={`flex items-center font-jakarta w-40 h-12 bg-red-500 text-white rounded-xl shadow-lg hover:bg-red-600 transition-all ease-in-out duration-500 pointer-events-auto
             ${hoverPhone ? 'translate-x-4 justify-center gap-3' : 'translate-x-32 justify-start pl-3 opacity-50'}
             
@@ -47,8 +53,8 @@ const FloatingButtons = () => {
         onMouseEnter={() => setHoverPhone(true)}
         onMouseLeave={() => setHoverPhone(false)}
       >
-        <Phone size={24} />
-        {hoverPhone ? <span className="">Phone</span> : ''}
+        <InstagramLogo size={24} />
+        {hoverPhone && <span className="">Instagram</span>}
       </a>
     </div>
   );

@@ -50,6 +50,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
+            id="full_name"
             type="text"
             {...register('fullName')}
             className="custom-forex-input-fields peer"
@@ -63,6 +64,7 @@ const HotelEnquiryForm = ({ onClose }) => {
 
         <div className="relative">
           <input
+            id="contact"
             type="text"
             {...register('contactNumber')}
             className="custom-forex-input-fields peer"
@@ -80,6 +82,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       {/* Email */}
       <div className="relative">
         <input
+          id="email"
           type="email"
           {...register('email')}
           className="custom-forex-input-fields peer"
@@ -95,6 +98,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       <div className="w-full flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="w-full relative">
           <input
+            id="checkin_date"
             type="date"
             {...register('checkInDate')}
             className="block w-full text-[0.63rem] sm:text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
@@ -110,6 +114,7 @@ const HotelEnquiryForm = ({ onClose }) => {
 
         <div className="w-full relative">
           <input
+            id="checkout_date"
             type="date"
             {...register('checkOutDate')}
             className="block w-full text-[0.63rem] sm:text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
@@ -128,6 +133,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
+            id="nights"
             type="text"
             {...register('numberOfNights')}
             className="custom-forex-input-fields peer"
@@ -143,6 +149,7 @@ const HotelEnquiryForm = ({ onClose }) => {
 
         <div className="relative">
           <input
+            id="rooms"
             type="text"
             {...register('numberOfRooms')}
             className="custom-forex-input-fields peer"
@@ -161,6 +168,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative w-full">
           <select
+            id="select_room_type"
             {...register('roomType')}
             className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen  rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           >
@@ -182,6 +190,7 @@ const HotelEnquiryForm = ({ onClose }) => {
 
         <div className="relative w-full">
           <select
+            id="meal_plan"
             {...register('mealPlan')}
             className="block w-full text-sm h-[40px] sm:h-[50px] px-4 text-darkgreen rounded-[8px] border border-darkgreen appearance-none focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 peer invalid:border-error-500 invalid:focus:border-error-500"
           >
@@ -205,6 +214,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       <div className=" flex gap-2 sm:grid sm:grid-cols-2 sm:gap-4">
         <div className="relative">
           <input
+            id="adults"
             type="text"
             {...register('numberOfAdults')}
             className="custom-forex-input-fields peer"
@@ -220,6 +230,7 @@ const HotelEnquiryForm = ({ onClose }) => {
 
         <div className="relative">
           <input
+            id="children"
             type="text"
             {...register('numberOfChildren')}
             className="custom-forex-input-fields peer"
@@ -237,6 +248,7 @@ const HotelEnquiryForm = ({ onClose }) => {
       {/* Special Requests */}
       <div className="relative">
         <textarea
+          id="special_request"
           {...register('specialRequests')}
           className="custom-forex-input-fields peer"
           placeholder=""

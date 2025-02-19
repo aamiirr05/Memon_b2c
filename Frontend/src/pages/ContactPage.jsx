@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useContactForm } from '../store/useContactForm';
+import { useEffect } from 'react';
 
 const schema = yup.object().shape({
   salutation: yup.string().required('Salutation is required'),
@@ -32,6 +33,13 @@ const ContactPage = () => {
   const onSubmit = (data) => {
     submit(data);
   };
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   return (
     <div className="flex flex-col lg:flex-row w-full h-full bg-peach/10 font-jakarta">
@@ -134,7 +142,7 @@ const ContactPage = () => {
               </p>
               <div className="flex text-sm lg:text-md  items-center gap-[0.4rem] lg:gap-4">
                 <a
-                  href="https://wa.me/918108404376"
+                  href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mb-2 sm:mb-0"
@@ -142,7 +150,7 @@ const ContactPage = () => {
                   +91 8108404376
                 </a>
                 <a
-                  href="https://wa.me/919022549162"
+                  href="https://wa.me/919022549162?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mb-2 sm:mb-0"
@@ -150,7 +158,7 @@ const ContactPage = () => {
                   +91 9022549162
                 </a>
                 <a
-                  href="https://wa.me/918268979705"
+                  href="https://wa.me/918268979705?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mb-2 sm:mb-0"

@@ -268,7 +268,7 @@ const generateRefreshTokenForAdmin = async (adminId, isAdmin) => {
 // ********** Helper Function To Check If Image Is Valid Image Or Not **********
 
 const isValidImage = (fileName) => {
-  const validExtensions = [".jpg", ".jpeg", ".png"];
+  const validExtensions = [".jpg", ".jpeg", ".png", ".webp"];
   const fileExtension = path.extname(fileName).toLowerCase();
   return validExtensions.includes(fileExtension);
 };

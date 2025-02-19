@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Filter from '../components/PackagesPage/Filter';
+// import Filter from '../components/PackagesPage/Filter';
 import PackageCard from '../components/PackagesPage/PackageCard';
 import { usePackageStore } from '../store/usePackageStore';
 import PackageCardSkeleton from '../components/PackagesPage/PackageCardSkeleton';
@@ -13,7 +13,7 @@ const PackagesPage = () => {
     fetchRamadanPackages,
     isFetching,
     areUmrahPackagesFetched,
-    areRamadanPackagesFetched,
+    // areRamadanPackagesFetched,
     fetchHajjPackages,
   } = usePackageStore();
   const location = useLocation();
@@ -41,6 +41,20 @@ const PackagesPage = () => {
     path,
   ]);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
+  const imagesArray = [
+    'https://res.cloudinary.com/memonb2c/image/upload/v1739891494/d66bade93c0741463cb68f100b80321b_tmy3db.webp',
+    'https://res.cloudinary.com/memonb2c/image/upload/v1739891540/59521a32d39ba43ac18a6b90704c28bd_wfcmfr.webp',
+    'https://res.cloudinary.com/memonb2c/image/upload/v1739891581/4196e38a9f5bc91eb89856f601a7fdb9_x6mynn.webp',
+    'https://res.cloudinary.com/memonb2c/image/upload/v1739891613/e3cecf0f2423c5eced925c08a8ca0e53_cwqrs7.webp',
+  ];
+
   return (
     <main className="">
       <section>
@@ -59,7 +73,7 @@ const PackagesPage = () => {
 
           <div className="pb-14">
             <div className=" flex gap-6">
-              <Sidebar />
+              <Sidebar images={imagesArray} />
 
               {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
               <div className="flex flex-col gap-6 w-full">

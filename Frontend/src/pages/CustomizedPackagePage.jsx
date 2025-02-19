@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import useCustomizedPackageStore from '../store/useCustomizedPackageStore';
+import { useEffect } from 'react';
 
 const schema = yup.object().shape({
   firstname: yup.string().required('First name is required'),
@@ -29,6 +30,13 @@ const schema = yup.object().shape({
 });
 
 const CustomizedPackagePage = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -47,8 +55,8 @@ const CustomizedPackagePage = () => {
   return (
     <div className="bg-peach/10 py-12 font-jakarta px-4 sm:px-8">
       <div className="flex flex-col gap-12 pt-6 pb-20 rounded-lg px-6 sm:px-12 lg:px-16 justify-center items-center bg-darkgreen max-w-5xl mx-auto">
-        <h1 className="text-2xl sm:text-3xl font-semibold text-peach tracking-tight mt-6 font-zodiak text-center">
-          CUSTOMIZE PACKAGE
+        <h1 className="text-2xl tracking-normal sm:text-3xl font-semibold text-peach mt-6 font-zodiak text-center">
+          CUSTOMIZE YOUR PACKAGE
         </h1>
         <form
           onSubmit={handleSubmit(onSubmit)}

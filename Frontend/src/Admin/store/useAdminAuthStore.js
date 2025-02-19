@@ -17,7 +17,9 @@ const useAdminAuthStore = create((set, get) => ({
   login: async (data, navigate) => {
     set({ isAdminLoggingIn: true });
     try {
-      const res = await axiosInstance.post('/admin/login', data);
+      const res = await axiosInstance.post('/admin/login', data, {
+        withCredentials: true,
+      });
       if (res.data) set({ AuthAdmin: res.data.data });
       console.log(res);
       toast.success(res.data.message);

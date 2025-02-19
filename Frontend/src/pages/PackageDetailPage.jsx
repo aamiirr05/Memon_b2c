@@ -19,7 +19,10 @@ const PackageDetailPage = () => {
   } = usePackageStore();
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }, []);
 
   useEffect(() => {
@@ -49,9 +52,9 @@ const PackageDetailPage = () => {
   return (
     <main className="bg-peach/10">
       <section>
-        <div className="max-w-7xl mx-auto px-4 lg:px-0">
-          <div className="flex justify-between items-start lg:items-center py-12">
-            <h1 className="text-4xl text-darkgreen font-medium flex-1 font-zodiak">
+        <div className="max-w-7xl w-full mx-auto px-4 lg:px-0">
+          <div className="flex w-full lg:justify-between items-start lg:items-center py-12">
+            <h1 className="text-2xl md:text-4xl text-darkgreen font-medium flex-1 font-zodiak">
               {selectedPackage.package_name}
             </h1>
             <ShareButton url={pageUrl} title={pageTitle} />

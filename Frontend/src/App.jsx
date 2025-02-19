@@ -67,6 +67,11 @@ import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
 import { motion } from 'framer-motion';
 import { ReactLenis } from './utils/lenis';
+// import logo from './assets/img/logo.png';
+import useFetchPackages from './Admin/hooks/UseFetchPackages';
+import Enquiries from './pages/Enquiries';
+import TestimonialForm from './pages/TestimonialForm';
+import FloatingButtons from './components/FoatingButtons';
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -91,8 +96,31 @@ const OfflineNotice = () => (
     <img src={offlineImg} alt="" className="w-1/3 lg:w-1/6 mb-10" />
     <h1 className="font-zodiak text-4xl font-bold">You are offline</h1>
     <h3 className="font-jakarta font-medium text-sm">
-      Go back online to use Memon Tours & Travels
+      Go back online to use Memon Haj Umrah Tours & Travels
     </h3>
+  </div>
+);
+
+const PreLoader = () => (
+  <div className="fixed inset-0 w-full bg-peach h-screen text-darkgreen flex flex-col gap-3 mx-auto items-center justify-center">
+    <div className="relative w-48 h-1 bg-darkgreen/30 overflow-hidden rounded-full">
+      <div className="absolute h-full w-1/3 bg-darkgreen rounded-full animate-loader"></div>
+    </div>
+
+    <div className="flex mt-3 items-center w-full gap-5 justify-center">
+      <img
+        src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+        alt="logo"
+        className="w-14"
+        loading="lazy"
+      />
+      <p className=" font-jakarta font-semibold text-3xl">
+        Memon Haj Umrah Tours & Travels.
+      </p>
+    </div>
+    <p className="mt-3 font-jakarta font-medium text-md">
+      Loading, please wait...
+    </p>
   </div>
 );
 
@@ -100,6 +128,17 @@ const App = () => {
   const { checkAuth } = useAuthStore();
   const location = useLocation();
   const navigate = useNavigate();
+  const { isAvailable, setIsAvailable } = useAuthStore();
+
+  console.log(isAvailable);
+
+  const getPackages = useFetchPackages('users/fetch-all-umrah-packages');
+
+  useEffect(() => {
+    if (getPackages?.data) {
+      setIsAvailable(false);
+    }
+  }, [getPackages?.data, setIsAvailable]);
 
   const { checkAdminAuth, AuthAdmin } = useAdminAuthStore();
   useEffect(() => {
@@ -125,13 +164,19 @@ const App = () => {
     return <OfflineNotice />;
   }
 
+  if (isAvailable) {
+    return <PreLoader />;
+  }
+
   return (
     <ReactLenis root>
-      <div className={`w-full h-full  bg-peach/20`}>
+      <div
+        className={`w-full h-full ${!location.pathname.includes('/admin') ? 'bg-peach/20' : ''}`}
+      >
         <div
           className={`w-full text-center -translate-x-[50%] left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
           style={{
-            backgroundImage: `url('/hero-bg.jpg')`,
+            backgroundImage: `url('/hero-bg.webp')`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -140,9 +185,10 @@ const App = () => {
         >
           <div className="mt-20 xl:mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
             <motion.div
+              layoutId="hero-title"
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 0.8 }}
+              transition={{ type: 'tween', duration: 1 }}
               className="flex flex-col items-center gap-1"
             >
               <q className="font-bold font-sans lg:text-md text-sm">
@@ -151,13 +197,13 @@ const App = () => {
               </q>
               <q className="lg:text-xs text-[8px] font-jakarta">
                 Indeed, the first House [of worship] established for mankind was
-                at Bakkah 🕋 – blessed and a guidance for the worlds.
+                at Bakkah (Mecca) 🕋 – blessed and a guidance for the worlds.
               </q>
             </motion.div>
             <motion.h1
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 1 }}
+              transition={{ type: 'tween', duration: 1, delay: 0.1 }}
               className="mt-3 md:mt-6 text-xl lg:text-2xl text-center font-bold font-zodiak"
             >
               Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
@@ -165,7 +211,7 @@ const App = () => {
             <motion.p
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 1.3 }}
+              transition={{ type: 'tween', duration: 1, delay: 0.1 }}
               className="font-jakarta text-xs md:text-[10px] font-semibold xl:text-md w-4/5 xl:mt-2  text-center"
             >
               Seamless, transparent, and reliable—book with confidence and
@@ -181,6 +227,7 @@ const App = () => {
           !isErrorPage && (
             <>
               <SecondaryNav />
+              <FloatingButtons />
             </>
           )}
 
@@ -194,7 +241,11 @@ const App = () => {
             <Route path="forex" element={<ForexPage />} />
             <Route path="contact" element={<ContactPage />} />
 
+            {/* User Route */}
+            <Route path="/enquiries" element={<Enquiries />} />
+
             {/* Not Protected Route */}
+            <Route path="/testimonials" element={<TestimonialForm />} />
             <Route path="/packages" element={<PackagesPage />} />
             <Route
               path="customized-package"

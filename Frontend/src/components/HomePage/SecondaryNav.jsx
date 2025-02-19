@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
-import logoname from '../../assets/img/logoname.png';
-import logo from '../../assets/img/logo.png';
+// import logoname from '../../assets/img/logoname.png';
+// import logo from '../../assets/img/logo.png';
 
-import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -22,6 +21,8 @@ import {
   MoonStars,
   Mosque,
 } from '@phosphor-icons/react';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useState } from 'react';
 
 const navLinks = [
   { name: 'Home', path: '/', icon: <House size={20} /> },
@@ -49,11 +50,33 @@ const navLinkTwo = [
   { name: 'Visa', path: '/visas', icon: <GlobeHemisphereEast size={20} /> },
   { name: 'Forex', path: '/forex', icon: <Money size={20} /> },
   { name: 'Contact Us', path: '/contact', icon: <PhoneOutgoing size={18} /> },
+  {
+    name: 'More',
+    icon: <Airplane size={20} />,
+    path: '/',
+    dropdowntwo: [
+      { name: 'Testimonials', path: '/testimonials' },
+      { name: 'Enquiries', path: '/enquiries' },
+    ],
+  },
 ];
 
 const SecondaryNav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isMore, setIsMore] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { authUser, logout, loading, setLoading } = useAuthStore();
+
+  const handleLogout = async () => {
+    setLoading(true);
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <nav className="w-[93.8%] backdrop-blur-sm font-jakarta mx-auto shadow-md bg-peach/70 rounded-xl sticky top-5 z-50 transform transition">
@@ -65,8 +88,18 @@ const SecondaryNav = () => {
       >
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center">
-          <img src={logo} alt="logo" className="w-10" />
-          <img src={logoname} alt="Logo" className="h-10" />
+          <img
+            src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+            alt="logo"
+            className="w-10 h-full"
+            loading="lazy"
+          />
+          <img
+            src="https://res.cloudinary.com/memonb2c/image/upload/v1739887688/MEMON_LOGO_NAME_amywa1.png"
+            alt="Logo-name"
+            className="h-10 w-full"
+            loading="lazy"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -127,7 +160,47 @@ const SecondaryNav = () => {
           ))}
           {navLinkTwo.map((link) => (
             <div key={link.name} className="relative">
-              {
+              {link.dropdowntwo ? (
+                <div
+                  className="cursor-pointer"
+                  onMouseEnter={() => setIsMore(true)}
+                  onMouseLeave={() => setIsMore(false)}
+                >
+                  <span className="flex items-center space-x-1 group">
+                    <NavLink
+                      to={link.path}
+                      className={({ isActive }) =>
+                        `text-sm font-medium ${isActive ? 'text-darkgreen' : 'text-neutral-600'}`
+                      }
+                    >
+                      {link.name}
+                    </NavLink>
+
+                    <ChevronDown className="h-4 w-4 mt-[3px]  group-hover:rotate-180 ease-in-out group-hover:text-darkgreen" />
+                  </span>
+
+                  {/* Dropdown */}
+                  {isMore && (
+                    <div className="absolute top-full left-0 bg-peach shadow-md rounded-md py-2 w-fit">
+                      {link.dropdowntwo.map((dropdownLink) => (
+                        <NavLink
+                          key={dropdownLink.name}
+                          to={dropdownLink.path}
+                          className="flex items-center justify-between px-4 py-2 text-sm text-darkgreen group hover:bg-peach/10"
+                        >
+                          <div className="flex items-center w-full ">
+                            <span>{dropdownLink.name}</span>
+                            <ChevronRight
+                              className="opacity-0 group-hover:opacity-100 ml-2 transition-opacity duration-100 ease-in-out pt-1 hover:text-darkgreen"
+                              size={22}
+                            />
+                          </div>
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
                 <NavLink
                   to={link.path}
                   className={({ isActive }) =>
@@ -136,25 +209,36 @@ const SecondaryNav = () => {
                 >
                   {link.name}
                 </NavLink>
-              }
+              )}
             </div>
           ))}
         </div>
 
         {/*  */}
         <div className="hidden xl:flex items-center text-sm justify-center gap-5 font-medium ">
-          <NavLink
-            to="/login"
-            className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to="/signup"
-            className="cursor-pointer text-neutral-600 hover:text-darkgreen"
-          >
-            Signup
-          </NavLink>
+          {authUser ? (
+            <div
+              className={` p-2 px-6 rounded-lg  cursor-pointer ${loading ? 'text-darkgreen font-semibold border border-darkgreen' : 'bg-darkgreen text-peach'}`}
+              onClick={handleLogout}
+            >
+              {loading ? 'Logging out...' : 'Logout'}
+            </div>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="cursor-pointer text-neutral-600 hover:text-darkgreen"
+              >
+                Signup
+              </NavLink>
+            </>
+          )}
           <div className="cursor-pointer text-neutral-600 hover:text-darkgreen">
             B2B Login
           </div>
@@ -265,18 +349,30 @@ const SecondaryNav = () => {
             </div>
           </div>
           <div className="flex md:flex-col-reverse items-center md:w-1/3 text-sm justify-center w-full md:justify-start gap-5 font-medium ">
-            <NavLink
-              to="/login"
-              className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
-            >
-              Login
-            </NavLink>
-            <NavLink
-              to="/signup"
-              className="cursor-pointer text-neutral-600 hover:text-darkgreen"
-            >
-              Signup
-            </NavLink>
+            {authUser ? (
+              <div
+                className={` p-2 px-6 rounded-lg cursor-pointer ${loading ? 'text-darkgreen border border-darkgreen' : 'bg-darkgreen text-peach'}`}
+                onClick={handleLogout}
+              >
+                {loading ? 'Logging out...' : 'Logout'}
+              </div>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className="text-peach p-2 px-6 rounded-lg cursor-pointer bg-darkgreen"
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  className="cursor-pointer text-neutral-600 hover:text-darkgreen"
+                >
+                  Signup
+                </NavLink>
+              </>
+            )}
+
             <NavLink
               to="/"
               className="cursor-pointer text-neutral-600 hover:text-darkgreen"

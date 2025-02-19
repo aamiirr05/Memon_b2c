@@ -18,7 +18,10 @@ const VisaDetailPage = () => {
     useVisaStore();
 
   useEffect(() => {
-    window.scrollTo(0, 0); // Scroll to top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   }, []);
 
   useEffect(() => {
