@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import useFetchPackages from '../Admin/hooks/UseFetchPackages';
 import { CalendarBlank, IdentificationBadge } from '@phosphor-icons/react';
 
@@ -29,6 +30,13 @@ const Enquiries = () => {
   const getEnquiries = useFetchPackages('/users/get-user');
 
   console.log(getEnquiries);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  });
   return (
     <div className="w-full h-full p-10 text-darkgreen font-jakarta">
       <h1 className="text-3xl font-semibold font-zodiak ">

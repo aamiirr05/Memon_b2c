@@ -2,6 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Zodiak';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('https://api.fontshare.com/v2/css?f[]=zodiak@700&display=swap');
+}
+
+::-webkit-scrollbar {
+  @apply w-[10px] md:h-[2px];
+}
+
+::-webkit-scrollbar {
+  height: 2px; /* Adjust height for x-axis scrollbar */
+}
+::-webkit-scrollbar-track {
+  @apply bg-mediumgreen bg-opacity-45;
+}
+
+/* Style the scrollbar thumb (scroll handle) */
+::-webkit-scrollbar-thumb {
+  @apply bg-darkgreen;
+}
+
+/* Hover effect for the thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #6a994e;
+}
+
 @layer utilities {
   .animate-spin-reverse {
     animation: spin-reverse 1.5s linear infinite;

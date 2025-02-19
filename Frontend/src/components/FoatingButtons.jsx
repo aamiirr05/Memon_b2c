@@ -1,5 +1,6 @@
 import { Phone, Mail, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
+import { WhatsappLogo, InstagramLogo } from '@phosphor-icons/react';
 
 const FloatingButtons = () => {
   const [hover, setHover] = useState(false);
@@ -20,7 +21,7 @@ const FloatingButtons = () => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
       >
-        <MessageCircle size={24} />
+        <WhatsappLogo size={24} />
         {hover && <span className="">Whatsapp</span>}
       </a>
 
@@ -42,7 +43,7 @@ const FloatingButtons = () => {
       {/* Phone Call Button */}
       <a
         href="tel:+918108404376"
-        aria-label="Phone"
+        aria-label="Instagram"
         className={`flex items-center font-jakarta w-40 h-12 bg-red-500 text-white rounded-xl shadow-lg hover:bg-red-600 transition-all ease-in-out duration-500 pointer-events-auto
             ${hoverPhone ? 'translate-x-4 justify-center gap-3' : 'translate-x-32 justify-start pl-3 opacity-50'}
             
@@ -50,8 +51,8 @@ const FloatingButtons = () => {
         onMouseEnter={() => setHoverPhone(true)}
         onMouseLeave={() => setHoverPhone(false)}
       >
-        <Phone size={24} />
-        {hoverPhone && <span className="">Phone</span>}
+        <InstagramLogo size={24} />
+        {hoverPhone && <span className="">Instagram</span>}
       </a>
     </div>
   );

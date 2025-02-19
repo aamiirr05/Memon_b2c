@@ -1081,6 +1081,8 @@ const enquiryCustomizedPackage = asyncHandler(async (req, res) => {
 const testimonial = asyncHandler(async (req, res) => {
   const { fullname, city, country, stars, review } = req.body;
 
+  console.log(req.body);
+
   if (
     [fullname, city, country, stars, review].some((field) => {
       return typeof field === "string"

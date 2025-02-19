@@ -71,6 +71,7 @@ import { ReactLenis } from './utils/lenis';
 import useFetchPackages from './Admin/hooks/UseFetchPackages';
 import Enquiries from './pages/Enquiries';
 import TestimonialForm from './pages/TestimonialForm';
+import FloatingButtons from './components/FoatingButtons';
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -175,7 +176,7 @@ const App = () => {
         <div
           className={`w-full text-center -translate-x-[50%] left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
           style={{
-            backgroundImage: `url('/hero-bg.jpg')`,
+            backgroundImage: `url('/hero-bg.webp')`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -184,9 +185,10 @@ const App = () => {
         >
           <div className="mt-20 xl:mt-28 md:mt-24 p-5 md:p-0 flex flex-col gap-1 md:w-11/12 mx-auto items-center text-[#386641]">
             <motion.div
+              layoutId="hero-title"
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 0.8 }}
+              transition={{ type: 'tween', duration: 1 }}
               className="flex flex-col items-center gap-1"
             >
               <q className="font-bold font-sans lg:text-md text-sm">
@@ -201,7 +203,7 @@ const App = () => {
             <motion.h1
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 1 }}
+              transition={{ type: 'tween', duration: 1, delay: 0.1 }}
               className="mt-3 md:mt-6 text-xl lg:text-2xl text-center font-bold font-zodiak"
             >
               Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
@@ -209,7 +211,7 @@ const App = () => {
             <motion.p
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 1.3 }}
+              transition={{ type: 'tween', duration: 1, delay: 0.1 }}
               className="font-jakarta text-xs md:text-[10px] font-semibold xl:text-md w-4/5 xl:mt-2  text-center"
             >
               Seamless, transparent, and reliable—book with confidence and
@@ -225,6 +227,7 @@ const App = () => {
           !isErrorPage && (
             <>
               <SecondaryNav />
+              <FloatingButtons />
             </>
           )}
 

@@ -5,7 +5,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import AboutUs from '../components/HomePage/UmrahPackages';
 import MainContent from '../components/HomePage/MainContent';
 import ScrollToTopButton from '../components/ScrollToTopButton';
-import FloatingButtons from '../components/FoatingButtons';
 import HolidayGrid from '../components/HomePage/HoildayGrid';
 import Testimonials from '../components/HomePage/Testimonials';
 import Marquees from '../components/HomePage/Marquees';
@@ -16,7 +15,6 @@ const Homepage = () => {
 
   return (
     <div className="overflow-x-hidden w-full h-full">
-      <FloatingButtons />
       <ScrollToTopButton />
 
       {/* Main content  */}
