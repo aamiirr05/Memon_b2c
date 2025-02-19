@@ -14,6 +14,7 @@ import {
 import {
   Airplane,
   BuildingApartment,
+  DotsThreeCircle,
   GlobeHemisphereEast,
   House,
   Island,
@@ -46,13 +47,13 @@ const navLinks = [
 
 const navLinkTwo = [
   { name: 'Holidays', path: '/holidays', icon: <Island size={20} /> },
-  { name: 'Hotels', path: '/hotels', icon: <BuildingApartment size={20} /> },
+  // { name: 'Hotels', path: '/hotels', icon: <BuildingApartment size={20} /> },
   { name: 'Visa', path: '/visas', icon: <GlobeHemisphereEast size={20} /> },
   { name: 'Forex', path: '/forex', icon: <Money size={20} /> },
   { name: 'Contact Us', path: '/contact', icon: <PhoneOutgoing size={18} /> },
   {
     name: 'More',
-    icon: <Airplane size={20} />,
+    icon: <DotsThreeCircle size={20} />,
     path: '/',
     dropdowntwo: [
       { name: 'Testimonials', path: '/testimonials' },
@@ -311,19 +312,19 @@ const SecondaryNav = () => {
                   key={link.name}
                   className=""
                   onClick={() => {
-                    !link.dropdown && setMenuOpen(!menuOpen);
+                    !link.dropdowntwo && setIsMore(!isMore);
                   }}
                 >
-                  {link.dropdown ? (
+                  {link.dropdowntwo ? (
                     <details>
                       <summary className="px-4 py-2 cursor-pointer flex justify-between items-center text-neutral-600 font-medium">
-                        {link.name}
+                        {link.icon} {link.name}
                         <ChevronDown className="h-4 w-4" />
                       </summary>
                       <div className="px-4 pb-2">
-                        {link.dropdown.map((dropdownLink) => (
+                        {link.dropdowntwo.map((dropdownLink) => (
                           <NavLink
-                            onClick={() => setMenuOpen(!menuOpen)}
+                            onClick={() => setIsMore(!isMore)}
                             key={dropdownLink.name}
                             to={dropdownLink.path}
                             className="block px-4 py-2 text-sm text-neutral-600 hover:bg-darkgreen/40 hover:text-darkgreen rounded-md"

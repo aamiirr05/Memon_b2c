@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import useFetchPackages from '../Admin/hooks/UseFetchPackages';
 import { CalendarBlank, IdentificationBadge } from '@phosphor-icons/react';
+import { useAuthStore } from '../store/useAuthStore';
+import { Link } from 'react-router-dom';
 
 const EnquiryCards = () => {
   return (
@@ -28,8 +30,13 @@ const EnquiryCards = () => {
 
 const Enquiries = () => {
   const getEnquiries = useFetchPackages('/users/get-user');
+  const { authUser } = useAuthStore();
 
   console.log(getEnquiries);
+
+  const userData = getEnquiries?.data.data;
+
+  console.log(userData);
 
   useEffect(() => {
     window.scrollTo({
@@ -38,20 +45,51 @@ const Enquiries = () => {
     });
   });
   return (
-    <div className="w-full h-full p-10 text-darkgreen font-jakarta">
-      <h1 className="text-3xl font-semibold font-zodiak ">
-        User&apos;s Enquiry
-      </h1>
+    <div
+      className={`w-full ${authUser ? 'h-full' : 'h-screen flex items-center justify-center'} p-10 text-darkgreen font-jakarta`}
+    >
+      {authUser ? (
+        <h1 className="text-3xl mt-5 font-semibold font-zodiak ">
+          {userData?.first_name} {userData?.last_name}&apos;s Enquiry
+        </h1>
+      ) : null}
 
-      <div className="mt-20 flex flex-col gap-5 items-center justify-center">
-        <EnquiryCards />
-        <EnquiryCards />
-        <EnquiryCards />
-        <EnquiryCards />
-        <EnquiryCards />
-        <EnquiryCards />
-        <EnquiryCards />
-        <EnquiryCards />
+      <div className="mt-10 flex flex-col gap-5 items-center justify-center">
+        {authUser ? (
+          <>
+            <EnquiryCards />
+            <EnquiryCards />
+            <EnquiryCards />
+            <EnquiryCards />
+            <EnquiryCards />
+            <EnquiryCards />
+            <EnquiryCards />
+            <EnquiryCards />
+          </>
+        ) : (
+          <div className="flex xl:w-1/2 flex-col items-center justify-center p-6 bg-peach/40 rounded-lg shadow-md">
+            <h2 className="text-xl text-center text-darkgreen">
+              You can submit an enquiry without logging in. However, if you’d
+              like to track your enquiry status and receive updates, we
+              recommend creating an account.
+            </h2>
+            <div className="mt-4 flex items-center justify-center gap-4">
+              <Link
+                to="/login"
+                className="px-4 py-2 bg-darkgreen text-peach font-zodiak cursor-pointer rounded-md shadow-md hover:bg-darkgreen/80 transition-all"
+              >
+                Login
+              </Link>
+              <span className="text-gray-600">or</span>
+              <Link
+                to="/signup"
+                className="px-4 py-2 bg-darkgreen text-peach font-zodiak cursor-pointer rounded-md shadow-md hover:bg-darkgreen/80 transition-all"
+              >
+                Signup
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

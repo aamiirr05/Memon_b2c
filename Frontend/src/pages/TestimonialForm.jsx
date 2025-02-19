@@ -60,7 +60,7 @@ const TestimonialForm = () => {
       <h2 className="text-2xl mt-5 font-bold text-darkgreen font-zodiak mb-4">
         Write what you think about us
       </h2>
-      <div className=" w-4/5 lg:w-1/3 shadow-lg rounded-lg bg-peach/30 mx-auto p-6 my-10 font-jakarta">
+      <div className=" w-full lg:w-1/3 shadow-lg rounded-lg bg-peach/30 mx-auto p-6 my-10 font-jakarta">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Full Name */}
           <div>
@@ -143,7 +143,7 @@ const TestimonialForm = () => {
           <div className="flex items-center justify-center font-jakarta">
             <button
               type="submit"
-              className="w-1/2 mx-auto bg-darkgreen text-white py-2 px-4 rounded-md hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen transition-colors text-sm"
+              className="md:w-1/2 mx-auto bg-darkgreen text-white py-2 px-4 rounded-md hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen transition-colors text-sm"
             >
               Submit Testimonial
             </button>

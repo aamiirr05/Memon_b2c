@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Homepage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
@@ -102,23 +103,23 @@ const OfflineNotice = () => (
 );
 
 const PreLoader = () => (
-  <div className="fixed inset-0 w-full bg-peach h-screen text-darkgreen flex flex-col gap-3 mx-auto items-center justify-center">
+  <div className="fixed p-5 inset-0 w-full bg-peach h-screen text-darkgreen flex flex-col gap-3 mx-auto items-center justify-center">
     <div className="relative w-48 h-1 bg-darkgreen/30 overflow-hidden rounded-full">
       <div className="absolute h-full w-1/3 bg-darkgreen rounded-full animate-loader"></div>
     </div>
 
     <div className="flex mt-3 items-center w-full gap-5 justify-center">
       <img
-        src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+        src="https://res.cloudinary.com/memonb2c/image/upload/f_auto,q_auto/v1739885803/rmf00msx8vhusevuc2iv.png"
         alt="logo"
-        className="w-14"
+        className="w-10 h-10 lg:w-14 lg:h-14"
         loading="lazy"
       />
-      <p className=" font-jakarta font-semibold text-3xl">
+      <p className="text-left font-jakarta text-lg md:text-xl font-semibold lg:text-3xl">
         Memon Haj Umrah Tours & Travels.
       </p>
     </div>
-    <p className="mt-3 font-jakarta font-medium text-md">
+    <p className="mt-3 font-jakarta font-medium text-sm md:text-md">
       Loading, please wait...
     </p>
   </div>
@@ -302,7 +303,7 @@ const App = () => {
             {/* Admin Routes */}
 
             <Route path="admin-login" element={<AdminLogin />} />
-            <Route path="admin-signup" element={<AdminSignup />} />
+            {/* <Route path="admin-signup" element={<AdminSignup />} /> */}
 
             {AuthAdmin && (
               <Route path="admin" element={<AdminLayout />}>
