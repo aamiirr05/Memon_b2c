@@ -188,7 +188,7 @@ const App = () => {
               layoutId="hero-title"
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1 }}
+              transition={{ type: 'tween', duration: 0.5 }}
               className="flex flex-col items-center gap-1"
             >
               <q className="font-bold font-sans lg:text-md text-sm">
@@ -203,7 +203,7 @@ const App = () => {
             <motion.h1
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 0.1 }}
+              transition={{ type: 'tween', duration: 0.5, delay: 0.1 }}
               className="mt-3 md:mt-6 text-xl lg:text-2xl text-center font-bold font-zodiak"
             >
               Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
@@ -211,7 +211,7 @@ const App = () => {
             <motion.p
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 0.1 }}
+              transition={{ type: 'tween', duration: 0.5, delay: 0.1 }}
               className="font-jakarta text-xs md:text-[10px] font-semibold xl:text-md w-4/5 xl:mt-2  text-center"
             >
               Seamless, transparent, and reliable—book with confidence and

@@ -6,27 +6,27 @@ import { useRef } from 'react';
 const Marquees = () => {
   var images = [
     [
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085981/WhatsApp_Image_2025-02-08_at_13.23.28_4de7674c_xxrubk.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085978/IMG-20250208-WA0047_rt8bra.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085979/IMG-20250208-WA0048_jmwv07.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085978/IMG-20250208-WA0047_rt8bra.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085980/IMG-20250208-WA0050_ajzt0f.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085978/IMG-20250208-WA0044_f1vaal.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085976/IMG-20250208-WA0042_cems1z.jpg',
-      'https://res.cloudinary.com/memonb2c/video/upload/v1739085992/VID-20250208-WA0005_kiphiw.mp4',
-      'https://res.cloudinary.com/memonb2c/video/upload/v1739085996/WhatsApp_Video_2025-02-08_at_13.22.33_0540eae5_xkshr0.mp4',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085981/WhatsApp_Image_2025-02-08_at_13.23.28_4de7674c_xxrubk.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085978/IMG-20250208-WA0047_rt8bra.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085979/IMG-20250208-WA0048_jmwv07.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085978/IMG-20250208-WA0047_rt8bra.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085980/IMG-20250208-WA0050_ajzt0f.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085978/IMG-20250208-WA0044_f1vaal.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085976/IMG-20250208-WA0042_cems1z.webp',
+      'https://res.cloudinary.com/memonb2c/video/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085992/VID-20250208-WA0005_kiphiw.mp4',
+      'https://res.cloudinary.com/memonb2c/video/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085996/WhatsApp_Video_2025-02-08_at_13.22.33_0540eae5_xkshr0.mp4',
     ],
     [
       'https://res.cloudinary.com/memonb2c/video/upload/v1739085996/WhatsApp_Video_2025-02-08_at_13.22.33_0540eae5_xkshr0.mp4',
       'https://res.cloudinary.com/memonb2c/video/upload/v1739085992/VID-20250208-WA0005_kiphiw.mp4',
 
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085976/IMG-20250208-WA0042_cems1z.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085978/IMG-20250208-WA0044_f1vaal.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085980/IMG-20250208-WA0050_ajzt0f.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085978/IMG-20250208-WA0047_rt8bra.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085979/IMG-20250208-WA0048_jmwv07.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085978/IMG-20250208-WA0047_rt8bra.jpg',
-      'https://res.cloudinary.com/memonb2c/image/upload/v1739085981/WhatsApp_Image_2025-02-08_at_13.23.28_4de7674c_xxrubk.jpg',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085976/IMG-20250208-WA0042_cems1z.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085978/IMG-20250208-WA0044_f1vaal.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085980/IMG-20250208-WA0050_ajzt0f.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085978/IMG-20250208-WA0047_rt8bra.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085979/IMG-20250208-WA0048_jmwv07.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085978/IMG-20250208-WA0047_rt8bra.webp',
+      'https://res.cloudinary.com/memonb2c/image/upload/w_500,h_300,c_fill,f_auto,q_auto/v1739085981/WhatsApp_Image_2025-02-08_at_13.23.28_4de7674c_xxrubk.webp',
     ],
   ];
 

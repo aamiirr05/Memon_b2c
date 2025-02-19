@@ -246,7 +246,7 @@ const SecondaryNav = () => {
 
         {/* Mobile Menu Button */}
         <div className="xl:hidden">
-          <button onClick={() => setMenuOpen(!menuOpen)}>
+          <button aria-label="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
             {menuOpen ? (
               <X className="h-6 w-6 text-darkgreen transition-all" />
             ) : (

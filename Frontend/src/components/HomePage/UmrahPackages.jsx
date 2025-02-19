@@ -153,6 +153,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
       </div>
       <div className="w-full flex items-center justify-end">
         <motion.button
+          aria-label="Learn More"
           animate={{ z: isInView ? 0 : 200, opacity: isInView ? 1 : 0 }}
           transition={{
             duration: 0.7,
@@ -231,6 +232,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
         </div>
         <div className="flex items-center justify-end gap-5">
           <button
+            aria-label="Go prev"
             onClick={handlePrev}
             disabled={activeIndex === 0}
             className={`${activeIndex === 0 ? 'opacity-60 border border-darkgreen text-darkgreen' : 'bg-darkgreen text-white'} p-2 rounded-full`}
@@ -238,6 +240,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
             <ChevronLeft />
           </button>
           <button
+            aria-label="Go next"
             onClick={handleNext}
             disabled={activeIndex === cards.length - 2}
             className={`${activeIndex === cards.length - 2 ? 'opacity-60 border border-darkgreen text-darkgreen' : 'bg-darkgreen text-white'} p-2 rounded-full`}

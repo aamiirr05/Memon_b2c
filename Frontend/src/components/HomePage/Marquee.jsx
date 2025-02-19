@@ -83,6 +83,7 @@ const Marquee = ({ imagesurl, direction }) => {
         >
           <div className="relative bg-lightpeach rounded-lg w-9/12 md:w-auto md:max-w-lg">
             <button
+              aria-label="Close"
               onClick={() => setSelectedImage(null)}
               className="absolute z-40 cursor-pointer top-2 right-2 text-xl font-bold text-darkgreen bg-white rounded-full"
             >
