@@ -56,18 +56,18 @@ const TestimonialForm = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full p-10">
-      <h2 className="text-2xl mt-5 font-bold text-darkgreen font-jakarta mb-4">
-        Write what you think about us
+    <div className="flex flex-col justify-center items-center w-full md:p-10 p-8">
+      <h2 className="lg:text-3xl sm:text-2xl text-xl  mt-10 font-bold text-darkgreen font-jakarta">
+        Write What you Think About Us.
       </h2>
-      <div className=" w-full lg:w-[80%] shadow-lg rounded-lg mx-auto p-6 my-10 font-jakarta">
+      <div className=" w-full lg:w-8/12 shadow-lg rounded-lg mx-auto p-6 my-10 font-jakarta">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Full Name */}
-          <div className=" flex items-center justify-center">
+          <div className=" md:flex xl-flex-col items-center justify-center">
             <label className="custom-label w-1/2">Full Name</label>
             <input
               {...register('fullname')}
-              className="custom-forex-input-fields w-full"
+              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w-full"
               placeholder="Enter your full name"
             />
             {errors.fullname && (
@@ -78,11 +78,11 @@ const TestimonialForm = () => {
           </div>
 
           {/* City */}
-          <div className=" flex items-center justify-center">
+          <div className=" md:flex xl-flex-col items-center justify-center">
             <label className="custom-label w-1/2">City</label>
             <input
               {...register('city')}
-              className="custom-forex-input-fields w-full"
+              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w w-full"
               placeholder="Enter your city"
             />
             {errors.city && (
@@ -91,11 +91,11 @@ const TestimonialForm = () => {
           </div>
 
           {/* Country */}
-          <div className=" flex items-center justify-center">
-            <label className="custom-label text-xs w-1/2">Country</label>
+          <div className=" md:flex xl-flex-col items-center justify-center">
+            <label className="custom-label w-1/2">Country</label>
             <input
               {...register('country')}
-              className="custom-forex-input-fields w-full"
+              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w-full"
               placeholder="Enter your country"
             />
             {errors.country && (
@@ -106,14 +106,14 @@ const TestimonialForm = () => {
           </div>
 
           {/* Star Rating */}
-          <div className=" flex items-center justify-center">
+          <div className=" md:flex xl-flex-col items-center justify-center">
             <label className="custom-label w-1/2">Rating (1 to 5 stars)</label>
             <input
               type="number"
               {...register('stars')}
               max={5}
               min={0}
-              className="custom-forex-input-fields w-full"
+              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w-full"
               placeholder="Enter rating (1-5)"
             />
             {errors.stars && (
@@ -124,11 +124,11 @@ const TestimonialForm = () => {
           </div>
 
           {/* Review */}
-          <div className=" flex items-center justify-center">
+          <div className=" md:flex xl-flex-col  items-center justify-center">
             <label className="custom-label w-1/2">Your Review</label>
             <textarea
               {...register('review')}
-              className="custom-forex-input-fields w-full"
+              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w-full"
               placeholder="Write your review..."
               rows="4"
             />
@@ -143,7 +143,7 @@ const TestimonialForm = () => {
           <div className="flex items-center justify-center font-jakarta">
             <button
               type="submit"
-              className="md:w-1/2 mx-auto bg-darkgreen text-white py-2 px-4 rounded-md hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen transition-colors text-sm"
+              className="md:w-1/3 mx-auto my-8 bg-darkgreen text-white py-2 px-4 rounded-md hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen transition-colors md:text-md text-sm"
             >
               Submit Testimonial
             </button>
