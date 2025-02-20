@@ -131,8 +131,6 @@ const App = () => {
   const navigate = useNavigate();
   const { isAvailable, setIsAvailable } = useAuthStore();
 
-  console.log(isAvailable);
-
   const getPackages = useFetchPackages('users/fetch-all-umrah-packages');
 
   useEffect(() => {

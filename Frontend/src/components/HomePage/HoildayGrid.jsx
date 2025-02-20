@@ -24,7 +24,6 @@ const HolidayGrid = ({ isMenuOpen }) => {
 
   const cards = [...filterCards];
 
-  console.log(cards);
   return (
     <>
       <section

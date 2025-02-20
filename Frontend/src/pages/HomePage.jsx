@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -11,17 +11,22 @@ import Marquees from '../components/HomePage/Marquees';
 import RecommendedPackages from '../components/HomePage/RecommendedPackages';
 
 const Homepage = () => {
-  const [isMenuOpen] = useState(false);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   return (
     <div className="overflow-x-hidden w-full h-full">
       <ScrollToTopButton />
 
       {/* Main content  */}
-      <MainContent isMenuOpen={isMenuOpen} />
+      <MainContent />
       {/* About Us Section */}
 
-      <AboutUs isMenuOpen={isMenuOpen} />
+      <AboutUs />
 
       {/* Package Slider  */}
 
@@ -40,13 +45,8 @@ const Homepage = () => {
         <Marquees />
       </section>
 
-      {/* Book Now Section  */}
-      {/* <BookNow isMenuOpen={isMenuOpen} /> */}
-      {/* Testimonials */}
-      <Testimonials isMenuOpen={isMenuOpen} />
+      <Testimonials />
       {/* Footer  */}
-
-      {/* <Footer isMenuOpen={isMenuOpen} /> */}
     </div>
   );
 };

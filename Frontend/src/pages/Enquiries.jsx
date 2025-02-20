@@ -471,8 +471,6 @@ const Enquiries = () => {
     getEnquiries.refresh();
   };
 
-  console.log(userData);
-
   useEffect(() => {
     if (
       userData?.customized_package >= 0 ||
