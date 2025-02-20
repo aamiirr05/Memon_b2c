@@ -56,18 +56,18 @@ const TestimonialForm = () => {
   };
 
   return (
-    <div className="w-full p-10">
-      <h2 className="text-2xl mt-5 font-bold text-darkgreen font-zodiak mb-4">
+    <div className="flex flex-col justify-center items-center w-full p-10">
+      <h2 className="text-2xl mt-5 font-bold text-darkgreen font-jakarta mb-4">
         Write what you think about us
       </h2>
-      <div className=" w-full lg:w-1/3 shadow-lg rounded-lg bg-peach/30 mx-auto p-6 my-10 font-jakarta">
+      <div className=" w-full lg:w-[80%] shadow-lg rounded-lg mx-auto p-6 my-10 font-jakarta">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Full Name */}
-          <div>
-            <label className="custom-label">Full Name:</label>
+          <div className=" flex items-center justify-center">
+            <label className="custom-label w-1/2">Full Name</label>
             <input
               {...register('fullname')}
-              className="custom-input w-full"
+              className="custom-forex-input-fields w-full"
               placeholder="Enter your full name"
             />
             {errors.fullname && (
@@ -78,11 +78,11 @@ const TestimonialForm = () => {
           </div>
 
           {/* City */}
-          <div>
-            <label className="custom-label">City:</label>
+          <div className=" flex items-center justify-center">
+            <label className="custom-label w-1/2">City</label>
             <input
               {...register('city')}
-              className="custom-input w-full"
+              className="custom-forex-input-fields w-full"
               placeholder="Enter your city"
             />
             {errors.city && (
@@ -91,11 +91,11 @@ const TestimonialForm = () => {
           </div>
 
           {/* Country */}
-          <div>
-            <label className="custom-label text-xs">Country:</label>
+          <div className=" flex items-center justify-center">
+            <label className="custom-label text-xs w-1/2">Country</label>
             <input
               {...register('country')}
-              className="custom-input w-full"
+              className="custom-forex-input-fields w-full"
               placeholder="Enter your country"
             />
             {errors.country && (
@@ -106,14 +106,14 @@ const TestimonialForm = () => {
           </div>
 
           {/* Star Rating */}
-          <div>
-            <label className="custom-label">Rating (1 to 5 stars):</label>
+          <div className=" flex items-center justify-center">
+            <label className="custom-label w-1/2">Rating (1 to 5 stars)</label>
             <input
               type="number"
               {...register('stars')}
               max={5}
               min={0}
-              className="custom-input w-full"
+              className="custom-forex-input-fields w-full"
               placeholder="Enter rating (1-5)"
             />
             {errors.stars && (
@@ -124,16 +124,16 @@ const TestimonialForm = () => {
           </div>
 
           {/* Review */}
-          <div>
-            <label className="custom-label">Your Review:</label>
+          <div className=" flex items-center justify-center">
+            <label className="custom-label w-1/2">Your Review</label>
             <textarea
               {...register('review')}
-              className="custom-input w-full"
+              className="custom-forex-input-fields w-full"
               placeholder="Write your review..."
               rows="4"
             />
             {errors.review && (
-              <p className="text-red-500 text-xs mt-2">
+              <p className="text-red-500 text-xs mt-2 ">
                 {errors.review.message}
               </p>
             )}
