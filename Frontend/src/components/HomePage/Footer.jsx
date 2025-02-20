@@ -167,11 +167,11 @@ const Footer = ({ isMenuOpen }) => {
           </div>
         </div>
         <div className="w-full flex items-center md:justify-start xl:justify-end lg:justify-start gap-3">
-          <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
+          <div className="md:w-20 md:h-20 w-16 h-16 bg-white rounded-full flex items-center justify-center">
             <img
-              src="https://res.cloudinary.com/memonb2c/image/upload/w_250,h_150,f_auto,q_auto/v1739885803/m7htny213ruzah5vf9un.png"
+              src="https://res.cloudinary.com/memonb2c/image/upload/v1740042932/iata_emyxgm.webp"
               alt="iata-logo"
-              className="w-"
+              className="flex items-center justify-center"
             />
           </div>
           {/* <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
