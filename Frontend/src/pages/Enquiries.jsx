@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from 'react';
 import useFetchPackages from '../Admin/hooks/UseFetchPackages';
 import {
   CalendarDots,
@@ -15,68 +16,74 @@ import {
   XCircle,
   Moon,
   BuildingApartment,
-  BowlFood,
   Article,
   Phone,
   AirplaneTilt,
 } from '@phosphor-icons/react';
 import { useAuthStore } from '../store/useAuthStore';
 import { Link } from 'react-router-dom';
+import { RefreshCcw } from 'lucide-react';
 
-const EnquiryUmrah = () => {
+const EnquiryUmrah = ({ data, getStatusClass, getStatusIcon }) => {
   return (
-    <div className=" w-[99%] flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
-      <div className="flex items-center justify-center gap-5">
-        <h2 className="text-lg font-bold">Package Name</h2>
-        <p className="text-sm">#t647389209348</p>
-        <div className="rounded-lg flex gap-2 text-xs border border-yellow-600 bg-yellow-100 p-1 px-3 text-yellow-600">
-          <CircleNotch size={18} /> Pending
+    <div className="w-full lg:w-2/3 flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
+      {/*  */}
+      <div className="flex items-start md:items-center md:justify-center gap-2 lg:gap-5 flex-col md:flex-row">
+        <h2 className="text-lg font-bold">{data?.package_name}</h2>
+        <p className="text-xs lg:text-sm">{data?.enquiry_id}</p>
+        <div
+          className={`rounded-lg flex gap-2 text-xs p-1 px-3 ${getStatusClass(data?.status)}`}
+        >
+          {getStatusIcon(data?.status)} {data?.status}
         </div>
       </div>
-      <div className="flex gap-6 mt-4 items-center justify-center">
-        <h2 className="text-sm flex items-center justify-center gap-2">
+      {/*  */}
+      <div className="border-b border-gray-300 pb-5 flex gap-6 mt-4 items-start justify-start mditems-center flex-wrap w-full">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <UserCheck size={20} />
-          Mr Zaid Achhwa
+          {`${data?.salutation} ${data?.first_name}
+          ${data?.last_name}
+          `}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <EnvelopeSimple size={20} />
-          Email
+          {data?.email}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <Phone size={20} />
-          Contact
+          {data?.contact}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        {/* <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <CalendarDots size={20} />
-          Traveller Date
-        </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+          {new Date(data?.traveller_date).toDateString()}
+        </h2> */}
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <UsersThree size={20} />
-          Total Adults
+          {data?.total_adults}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <Baby size={20} />
-          Total Children
+          {data?.total_children}
         </h2>
         <h2 className="text-sm flex items-center justify-center gap-2">
           <BabyCarriage size={20} />
-          Total Infants
+          {data?.total_infants}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <CalendarDots size={20} />
-          30-12-2025
+          {new Date(data?.traveller_date).toLocaleDateString()}
         </h2>
       </div>
-      <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div>
-      <div className="flex gap-8 mt-2">
+      {/* <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div> */}
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8 mt-2">
         <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-2 ">
-            Package Type
+          <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2 ">
+            {data?.package_type}
           </h2>
         </div>
-        <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-2 ">
-            Created At
+        <div className="px-6 py-2 border border-gray-400 rounded-full">
+          <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2 ">
+            {new Date(data?.created_at).toLocaleString()}
           </h2>
         </div>
       </div>
@@ -84,40 +91,46 @@ const EnquiryUmrah = () => {
   );
 };
 
-const EnquiryVisa = () => {
+const EnquiryVisa = ({ data, getStatusClass, getStatusIcon }) => {
   return (
-    <div className=" w-[99%] flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
-      <div className="flex items-center justify-center gap-5">
-        <h2 className="text-lg font-bold">Visa Country</h2>
-        <p className="text-sm">#t647389209348</p>
-        <div className="rounded-lg flex gap-2 text-xs border border-green-600 bg-green-100 p-1 px-3 text-green-600">
-          <CheckCircle size={18} /> Approved
+    <div className="w-full lg:w-2/3 flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
+      {/*  */}
+      <div className="flex items-start md:items-center md:justify-center gap-2 lg:gap-5 flex-col md:flex-row">
+        <h2 className="text-lg font-bold">{data?.visa_country}</h2>
+        <p className="text-xs lg:text-sm">{data?.enquiry_id}</p>
+        <div
+          className={`rounded-lg flex gap-2 text-xs p-1 px-3 ${getStatusClass(data?.status)}`}
+        >
+          {getStatusIcon(data?.status)} {data?.status}
         </div>
       </div>
-      <div className="flex gap-6 mt-4 items-center justify-center">
-        <h2 className="text-sm flex items-center justify-center gap-2">
+      {/*  */}
+      <div className="border-b border-gray-300 pb-5 flex gap-6 mt-4 items-start justify-start md:items-center flex-wrap w-full">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <UserCheck size={20} />
-          Mr Zaid Achhwa
+          {`${data?.salutation} ${data?.first_name}
+          ${data?.last_name}
+          `}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <EnvelopeSimple size={20} />
-          Email
+          {data?.email}
         </h2>
         <h2 className="text-sm flex items-center justify-center gap-2">
           <Phone size={20} />
-          Contact
+          {data?.contact}
         </h2>
       </div>
-      <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div>
-      <div className="flex gap-8 mt-2">
-        <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-2 ">
-            Visa Type
+      {/*  */}
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8 mt-2">
+        <div className="px-6 py-2 border border-gray-400 rounded-full">
+          <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2 ">
+            {data?.visa_type}
           </h2>
         </div>
-        <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-2 ">
-            Created At
+        <div className="px-6 py-2 border border-gray-400 rounded-full">
+          <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2 ">
+            {new Date(data?.created_at).toLocaleString()}
           </h2>
         </div>
       </div>
@@ -125,43 +138,49 @@ const EnquiryVisa = () => {
   );
 };
 
-const EnquiryForex = () => {
+const EnquiryForex = ({ data, getStatusClass, getStatusIcon }) => {
   return (
-    <div className=" w-[99%] flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
-      <div className="flex items-center justify-center gap-5">
-        <h2 className="text-lg font-bold ">Mr Zaid Achhwa</h2>
-        <p className="text-sm">#t647389209348</p>
-        <div className="rounded-lg flex gap-2 text-xs border border-red-600 bg-red-100 p-1 px-3 text-red-600">
-          <XCircle size={20} /> Rejected
+    <div className="w-full lg:w-2/3 flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
+      <div className="flex items-start md:items-center md:justify-center gap-2 lg:gap-5 flex-col md:flex-row">
+        <h2 className="text-lg font-bold ">
+          {' '}
+          {`${data?.salutation} ${data?.first_name}
+          ${data?.last_name}
+          `}
+        </h2>
+        <p className="text-xs lg:text-sm">{data?.enquiry_id}</p>
+        <div
+          className={`rounded-lg flex gap-2 text-xs p-1 px-3 ${getStatusClass(data?.status)}`}
+        >
+          {getStatusIcon(data?.status)} {data?.status}
         </div>
       </div>
-      <div className="flex gap-6 mt-4 items-center justify-center">
-        <h2 className="text-sm flex items-center justify-center gap-2">
+      <div className="border-b border-gray-300 pb-5 flex gap-6 mt-4 items-start justify-start md:items-center flex-wrap w-full">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <EnvelopeSimple size={20} />
-          Email
+          {data?.email}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <Phone size={20} />
-          Contact
+          {data?.contact}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <Money size={20} />
-          Amount Required
+          {data?.amount_required}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <GlobeHemisphereWest size={20} />
-          Country
+          {data?.country}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <MapPinArea size={20} />
-          Address
+          {data?.address}
         </h2>
       </div>
-      <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div>
       <div className="mt-2">
         <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-2 ">
-            Created At
+          <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2 ">
+            {new Date(data?.created_at).toLocaleString()}
           </h2>
         </div>
       </div>
@@ -169,34 +188,40 @@ const EnquiryForex = () => {
   );
 };
 
-const EnquiryContact = () => {
+const EnquiryContact = ({ data, getStatusClass, getStatusIcon }) => {
   return (
-    <div className=" w-[99%] flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
-      <div className="flex items-center justify-center gap-5">
-        <h2 className="text-lg font-bold">Mr Zaid Achhwa</h2>
-        <p className="text-sm">#t647389209348</p>
-        <div className="rounded-lg flex gap-2 text-xs border border-green-600 bg-green-100 p-1 px-3 text-green-600">
-          <CheckCircle size={18} /> Approved
+    <div className=" w-full lg:w-2/3 flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
+      <div className="flex items-start md:items-center md:justify-center gap-2 lg:gap-5 flex-col md:flex-row">
+        <h2 className="text-lg font-bold">
+          {' '}
+          {`${data?.salutation} ${data?.first_name}
+          ${data?.last_name}
+          `}
+        </h2>
+        <p className="text-xs lg:text-sm">{data?.enquiry_id}</p>
+        <div
+          className={`rounded-lg flex gap-2 text-xs p-1 px-3 ${getStatusClass(data?.status)}`}
+        >
+          {getStatusIcon(data?.status)} {data?.status}
         </div>
       </div>
-      <div className="flex gap-6 mt-4 items-center justify-center">
-        <h2 className="text-sm flex items-center justify-center gap-2">
+      <div className="border-b border-gray-300 pb-5 flex gap-6 mt-4 items-start justify-start md:items-center flex-wrap w-full">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <EnvelopeSimple size={20} />
-          Email
+          {data?.email}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <Phone size={20} />
-          Contact
+          {data?.contact}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          Message
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
+          {data?.message}
         </h2>
       </div>
-      <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div>
       <div className="mt-2">
         <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-2 ">
-            Created At
+          <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2 ">
+            {new Date(data?.created_at).toLocaleString()}
           </h2>
         </div>
       </div>
@@ -204,130 +229,135 @@ const EnquiryContact = () => {
   );
 };
 
-const EnquiryHotel = () => {
+// const EnquiryHotel = () => {
+//   return (
+//     <div className=" w-[99%] flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
+//       <div className="flex items-center justify-center gap-5">
+//         <h2 className="text-lg font-bold">Mr Zaid Achhwa</h2>
+//         <p className="text-sm">#t647389209348</p>
+//         <div className="rounded-lg flex gap-2 text-xs border border-yellow-600 bg-yellow-100 p-1 px-3 text-yellow-600">
+//           <CircleNotch size={18} /> Pending
+//         </div>
+//       </div>
+//       <div className="flex gap-6 mt-4 items-center justify-center">
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <EnvelopeSimple size={20} />
+//           Email
+//         </h2>
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <CalendarDots size={20} />
+//           <h2>Check In:</h2>
+//           Check In Date
+//         </h2>
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <CalendarDots size={20} />
+//           <h2>Check Out:</h2>
+//           Check Out Date
+//         </h2>
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <Moon size={20} />
+//           No of Nights
+//         </h2>
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <BuildingApartment size={20} />
+//           No of Rooms
+//         </h2>
+
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <BowlFood size={20} />
+//           Meal Plan
+//         </h2>
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <UsersThree size={20} />
+//           No of Adults
+//         </h2>
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <Baby size={20} />
+//           No of Children
+//         </h2>
+//         <h2 className="text-sm flex items-center justify-center gap-2">
+//           <Article size={20} />
+//           Lorem ipsum.....
+//         </h2>
+//       </div>
+//       <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div>
+//       <div className="flex gap-8 mt-2">
+//         <div className=" px-6 py-2 border border-gray-400 rounded-full">
+//           <h2 className="text-sm flex items-center justify-center gap-4">
+//             <BuildingApartment size={20} />
+//             Room type
+//           </h2>
+//         </div>
+//         <div className=" px-6 py-2 border border-gray-400 rounded-full">
+//           <h2 className="text-sm flex items-center justify-center gap-2 ">
+//             Created At
+//           </h2>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+const EnquiryHoliday = ({ data, getStatusClass, getStatusIcon }) => {
   return (
-    <div className=" w-[99%] flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
-      <div className="flex items-center justify-center gap-5">
-        <h2 className="text-lg font-bold">Mr Zaid Achhwa</h2>
-        <p className="text-sm">#t647389209348</p>
-        <div className="rounded-lg flex gap-2 text-xs border border-yellow-600 bg-yellow-100 p-1 px-3 text-yellow-600">
-          <CircleNotch size={18} /> Pending
+    <div className=" w-full lg:w-2/3 flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
+      <div className="flex items-start md:items-center md:justify-center gap-2 lg:gap-5 flex-col md:flex-row">
+        <h2 className="text-lg font-bold">
+          {' '}
+          {`${data?.full_name} 
+          `}
+        </h2>
+        <p className="text-xs lg:text-sm">{data?.enquiry_id}</p>
+        <div
+          className={`rounded-lg flex gap-2 text-xs p-1 px-3 ${getStatusClass(data?.status)}`}
+        >
+          {getStatusIcon(data?.status)} {data?.status}
         </div>
       </div>
-      <div className="flex gap-6 mt-4 items-center justify-center">
+      <div className="border-b border-gray-300 pb-5 flex gap-6 mt-4 items-start justify-start md:items-center flex-wrap w-full">
         <h2 className="text-sm flex items-center justify-center gap-2">
           <EnvelopeSimple size={20} />
-          Email
+          {data?.email}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <CalendarDots size={20} />
-          <h2>Check In:</h2>
-          Check In Date
-        </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <CalendarDots size={20} />
-          <h2>Check Out:</h2>
-          Check Out Date
-        </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <Moon size={20} />
-          No of Nights
-        </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <BuildingApartment size={20} />
-          No of Rooms
-        </h2>
-
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <BowlFood size={20} />
-          Meal Plan
-        </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <UsersThree size={20} />
-          No of Adults
-        </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <Baby size={20} />
-          No of Children
-        </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <Article size={20} />
-          Lorem ipsum.....
-        </h2>
-      </div>
-      <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div>
-      <div className="flex gap-8 mt-2">
-        <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-4">
-            <BuildingApartment size={20} />
-            Room type
-          </h2>
-        </div>
-        <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-2 ">
-            Created At
-          </h2>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const EnquiryHoliday = () => {
-  return (
-    <div className=" w-[99%] flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
-      <div className="flex items-center justify-center gap-5">
-        <h2 className="text-lg font-bold">Mr Zaid Achhwa</h2>
-        <p className="text-sm">#t647389209348</p>
-        <div className="rounded-lg flex gap-2 text-xs border border-red-600 bg-red-100 p-1 px-3 text-red-600">
-          <XCircle size={18} /> Rejected
-        </div>
-      </div>
-      <div className="flex gap-6 mt-4 items-center justify-center">
-        <h2 className="text-sm flex items-center justify-center gap-2">
-          <EnvelopeSimple size={20} />
-          Email
-        </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <Phone size={20} />
-          Contact
+          {data?.contact}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <GlobeHemisphereWest size={20} />
-          Nationality
+          {data?.nationality}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <CalendarDots size={20} />
-          Preferred Date
+          {data?.preferred_date}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <Moon size={20} />
-          No of Nights
+          {data?.number_of_nights}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <UsersThree size={20} />
-          No of Adults
+          {data?.number_of_adults}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <Baby size={20} />
-          No of Children
+          {data?.number_of_children}
         </h2>
-        <h2 className="text-sm flex items-center justify-center gap-2">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
           <MapPinArea size={20} />
-          Preferred Departure City
+          {data?.preferred_departure_city}
         </h2>
       </div>
-      <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div>
       <div className="flex gap-8 mt-2">
-        <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-4">
+        {/* <div className=" px-6 py-2 border border-gray-400 rounded-full">
+          {/* <h2 className="text-sm flex items-center justify-center gap-4">
             <BuildingApartment size={20} />
             Room type
-          </h2>
-        </div>
+          </h2> 
+        </div> */}
         <div className=" px-6 py-2 border border-gray-400 rounded-full">
-          <h2 className="text-sm flex items-center justify-center gap-2 ">
-            Created At
+          <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2 ">
+            {new Date(data?.created_at).toLocaleString()}
           </h2>
         </div>
       </div>
@@ -335,66 +365,72 @@ const EnquiryHoliday = () => {
   );
 };
 
-const EnquiryCustomizedPackage = () => (
-  <div className=" w-[99%] flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
-    <div className="flex items-center justify-center gap-5">
-      <h2 className="text-lg font-bold">Mr Zaid Achhwa</h2>
-      <p className="text-sm">#t647389209348</p>
-      <div className="rounded-lg flex gap-2 text-xs border border-red-600 bg-red-100 p-1 px-3 text-red-600">
-        <XCircle size={18} /> Rejected
+const EnquiryCustomizedPackage = ({ data, getStatusClass, getStatusIcon }) => (
+  <div className=" w-full lg:w-2/3 flex-col mx-auto items-start justify-center gap-3 flex border border-darkgreen/50 p-5 rounded-xl shadow-md">
+    <div className="flex items-start md:items-center md:justify-center gap-2 lg:gap-5 flex-col md:flex-row">
+      <h2 className="text-lg font-bold">
+        {' '}
+        {` ${data?.first_name}
+          ${data?.last_name}
+          `}
+      </h2>
+      <p className="text-xs lg:text-sm">{data?.enquiry_id}</p>
+      <div
+        className={`rounded-lg flex gap-2 text-xs p-1 px-3 ${getStatusClass(data?.status)}`}
+      >
+        {getStatusIcon(data?.status)} {data?.status}
       </div>
     </div>
-    <div className="flex gap-6 mt-4 items-center justify-center">
-      <h2 className="text-sm flex items-center justify-center gap-2">
+    <div className="border-b border-gray-300 pb-5 flex gap-6 mt-4 items-start justify-start md:items-center flex-wrap w-full">
+      <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
         <EnvelopeSimple size={20} />
-        Email
+        {data?.email}
       </h2>
-      <h2 className="text-sm flex items-center justify-center gap-2">
+      <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
         <Phone size={20} />
-        Contact
+        {data?.contact}
       </h2>
-      <h2 className="text-sm flex items-center justify-center gap-2">
+      <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
         <AirplaneTilt size={20} />
-        Travel Class
+        {data?.travel_class}
       </h2>
-      <h2 className="text-sm flex items-center justify-center gap-2">
+      <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
         <BuildingApartment size={20} />
-        Makkah Hotel Name
+        {data?.makkah_hotel_name}
       </h2>
-      <h2 className="text-sm flex items-center justify-center gap-2">
+      <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
         <BuildingApartment size={20} />
-        Medina Hotel Name
+        {data?.medina_hotel_name}
       </h2>
-      <h2 className="text-sm flex items-center justify-center gap-2">
+      <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
         <UsersThree size={20} />
-        No of Adults
+        {data?.adults}
       </h2>
-      <h2 className="text-sm flex items-center justify-center gap-2">
+      <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
         <Baby size={20} />
-        No of kids
+        {data?.kids}
       </h2>
-      <h2 className="text-sm flex items-center justify-center gap-2">
+      <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2">
         <Article size={20} />
-        Lorem ipsum dolor sit amet, consectetur adipisicing......
+        {data?.message}
       </h2>
     </div>
-    <div className="h-0.5 w-full bg-gray-200 mt-2 rounded-full "></div>
-    <div className="flex gap-8 mt-2">
+    <div className="flex flex-col md:flex-row gap-4 md:gap-8 mt-2">
       <div className=" px-6 py-2 border border-gray-400 rounded-full">
-        <h2 className="text-sm flex items-center justify-center gap-4">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-4">
           <BuildingApartment size={20} />
-          Room type
+          {data?.room_type}
         </h2>
       </div>
       <div className=" px-6 py-2 border border-gray-400 rounded-full">
-        <h2 className="text-sm flex items-center justify-center gap-4">
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-4">
           <BuildingApartment size={20} />
-          Booking type
+          {data?.booking_type}
         </h2>
       </div>
       <div className=" px-6 py-2 border border-gray-400 rounded-full">
-        <h2 className="text-sm flex items-center justify-center gap-2 ">
-          Created At
+        <h2 className="text-xs lg:text-sm flex items-center justify-center gap-2 ">
+          {new Date(data?.created_at).toLocaleString()}
         </h2>
       </div>
     </div>
@@ -405,11 +441,56 @@ const Enquiries = () => {
   const getEnquiries = useFetchPackages('/users/get-user');
   const { authUser } = useAuthStore();
 
-  console.log(getEnquiries);
-
   const userData = getEnquiries?.data?.data;
 
+  const getStatusClass = (status) => {
+    switch (status) {
+      case 'Approved':
+        return 'text-green-800 bg-green-100 border border-green-900 ';
+      case 'Rejected':
+        return 'text-red-600 border border-red-900 bg-red-100';
+      default:
+        return 'text-yellow-800 bg-yellow-100 border border-yellow-900';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'Approved':
+        return <CheckCircle size={18} />;
+      case 'Rejected':
+        return <XCircle size={20} />;
+      default:
+        return <CircleNotch size={18} />;
+    }
+  };
+
+  const [isupdating, setIsUpdating] = useState(false);
+  const refreshPackages = () => {
+    setIsUpdating(true);
+    getEnquiries.refresh();
+  };
+
   console.log(userData);
+
+  useEffect(() => {
+    if (
+      userData?.customized_package >= 0 ||
+      userData?.enquiry_visa >= 0 ||
+      userData?.enquiry_contact >= 0 ||
+      userData?.enquiry_forex >= 0 ||
+      userData?.enquiry_holiday >= 0 ||
+      userData?.enquiry_umrah
+    )
+      setIsUpdating(false);
+  }, [
+    userData?.customized_package,
+    userData?.enquiry_contact,
+    userData?.enquiry_forex,
+    userData?.enquiry_holiday,
+    userData?.enquiry_umrah,
+    userData?.enquiry_visa,
+  ]);
 
   useEffect(() => {
     window.scrollTo({
@@ -424,9 +505,20 @@ const Enquiries = () => {
       {authUser ? (
         <>
           {userData ? (
-            <h1 className="text-3xl mt-5 ml-2 font-semibold font-zodiak">
-              {userData.first_name} {userData.last_name}&apos;s Enquiry
-            </h1>
+            <div className="w-full flex items-center justify-between">
+              <h1 className="text-3xl mt-5 ml-2 font-semibold font-zodiak">
+                {userData.first_name} {userData.last_name}&apos;s Enquiry
+              </h1>
+              <div
+                className={`font-semibold cursor-pointer ${isupdating ? 'animate-spin' : 'animate-none'}`}
+              >
+                <RefreshCcw
+                  onClick={() => {
+                    refreshPackages();
+                  }}
+                />
+              </div>
+            </div>
           ) : (
             <>
               <div className="h-10 w-1/3 flex gap-4">
@@ -439,16 +531,63 @@ const Enquiries = () => {
         </>
       ) : null}
 
-      <div className="mt-10 flex flex-col gap-5 items-center justify-center">
+      <div className="mt-10 w-full flex flex-col gap-5 items-center justify-center">
         {authUser ? (
           <>
-            <EnquiryUmrah />
-            <EnquiryVisa />
-            <EnquiryForex />
-            <EnquiryContact />
-            <EnquiryHotel />
-            <EnquiryHoliday />
-            <EnquiryCustomizedPackage />
+            {userData?.enquiry_umrah &&
+              userData?.enquiry_umrah.map((item, index) => (
+                <EnquiryUmrah
+                  key={index}
+                  getStatusClass={getStatusClass}
+                  getStatusIcon={getStatusIcon}
+                  data={item}
+                />
+              ))}
+            {userData?.enquiry_visa &&
+              userData?.enquiry_visa.map((item, index) => (
+                <EnquiryVisa
+                  key={index}
+                  getStatusClass={getStatusClass}
+                  getStatusIcon={getStatusIcon}
+                  data={item}
+                />
+              ))}
+            {userData?.enquiry_forex &&
+              userData?.enquiry_forex.map((item, index) => (
+                <EnquiryForex
+                  key={index}
+                  getStatusClass={getStatusClass}
+                  getStatusIcon={getStatusIcon}
+                  data={item}
+                />
+              ))}
+            {userData?.enquiry_contact &&
+              userData?.enquiry_contact.map((item, index) => (
+                <EnquiryContact
+                  key={index}
+                  getStatusClass={getStatusClass}
+                  getStatusIcon={getStatusIcon}
+                  data={item}
+                />
+              ))}
+            {userData?.enquiry_holiday &&
+              userData?.enquiry_holiday.map((item, index) => (
+                <EnquiryHoliday
+                  key={index}
+                  getStatusClass={getStatusClass}
+                  getStatusIcon={getStatusIcon}
+                  data={item}
+                />
+              ))}
+            {userData?.customized_package &&
+              userData?.customized_package.map((item, index) => (
+                <EnquiryCustomizedPackage
+                  getStatusClass={getStatusClass}
+                  getStatusIcon={getStatusIcon}
+                  key={index}
+                  data={item}
+                />
+              ))}
           </>
         ) : (
           <div className=" flex  flex-col items-center justify-center p-6  rounded-lg mb-24 ">
