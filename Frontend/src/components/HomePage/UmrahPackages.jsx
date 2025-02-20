@@ -55,7 +55,7 @@ const AboutUsCard = ({
   );
 };
 
-const UmrahPackages = ({ isMenuOpen }) => {
+const UmrahPackages = () => {
   const getPackages = useFetchPackages('users/fetch-all-umrah-packages');
 
   const filterCards = getPackages?.data?.data.filter((_, i) => i < 6) || [];
