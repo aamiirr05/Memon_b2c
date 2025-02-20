@@ -21,7 +21,10 @@ const ImageGallery = () => {
       </div>
 
       {/* Right: Smaller Images */}
-      <div className="flex flex-row md:flex-col gap-2 md:gap-4 lg:gap-6 p-1 md:py-0.5 md:px-1.5 overflow-y-auto md:custom-scrollbar max-h-[500px]">
+      <div
+        className="flex flex-row md:flex-col gap-2 md:gap-4 lg:gap-6 p-1 md:py-0.5 md:px-1.5 overflow-y-auto md:custom-scrollbar max-h-[500px]"
+        data-lenis-prevent
+      >
         {images.map((img) => (
           <img
             src={img.secure_url}

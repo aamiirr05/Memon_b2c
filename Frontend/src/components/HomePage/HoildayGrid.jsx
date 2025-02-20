@@ -163,7 +163,10 @@ const HolidayGrid = ({ isMenuOpen }) => {
             <h1 className="font-zodiak text-darkgreen text-xl md:text-lg lg:text-xl group-hover:text-peach transition-colors duration-500">
               “Experience the perfect blend of luxury, culture, and adventure.”
             </h1>
-            <button className="flex items-center gap-3 text-sm xl:text-md font-semibold bg-darkgreen text-peach p-2 px-6 lg:px-10 rounded-full group-hover:bg-peach group-hover:text-darkgreen transition-colors duration-500">
+            <button
+              aria-label="Explore All"
+              className="flex items-center gap-3 text-sm xl:text-md font-semibold bg-darkgreen text-peach p-2 px-6 lg:px-10 rounded-full group-hover:bg-peach group-hover:text-darkgreen transition-colors duration-500"
+            >
               Explore All <MoveRight />
             </button>
           </motion.div>

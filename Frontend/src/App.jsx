@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Homepage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
@@ -102,23 +103,23 @@ const OfflineNotice = () => (
 );
 
 const PreLoader = () => (
-  <div className="fixed inset-0 w-full bg-peach h-screen text-darkgreen flex flex-col gap-3 mx-auto items-center justify-center">
+  <div className="fixed p-5 inset-0 w-full bg-peach h-screen text-darkgreen flex flex-col gap-3 mx-auto items-center justify-center">
     <div className="relative w-48 h-1 bg-darkgreen/30 overflow-hidden rounded-full">
       <div className="absolute h-full w-1/3 bg-darkgreen rounded-full animate-loader"></div>
     </div>
 
     <div className="flex mt-3 items-center w-full gap-5 justify-center">
       <img
-        src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+        src="https://res.cloudinary.com/memonb2c/image/upload/f_auto,q_auto/v1739885803/rmf00msx8vhusevuc2iv.png"
         alt="logo"
-        className="w-14"
+        className="w-10 h-10 lg:w-14 lg:h-14"
         loading="lazy"
       />
-      <p className=" font-jakarta font-semibold text-3xl">
+      <p className="text-left font-jakarta text-lg md:text-xl font-semibold lg:text-3xl">
         Memon Haj Umrah Tours & Travels.
       </p>
     </div>
-    <p className="mt-3 font-jakarta font-medium text-md">
+    <p className="mt-3 font-jakarta font-medium text-sm md:text-md">
       Loading, please wait...
     </p>
   </div>
@@ -188,7 +189,7 @@ const App = () => {
               layoutId="hero-title"
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1 }}
+              transition={{ type: 'tween', duration: 0.5 }}
               className="flex flex-col items-center gap-1"
             >
               <q className="font-bold font-sans lg:text-md text-sm">
@@ -203,7 +204,7 @@ const App = () => {
             <motion.h1
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 0.1 }}
+              transition={{ type: 'tween', duration: 0.5, delay: 0.1 }}
               className="mt-3 md:mt-6 text-xl lg:text-2xl text-center font-bold font-zodiak"
             >
               Your Trusted Partner for Umrah, Ziyarat, Holidays & Beyond
@@ -211,7 +212,7 @@ const App = () => {
             <motion.p
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ type: 'tween', duration: 1, delay: 0.1 }}
+              transition={{ type: 'tween', duration: 0.5, delay: 0.1 }}
               className="font-jakarta text-xs md:text-[10px] font-semibold xl:text-md w-4/5 xl:mt-2  text-center"
             >
               Seamless, transparent, and reliable—book with confidence and
@@ -302,7 +303,7 @@ const App = () => {
             {/* Admin Routes */}
 
             <Route path="admin-login" element={<AdminLogin />} />
-            <Route path="admin-signup" element={<AdminSignup />} />
+            {/* <Route path="admin-signup" element={<AdminSignup />} /> */}
 
             {AuthAdmin && (
               <Route path="admin" element={<AdminLayout />}>

@@ -60,18 +60,23 @@ const Footer = ({ isMenuOpen }) => {
           href="https://wa.me/918108404376?text=Hello%2C%20I%20am%20interested%20in%20your%20Haj%20and%20Umrah%20tours."
           target="_blank"
           rel="noopener noreferrer"
+          aria-label="Chat on Whatsapp"
         >
           <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
             Whatsapp
           </div>
         </a>
 
-        <a href="mailto:memonhajumrah@gmail.com?subject=Inquiry%20about%20Haj%20and%20Umrah%20Tours&body=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services.">
+        <a
+          aria-label="Send Email"
+          href="mailto:memonhajumrah@gmail.com?subject=Inquiry%20about%20Haj%20and%20Umrah%20Tours&body=Hello%2C%20I%20would%20like%20to%20know%20more%20about%20your%20services."
+        >
           <div className="border text-sm border-peach p-2 rounded-full px-6 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
             Email
           </div>
         </a>
         <a
+          aria-label="Connect on instagram"
           href="https://www.instagram.com/memonhajumrahtours"
           target="_blank"
           rel="noopener noreferrer"
@@ -107,6 +112,7 @@ const Footer = ({ isMenuOpen }) => {
             <span className="font-zodiak text-2xl font-bold">Contact Us.</span>
             <div className="flex items-center gap-2">
               <a
+                aria-label="Chat on Whatsapp"
                 href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -114,6 +120,7 @@ const Footer = ({ isMenuOpen }) => {
                 <MessageCircleMore />
               </a>
               <a
+                aria-label="Chat on Whatsapp"
                 href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -123,6 +130,7 @@ const Footer = ({ isMenuOpen }) => {
             </div>
             <div className="flex items-center gap-2">
               <a
+                aria-label="Chat on Whatsapp"
                 href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -130,6 +138,7 @@ const Footer = ({ isMenuOpen }) => {
                 <MessageCircleMore />
               </a>
               <a
+                aria-label="Chat on Whatsapp"
                 href="https://wa.me/919022549162?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -139,6 +148,7 @@ const Footer = ({ isMenuOpen }) => {
             </div>
             <div className="flex items-center gap-2">
               <a
+                aria-label="Chat on Whatsapp"
                 href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -146,6 +156,7 @@ const Footer = ({ isMenuOpen }) => {
                 <MessageCircleMore />
               </a>
               <a
+                aria-label="Chat on Whatsapp"
                 href="https://wa.me/918268979705?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
@@ -158,9 +169,9 @@ const Footer = ({ isMenuOpen }) => {
         <div className="w-full flex items-center md:justify-start xl:justify-end lg:justify-start gap-3">
           <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
             <img
-              src="https://res.cloudinary.com/memonb2c/image/upload/f_auto,q_auto/v1739885803/m7htny213ruzah5vf9un.png"
+              src="https://res.cloudinary.com/memonb2c/image/upload/w_250,h_150,f_auto,q_auto/v1739885803/m7htny213ruzah5vf9un.png"
               alt="iata-logo"
-              className="w-full"
+              className="w-"
             />
           </div>
           {/* <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
@@ -173,9 +184,9 @@ const Footer = ({ isMenuOpen }) => {
       <div className="w-11/12 mx-auto flex flex-col gap-10  lg:flex-row items-center justify-between">
         <div className="w-full flex items-center gap-4">
           <img
-            src="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+            src="https://res.cloudinary.com/memonb2c/image/upload/w_200,h_100,f_auto,q_auto/v1739885803/rmf00msx8vhusevuc2iv.png"
             alt="logo"
-            className="w-16 "
+            className="w-16 h-16"
           />
           <h1 className="text-2xl lg:text-xl font-bold font-jakarta">
             Memon Haj Umrah Tours & Travels.

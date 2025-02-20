@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Zodiak';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('https://api.fontshare.com/v2/css?f[]=zodiak@700&display=swap');
-}
-
 ::-webkit-scrollbar {
   @apply w-[10px] md:h-[2px];
 }
