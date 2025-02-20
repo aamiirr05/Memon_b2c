@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -12,6 +12,13 @@ import RecommendedPackages from '../components/HomePage/RecommendedPackages';
 
 const Homepage = () => {
   const [isMenuOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
 
   return (
     <div className="overflow-x-hidden w-full h-full">

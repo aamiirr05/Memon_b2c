@@ -41,14 +41,11 @@ const TestimonialForm = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log('Submitted Data:', data);
     try {
       const res = await axiosInstance.post('/users/enquiry/testimonial', data);
 
       const msg = res?.data?.message;
       toast.success(msg);
-
-      console.log(res);
     } catch (error) {
       const msg = error?.message;
       toast.error(msg);

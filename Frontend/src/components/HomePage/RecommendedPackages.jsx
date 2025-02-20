@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
 import { motion, useInView } from 'framer-motion';
+import { NavLink } from 'react-router-dom';
 const UmrahCards = ({
   description,
   image,
@@ -17,6 +18,7 @@ const UmrahCards = ({
   days,
   nights,
   price,
+  id,
 }) => {
   useEffect(() => {
     if (cardRef.current) {
@@ -60,9 +62,12 @@ const UmrahCards = ({
         <div className="border text-darkgreen border-darkgreen/60 p-2 px-4 rounded-full">
           From ₹ {price}
         </div>
-        <div className="bg-mediumgreen text-white p-2 px-4 rounded-full">
+        <NavLink
+          to={`/umrah-packages/package-details/${id}`}
+          className="bg-mediumgreen text-white p-2 px-4 rounded-full"
+        >
           Book Now
-        </div>
+        </NavLink>
       </div>
     </div>
   );
@@ -103,6 +108,25 @@ const RecommendedPackages = ({ isMenuOpen }) => {
   const isInView = useInView(ref, {
     amount: 'all',
   });
+
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const deltaX = touchStartX.current - touchEndX.current;
+    if (deltaX > 50) {
+      handleNext();
+    } else if (deltaX < -50) {
+      handlePrev();
+    }
+  };
 
   return (
     <>
@@ -215,38 +239,51 @@ const RecommendedPackages = ({ isMenuOpen }) => {
           </div>
         </div>
 
-        <div className="w-full flex relative items-center gap-10 mt-5 md:mt-10">
+        <div
+          className="w-full flex relative items-center gap-10 mt-5 md:mt-10"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           {/* Card */}
-          {cards.map((i, index) => (
-            <>
-              {i.title == 'Explore All' ? (
-                <div
-                  key={index}
-                  className={`text-xl  hidden xl:flex absolute top-1/3 items-center justify-center gap-4 cursor-pointer ease-in-out transition-all duration-1000 right-32 bg-peach text-darkgreen shadow-md hover:animate-shift-up overflow-hidden font-jakarta p-2 px-6 rounded-xl ${activeIndex == cards.length - 3 ? 'translate-x-0 z-0' : 'translate-x-96 -z-10'}
-                   before:absolute before:inset-0 before:w-0 before:bg-darkgreen before:z-[-1] before:transition-all before:duration-400 hover:before:w-full hover:text-peach before:rounded-xl before:ease-in-out
-                  
-                  `}
-                >
-                  {i.title} <MoveRight />
-                </div>
-              ) : (
-                <UmrahCards
-                  description={i?.description}
-                  title={i?.package_name}
-                  days={i?.total_days}
-                  nights={i?.total_nights}
-                  price={i?.prices[0].quint_price}
-                  image={i?.package_image[0].secure_url}
-                  activeIndex={activeIndex}
-                  cardRef={cardRef}
-                  index={index}
-                  key={index}
-                  cardWidth={cardWidth}
-                  setCardWidth={setCardWidth}
-                />
-              )}
-            </>
-          ))}
+          {getPackages?.data?.data ? (
+            cards.map((i, index) => (
+              <>
+                {i.title == 'Explore All' ? (
+                  <NavLink
+                    to="/umrah-packages"
+                    key={index}
+                    className={`text-xl  hidden xl:flex absolute top-1/3 items-center justify-center gap-4 cursor-pointer ease-in-out transition-all duration-1000 right-32 bg-peach text-darkgreen shadow-md hover:animate-shift-up overflow-hidden font-jakarta p-2 px-6 rounded-xl ${activeIndex == cards.length - 3 ? 'translate-x-0 z-0' : 'translate-x-96 -z-10'}
+                     before:absolute before:inset-0 before:w-0 before:bg-darkgreen before:z-[-1] before:transition-all before:duration-400 hover:before:w-full hover:text-peach before:rounded-xl before:ease-in-out
+                    
+                    `}
+                  >
+                    {i.title} <MoveRight />
+                  </NavLink>
+                ) : (
+                  <UmrahCards
+                    description={i?.description}
+                    title={i?.package_name}
+                    id={i?.package_id}
+                    days={i?.total_days}
+                    nights={i?.total_nights}
+                    price={i?.prices[0].quint_price}
+                    image={i?.package_image[0].secure_url}
+                    activeIndex={activeIndex}
+                    cardRef={cardRef}
+                    index={index}
+                    key={index}
+                    cardWidth={cardWidth}
+                    setCardWidth={setCardWidth}
+                  />
+                )}
+              </>
+            ))
+          ) : (
+            <div className="flex items-center font-jakarta text-darkgreen justify-center text-xl font-semibold text-center">
+              Loading Please Wait...
+            </div>
+          )}
         </div>
       </section>
     </>
