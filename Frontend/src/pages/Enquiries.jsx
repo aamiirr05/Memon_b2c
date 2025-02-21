@@ -23,6 +23,7 @@ import {
 import { useAuthStore } from '../store/useAuthStore';
 import { Link } from 'react-router-dom';
 import { RefreshCcw } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const EnquiryUmrah = ({ data, getStatusClass, getStatusIcon }) => {
   return (
@@ -497,121 +498,132 @@ const Enquiries = () => {
     });
   });
   return (
-    <div
-      className={`bg-peach/10 w-full ${authUser ? 'h-full' : 'h-screen flex items-center justify-center'} p-10 text-darkgreen font-jakarta`}
-    >
-      {authUser ? (
-        <>
-          {userData ? (
-            <div className="w-full flex items-center justify-between">
-              <h1 className="text-3xl mt-5 ml-2 font-semibold font-zodiak">
-                {userData.first_name} {userData.last_name}&apos;s Enquiry
-              </h1>
-              <div
-                className={`font-semibold cursor-pointer ${isupdating ? 'animate-spin' : 'animate-none'}`}
-              >
-                <RefreshCcw
-                  onClick={() => {
-                    refreshPackages();
-                  }}
-                />
-              </div>
-            </div>
-          ) : (
-            <>
-              <div className="h-10 w-1/3 flex gap-4">
-                <div className="h-10 w-1/4 bg-gray-200 rounded animate-pulse mt-5"></div>
-                <div className="h-10 w-1/4 bg-gray-200 rounded animate-pulse mt-5"></div>
-                <div className="h-10 w-1/4 bg-gray-200 rounded animate-pulse mt-5"></div>
-              </div>
-            </>
-          )}
-        </>
-      ) : null}
+    <>
+      <Helmet>
+        <title>Enquiries</title>
+        <meta name="description" content={`description`} />
+        <meta property="og:title" content={`title`} />
+        <meta property="og:description" content={`description`} />
+        <meta property="og:image" content={`image`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
 
-      <div className="mt-10 w-full flex flex-col gap-5 items-center justify-center">
+      <div
+        className={`bg-peach/10 w-full ${authUser ? 'h-full' : 'h-screen flex items-center justify-center'} p-10 text-darkgreen font-jakarta`}
+      >
         {authUser ? (
           <>
-            {userData?.enquiry_umrah &&
-              userData?.enquiry_umrah.map((item, index) => (
-                <EnquiryUmrah
-                  key={index}
-                  getStatusClass={getStatusClass}
-                  getStatusIcon={getStatusIcon}
-                  data={item}
-                />
-              ))}
-            {userData?.enquiry_visa &&
-              userData?.enquiry_visa.map((item, index) => (
-                <EnquiryVisa
-                  key={index}
-                  getStatusClass={getStatusClass}
-                  getStatusIcon={getStatusIcon}
-                  data={item}
-                />
-              ))}
-            {userData?.enquiry_forex &&
-              userData?.enquiry_forex.map((item, index) => (
-                <EnquiryForex
-                  key={index}
-                  getStatusClass={getStatusClass}
-                  getStatusIcon={getStatusIcon}
-                  data={item}
-                />
-              ))}
-            {userData?.enquiry_contact &&
-              userData?.enquiry_contact.map((item, index) => (
-                <EnquiryContact
-                  key={index}
-                  getStatusClass={getStatusClass}
-                  getStatusIcon={getStatusIcon}
-                  data={item}
-                />
-              ))}
-            {userData?.enquiry_holiday &&
-              userData?.enquiry_holiday.map((item, index) => (
-                <EnquiryHoliday
-                  key={index}
-                  getStatusClass={getStatusClass}
-                  getStatusIcon={getStatusIcon}
-                  data={item}
-                />
-              ))}
-            {userData?.customized_package &&
-              userData?.customized_package.map((item, index) => (
-                <EnquiryCustomizedPackage
-                  getStatusClass={getStatusClass}
-                  getStatusIcon={getStatusIcon}
-                  key={index}
-                  data={item}
-                />
-              ))}
+            {userData ? (
+              <div className="w-full flex items-center justify-between">
+                <h1 className="text-3xl mt-5 ml-2 font-semibold font-zodiak">
+                  {userData.first_name} {userData.last_name}&apos;s Enquiry
+                </h1>
+                <div
+                  className={`font-semibold cursor-pointer ${isupdating ? 'animate-spin' : 'animate-none'}`}
+                >
+                  <RefreshCcw
+                    onClick={() => {
+                      refreshPackages();
+                    }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="h-10 w-1/3 flex gap-4">
+                  <div className="h-10 w-1/4 bg-gray-200 rounded animate-pulse mt-5"></div>
+                  <div className="h-10 w-1/4 bg-gray-200 rounded animate-pulse mt-5"></div>
+                  <div className="h-10 w-1/4 bg-gray-200 rounded animate-pulse mt-5"></div>
+                </div>
+              </>
+            )}
           </>
-        ) : (
-          <div className=" flex  flex-col items-center justify-center p-6  rounded-lg mb-24 ">
-            <h2 className="text-xl text-center text-darkgreen">
-              If you’d like to track your enquiry status and receive updates, we
-              recommend creating an account.
-            </h2>
-            <div className="mt-12 flex items-center justify-center gap-4">
-              <Link
-                to="/login"
-                className="px-4 py-2 bg-darkgreen text-peach font-zodiak cursor-pointer rounded-md shadow-md hover:bg-darkgreen/80 transition-all"
-              >
-                Login
-              </Link>
-              <span className="text-gray-600">or</span>
-              <Link
-                to="/signup"
-                className="px-4 py-2 bg-darkgreen text-peach font-zodiak cursor-pointer rounded-md shadow-md hover:bg-darkgreen/80 transition-all"
-              >
-                Signup
-              </Link>
+        ) : null}
+
+        <div className="mt-10 w-full flex flex-col gap-5 items-center justify-center">
+          {authUser ? (
+            <>
+              {userData?.enquiry_umrah &&
+                userData?.enquiry_umrah.map((item, index) => (
+                  <EnquiryUmrah
+                    key={index}
+                    getStatusClass={getStatusClass}
+                    getStatusIcon={getStatusIcon}
+                    data={item}
+                  />
+                ))}
+              {userData?.enquiry_visa &&
+                userData?.enquiry_visa.map((item, index) => (
+                  <EnquiryVisa
+                    key={index}
+                    getStatusClass={getStatusClass}
+                    getStatusIcon={getStatusIcon}
+                    data={item}
+                  />
+                ))}
+              {userData?.enquiry_forex &&
+                userData?.enquiry_forex.map((item, index) => (
+                  <EnquiryForex
+                    key={index}
+                    getStatusClass={getStatusClass}
+                    getStatusIcon={getStatusIcon}
+                    data={item}
+                  />
+                ))}
+              {userData?.enquiry_contact &&
+                userData?.enquiry_contact.map((item, index) => (
+                  <EnquiryContact
+                    key={index}
+                    getStatusClass={getStatusClass}
+                    getStatusIcon={getStatusIcon}
+                    data={item}
+                  />
+                ))}
+              {userData?.enquiry_holiday &&
+                userData?.enquiry_holiday.map((item, index) => (
+                  <EnquiryHoliday
+                    key={index}
+                    getStatusClass={getStatusClass}
+                    getStatusIcon={getStatusIcon}
+                    data={item}
+                  />
+                ))}
+              {userData?.customized_package &&
+                userData?.customized_package.map((item, index) => (
+                  <EnquiryCustomizedPackage
+                    getStatusClass={getStatusClass}
+                    getStatusIcon={getStatusIcon}
+                    key={index}
+                    data={item}
+                  />
+                ))}
+            </>
+          ) : (
+            <div className=" flex  flex-col items-center justify-center p-6  rounded-lg mb-24 ">
+              <h2 className="text-xl text-center text-darkgreen">
+                If you’d like to track your enquiry status and receive updates,
+                we recommend creating an account.
+              </h2>
+              <div className="mt-12 flex items-center justify-center gap-4">
+                <Link
+                  to="/login"
+                  className="px-4 py-2 bg-darkgreen text-peach font-zodiak cursor-pointer rounded-md shadow-md hover:bg-darkgreen/80 transition-all"
+                >
+                  Login
+                </Link>
+                <span className="text-gray-600">or</span>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 bg-darkgreen text-peach font-zodiak cursor-pointer rounded-md shadow-md hover:bg-darkgreen/80 transition-all"
+                >
+                  Signup
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

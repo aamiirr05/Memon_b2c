@@ -16,6 +16,7 @@ import { useState } from 'react';
 
 import logo from '../../assets/img/logo.png';
 import { useAuthStore } from '../../store/useAuthStore';
+import { Helmet } from 'react-helmet-async';
 
 const schema = yup
   .object({
@@ -55,6 +56,14 @@ const LoginPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Login </title>
+        <meta name="description" content={`description`} />
+        <meta property="og:title" content={`title`} />
+        <meta property="og:description" content={`description`} />
+        <meta property="og:image" content={`image`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <div className="relative bg-peach/10 w-full lg:items-center h-full lg:h-screen lg:justify-center lg:p-10 xl:p-0 xl:gap-32 flex flex-col lg:flex-row items-center justify-start">
         <div
           className="absolute top-7 left-7 cursor-pointer text-darkgreen text-3xl"

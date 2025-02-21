@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { useEffect } from 'react';
 import axiosInstance from '../lib/axios';
 import toast from 'react-hot-toast';
+import { Helmet } from 'react-helmet-async';
 
 const testimonialSchema = yup.object().shape({
   fullname: yup
@@ -53,101 +54,115 @@ const TestimonialForm = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full p-10">
-      <h2 className="text-2xl mt-5 font-bold text-darkgreen font-jakarta mb-4">
-        Write what you think about us
-      </h2>
-      <div className=" w-full lg:w-[80%] shadow-lg rounded-lg mx-auto p-6 my-10 font-jakarta">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Full Name */}
-          <div className=" flex items-center justify-center">
-            <label className="custom-label w-1/2">Full Name</label>
-            <input
-              {...register('fullname')}
-              className="custom-forex-input-fields w-full"
-              placeholder="Enter your full name"
-            />
-            {errors.fullname && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors.fullname.message}
-              </p>
-            )}
-          </div>
+    <>
+      <Helmet>
+        <title>Testmonial Form</title>
+        <meta name="description" content={`description`} />
+        <meta property="og:title" content={`title`} />
+        <meta property="og:description" content={`description`} />
+        <meta property="og:image" content={`image`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <div className="flex flex-col justify-center items-center w-full p-10">
+        <h2 className="text-2xl mt-5 font-bold text-darkgreen font-jakarta mb-4">
+          Write what you think about us
+        </h2>
+        <div className=" w-full lg:w-[80%] shadow-lg rounded-lg mx-auto p-6 my-10 font-jakarta">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* Full Name */}
+            <div className=" flex items-center justify-center">
+              <label className="custom-label w-1/2">Full Name</label>
+              <input
+                {...register('fullname')}
+                className="custom-forex-input-fields w-full"
+                placeholder="Enter your full name"
+              />
+              {errors.fullname && (
+                <p className="text-red-500 text-xs mt-2">
+                  {errors.fullname.message}
+                </p>
+              )}
+            </div>
 
-          {/* City */}
-          <div className=" flex items-center justify-center">
-            <label className="custom-label w-1/2">City</label>
-            <input
-              {...register('city')}
-              className="custom-forex-input-fields w-full"
-              placeholder="Enter your city"
-            />
-            {errors.city && (
-              <p className="text-red-500 text-xs mt-2">{errors.city.message}</p>
-            )}
-          </div>
+            {/* City */}
+            <div className=" flex items-center justify-center">
+              <label className="custom-label w-1/2">City</label>
+              <input
+                {...register('city')}
+                className="custom-forex-input-fields w-full"
+                placeholder="Enter your city"
+              />
+              {errors.city && (
+                <p className="text-red-500 text-xs mt-2">
+                  {errors.city.message}
+                </p>
+              )}
+            </div>
 
-          {/* Country */}
-          <div className=" flex items-center justify-center">
-            <label className="custom-label text-xs w-1/2">Country</label>
-            <input
-              {...register('country')}
-              className="custom-forex-input-fields w-full"
-              placeholder="Enter your country"
-            />
-            {errors.country && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors.country.message}
-              </p>
-            )}
-          </div>
+            {/* Country */}
+            <div className=" flex items-center justify-center">
+              <label className="custom-label text-xs w-1/2">Country</label>
+              <input
+                {...register('country')}
+                className="custom-forex-input-fields w-full"
+                placeholder="Enter your country"
+              />
+              {errors.country && (
+                <p className="text-red-500 text-xs mt-2">
+                  {errors.country.message}
+                </p>
+              )}
+            </div>
 
-          {/* Star Rating */}
-          <div className=" flex items-center justify-center">
-            <label className="custom-label w-1/2">Rating (1 to 5 stars)</label>
-            <input
-              type="number"
-              {...register('stars')}
-              max={5}
-              min={0}
-              className="custom-forex-input-fields w-full"
-              placeholder="Enter rating (1-5)"
-            />
-            {errors.stars && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors.stars.message}
-              </p>
-            )}
-          </div>
+            {/* Star Rating */}
+            <div className=" flex items-center justify-center">
+              <label className="custom-label w-1/2">
+                Rating (1 to 5 stars)
+              </label>
+              <input
+                type="number"
+                {...register('stars')}
+                max={5}
+                min={0}
+                className="custom-forex-input-fields w-full"
+                placeholder="Enter rating (1-5)"
+              />
+              {errors.stars && (
+                <p className="text-red-500 text-xs mt-2">
+                  {errors.stars.message}
+                </p>
+              )}
+            </div>
 
-          {/* Review */}
-          <div className=" flex items-center justify-center">
-            <label className="custom-label w-1/2">Your Review</label>
-            <textarea
-              {...register('review')}
-              className="custom-forex-input-fields w-full"
-              placeholder="Write your review..."
-              rows="4"
-            />
-            {errors.review && (
-              <p className="text-red-500 text-xs mt-2 ">
-                {errors.review.message}
-              </p>
-            )}
-          </div>
+            {/* Review */}
+            <div className=" flex items-center justify-center">
+              <label className="custom-label w-1/2">Your Review</label>
+              <textarea
+                {...register('review')}
+                className="custom-forex-input-fields w-full"
+                placeholder="Write your review..."
+                rows="4"
+              />
+              {errors.review && (
+                <p className="text-red-500 text-xs mt-2 ">
+                  {errors.review.message}
+                </p>
+              )}
+            </div>
 
-          {/* Submit Button */}
-          <div className="flex items-center justify-center font-jakarta">
-            <button
-              type="submit"
-              className="md:w-1/2 mx-auto bg-darkgreen text-white py-2 px-4 rounded-md hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen transition-colors text-sm"
-            >
-              Submit Testimonial
-            </button>
-          </div>
-        </form>
+            {/* Submit Button */}
+            <div className="flex items-center justify-center font-jakarta">
+              <button
+                type="submit"
+                className="md:w-1/2 mx-auto bg-darkgreen text-white py-2 px-4 rounded-md hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen transition-colors text-sm"
+              >
+                Submit Testimonial
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

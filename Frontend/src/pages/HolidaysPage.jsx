@@ -4,6 +4,7 @@ import HolidayCard from '../components/HolidaysPage/HolidayCard';
 import Sidebar from '../components/Sidebar';
 import { useLocation } from 'react-router-dom';
 import PackageCardSkeleton from '../components/PackagesPage/PackageCardSkeleton';
+import { Helmet } from 'react-helmet-async';
 
 const HolidaysPage = () => {
   const { fetchHolidays, holidays, isFetching, fetchZiyarat } =
@@ -38,48 +39,58 @@ const HolidaysPage = () => {
   ];
 
   return (
-    <main className="bg-peach/10">
-      <section>
-        <div className="max-w-6xl mx-auto px-4 lg:px-0">
-          <div className="pt-12 pb-8">
-            <h1 className="font-serif lg:text-3xl sm:text-2xl font-semibold text-center text-darkgreen">
-              <strong title="Indeed, the first House [of worship] established for mankind was that at Bakkah [Makkah], blessed and a guidance for the worlds. (Quran 3:96)">
-                إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ
-                مُبَارَكًا وَهُدًى لِّلْعَالَمِينَ
-              </strong>
-            </h1>
-            <h2 className="text-center sm:text-3xl lg:text-4xl text-lg text-darkgreen font-zodiak mt-4 mb-6">
-              Explore Our Exclusive Ziyarat & Holiday Packages
-            </h2>
-          </div>
+    <>
+      <Helmet>
+        <title>Holidays</title>
+        <meta name="description" content={`description`} />
+        <meta property="og:title" content={`title`} />
+        <meta property="og:description" content={`description`} />
+        <meta property="og:image" content={`image`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <main className="bg-peach/10">
+        <section>
+          <div className="max-w-6xl mx-auto px-4 lg:px-0">
+            <div className="pt-12 pb-8">
+              <h1 className="font-serif lg:text-3xl sm:text-2xl font-semibold text-center text-darkgreen">
+                <strong title="Indeed, the first House [of worship] established for mankind was that at Bakkah [Makkah], blessed and a guidance for the worlds. (Quran 3:96)">
+                  إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ
+                  مُبَارَكًا وَهُدًى لِّلْعَالَمِينَ
+                </strong>
+              </h1>
+              <h2 className="text-center sm:text-3xl lg:text-4xl text-lg text-darkgreen font-zodiak mt-4 mb-6">
+                Explore Our Exclusive Ziyarat & Holiday Packages
+              </h2>
+            </div>
 
-          <div className="pb-14 ">
-            <div className=" flex gap-6 ">
-              <Sidebar images={imagesArray} />
+            <div className="pb-14 ">
+              <div className=" flex gap-6 ">
+                <Sidebar images={imagesArray} />
 
-              <div className="flex flex-col gap-6 w-full">
-                {isFetching ? (
-                  Array(3)
-                    .fill()
-                    .map((_, index) => (
-                      <div key={index}>
-                        <PackageCardSkeleton />
-                      </div>
-                    ))
-                ) : (
-                  <>
-                    {' '}
-                    {holidays.map((pkg) => (
-                      <HolidayCard key={pkg.package_id} pkg={pkg} />
-                    ))}
-                  </>
-                )}
+                <div className="flex flex-col gap-6 w-full">
+                  {isFetching ? (
+                    Array(3)
+                      .fill()
+                      .map((_, index) => (
+                        <div key={index}>
+                          <PackageCardSkeleton />
+                        </div>
+                      ))
+                  ) : (
+                    <>
+                      {' '}
+                      {holidays.map((pkg) => (
+                        <HolidayCard key={pkg.package_id} pkg={pkg} />
+                      ))}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   );
 };
 
