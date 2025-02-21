@@ -98,18 +98,6 @@ const TestimonialForm = () => {
                 </p>
               )}
             </div>
-          {/* City */}
-          <div className=" md:flex xl-flex-col items-center justify-center">
-            <label className="custom-label w-1/2">City</label>
-            <input
-              {...register('city')}
-              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w w-full"
-              placeholder="Enter your city"
-            />
-            {errors.city && (
-              <p className="text-red-500 text-xs mt-2">{errors.city.message}</p>
-            )}
-          </div>
 
             {/* Country */}
             <div className=" flex items-center justify-center">
@@ -125,20 +113,6 @@ const TestimonialForm = () => {
                 </p>
               )}
             </div>
-          {/* Country */}
-          <div className=" md:flex xl-flex-col items-center justify-center">
-            <label className="custom-label w-1/2">Country</label>
-            <input
-              {...register('country')}
-              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w-full"
-              placeholder="Enter your country"
-            />
-            {errors.country && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors.country.message}
-              </p>
-            )}
-          </div>
 
             {/* Star Rating */}
             <div className=" flex items-center justify-center">
@@ -159,23 +133,6 @@ const TestimonialForm = () => {
                 </p>
               )}
             </div>
-          {/* Star Rating */}
-          <div className=" md:flex xl-flex-col items-center justify-center">
-            <label className="custom-label w-1/2">Rating (1 to 5 stars)</label>
-            <input
-              type="number"
-              {...register('stars')}
-              max={5}
-              min={0}
-              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w-full"
-              placeholder="Enter rating (1-5)"
-            />
-            {errors.stars && (
-              <p className="text-red-500 text-xs mt-2">
-                {errors.stars.message}
-              </p>
-            )}
-          </div>
 
             {/* Review */}
             <div className=" flex items-center justify-center">
@@ -192,34 +149,20 @@ const TestimonialForm = () => {
                 </p>
               )}
             </div>
-          {/* Review */}
-          <div className=" md:flex xl-flex-col  items-center justify-center">
-            <label className="custom-label w-1/2">Your Review</label>
-            <textarea
-              {...register('review')}
-              className="custom-input border-darkgreen focus:border-transparent focus:outline focus:outline-2 focus:outline-darkgreen focus:ring-0 placeholder-transparent caret-darkgreen w-full"
-              placeholder="Write your review..."
-              rows="4"
-            />
-            {errors.review && (
-              <p className="text-red-500 text-xs mt-2 ">
-                {errors.review.message}
-              </p>
-            )}
-          </div>
 
-          {/* Submit Button */}
-          <div className="flex items-center justify-center font-jakarta">
-            <button
-              type="submit"
-              className="md:w-1/3 mx-auto my-8 bg-darkgreen text-white py-2 px-4 rounded-md hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen transition-colors md:text-md text-sm"
-            >
-              Submit Testimonial
-            </button>
-          </div>
-        </form>
+            {/* Submit Button */}
+            <div className="flex items-center justify-center font-jakarta">
+              <button
+                type="submit"
+                className="md:w-1/2 mx-auto bg-darkgreen text-white py-2 px-4 rounded-md hover:bg-peach hover:text-darkgreen hover:border hover:border-darkgreen transition-colors text-sm"
+              >
+                Submit Testimonial
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
