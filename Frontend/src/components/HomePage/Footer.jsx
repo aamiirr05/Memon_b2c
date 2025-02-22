@@ -181,7 +181,7 @@ const Footer = ({ isMenuOpen }) => {
       </div>
       {/*   */}
 
-      <div className="w-11/12 mx-auto flex flex-col gap-10  lg:flex-row items-center justify-between">
+      <div className="w-11/12  mx-auto flex flex-col  lg:flex-row items-center justify-between">
         <div className="w-full flex items-center gap-4">
           <img
             src="https://res.cloudinary.com/memonb2c/image/upload/w_200,h_100,f_auto,q_auto/v1739885803/rmf00msx8vhusevuc2iv.png"
@@ -201,20 +201,57 @@ const Footer = ({ isMenuOpen }) => {
                 behavior: 'smooth',
               })
             }
-            className="bg-peach py-2 px-6 lg:py-1 lg:px-4 text-darkgreen rounded-full font-semibold cursor-pointer"
+            className={({ isActive }) =>
+              `
+                rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
+              `
+            }
           >
             Home
           </NavLink>
-          <NavLink to="/umrah-packages" className="cursor-pointer">
+          <NavLink
+            to="/umrah-packages"
+            className={({ isActive }) =>
+              `
+                rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
+              `
+            }
+          >
             Umrah
           </NavLink>
-          <NavLink to="/holidays" className="cursor-pointer">
+          <NavLink
+            to="/holidays"
+            className={({ isActive }) =>
+              `
+                rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
+              `
+            }
+          >
             Holiday
           </NavLink>
-          <NavLink to="/hotels" className="cursor-pointer">
+          {/* <NavLink
+            to="/hotels"
+            className={({ isActive }) =>
+              `
+                rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
+              `
+            }
+          >
             Hotel
-          </NavLink>
-          <NavLink to="/" className="cursor-pointer">
+          </NavLink> */}
+          <NavLink
+            to="/aboutus"
+            className={({ isActive }) =>
+              `
+                rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
+              `
+            }
+          >
             AboutUs
           </NavLink>
         </div>

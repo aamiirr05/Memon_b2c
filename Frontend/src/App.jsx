@@ -74,6 +74,7 @@ import Enquiries from './pages/Enquiries';
 import TestimonialForm from './pages/TestimonialForm';
 import FloatingButtons from './components/FoatingButtons';
 import { HelmetProvider } from 'react-helmet-async';
+import backgroundImg from './assets/img/hero-bg.webp';
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -176,7 +177,7 @@ const App = () => {
         <div
           className={`w-full text-center -translate-x-[50%] left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
           style={{
-            backgroundImage: `url('/hero-bg.webp')`,
+            backgroundImage: `url(${backgroundImg})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',

@@ -2,6 +2,8 @@
 import { motion } from 'framer-motion';
 import { CircleX } from 'lucide-react';
 import { useState } from 'react';
+import captions from '../../utils/captions.vtt';
+import posterImg from '../../assets/img/hero-bg.webp';
 
 const Marquee = ({ imagesurl, direction }) => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -24,11 +26,19 @@ const Marquee = ({ imagesurl, direction }) => {
               <video
                 className="w-full h-full cursor-pointer flex-shrink-0 rounded-xl object-cover"
                 key={index}
-                src={url}
+                poster={posterImg}
                 autoPlay
                 loop
                 muted
-              ></video>
+              >
+                <source src={url} type="video/mp4"></source>
+                <track
+                  src={captions}
+                  kind="captions"
+                  srcLang="en"
+                  label="English"
+                ></track>
+              </video>
             ) : (
               <img
                 src={url}
@@ -57,12 +67,20 @@ const Marquee = ({ imagesurl, direction }) => {
               <video
                 className="w-full h-full cursor-pointer flex-shrink-0 rounded-xl object-cover"
                 key={index}
-                src={url}
+                poster={posterImg}
                 autoPlay
                 loop
                 playsInline
                 muted
-              ></video>
+              >
+                <source src={url} type="video/mp4"></source>
+                <track
+                  src={captions}
+                  kind="captions"
+                  srcLang="en"
+                  label="English"
+                ></track>
+              </video>
             ) : (
               <img
                 src={url}
@@ -92,13 +110,22 @@ const Marquee = ({ imagesurl, direction }) => {
             {selectedImage.includes('.mp4') ? (
               <video
                 className="w-[500px] h-[300px] object-cover rounded-lg"
-                src={selectedImage}
+                poster={posterImg}
                 autoPlay
                 controls
                 loop
                 muted
                 playsInline
-              ></video>
+              >
+                <source src={selectedImage} type="video/mp4"></source>
+                <track
+                  src={captions}
+                  kind="captions"
+                  srcLang="en"
+                  label="English"
+                  default
+                ></track>
+              </video>
             ) : (
               <img
                 src={selectedImage}
