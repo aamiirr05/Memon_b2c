@@ -184,6 +184,7 @@ const RecommendedPackages = () => {
                   ease: 'easeInOut',
                 }}
                 className="cursor-pointer flex items-center gap-10 bg-mediumgreen p-3 px-10 text-md rounded-full text-white font-medium font-jakarta transition-all duration-200 hover:animate-shift-up focus:animate-shift-down hover:bg-peach hover:text-mediumgreen w-fit hover:shadow-md group text-sm sm:text-md"
+                onClick={() => (window.location.href = '/umrah-packages')}
               >
                 See All
                 <span className="relative w-fit pt-1 flex items-center justify-center text-sm">

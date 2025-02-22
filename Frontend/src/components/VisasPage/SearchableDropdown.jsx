@@ -7,7 +7,7 @@ const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
   const dropdownRef = useRef(null);
 
   // Filter options based on the search query
-  const filteredOptions = options.filter((option) =>
+  const filteredOptions = ['All', ...options].filter((option) =>
     option.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -61,9 +61,9 @@ const SearchableDropdown = ({ options, selectedValue, onSelect }) => {
                   key={option}
                   className="px-4 py-2 hover:bg-peach/20 cursor-pointer"
                   onClick={() => {
-                    onSelect(option); // Trigger callback to update selected country in parent
-                    setSearchQuery(''); // Clear search query after selection
-                    setIsDropdownOpen(false); // Close dropdown after selection
+                    option == 'All' ? onSelect() : onSelect(option);
+                    setSearchQuery('');
+                    setIsDropdownOpen(false);
                   }}
                 >
                   {option}

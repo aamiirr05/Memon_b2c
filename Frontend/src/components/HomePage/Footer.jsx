@@ -211,9 +211,9 @@ const Footer = ({ isMenuOpen }) => {
           <NavLink to="/holidays" className="cursor-pointer">
             Holiday
           </NavLink>
-          <NavLink to="/hotels" className="cursor-pointer">
+          {/* <NavLink to="/hotels" className="cursor-pointer">
             Hotel
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/" className="cursor-pointer">
             AboutUs
           </NavLink>
