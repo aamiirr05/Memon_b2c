@@ -515,7 +515,7 @@ const Enquiries = () => {
           <>
             {userData ? (
               <div className="w-full flex items-center justify-between">
-                <h1 className="text-3xl mt-5 ml-2 font-semibold font-zodiak">
+                <h1 className="md:text-3xl text-xl mt-5 ml-2 font-semibold font-zodiak">
                   {userData.first_name} {userData.last_name}&apos;s Enquiry
                 </h1>
                 <div

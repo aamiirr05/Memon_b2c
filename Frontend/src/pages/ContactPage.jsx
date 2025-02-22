@@ -152,11 +152,11 @@ const ContactPage = () => {
           {/* Contact Details */}
           <div>
             <div className="my-6 text-darkgreen  w-full">
-              <div className="flex sm:flex-row pb-4">
+              <div className="flex item-start justify-between sm:flex-row pb-4 ">
                 <p className="pr-1 lg:pr-2 mb-2 sm:mb-0 text-md lg:text-lg">
                   <strong>Contact:</strong>
                 </p>
-                <div className="flex text-sm lg:text-md  items-center gap-[0.4rem] lg:gap-4">
+                <div className="flex md:flex-row flex-col  text-sm lg:text-md  item-center justify-center gap-[0.4rem] lg:gap-4">
                   <a
                     href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                     target="_blank"
@@ -184,7 +184,7 @@ const ContactPage = () => {
                 </div>
               </div>
 
-              <div className="flex">
+              <div className="flex item-start justify-center">
                 <p className="pr-2 text-md lg:text-lg">
                   <strong>Email:</strong>
                 </p>

@@ -232,26 +232,8 @@ const Footer = ({ isMenuOpen }) => {
           >
             Holiday
           </NavLink>
-          {/* <NavLink
-            to="/hotels"
-            className={({ isActive }) =>
-              `
-                rounded-full cursor-pointer
-              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
-              `
-            }
-          >
-            Hotel
-          </NavLink> */}
-          <NavLink
-            to="/aboutus"
-            className={({ isActive }) =>
-              `
-                rounded-full cursor-pointer
-              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
-              `
-            }
-          >
+
+          <NavLink to="/" className="cursor-pointer">
             AboutUs
           </NavLink>
         </div>
