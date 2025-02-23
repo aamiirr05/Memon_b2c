@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import useFetchPackages from '../../Admin/hooks/UseFetchPackages';
 import { motion, useInView } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
+import React from 'react';
+
 const UmrahCards = ({
   description,
   image,
@@ -247,7 +249,7 @@ const RecommendedPackages = () => {
           {/* Card */}
           {getPackages?.data?.data ? (
             cards.map((i, index) => (
-              <>
+              <React.Fragment key={index}>
                 {i.title == 'Explore All' ? (
                   <NavLink
                     to="/umrah-packages"
@@ -276,7 +278,7 @@ const RecommendedPackages = () => {
                     setCardWidth={setCardWidth}
                   />
                 )}
-              </>
+              </React.Fragment>
             ))
           ) : (
             <div className="flex items-center font-jakarta text-darkgreen justify-center text-xl font-semibold text-center">

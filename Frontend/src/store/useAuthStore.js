@@ -31,16 +31,14 @@ export const useAuthStore = create((set, get) => ({
       password: data.password,
       confirmpassword: data.confpassword,
     };
-    console.log(signupData);
     try {
       const res = await axiosInstance.post('/users/signup', signupData);
 
       set({ authUser: res.data.data });
 
       toast.success(res.data.message);
-      setTimeout(() => {
-        navigate('/verify');
-      }, 3000);
+
+      navigate('/verify');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Signup failed');
     } finally {
