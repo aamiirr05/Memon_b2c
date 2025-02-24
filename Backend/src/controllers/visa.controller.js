@@ -371,7 +371,6 @@ const updateVisaImage = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldvisaimagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
-    console.log("Images Deleted From Cloudinary");
   }
 
   const visaimageArray = Object.values(newUploadedImages)[0];
@@ -440,7 +439,6 @@ const deleteVisa = asyncHandler(async (req, res) => {
       console.error(`Failed to delete image with ID ${imageId}:`, err);
     }
   }
-  console.log("Visa images deleted from Cloudinary");
 
   // Delete the visa record from the database
   await prisma.visa.delete({

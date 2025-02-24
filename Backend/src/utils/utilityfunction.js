@@ -8,6 +8,7 @@ import prisma from "../db/db.config.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import rateLimit from "express-rate-limit";
 
 // ****************** Nodemailer OTP config ******************
 
@@ -105,8 +106,6 @@ async function sendOtp(email, username) {
 
 const safeParseJSON = (data) => {
   try {
-    console.log("Data before parsing:", data);
-
     // If it's already an object or array, return as is
     if (typeof data === "object" && data !== null) {
       // If the data is an array, check if it contains nested JSON strings
@@ -158,7 +157,6 @@ const safeParseJSON = (data) => {
 // ********** Helper function to safely convert to a number **********
 
 const safeConvertToNumber = (value) => {
-  console.log("data", value);
   try {
     const num = Number(value);
 
@@ -295,7 +293,6 @@ const deleteTempFiles = () => {
       try {
         if (fs.lstatSync(filePath).isFile()) {
           fs.unlinkSync(filePath); // Delete the file
-          console.log(`Deleted file: ${filePath}`);
         }
       } catch (error) {
         console.error(`Error deleting file: ${filePath}`, err.message);
@@ -310,7 +307,6 @@ const deleteTempFiles = () => {
 
 const uploadImages = async (imageCategory, imagePaths) => {
   const uploadedImages = [];
-  console.log(imagePaths);
   try {
     if (!imagePaths || imagePaths.length === 0) {
       throw new ApiError(400, "No Images Found");
@@ -335,7 +331,6 @@ const uploadImages = async (imageCategory, imagePaths) => {
     return { [imageCategory]: uploadedImages };
   } catch (error) {
     for (const img of uploadedImages) {
-      console.log(uploadedImages);
       try {
         await deleteImageFromCloudinary(img.public_id);
       } catch (delErr) {
@@ -397,6 +392,15 @@ const sendMailOnEnquiry = async (userName, email) => {
   }
 };
 
+// **************************** RATE LIMITER ****************************************
+
+const limiter = rateLimit({
+  limit: 4,
+  windowMs: 60 * 60 * 1000,
+  message: "Too many requests, please try again later.",
+  statusCode: 429,
+});
+
 // ********** EXPORT *********
 
 export {
@@ -415,4 +419,5 @@ export {
   deleteTempFiles,
   uploadImages,
   sendMailOnEnquiry,
+  limiter,
 };

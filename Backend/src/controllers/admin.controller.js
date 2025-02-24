@@ -28,8 +28,6 @@ const registerAdmin = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields must be filled");
   }
 
-  console.log(username, password, email, contact);
-
   const inputError = adminSignupInputValidation({
     username,
     password,

@@ -591,7 +591,6 @@ const updateCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
   }
 
   const enquiryId = req.params.id;
-  console.log(enquiryId);
 
   const existingEnquiry = await prisma.customizedPackage.findUnique({
     where: { custom_package_id: enquiryId },

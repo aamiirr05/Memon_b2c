@@ -44,8 +44,6 @@ const createHotel = asyncHandler(async (req, res) => {
     doubleprice,
   } = req.body;
 
-  console.log(req.body);
-
   if (
     [
       hotelname,
@@ -460,7 +458,6 @@ const updateHotelImages = asyncHandler(async (req, res) => {
   for (const oldImgId of oldHotelImagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
   }
-  console.log("Images Deleted From Cloudinary");
 
   const hotelImageArray = Object.values(newUploadedImages)[0];
 
@@ -522,7 +519,6 @@ const deleteHotel = asyncHandler(async (req, res) => {
 
   for (const imageId of allImagesId) {
     await deleteImageFromCloudinary(imageId);
-    console.log("Deleted");
   }
 
   await prisma.hotel.delete({

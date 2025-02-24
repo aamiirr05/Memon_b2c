@@ -296,7 +296,6 @@ const resendOtp = asyncHandler(async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log("gsetkgtihnjset");
 
     storeOTP(email, otp);
 
@@ -549,8 +548,6 @@ const enquiryForex = asyncHandler(async (req, res) => {
     country,
     address,
   } = req.body;
-
-  console.log(req.body);
 
   if (
     [
@@ -1080,8 +1077,6 @@ const enquiryCustomizedPackage = asyncHandler(async (req, res) => {
 
 const testimonial = asyncHandler(async (req, res) => {
   const { fullname, city, country, stars, review } = req.body;
-
-  console.log(req.body);
 
   if (
     [fullname, city, country, stars, review].some((field) => {

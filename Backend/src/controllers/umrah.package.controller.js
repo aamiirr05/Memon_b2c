@@ -340,7 +340,6 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     if (allImagesArray && allImagesArray.length > 0) {
       for (const image of allImagesArray) {
         deleteImageFromCloudinary(image.public_id);
-        console.log("deleting");
       }
     }
     throw new ApiError(500, "Error While Creating Package");
@@ -706,7 +705,6 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldPackageImagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
-    console.log("Images Deleted From Cloudinary");
   }
 
   const packageImageArray = Object.values(newUploadedImages)[0];
@@ -809,7 +807,6 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldMakHotelImagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
-    console.log("Image Deleted From Cloudinary");
   }
 
   const makHotelImageArray = Object.values(newMakHotelImages)[0];
@@ -910,7 +907,6 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldMedHotelImagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
-    console.log("Image Deleted From Cloudinary");
   }
 
   const medHotelImageArray = Object.values(newMedHotelImages)[0];
@@ -980,7 +976,6 @@ const deleteUmrahPackage = asyncHandler(async (req, res) => {
 
   for (const imageId of allImagesId) {
     await deleteImageFromCloudinary(imageId);
-    console.log("Deleted");
   }
 
   await prisma.umrahPackage.delete({

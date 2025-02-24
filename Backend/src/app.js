@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import logger from "../src/utils/logger.js";
 import morgan from "morgan";
+import { limiter } from "./utils/utilityfunction.js";
 import { deleteTempFiles } from "./utils/utilityfunction.js";
 
 // ******** Express App Initialization ********
@@ -62,6 +63,10 @@ import holidayPackageRoute from "./routes/holiday.package.routes.js";
 import hotelRoute from "./routes/hotel.routes.js";
 import visaRoute from "./routes/visa.routes.js";
 import adminEnquiryRoutes from "./routes/adminenquiry.routes.js";
+
+// ******** Rate Limiter ********
+
+app.use("/api/v1/users/enquiry", limiter);
 
 // ******** Route Declaration ********
 app.use("/api/v1/users", userRoute);
