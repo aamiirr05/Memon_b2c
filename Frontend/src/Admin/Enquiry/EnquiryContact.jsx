@@ -146,6 +146,9 @@ const EnquiryContact = () => {
                             <span
                               onClick={() => {
                                 handleStatus(
+                                  `${e.first_name} ${e.last_name}`,
+                                  `Services`,
+                                  e.email,
                                   'update-contact-enquiry',
                                   'Rejected',
                                   e.enquiry_id,
@@ -172,6 +175,9 @@ const EnquiryContact = () => {
                           <span
                             onClick={() => {
                               handleStatus(
+                                `${e.first_name} ${e.last_name}`,
+                                `Services`,
+                                e.email,
                                 'update-contact-enquiry',
                                 'Approved',
                                 e.enquiry_id,
