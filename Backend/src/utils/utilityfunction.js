@@ -392,6 +392,72 @@ const sendMailOnEnquiry = async (userName, email) => {
   }
 };
 
+const sendMailOnStatusUpdate = async (
+  username,
+  servicename,
+  enquirystatus,
+  email
+) => {
+  const __filename = fileURLToPath(import.meta.url);
+
+  const __dirname = path.dirname(__filename);
+
+  const approvedTemplatePath = path.join(
+    __dirname,
+    "..",
+    "email",
+    "enquiryApprovalEmailTemplate.html"
+  );
+
+  const rejectedTemplatePath = path.join(
+    __dirname,
+    "..",
+    "email",
+    "enquiryRejectionEmailTemplate.html"
+  );
+
+  const normalizedStatus = enquirystatus.toLowerCase();
+
+  if (normalizedStatus === "approved") {
+    let htmlContent;
+    try {
+      htmlContent = fs.readFileSync(approvedTemplatePath, "utf-8");
+    } catch (error) {
+      throw new ApiError(500, "Failed to read email template");
+    }
+  }
+
+  if (normalizedStatus === "rejected") {
+    let htmlContent;
+    try {
+      htmlContent = fs.readFileSync(rejectedTemplatePath, "utf-8");
+    } catch (error) {
+      throw new ApiError(500, "Failed to read email template");
+    }
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  htmlContent = htmlContent
+    .replace("{{User's Name}}", username)
+    .replace("{{Service Name}}", servicename)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Status",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
+};
+
 // **************************** RATE LIMITER ****************************************
 
 const limiter = rateLimit({
@@ -420,4 +486,5 @@ export {
   uploadImages,
   sendMailOnEnquiry,
   limiter,
+  sendMailOnStatusUpdate,
 };
