@@ -165,7 +165,7 @@ const UpdateVisaDetails = () => {
     });
 
     const loadingToast = toast.loading(
-      'Creating package. This may take some time...',
+      'Updating Visa. This may take some time...',
       {
         icon: (
           <div className="relative w-10 h-10">
