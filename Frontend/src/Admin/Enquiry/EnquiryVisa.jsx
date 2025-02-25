@@ -150,6 +150,8 @@ const EnquiryVisa = () => {
                             <span
                               onClick={() => {
                                 handleStatus(
+                                  `${e.first_name} ${e.last_name}`,
+                                  `${e.visa_type}`,
                                   'update-visa-enquiry',
                                   'Rejected',
                                   e.enquiry_id,
