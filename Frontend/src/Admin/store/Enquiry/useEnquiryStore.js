@@ -46,7 +46,15 @@ const useEnquiryStore = create((set) => ({
   //     }
   //   },
 
-  handleStatus: async (fullname, servicename, url, status, id, refresh) => {
+  handleStatus: async (
+    fullname,
+    servicename,
+    email,
+    url,
+    status,
+    id,
+    refresh
+  ) => {
     const loadingToast = toast.loading('Updating Status. Please wait...');
 
     set({ isUpdating: true });
@@ -55,6 +63,7 @@ const useEnquiryStore = create((set) => ({
       const res = await axiosInstance.post(`admin/enquiry/${url}/${id}`, {
         fullname: fullname,
         servicename: `${servicename}`,
+        email: email,
         status: `${status}`,
       });
 
