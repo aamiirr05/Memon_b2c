@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  // baseURL: 'https://memon-b2c.onrender.com/api/v1',
-  baseURL: 'http://localhost:10000/api/v1',
+   baseURL: 'https://memon-b2c.onrender.com/api/v1',
+  //baseURL: 'http://localhost:10000/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
