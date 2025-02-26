@@ -21,7 +21,6 @@ const useAdminAuthStore = create((set, get) => ({
         withCredentials: true,
       });
       if (res.data) set({ AuthAdmin: res.data.data });
-      console.log(res);
       toast.success(res.data.message);
       navigate('/admin/enquiry/umrah');
     } catch (error) {
@@ -35,7 +34,6 @@ const useAdminAuthStore = create((set, get) => ({
     set({ isCheckingAuth: true });
     try {
       const res = await axiosInstance.get('/admin/check-auth-admin');
-      console.log(res.data);
       set({ AuthAdmin: res.data });
     } catch (error) {
       set({ AuthAdmin: null });
@@ -48,7 +46,6 @@ const useAdminAuthStore = create((set, get) => ({
     try {
       const res = await axiosInstance.post('/admin/refresh-token');
       const { accessToken } = res.data;
-      console.log(res);
       if (accessToken) {
         // Update access token in store and axios instance
         get().setAuthAdminAccessToken(accessToken);
