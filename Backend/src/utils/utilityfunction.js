@@ -418,8 +418,8 @@ const sendMailOnStatusUpdate = async (
 
   const normalizedStatus = enquirystatus.toLowerCase();
 
+  let htmlContent;
   if (normalizedStatus === "approved") {
-    let htmlContent;
     try {
       htmlContent = fs.readFileSync(approvedTemplatePath, "utf-8");
     } catch (error) {
@@ -428,7 +428,6 @@ const sendMailOnStatusUpdate = async (
   }
 
   if (normalizedStatus === "rejected") {
-    let htmlContent;
     try {
       htmlContent = fs.readFileSync(rejectedTemplatePath, "utf-8");
     } catch (error) {
@@ -441,6 +440,7 @@ const sendMailOnStatusUpdate = async (
   htmlContent = htmlContent
     .replace("{{User's Name}}", username)
     .replace("{{Service Name}}", servicename)
+    .replace("{{Service Name 1}}", servicename)
     .replace("{{year}}", currentYear);
 
   const mailOptions = {
