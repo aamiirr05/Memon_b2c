@@ -5,6 +5,7 @@ import { usePackageStore } from '../store/usePackageStore';
 import PackageCardSkeleton from '../components/PackagesPage/PackageCardSkeleton';
 import { useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import { Helmet } from 'react-helmet-async';
 
 const PackagesPage = () => {
   const {
@@ -56,45 +57,55 @@ const PackagesPage = () => {
   ];
 
   return (
-    <main className="">
-      <section>
-        <div className="max-w-6xl mx-auto px-4 lg:px-0">
-          <div className="pt-12 pb-8">
-            <h1 className="font-jakarta lg:text-3xl sm:text-2xl text-md font-semibold text-center text-darkgreen">
-              <strong title="Indeed, the first House [of worship] established for mankind was that at Bakkah [Makkah], blessed and a guidance for the worlds. (Quran 3:96)">
-                إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ
-                مُبَارَكًا وَهُدًى لِّلْعَالَمِينَ
-              </strong>
-            </h1>
-            <h2 className="text-center sm:text-3xl lg:text-4xl text-lg text-darkgreen font-zodiak mt-4 mb-6">
-              Explore Our Exclusive Umrah & Hajj Packages
-            </h2>
-          </div>
+    <>
+      <Helmet>
+        <title>{`Umrah Packages`} </title>
+        <meta name="description" content={`description`} />
+        <meta property="og:title" content={`title`} />
+        <meta property="og:description" content={`description`} />
+        <meta property="og:image" content={`image`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      <main className="">
+        <section>
+          <div className="max-w-6xl mx-auto px-4 lg:px-0">
+            <div className="pt-12 pb-8">
+              <h1 className="font-jakarta lg:text-3xl sm:text-2xl text-md font-semibold text-center text-darkgreen">
+                <strong title="Indeed, the first House [of worship] established for mankind was that at Bakkah [Makkah], blessed and a guidance for the worlds. (Quran 3:96)">
+                  إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ
+                  مُبَارَكًا وَهُدًى لِّلْعَالَمِينَ
+                </strong>
+              </h1>
+              <h2 className="text-center sm:text-3xl lg:text-4xl text-lg text-darkgreen font-zodiak mt-4 mb-6">
+                Explore Our Exclusive Umrah & Hajj Packages
+              </h2>
+            </div>
 
-          <div className="pb-14">
-            <div className=" flex gap-6">
-              <Sidebar images={imagesArray} />
+            <div className="pb-14">
+              <div className=" flex gap-6">
+                <Sidebar images={imagesArray} />
 
-              {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
-              <div className="flex flex-col gap-6 w-full">
-                {isFetching ? (
-                  Array(3)
-                    .fill()
-                    .map((_, index) => <PackageCardSkeleton key={index} />)
-                ) : (
-                  <>
-                    {' '}
-                    {packages.map((pkg) => (
-                      <PackageCard key={pkg.package_id} pkg={pkg} />
-                    ))}
-                  </>
-                )}
+                {/* listing all packages pkg = package; 'package' is a reserved word in strict mode. Modules are automatically in strict mode.*/}
+                <div className="flex flex-col gap-6 w-full">
+                  {isFetching ? (
+                    Array(3)
+                      .fill()
+                      .map((_, index) => <PackageCardSkeleton key={index} />)
+                  ) : (
+                    <>
+                      {' '}
+                      {packages.map((pkg) => (
+                        <PackageCard key={pkg.package_id} pkg={pkg} />
+                      ))}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   );
 };
 

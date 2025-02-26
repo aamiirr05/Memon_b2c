@@ -72,7 +72,7 @@ const Testimonials = () => {
 
   return (
     <section
-      className={`mt-20 mb-10 flex flex-col items-center justify-center md:mb-20 p-5 md:p-10 w-[99%] mx-auto`}
+      className={`mt-20 mb-40 flex flex-col items-center justify-center md:mb-20 p-5 md:p-40 w-[99%] mx-auto`}
     >
       <motion.span
         initial={{ scale: 0, opacity: 0 }}
@@ -94,7 +94,7 @@ const Testimonials = () => {
       {/* Grid */}
       <div className="w-11/12 font-jakarta md:mt-16 mx-auto flex flex-col gap-10 items-center justify-center">
         {/* Testimonial Wrapper with Fixed Height */}
-        <div className="relative w-5/6 md:w-3/4 h-[150px] flex items-center justify-center overflow-hidden">
+        <div className="relative w-5/6 md:w-full h-[150px] flex items-center justify-center overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.h1
               key={currentIndex}
@@ -118,16 +118,19 @@ const Testimonials = () => {
             animate={{ opacity: 0.5, scale: 0.9 }}
             exit={{ opacity: 0, scale: 0.85 }}
             transition={{ duration: 0.5 }}
-            className="hidden md:flex w-1/2 lg:w-1/4 p-5 border border-darkgreen rounded-xl items-center justify-center flex-col gap-1"
+            className="hidden lg:flex w-1/3 lg:w-1/4 p-5 border border-darkgreen rounded-xl items-center justify-center flex-col gap-1"
           >
-            <h1 className="font-zodiak text-md lg:text-xl">
+            <h1 className="font-zodiak text-md lg:text-sm">
               {testimonials[prevIndex].name}
             </h1>
             <h1 className="text-sm text-mediumgreen">{`${testimonials[prevIndex].city}, ${testimonials[prevIndex].country}`}</h1>
             <span className="flex items-center justify-center gap-1 mt-5">
               {Array.from({ length: testimonials[prevIndex].star }).map(
                 (_, i) => (
-                  <Star key={i} className="text-yellow-400 fill-yellow-400" />
+                  <Star
+                    key={i}
+                    className="text-yellow-400 fill-yellow-400 lg:h-4"
+                  />
                 )
               )}
             </span>
@@ -140,7 +143,7 @@ const Testimonials = () => {
             animate={{ scale: 1.1, opacity: 1 }}
             exit={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="w-5/6 md:w-1/2 lg:w-1/4 p-5 border border-darkgreen rounded-xl flex items-center justify-center flex-col gap-1 shadow-lg"
+            className="w-5/6 md:w-5/6 lg:w-1/2 xl:w-1/3 p-5 border border-darkgreen rounded-xl flex items-center justify-center flex-col gap-1 shadow-lg"
           >
             <h1 className="font-zodiak text-md lg:text-xl text-darkgreen">
               {testimonials[currentIndex].name}
@@ -151,8 +154,8 @@ const Testimonials = () => {
                 (_, i) => (
                   <Star
                     key={i}
-                    size={15}
-                    className="text-yellow-400 fill-yellow-400"
+                    size={16}
+                    className="text-yellow-400 fill-yellow-400 "
                   />
                 )
               )}
@@ -166,16 +169,19 @@ const Testimonials = () => {
             animate={{ opacity: 0.5, scale: 0.9 }}
             exit={{ opacity: 0, scale: 0.85 }}
             transition={{ duration: 0.5 }}
-            className="hidden md:flex w-1/2 lg:w-1/4 p-5 border border-darkgreen rounded-xl items-center justify-center flex-col gap-1"
+            className="hidden lg:flex w-1/3 lg:w-1/4 p-5 border border-darkgreen rounded-xl items-center justify-center flex-col gap-1"
           >
-            <h1 className="font-zodiak text-md lg:text-xl">
+            <h1 className="font-zodiak text-md lg:text-sm">
               {testimonials[nextIndex].name}
             </h1>
             <h1 className="text-xs text-mediumgreen">{`${testimonials[nextIndex].city}, ${testimonials[nextIndex].country}`}</h1>
             <span className="flex items-center justify-center gap-1 mt-5">
               {Array.from({ length: testimonials[nextIndex].star }).map(
                 (_, i) => (
-                  <Star key={i} className="text-yellow-400 fill-yellow-400" />
+                  <Star
+                    key={i}
+                    className="text-yellow-400 fill-yellow-400 lg:h-4"
+                  />
                 )
               )}
             </span>

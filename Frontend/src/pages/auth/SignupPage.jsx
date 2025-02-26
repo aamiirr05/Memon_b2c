@@ -20,6 +20,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import logo from '../../assets/img/logo.png';
 import { useAuthStore } from '../../store/useAuthStore';
+import { Helmet } from 'react-helmet-async';
 
 //  Schema validation
 const schema = yup
@@ -79,6 +80,14 @@ const Signup = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Signup</title>
+        <meta name="description" content={`description`} />
+        <meta property="og:title" content={`title`} />
+        <meta property="og:description" content={`description`} />
+        <meta property="og:image" content={`image`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <div className="bg-peach/10 w-full lg:pt-28 xl:pt-12 h-full lg:h-screen lg:justify-center lg:items-center lg:p-5 xl:p-10 flex flex-col lg:flex-row items-center justify-start">
         {/* Navigating arrow */}
         <div

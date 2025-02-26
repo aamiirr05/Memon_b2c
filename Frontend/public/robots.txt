@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /hotels/
+Disallow: /admin-login
+
+Sitemap: https://www.memonhajumrahtours.com/sitemap.xml

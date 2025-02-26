@@ -331,8 +331,6 @@ const updateHolidayPackageDetails = asyncHandler(async (req, res) => {
     featured,
   } = req.body;
 
-  console.log(req.body);
-
   if (
     [
       packagename,
@@ -565,7 +563,6 @@ const updateHolidayPackageImage = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldPackageImagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
-    console.log("Image Deleted From Cloudinary");
   }
 
   const packageImageArray = Object.values(newUploadedImages)[0];
@@ -668,7 +665,6 @@ const updateHolidayPackageHotelImage = asyncHandler(async (req, res) => {
 
   for (const oldImgId of oldHotelImagePublicIds) {
     await deleteImageFromCloudinary(oldImgId);
-    console.log("Image Deleted From Cloudinary");
   }
 
   const hotelImageArray = Object.values(newUploadedImages)[0];
@@ -743,7 +739,6 @@ const deleteHolidayPackage = asyncHandler(async (req, res) => {
 
   for (const imageId of allImagesId) {
     await deleteImageFromCloudinary(imageId);
-    console.log("Deleted");
   }
 
   await prisma.holidayPackage.delete({ where: { package_id: packageId } });

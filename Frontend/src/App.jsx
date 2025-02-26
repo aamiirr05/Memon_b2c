@@ -73,6 +73,8 @@ import useFetchPackages from './Admin/hooks/UseFetchPackages';
 import Enquiries from './pages/Enquiries';
 import TestimonialForm from './pages/TestimonialForm';
 import FloatingButtons from './components/FoatingButtons';
+import { HelmetProvider } from 'react-helmet-async';
+import backgroundImg from './assets/img/hero-bg.webp';
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -131,8 +133,6 @@ const App = () => {
   const navigate = useNavigate();
   const { isAvailable, setIsAvailable } = useAuthStore();
 
-  console.log(isAvailable);
-
   const getPackages = useFetchPackages('users/fetch-all-umrah-packages');
 
   useEffect(() => {
@@ -177,7 +177,7 @@ const App = () => {
         <div
           className={`w-full text-center -translate-x-[50%] left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
           style={{
-            backgroundImage: `url('/hero-bg.webp')`,
+            backgroundImage: `url(${backgroundImg})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
@@ -233,182 +233,193 @@ const App = () => {
           )}
 
         <ReactLenis root>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Homepage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="verify" element={<OtpPage />} />
-            <Route path="forex" element={<ForexPage />} />
-            <Route path="contact" element={<ContactPage />} />
+          <HelmetProvider>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Homepage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="verify" element={<OtpPage />} />
+              <Route path="forex" element={<ForexPage />} />
+              <Route path="contact" element={<ContactPage />} />
 
-            {/* User Route */}
-            <Route path="/enquiries" element={<Enquiries />} />
+              {/* User Route */}
+              <Route path="/enquiries" element={<Enquiries />} />
 
-            {/* Not Protected Route */}
-            <Route path="/testimonials" element={<TestimonialForm />} />
-            <Route path="/packages" element={<PackagesPage />} />
-            <Route
-              path="customized-package"
-              element={<CustomizedPackagePage />}
-            />
+              {/* Not Protected Route */}
+              <Route path="/testimonials" element={<TestimonialForm />} />
+              <Route path="/packages" element={<PackagesPage />} />
+              <Route
+                path="customized-package"
+                element={<CustomizedPackagePage />}
+              />
 
-            {/* hotel page*/}
-            <Route path="/hotels" element={<HotelsPage />} />
-            <Route
-              path="/hotels/hotel-details/:hotelId"
-              element={<HotelDetailPage />}
-            />
+              {/* hotel page*/}
+              <Route path="/hotels" element={<HotelsPage />} />
+              <Route
+                path="/hotels/hotel-details/:hotelId"
+                element={<HotelDetailPage />}
+              />
 
-            {/* packages page by category*/}
-            <Route path="/ramadan-2025" element={<PackagesPage />} />
-            <Route
-              path="/ramadan-2025/package-details/:packageId"
-              element={<PackageDetailPage />}
-            />
+              {/* packages page by category*/}
+              <Route path="/ramadan-2025" element={<PackagesPage />} />
+              <Route
+                path="/ramadan-2025/package-details/:packageId"
+                element={<PackageDetailPage />}
+              />
 
-            <Route path="/umrah-packages" element={<PackagesPage />} />
-            <Route
-              path="/umrah-packages/package-details/:packageId"
-              element={<PackageDetailPage />}
-            />
+              <Route path="/umrah-packages" element={<PackagesPage />} />
+              <Route
+                path="/umrah-packages/package-details/:packageId"
+                element={<PackageDetailPage />}
+              />
 
-            <Route path="/hajj-2025" element={<PackagesPage />} />
-            <Route
-              path="/hajj-2025/package-details/:packageId"
-              element={<PackageDetailPage />}
-            />
+              <Route path="/hajj-2025" element={<PackagesPage />} />
+              <Route
+                path="/hajj-2025/package-details/:packageId"
+                element={<PackageDetailPage />}
+              />
 
-            {/* holiday page */}
-            <Route path="/holidays" element={<HolidaysPage />} />
-            <Route
-              path="/holidays/holiday-details/:holidayId"
-              element={<HolidayDetailPage />}
-            />
+              {/* holiday page */}
+              <Route path="/holidays" element={<HolidaysPage />} />
+              <Route
+                path="/holidays/holiday-details/:holidayId"
+                element={<HolidayDetailPage />}
+              />
 
-            <Route path="/ziyarat" element={<HolidaysPage />} />
-            <Route
-              path="/ziyarat/holiday-details/:holidayId"
-              element={<HolidayDetailPage />}
-            />
+              <Route path="/ziyarat" element={<HolidaysPage />} />
+              <Route
+                path="/ziyarat/holiday-details/:holidayId"
+                element={<HolidayDetailPage />}
+              />
 
-            <Route path="/visas" element={<VisasPage />} />
-            <Route
-              path="/visas/visa-details/:visaId"
-              element={<VisaDetailPage />}
-            />
-            <Route path="/partners" element={<OurPartnersPage />} />
-            <Route path="/nusuk" element={<NusukPage />} />
+              <Route path="/visas" element={<VisasPage />} />
+              <Route
+                path="/visas/visa-details/:visaId"
+                element={<VisaDetailPage />}
+              />
+              <Route path="/partners" element={<OurPartnersPage />} />
+              <Route path="/nusuk" element={<NusukPage />} />
 
-            {/* Admin Routes */}
+              {/* Admin Routes */}
 
-            <Route path="admin-login" element={<AdminLogin />} />
-            {/* <Route path="admin-signup" element={<AdminSignup />} /> */}
+              <Route path="admin-login" element={<AdminLogin />} />
+              {/* <Route path="admin-signup" element={<AdminSignup />} /> */}
 
-            {AuthAdmin && (
-              <Route path="admin" element={<AdminLayout />}>
-                <Route path="enquiry" element={<Enquiry />}>
-                  <Route path="forex" element={<EnquiryForex />} />
-                  <Route path="contact" element={<EnquiryContact />} />
-                  <Route path="umrah" element={<EnquiryUmrah />} />
-                  <Route path="visa" element={<EnquiryVisa />} />
-                  <Route path="holiday" element={<EnquiryHoliday />} />
-                  <Route path="custom-package" element={<EnquiryCustom />} />
-                  <Route path="hotel" element={<EnquiryHotel />} />
-                </Route>
-
-                {/* Hotel */}
-                <Route path="hotel" element={<Hotels />}>
-                  <Route path="update/:updateid" element={<UpdateHotel />}>
-                    <Route path="details" element={<UpdateHotelDetails />} />
-                    <Route path="hotelimages" element={<UpdateHotelImages />} />
+              {AuthAdmin && (
+                <Route path="admin" element={<AdminLayout />}>
+                  <Route path="enquiry" element={<Enquiry />}>
+                    <Route path="forex" element={<EnquiryForex />} />
+                    <Route path="contact" element={<EnquiryContact />} />
+                    <Route path="umrah" element={<EnquiryUmrah />} />
+                    <Route path="visa" element={<EnquiryVisa />} />
+                    <Route path="holiday" element={<EnquiryHoliday />} />
+                    <Route path="custom-package" element={<EnquiryCustom />} />
+                    <Route path="hotel" element={<EnquiryHotel />} />
                   </Route>
-                  <Route
-                    path="createhotel-form"
-                    element={<CreateHotelForm />}
-                  />
-                  <Route
-                    path="createhotel-package"
-                    element={<CreateHotelImg />}
-                  />
-                  <Route
-                    path="createhotel-preview/:id"
-                    element={<CreateHotelPreview />}
-                  />
-                </Route>
-                {/* Umrah Packages */}
-                <Route path="umrahpackages" element={<UmrahPackages />}>
-                  <Route
-                    path="update/:updateid"
-                    element={<UpdateUmrahPackage />}
-                  >
-                    <Route path="details" element={<UpdateUmrahDetails />} />
+
+                  {/* Hotel */}
+                  <Route path="hotel" element={<Hotels />}>
+                    <Route path="update/:updateid" element={<UpdateHotel />}>
+                      <Route path="details" element={<UpdateHotelDetails />} />
+                      <Route
+                        path="hotelimages"
+                        element={<UpdateHotelImages />}
+                      />
+                    </Route>
                     <Route
-                      path="packageimages"
-                      element={<UpdateUmrahPackImgs />}
+                      path="createhotel-form"
+                      element={<CreateHotelForm />}
                     />
                     <Route
-                      path="meccaimages"
-                      element={<UpdateUmrahMeccaImgs />}
+                      path="createhotel-package"
+                      element={<CreateHotelImg />}
                     />
                     <Route
-                      path="madinaimages"
-                      element={<UpdateUmrahMadinaImgs />}
+                      path="createhotel-preview/:id"
+                      element={<CreateHotelPreview />}
                     />
                   </Route>
-                  <Route
-                    path="createpackage-form"
-                    element={<CreatePackagesForm />}
-                  />
-                  <Route
-                    path="createpackage-images"
-                    element={<CreatePackageImgs />}
-                  />
-                  <Route
-                    path="createpackage-preview/:id"
-                    element={<CreatePreview />}
-                  />
-                </Route>
-                {/* Holiday Packages */}
-                <Route path="holidays" element={<HolidayPackages />}>
-                  <Route path="update/:updateid" element={<UpdateHoliday />}>
-                    <Route path="details" element={<UpdateHolidayDetails />} />
+                  {/* Umrah Packages */}
+                  <Route path="umrahpackages" element={<UmrahPackages />}>
                     <Route
-                      path="packageimages"
-                      element={<UpdateHolidayPackImgs />}
+                      path="update/:updateid"
+                      element={<UpdateUmrahPackage />}
+                    >
+                      <Route path="details" element={<UpdateUmrahDetails />} />
+                      <Route
+                        path="packageimages"
+                        element={<UpdateUmrahPackImgs />}
+                      />
+                      <Route
+                        path="meccaimages"
+                        element={<UpdateUmrahMeccaImgs />}
+                      />
+                      <Route
+                        path="madinaimages"
+                        element={<UpdateUmrahMadinaImgs />}
+                      />
+                    </Route>
+                    <Route
+                      path="createpackage-form"
+                      element={<CreatePackagesForm />}
                     />
                     <Route
-                      path="hotelimages"
-                      element={<UpdateHolidayHotelImgs />}
+                      path="createpackage-images"
+                      element={<CreatePackageImgs />}
+                    />
+                    <Route
+                      path="createpackage-preview/:id"
+                      element={<CreatePreview />}
                     />
                   </Route>
-                  <Route
-                    path="createholiday-form"
-                    element={<CreateHolidayForm />}
-                  />
-                  <Route
-                    path="createholiday-package"
-                    element={<CreateHolidayImg />}
-                  />
-                  <Route
-                    path="createholiday-preview/:id"
-                    element={<CreateHolidayPreview />}
-                  />
-                </Route>
-                {/* Visa Routes */}
-                <Route path="visa" element={<Visa />}>
-                  <Route path="update/:updateid" element={<UpdateVisa />}>
-                    <Route path="details" element={<UpdateVisaDetails />} />
-                    <Route path="visaimage" element={<UpdateVisaImage />} />
+                  {/* Holiday Packages */}
+                  <Route path="holidays" element={<HolidayPackages />}>
+                    <Route path="update/:updateid" element={<UpdateHoliday />}>
+                      <Route
+                        path="details"
+                        element={<UpdateHolidayDetails />}
+                      />
+                      <Route
+                        path="packageimages"
+                        element={<UpdateHolidayPackImgs />}
+                      />
+                      <Route
+                        path="hotelimages"
+                        element={<UpdateHolidayHotelImgs />}
+                      />
+                    </Route>
+                    <Route
+                      path="createholiday-form"
+                      element={<CreateHolidayForm />}
+                    />
+                    <Route
+                      path="createholiday-package"
+                      element={<CreateHolidayImg />}
+                    />
+                    <Route
+                      path="createholiday-preview/:id"
+                      element={<CreateHolidayPreview />}
+                    />
                   </Route>
-                  <Route path="createvisa-form" element={<CreateVisaForm />} />
+                  {/* Visa Routes */}
+                  <Route path="visa" element={<Visa />}>
+                    <Route path="update/:updateid" element={<UpdateVisa />}>
+                      <Route path="details" element={<UpdateVisaDetails />} />
+                      <Route path="visaimage" element={<UpdateVisaImage />} />
+                    </Route>
+                    <Route
+                      path="createvisa-form"
+                      element={<CreateVisaForm />}
+                    />
+                  </Route>
                 </Route>
-              </Route>
-            )}
+              )}
 
-            {/* Catch all error route */}
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
+              {/* Catch all error route */}
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </HelmetProvider>
         </ReactLenis>
 
         {!isAdminRoute && !isLoginPage && !isSignupPage && !isOtpPage && (

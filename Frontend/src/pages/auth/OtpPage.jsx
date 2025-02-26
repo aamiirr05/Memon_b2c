@@ -1,11 +1,11 @@
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import mailsent from '../../assets/img/letter.svg';
 // import { AuthContext } from '../../context';
-import axiosInstance from '../../lib/axios';
-import toast from 'react-hot-toast';
+
 import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const OtpPage = () => {
   const { control, handleSubmit, setValue } = useForm({
@@ -76,6 +76,14 @@ const OtpPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Signup - Verify</title>
+        <meta name="description" content={`description`} />
+        <meta property="og:title" content={`title`} />
+        <meta property="og:description" content={`description`} />
+        <meta property="og:image" content={`image`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <div className="bg-peach/10 flex-col gap-5 xl:gap-16 flex items-center justify-center h-screen w-full">
         <h3 className="font-zodiak text-4xl text-darkgreen">Otp Sent!</h3>
         <div className="w-11/12 md:w-2/3 shadow-2xl lg:w-1/2 xl:w-1/3 rounded-3xl p-10 flex flex-col items-center justify-center gap-5 bg-peach">

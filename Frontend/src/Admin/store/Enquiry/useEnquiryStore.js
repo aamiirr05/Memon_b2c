@@ -46,17 +46,29 @@ const useEnquiryStore = create((set) => ({
   //     }
   //   },
 
-  handleStatus: async (url, status, id, refresh) => {
+  handleStatus: async (
+    fullname,
+    servicename,
+    email,
+    url,
+    status,
+    id,
+    refresh
+  ) => {
     const loadingToast = toast.loading('Updating Status. Please wait...');
 
     set({ isUpdating: true });
 
     try {
       const res = await axiosInstance.post(`admin/enquiry/${url}/${id}`, {
+        fullname: fullname,
+        servicename: `${servicename}`,
+        email: email,
         status: `${status}`,
       });
 
       console.log(res);
+      console.log(fullname, servicename, url, status, id, refresh);
       const msg = res?.data?.message;
       toast.dismiss(loadingToast);
       toast.success(msg, { duration: 5000 });
@@ -67,6 +79,7 @@ const useEnquiryStore = create((set) => ({
       toast.dismiss(loadingToast);
       toast.error('Failed to update status.');
       console.log(error);
+      console.log(fullname, servicename, url, status, id, refresh);
     } finally {
       set({ isUpdating: false }); // Fixed: should set isUpdating to false in finally block
     }

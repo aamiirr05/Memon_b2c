@@ -165,6 +165,9 @@ const EnquiryCustom = () => {
                             <span
                               onClick={() => {
                                 handleStatus(
+                                  `${e.first_name} ${e.last_name}`,
+                                  `Customized Package`,
+                                  e.email,
                                   'update-custom-package-enquiry',
                                   'Rejected',
                                   e.custom_package_id,
@@ -191,6 +194,9 @@ const EnquiryCustom = () => {
                           <span
                             onClick={() => {
                               handleStatus(
+                                `${e.first_name} ${e.last_name}`,
+                                `Customized Package`,
+                                e.email,
                                 'update-custom-package-enquiry',
                                 'Approved',
                                 e.custom_package_id,

@@ -2,6 +2,7 @@ import prisma from "../db/db.config.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiErrors.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { sendMailOnStatusUpdate } from "../utils/utilityfunction.js";
 
 /* ***************************************************************************************************************
                                         ALL UMRAH ENQUIRY ROUTES
@@ -48,7 +49,15 @@ const updateUmrahEnquiry = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No Enquiry Found");
   }
 
-  const { status } = req.body;
+  const { status, fullname, servicename, email } = req.body;
+
+  if (
+    [status, fullname, servicename, email].some(
+      (field) => !field || field.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const validStatuses = ["pending", "rejected", "approved"];
 
@@ -63,6 +72,8 @@ const updateUmrahEnquiry = asyncHandler(async (req, res) => {
     where: { enquiry_id: enquiryId },
     data: { status: status },
   });
+
+  await sendMailOnStatusUpdate(fullname, servicename, status, email);
 
   return res
     .status(200)
@@ -140,7 +151,15 @@ const updateForexEnquiry = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No Enquiry Found");
   }
 
-  const { status } = req.body;
+  const { status, fullname, servicename, email } = req.body;
+
+  if (
+    [status, fullname, servicename, email].some(
+      (field) => !field || field.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const validStatuses = ["pending", "rejected", "approved"];
 
@@ -155,6 +174,8 @@ const updateForexEnquiry = asyncHandler(async (req, res) => {
     where: { enquiry_id: enquiryId },
     data: { status: status },
   });
+
+  await sendMailOnStatusUpdate(fullname, servicename, status, email);
 
   return res
     .status(200)
@@ -232,8 +253,15 @@ const updateVisaEnquiry = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No Enquiry Found");
   }
 
-  const { status } = req.body;
+  const { status, fullname, servicename, email } = req.body;
 
+  if (
+    [status, fullname, servicename, email].some(
+      (field) => !field || field.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
   const validStatuses = ["pending", "rejected", "approved"];
 
   if (!status || !validStatuses.includes(status?.toLowerCase())) {
@@ -247,6 +275,8 @@ const updateVisaEnquiry = asyncHandler(async (req, res) => {
     where: { enquiry_id: enquiryId },
     data: { status: status },
   });
+
+  await sendMailOnStatusUpdate(fullname, servicename, status, email);
 
   return res
     .status(200)
@@ -324,7 +354,15 @@ const updateContactEnquiry = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No Enquiry Found");
   }
 
-  const { status } = req.body;
+  const { status, fullname, servicename, email } = req.body;
+
+  if (
+    [status, fullname, servicename, email].some(
+      (field) => !field || field.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const validStatuses = ["pending", "rejected", "approved"];
 
@@ -339,6 +377,8 @@ const updateContactEnquiry = asyncHandler(async (req, res) => {
     where: { enquiry_id: enquiryId },
     data: { status: status },
   });
+
+  await sendMailOnStatusUpdate(fullname, servicename, status, email);
 
   return res
     .status(200)
@@ -416,7 +456,15 @@ const updateHolidayEnquiry = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No Enquiry Found");
   }
 
-  const { status } = req.body;
+  const { status, fullname, servicename, email } = req.body;
+
+  if (
+    [status, fullname, servicename, email].some(
+      (field) => !field || field.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const validStatuses = ["pending", "rejected", "approved"];
 
@@ -431,6 +479,8 @@ const updateHolidayEnquiry = asyncHandler(async (req, res) => {
     where: { enquiry_id: enquiryId },
     data: { status: status },
   });
+
+  await sendMailOnStatusUpdate(fullname, servicename, status, email);
 
   return res
     .status(200)
@@ -508,7 +558,15 @@ const updateHotelEnquiry = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No Enquiry Found");
   }
 
-  const { status } = req.body;
+  const { status, fullname, servicename, email } = req.body;
+
+  if (
+    [status, fullname, servicename, email].some(
+      (field) => !field || field.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const validStatuses = ["pending", "rejected", "approved"];
 
@@ -523,6 +581,8 @@ const updateHotelEnquiry = asyncHandler(async (req, res) => {
     where: { enquiry_id: enquiryId },
     data: { status: status },
   });
+
+  await sendMailOnStatusUpdate(fullname, servicename, status, email);
 
   return res
     .status(200)
@@ -591,7 +651,6 @@ const updateCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
   }
 
   const enquiryId = req.params.id;
-  console.log(enquiryId);
 
   const existingEnquiry = await prisma.customizedPackage.findUnique({
     where: { custom_package_id: enquiryId },
@@ -601,7 +660,15 @@ const updateCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
     throw new ApiError(404, "No Enquiry Found");
   }
 
-  const { status } = req.body;
+  const { status, fullname, servicename, email } = req.body;
+
+  if (
+    [status, fullname, servicename, email].some(
+      (field) => !field || field.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields must be filled");
+  }
 
   const validStatuses = ["pending", "rejected", "approved"];
 
@@ -616,6 +683,8 @@ const updateCustomizedPackageEnquiry = asyncHandler(async (req, res) => {
     where: { custom_package_id: enquiryId },
     data: { status: status },
   });
+
+  await sendMailOnStatusUpdate(fullname, servicename, status, email);
 
   return res
     .status(200)

@@ -6,7 +6,6 @@ import ReactPaginate from 'react-paginate';
 
 const EnquiryVisa = () => {
   const { visaEnquiry } = useOutletContext();
-  console.log(visaEnquiry);
   const { isUpdating, handleStatus, handleDelete } = useEnquiryStore();
 
   const totalEnquiry = visaEnquiry?.data?.data.length;
@@ -150,6 +149,9 @@ const EnquiryVisa = () => {
                             <span
                               onClick={() => {
                                 handleStatus(
+                                  `${e.first_name} ${e.last_name}`,
+                                  `${e.visa_type}`,
+                                  e.email,
                                   'update-visa-enquiry',
                                   'Rejected',
                                   e.enquiry_id,
@@ -176,6 +178,9 @@ const EnquiryVisa = () => {
                           <span
                             onClick={() => {
                               handleStatus(
+                                `${e.first_name} ${e.last_name}`,
+                                `${e.visa_type}`,
+                                e.email,
                                 'update-visa-enquiry',
                                 'Approved',
                                 e.enquiry_id,

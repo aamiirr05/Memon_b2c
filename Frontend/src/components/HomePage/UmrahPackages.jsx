@@ -55,7 +55,7 @@ const AboutUsCard = ({
   );
 };
 
-const UmrahPackages = ({ isMenuOpen }) => {
+const UmrahPackages = () => {
   const getPackages = useFetchPackages('users/fetch-all-umrah-packages');
 
   const filterCards = getPackages?.data?.data.filter((_, i) => i < 6) || [];
@@ -103,9 +103,7 @@ const UmrahPackages = ({ isMenuOpen }) => {
     amount: 'all',
   });
   return (
-    <section
-      className={`mb-10 md:mb-20 p-5 md:p-10 w-[99%] mx-auto ${isMenuOpen ? 'blur-sm' : 'blur-0'}`}
-    >
+    <section className={`mb-10 md:mb-20 p-5 md:p-10 w-[99%] mx-auto`}>
       <motion.span
         initial={{ scale: 0, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}

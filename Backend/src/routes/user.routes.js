@@ -20,11 +20,12 @@ import {
   verifyOtp,
 } from "../controllers/user.controller.js";
 import { verifyJwt } from "../middlewares/user.auth.middleware.js";
+import { limiter } from "../utils/utilityfunction.js";
 
 const router = Router();
 
 router.route("/signup").post(registerUser);
-router.route("/login").post(loginUser);
+router.route("/login").post(limiter, loginUser);
 router.route("/check-auth").get(checkAuth);
 router.route("/resend-otp").post(resendOtp);
 router.route("/verify-otp").post(verifyOtp);

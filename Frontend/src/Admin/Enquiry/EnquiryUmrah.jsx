@@ -163,6 +163,9 @@ const EnquiryUmrah = () => {
                             <span
                               onClick={() => {
                                 handleStatus(
+                                  e.first_name,
+                                  e.package_type,
+                                  e.email,
                                   'update-umrah-enquiry',
                                   'Rejected',
                                   e.enquiry_id,
@@ -189,6 +192,9 @@ const EnquiryUmrah = () => {
                           <span
                             onClick={() => {
                               handleStatus(
+                                `${e.first_name} ${e.last_name}`,
+                                e.package_type,
+                                e.email,
                                 'update-umrah-enquiry',
                                 'Approved',
                                 e.enquiry_id,

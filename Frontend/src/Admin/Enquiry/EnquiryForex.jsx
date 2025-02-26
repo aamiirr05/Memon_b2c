@@ -152,6 +152,9 @@ const EnquiryForex = () => {
                             <span
                               onClick={() => {
                                 handleStatus(
+                                  `${e.first_name} ${e.last_name}`,
+                                  `${e.country}`,
+                                  e.email,
                                   'update-forex-enquiry',
                                   'Rejected',
                                   e.enquiry_id,
@@ -178,6 +181,9 @@ const EnquiryForex = () => {
                           <span
                             onClick={() => {
                               handleStatus(
+                                `${e.first_name} ${e.last_name}`,
+                                `${e.country}`,
+                                e.email,
                                 'update-forex-enquiry',
                                 'Approved',
                                 e.enquiry_id,

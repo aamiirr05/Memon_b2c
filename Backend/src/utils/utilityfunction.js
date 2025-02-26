@@ -8,6 +8,7 @@ import prisma from "../db/db.config.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import rateLimit from "express-rate-limit";
 
 // ****************** Nodemailer OTP config ******************
 
@@ -105,8 +106,6 @@ async function sendOtp(email, username) {
 
 const safeParseJSON = (data) => {
   try {
-    console.log("Data before parsing:", data);
-
     // If it's already an object or array, return as is
     if (typeof data === "object" && data !== null) {
       // If the data is an array, check if it contains nested JSON strings
@@ -158,7 +157,6 @@ const safeParseJSON = (data) => {
 // ********** Helper function to safely convert to a number **********
 
 const safeConvertToNumber = (value) => {
-  console.log("data", value);
   try {
     const num = Number(value);
 
@@ -295,7 +293,6 @@ const deleteTempFiles = () => {
       try {
         if (fs.lstatSync(filePath).isFile()) {
           fs.unlinkSync(filePath); // Delete the file
-          console.log(`Deleted file: ${filePath}`);
         }
       } catch (error) {
         console.error(`Error deleting file: ${filePath}`, err.message);
@@ -310,7 +307,6 @@ const deleteTempFiles = () => {
 
 const uploadImages = async (imageCategory, imagePaths) => {
   const uploadedImages = [];
-  console.log(imagePaths);
   try {
     if (!imagePaths || imagePaths.length === 0) {
       throw new ApiError(400, "No Images Found");
@@ -335,7 +331,6 @@ const uploadImages = async (imageCategory, imagePaths) => {
     return { [imageCategory]: uploadedImages };
   } catch (error) {
     for (const img of uploadedImages) {
-      console.log(uploadedImages);
       try {
         await deleteImageFromCloudinary(img.public_id);
       } catch (delErr) {
@@ -397,6 +392,81 @@ const sendMailOnEnquiry = async (userName, email) => {
   }
 };
 
+const sendMailOnStatusUpdate = async (
+  username,
+  servicename,
+  enquirystatus,
+  email
+) => {
+  const __filename = fileURLToPath(import.meta.url);
+
+  const __dirname = path.dirname(__filename);
+
+  const approvedTemplatePath = path.join(
+    __dirname,
+    "..",
+    "email",
+    "enquiryApprovalEmailTemplate.html"
+  );
+
+  const rejectedTemplatePath = path.join(
+    __dirname,
+    "..",
+    "email",
+    "enquiryRejectionEmailTemplate.html"
+  );
+
+  const normalizedStatus = enquirystatus.toLowerCase();
+
+  let htmlContent;
+  if (normalizedStatus === "approved") {
+    try {
+      htmlContent = fs.readFileSync(approvedTemplatePath, "utf-8");
+    } catch (error) {
+      throw new ApiError(500, "Failed to read email template");
+    }
+  }
+
+  if (normalizedStatus === "rejected") {
+    try {
+      htmlContent = fs.readFileSync(rejectedTemplatePath, "utf-8");
+    } catch (error) {
+      throw new ApiError(500, "Failed to read email template");
+    }
+  }
+
+  const currentYear = new Date().getFullYear();
+
+  htmlContent = htmlContent
+    .replace("{{User's Name}}", username)
+    .replace("{{Service Name}}", servicename)
+    .replace("{{Service Name 1}}", servicename)
+    .replace("{{year}}", currentYear);
+
+  const mailOptions = {
+    from: process.env.NODEMAILER_USER,
+    to: email,
+    subject: "Your Enquiry Status",
+    html: htmlContent,
+  };
+
+  try {
+    // Send the email
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw new ApiError(500, "Failed to send confirmation mail");
+  }
+};
+
+// **************************** RATE LIMITER ****************************************
+
+const limiter = rateLimit({
+  limit: 4,
+  windowMs: 60 * 60 * 1000,
+  message: "Too many requests, please try again later.",
+  statusCode: 429,
+});
+
 // ********** EXPORT *********
 
 export {
@@ -415,4 +485,6 @@ export {
   deleteTempFiles,
   uploadImages,
   sendMailOnEnquiry,
+  limiter,
+  sendMailOnStatusUpdate,
 };
