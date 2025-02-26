@@ -101,18 +101,15 @@ export const useAuthStore = create((set, get) => ({
   },
 
   verifyOtp: async (data, navigate) => {
-    console.log(data);
     set({ isVerifyingOtp: false });
     try {
       const res = await axiosInstance.post('/users/verify-otp', data);
-      console.log(res.data);
       toast.success(res.data.message);
 
       setTimeout(() => {
         navigate('/');
       }, 2000);
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.message);
     } finally {
       set({ isVerifyingOtp: false });
