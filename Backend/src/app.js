@@ -66,6 +66,8 @@ import adminEnquiryRoutes from "./routes/adminenquiry.routes.js";
 
 // ******** Rate Limiter ********
 
+app.set("trust proxy", 1); // Trust first proxy
+
 app.use("/api/v1/users/enquiry", limiter);
 
 // ******** Route Declaration ********
