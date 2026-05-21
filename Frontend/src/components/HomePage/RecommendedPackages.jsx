@@ -42,12 +42,12 @@ const UmrahCards = ({
             src={image || ''}
             alt="package images"
             loading="lazy"
-            className="w-full  rounded-xl mx-auto h-full"
+            className="w-full rounded-xl mx-auto h-full"
           />
         </div>
       </div>
       <div className="w-full mx-auto flex md:flex-col items-start justify-between pt-4 px-5">
-        <span className="font-zodiak  text-md text-darkgreen">
+        <span className="font-zodiak text-md text-darkgreen">
           {title.split(' ').slice(0, 5).join(' ')}
           {title.split(' ').length > 5 && '...'}
         </span>
@@ -82,7 +82,6 @@ const RecommendedPackages = () => {
 
   const cards = [
     ...filterCards,
-
     { title: 'Explore All', description: 'Description for Card 6' },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
@@ -91,11 +90,7 @@ const RecommendedPackages = () => {
 
   const handleNext = () => {
     if (activeIndex < cards.length - 3) {
-      if (window.outerWidth <= 425) {
-        setActiveIndex((prev) => prev + 1);
-      } else {
-        setActiveIndex((prev) => prev + 1);
-      }
+      setActiveIndex((prev) => prev + 1);
     }
   };
 
@@ -153,7 +148,7 @@ const RecommendedPackages = () => {
             <motion.div
               animate={{ x: isInView ? 0 : '-20vw', opacity: isInView ? 1 : 0 }}
               transition={{ duration: 0.5, delay: 0.3, stiffness: 120 }}
-              className="md:w-1/2 lg:w-1/2  text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl md:text-3xl"
+              className="md:w-1/2 lg:w-1/2 text-darkgreen font-zodiak leading-snug text-4xl lg:text-4xl md:text-3xl"
             >
               Your next favourite place awaits
             </motion.div>
@@ -172,8 +167,7 @@ const RecommendedPackages = () => {
                 to seamless transportation 🚌 and heartfelt moments in the holy
                 lands, we ensure a hassle-free experience. Let us take care of
                 the details while you focus on your journey of faith and
-                discovery. Would you like any adjustments to better fit your
-                brand voice?
+                discovery.
               </motion.div>
               <motion.button
                 aria-label="See All"
@@ -215,17 +209,15 @@ const RecommendedPackages = () => {
               className={`
                h-full rounded-full bg-mediumgreen w-0 transition-all ease-in-out duration-700
               ${activeIndex == 0 ? 'w-0' : activeIndex == 1 ? 'w-1/4' : activeIndex == 2 ? 'w-1/2' : activeIndex == 3 ? 'w-3/4' : 'w-full'}
-              
-              
               `}
             ></div>
           </div>
-          <div className="flex items-center justify-end gap-5 ">
+          <div className="flex items-center justify-end gap-5">
             <button
               aria-label="Go Left"
               onClick={handlePrev}
               disabled={activeIndex === 0}
-              className={` ${activeIndex === 0 ? 'opacity-60 border border-mediumgreen text-mediumgreen' : 'bg-mediumgreen text-white'} p-2  rounded-full`}
+              className={` ${activeIndex === 0 ? 'opacity-60 border border-mediumgreen text-mediumgreen' : 'bg-mediumgreen text-white'} p-2 rounded-full`}
             >
               <ChevronLeft />
             </button>
@@ -233,7 +225,7 @@ const RecommendedPackages = () => {
               aria-label="Go Right"
               onClick={handleNext}
               disabled={activeIndex === cards.length - 1}
-              className={` ${activeIndex === cards.length - 2 ? 'opacity-60 border border-mediumgreen text-mediumgreen' : 'bg-mediumgreen text-white'} p-2  rounded-full`}
+              className={` ${activeIndex === cards.length - 2 ? 'opacity-60 border border-mediumgreen text-mediumgreen' : 'bg-mediumgreen text-white'} p-2 rounded-full`}
             >
               <ChevronRight />
             </button>
@@ -254,9 +246,8 @@ const RecommendedPackages = () => {
                   <NavLink
                     to="/umrah-packages"
                     key={index}
-                    className={`text-xl  hidden xl:flex absolute top-1/3 items-center justify-center gap-4 cursor-pointer ease-in-out transition-all duration-1000 right-32 bg-peach text-darkgreen shadow-md hover:animate-shift-up overflow-hidden font-jakarta p-2 px-6 rounded-xl ${activeIndex == cards.length - 3 ? 'translate-x-0 z-0' : 'translate-x-96 -z-10'}
+                    className={`text-xl hidden xl:flex absolute top-1/3 items-center justify-center gap-4 cursor-pointer ease-in-out transition-all duration-1000 right-32 bg-peach text-darkgreen shadow-md hover:animate-shift-up overflow-hidden font-jakarta p-2 px-6 rounded-xl ${activeIndex == cards.length - 3 ? 'translate-x-0 z-0' : 'translate-x-96 -z-10'}
                      before:absolute before:inset-0 before:w-0 before:bg-darkgreen before:z-[-1] before:transition-all before:duration-400 hover:before:w-full hover:text-peach before:rounded-xl before:ease-in-out
-                    
                     `}
                   >
                     {i.title} <MoveRight />
