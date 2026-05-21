@@ -45,11 +45,20 @@ const ContactPage = () => {
   return (
     <>
       <Helmet>
-        <title>Contact Us</title>
-        <meta name="description" content={`description`} />
-        <meta property="og:title" content={`title`} />
-        <meta property="og:description" content={`description`} />
-        <meta property="og:image" content={`image`} />
+        <title>Contact Us | Memon Haj Umrah Tours & Travels</title>
+        <meta
+          name="description"
+          content="Get in touch with Memon Haj Umrah Tours & Travels. Call +91 8108404376 or WhatsApp us to enquire about Hajj and Umrah packages from Mumbai."
+        />
+        <meta property="og:title" content="Contact Memon Haj Umrah Tours & Travels" />
+        <meta
+          property="og:description"
+          content="Reach out to us for Hajj & Umrah package enquiries. Based in Mumbai. IATA certified."
+        />
+        <meta
+          property="og:image"
+          content="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png"
+        />
         <meta property="og:type" content="website" />
       </Helmet>
       <div className="flex flex-col lg:flex-row w-full h-full bg-peach/10 font-jakarta">
@@ -151,33 +160,33 @@ const ContactPage = () => {
 
           {/* Contact Details */}
           <div>
-            <div className="my-6 text-darkgreen  w-full">
-              <div className="flex item-start justify-between sm:flex-row pb-4 ">
+            <div className="my-6 text-darkgreen w-full">
+              <div className="flex item-start justify-between sm:flex-row pb-4">
                 <p className="pr-1 lg:pr-2 mb-2 sm:mb-0 text-md lg:text-lg">
                   <strong>Contact:</strong>
                 </p>
-                <div className="flex md:flex-row flex-col  text-sm lg:text-md  item-center justify-center gap-[0.4rem] lg:gap-4">
+                <div className="flex md:flex-row flex-col text-sm lg:text-md item-center justify-center gap-[0.4rem] lg:gap-4">
                   <a
-                    href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                    href="https://wa.me/918108404376?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mb-2 sm:mb-0"
+                    className="mb-2 sm:mb-0 hover:underline"
                   >
                     +91 8108404376
                   </a>
                   <a
-                    href="https://wa.me/919022549162?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                    href="https://wa.me/919022549162?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mb-2 sm:mb-0"
+                    className="mb-2 sm:mb-0 hover:underline"
                   >
                     +91 9022549162
                   </a>
                   <a
-                    href="https://wa.me/918268979705?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                    href="https://wa.me/918268979705?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mb-2 sm:mb-0"
+                    className="mb-2 sm:mb-0 hover:underline"
                   >
                     +91 8268979705
                   </a>
@@ -189,10 +198,10 @@ const ContactPage = () => {
                   <strong>Email:</strong>
                 </p>
                 <a
-                  href="mailto:memonhajumrahtours.com"
+                  href="mailto:memonhajumrah@gmail.com"
                   className="text-md lg:text-lg items-center hover:underline"
                 >
-                  memonhajumrahtours.com
+                  memonhajumrah@gmail.com
                 </a>
               </div>
             </div>
@@ -200,7 +209,7 @@ const ContactPage = () => {
         </div>
 
         {/* Right Side (Map) */}
-        <div className="w-full lg:w-1/3 relative border-dotted border-2  border-darkgreen h-64 lg:h-[800px]">
+        <div className="w-full lg:w-1/3 relative border-dotted border-2 border-darkgreen h-64 lg:h-[800px]">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3765.9747598538665!2d72.8610838!3d19.2834638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b119ab9768ab%3A0x28e07076397e4fff!2sMemon%20Haj%20Umrah%20Tours%20And%20Travels!5e0!3m2!1sen!2sin!4v1737455011092!5m2!1sen!2sin"
             width="100%"
@@ -208,7 +217,7 @@ const ContactPage = () => {
             className="rounded-r-lg h-full"
             allowFullScreen=""
             loading="lazy"
-            title="Map"
+            title="Memon Haj Umrah Tours & Travels - Mumbai Office Location"
           ></iframe>
         </div>
       </div>
