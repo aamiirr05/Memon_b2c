@@ -37,11 +37,11 @@ const navLinks = [
     ],
   },
   {
-    name: 'Ramadan 2025',
+    name: 'Ramadan 2027',
     path: '/ramadan-2025',
     icon: <MoonStars size={20} />,
   },
-  { name: 'Hajj 2025', path: '/hajj-2025', icon: <Mosque size={20} /> },
+  { name: 'Hajj 2027', path: '/hajj-2025', icon: <Mosque size={20} /> },
   { name: 'Ziyarat', path: '/ziyarat', icon: <Mosque size={20} /> },
 ];
 
