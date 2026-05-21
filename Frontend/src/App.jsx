@@ -219,6 +219,27 @@ const App = () => {
               embark on your spiritual journey with ease. No hidden charges,
               just a commitment to exceptional service.
             </motion.p>
+            <motion.div
+              initial={{ y: 200, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ type: 'tween', duration: 0.5, delay: 0.25 }}
+              className="flex flex-col sm:flex-row items-center gap-3 mt-5"
+            >
+              <a
+                href="/umrah-packages"
+                className="bg-darkgreen text-peach font-jakarta font-semibold px-6 py-3 rounded-full text-sm hover:bg-mediumgreen transition-colors shadow-lg"
+              >
+                View Packages
+              </a>
+              <a
+                href="https://wa.me/+918108404376?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border border-darkgreen text-darkgreen font-jakarta font-semibold px-6 py-3 rounded-full text-sm hover:bg-darkgreen hover:text-peach transition-colors bg-peach/60 backdrop-blur-sm"
+              >
+                Enquire on WhatsApp
+              </a>
+            </motion.div>
           </div>
         </div>
         {!isAdminRoute &&
