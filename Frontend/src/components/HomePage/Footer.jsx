@@ -1,8 +1,4 @@
 import { MessageCircleMore } from 'lucide-react';
-
-// import img1 from '../../assets/img/IATA_LOGO.png';
-// import img2 from '../../assets/img/AIHUTOA_LOGO.png';
-// import logo from '../../assets/img/logo.png';
 import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
 
@@ -60,10 +56,10 @@ const Footer = ({ isMenuOpen }) => {
           href="https://wa.me/918108404376?text=Hello%2C%20I%20am%20interested%20in%20your%20Haj%20and%20Umrah%20tours."
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Chat on Whatsapp"
+          aria-label="Chat on WhatsApp"
         >
           <div className="border text-sm border-peach p-2 rounded-full px-4 hover:bg-peach hover:text-darkgreen font-semibold transition-colors cursor-pointer">
-            Whatsapp
+            WhatsApp
           </div>
         </a>
 
@@ -76,7 +72,7 @@ const Footer = ({ isMenuOpen }) => {
           </div>
         </a>
         <a
-          aria-label="Connect on instagram"
+          aria-label="Connect on Instagram"
           href="https://www.instagram.com/memonhajumrahtours"
           target="_blank"
           rel="noopener noreferrer"
@@ -87,79 +83,72 @@ const Footer = ({ isMenuOpen }) => {
         </a>
       </div>
 
-      {/*  */}
       <div className="w-11/12 mx-auto flex flex-col xl:flex-row items-start gap-32 justify-between font-jakarta font-medium border-b border-peach pb-10">
-        <div className="w-full flex flex-col  gap-10 lg:gap-0 md:flex-row items-start justify-between">
-          {/* 1 */}
+        <div className="w-full flex flex-col gap-10 lg:gap-0 md:flex-row items-start justify-between">
+          {/* About */}
           <div className="flex flex-col gap-5">
             <span className="font-zodiak text-2xl font-bold">About.</span>
-            <span className="link-hover-peach">Packages</span>
-            <span className="link-hover-peach">Feedback</span>
-            <span className="link-hover-peach">Terms & Condition</span>
-            <span className="link-hover-peach">Offer</span>
-            <span className="link-hover-peach">FAQ&apos;s</span>
+            <NavLink to="/umrah-packages" className="link-hover-peach">Packages</NavLink>
+            <NavLink to="/testimonials" className="link-hover-peach">Feedback</NavLink>
+            <NavLink to="/contact" className="link-hover-peach">Terms & Conditions</NavLink>
+            <NavLink to="/umrah-packages" className="link-hover-peach">Offers</NavLink>
+            <NavLink to="/contact" className="link-hover-peach">FAQ&apos;s</NavLink>
           </div>
-          {/* 2 */}
+          {/* Business */}
           <div className="flex flex-col gap-5">
             <span className="font-zodiak text-2xl font-bold">Business.</span>
-            <span className="link-hover-peach">About Us</span>
-            <span className="link-hover-peach">Careers</span>
-            <span className="link-hover-peach">Terms & Condition</span>
-            <span className="link-hover-peach">B2B Login</span>
+            <NavLink to="/contact" className="link-hover-peach">About Us</NavLink>
+            <span className="link-hover-peach cursor-default opacity-60">Careers</span>
+            <NavLink to="/contact" className="link-hover-peach">Terms & Conditions</NavLink>
+            <span className="link-hover-peach cursor-default opacity-60">B2B Login</span>
           </div>
-          {/* 3 */}
+          {/* Contact */}
           <div className="flex flex-col gap-5">
             <span className="font-zodiak text-2xl font-bold">Contact Us.</span>
             <div className="flex items-center gap-2">
               <a
-                aria-label="Chat on Whatsapp"
-                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                aria-label="Chat on WhatsApp"
+                href="https://wa.me/918108404376?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                aria-label="Chat on Whatsapp"
-                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
-                target="_blank"
-                rel="noopener noreferrer"
+                aria-label="Call +91 8108404376"
+                href="tel:+918108404376"
               >
                 <div className="link-hover-peach">+91 8108404376</div>
               </a>
             </div>
             <div className="flex items-center gap-2">
               <a
-                aria-label="Chat on Whatsapp"
-                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                aria-label="Chat on WhatsApp"
+                href="https://wa.me/919022549162?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                aria-label="Chat on Whatsapp"
-                href="https://wa.me/919022549162?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
-                target="_blank"
-                rel="noopener noreferrer"
+                aria-label="Call +91 9022549162"
+                href="tel:+919022549162"
               >
                 <div className="link-hover-peach">+91 9022549162</div>
               </a>
             </div>
             <div className="flex items-center gap-2">
               <a
-                aria-label="Chat on Whatsapp"
-                href="https://wa.me/918108404376?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                aria-label="Chat on WhatsApp"
+                href="https://wa.me/918268979705?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <MessageCircleMore />
               </a>
               <a
-                aria-label="Chat on Whatsapp"
-                href="https://wa.me/918268979705?text=Assalamu Alaikum,%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
-                target="_blank"
-                rel="noopener noreferrer"
+                aria-label="Call +91 8268979705"
+                href="tel:+918268979705"
               >
                 <div className="link-hover-peach">+91 8268979705</div>
               </a>
@@ -170,22 +159,18 @@ const Footer = ({ isMenuOpen }) => {
           <div className="md:w-20 md:h-20 w-16 h-16 bg-white rounded-full flex items-center justify-center">
             <img
               src="https://res.cloudinary.com/memonb2c/image/upload/v1740042932/iata_emyxgm.webp"
-              alt="iata-logo"
+              alt="IATA certified travel agent"
               className="flex items-center justify-center"
             />
           </div>
-          {/* <div className="md:w-20 md:h-20 w-16 h-16 bg-peach rounded-full flex items-center justify-center">
-            <img src={img2} alt="" className="w-10/12 " />
-          </div> */}
         </div>
       </div>
-      {/*   */}
 
-      <div className="w-11/12  mx-auto flex flex-col  lg:flex-row items-center justify-between">
+      <div className="w-11/12 mx-auto flex flex-col lg:flex-row items-center justify-between">
         <div className="w-full flex items-center gap-4">
           <img
             src="https://res.cloudinary.com/memonb2c/image/upload/w_200,h_100,f_auto,q_auto/v1739885803/rmf00msx8vhusevuc2iv.png"
-            alt="logo"
+            alt="Memon Haj Umrah Tours logo"
             className="w-16 h-16"
           />
           <h1 className="text-2xl lg:text-xl font-bold font-jakarta">
@@ -202,10 +187,8 @@ const Footer = ({ isMenuOpen }) => {
               })
             }
             className={({ isActive }) =>
-              `
-                rounded-full cursor-pointer
-              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
-              `
+              `rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}`
             }
           >
             Home
@@ -213,10 +196,8 @@ const Footer = ({ isMenuOpen }) => {
           <NavLink
             to="/umrah-packages"
             className={({ isActive }) =>
-              `
-                rounded-full cursor-pointer
-              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
-              `
+              `rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}`
             }
           >
             Umrah
@@ -224,22 +205,25 @@ const Footer = ({ isMenuOpen }) => {
           <NavLink
             to="/holidays"
             className={({ isActive }) =>
-              `
-                rounded-full cursor-pointer
-              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}
-              `
+              `rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}`
             }
           >
-            Holiday
+            Holidays
           </NavLink>
-
-          <NavLink to="/" className="cursor-pointer">
-            AboutUs
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}`
+            }
+          >
+            About Us
           </NavLink>
         </div>
         <div className="w-full">
           <h1 className="w-full flex items-center md:justify-start lg:justify-end">
-            &#169; {`${new Date().getFullYear()}`} All Rights Reserved.
+            &#169; {`${new Date().getFullYear()}`} Memon Haj Umrah Tours & Travels. All Rights Reserved.
           </h1>
         </div>
       </div>
