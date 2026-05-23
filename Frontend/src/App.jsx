@@ -181,7 +181,7 @@ const App = () => {
         className={`w-full h-full ${!location.pathname.includes('/admin') ? 'bg-peach/20' : ''}`}
       >
         <div
-          className={`w-full text-center -translate-x-[50%] left-1/2 mx-auto absolute top-0 h-[100vh] ${location.pathname !== '/' ? 'hidden' : ''}`}
+          className={`w-full text-center -translate-x-[50%] left-1/2 mx-auto absolute top-0 h-[100vh] z-10 ${location.pathname !== '/' ? 'hidden' : ''}`}
           style={{
             backgroundImage: `url(${backgroundImg})`,
             backgroundSize: 'cover',
@@ -229,7 +229,7 @@ const App = () => {
               initial={{ y: 200, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ type: 'tween', duration: 0.5, delay: 0.25 }}
-              className="flex flex-col sm:flex-row items-center gap-3 mt-5"
+              className="flex flex-col sm:flex-row items-center gap-3 mt-5 relative z-20 pointer-events-auto"
             >
               <a
                 href="/umrah-packages"
