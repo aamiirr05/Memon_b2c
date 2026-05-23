@@ -11,6 +11,9 @@ const app = express();
 
 // ******** Cors ********
 const allowedOrigins = [
+  "https://memonhajumrahtours.com",
+  "https://www.memonhajumrahtours.com",
+  "https://memon-b2c.vercel.app",
   process.env.CLIENT_URL_LOCAL,
   process.env.CLIENT_URL_PROD,
 ];
