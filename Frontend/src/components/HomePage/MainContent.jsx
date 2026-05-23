@@ -3,7 +3,7 @@ const MainContent = () => {
   return (
     <>
       <section
-        className={`opacity-0 w-full  mb-20 h-[calc(100vh-112px)] md:h-[calc(100vh-116px)]`}
+        className={`opacity-0 pointer-events-none w-full  mb-20 h-[calc(100vh-112px)] md:h-[calc(100vh-116px)]`}
       >
         {/* <SecondaryNav /> */}
         <div className="section-one-heading p-5 md:p-0 flex flex-col gap-5 mt-10 md:w-11/12 mx-auto items-center text-[#386641]">

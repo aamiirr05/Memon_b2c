@@ -22,11 +22,11 @@ const Homepage = () => {
   return (
     <>
       <Helmet>
-        <title>Memon Haj Umrah Tours & Travel </title>
-        <meta name="description" content={`description`} />
-        <meta property="og:title" content={`title`} />
-        <meta property="og:description" content={`description`} />
-        <meta property="og:image" content={`image`} />
+        <title>Memon Haj Umrah Tours & Travels | Hajj & Umrah Packages from Mumbai</title>
+        <meta name="description" content="Book Hajj & Umrah packages from Mumbai with Memon Haj Umrah Tours & Travels. IATA certified. Affordable packages, visa assistance, hotels near Haram." />
+        <meta property="og:title" content="Memon Haj Umrah Tours & Travels | Mumbai" />
+        <meta property="og:description" content="Trusted Hajj & Umrah tour operator from Mumbai. No hidden charges, expert guidance, hotels near Haram." />
+        <meta property="og:image" content="https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png" />
         <meta property="og:type" content="website" />
       </Helmet>
       <div className="overflow-x-hidden w-full h-full">
