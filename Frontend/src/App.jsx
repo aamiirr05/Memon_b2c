@@ -141,6 +141,12 @@ const App = () => {
     }
   }, [getPackages?.data, setIsAvailable]);
 
+  // Fallback: hide preloader after 5s even if backend is slow (Render cold start)
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsAvailable(false), 5000);
+    return () => clearTimeout(timeout);
+  }, [setIsAvailable]);
+
   const { checkAdminAuth, AuthAdmin } = useAdminAuthStore();
   useEffect(() => {
     checkAuth();
