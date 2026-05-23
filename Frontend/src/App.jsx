@@ -331,7 +331,7 @@ const App = () => {
               {/* Admin Routes */}
 
               <Route path="admin-login" element={<AdminLogin />} />
-              {/* <Route path="admin-signup" element={<AdminSignup />} /> */}
+              <Route path="admin-signup" element={<AdminSignup />} />
 
               {AuthAdmin && (
                 <Route path="admin" element={<AdminLayout />}>
