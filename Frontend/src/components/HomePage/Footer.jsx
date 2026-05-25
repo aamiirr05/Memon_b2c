@@ -155,12 +155,19 @@ const Footer = ({ isMenuOpen }) => {
             </div>
           </div>
         </div>
-        <div className="w-full flex items-center md:justify-start xl:justify-end lg:justify-start gap-3">
+        <div className="w-full flex items-center md:justify-start xl:justify-end lg:justify-start gap-5">
           <div className="md:w-20 md:h-20 w-16 h-16 bg-white rounded-full flex items-center justify-center">
             <img
               src="https://res.cloudinary.com/memonb2c/image/upload/v1740042932/iata_emyxgm.webp"
               alt="IATA certified travel agent"
               className="flex items-center justify-center"
+            />
+          </div>
+          <div className="bg-white rounded-xl flex items-center justify-center px-3 py-2">
+            <img
+              src="/nusuk-logo.svg"
+              alt="Nusuk Masar accredited Umrah agent"
+              className="h-12 w-auto"
             />
           </div>
         </div>
