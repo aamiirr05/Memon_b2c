@@ -73,18 +73,19 @@ const AdminSignup = () => {
     console.log(data);
     try {
       setLoading(true);
-      // const res = await axiosInstance.post('/admin/signup', {
-      //   username: data.username,
-      //   password: data.password,
-      //   email: data.email,
-      //   contact: data.phone,
-      // });
+      const res = await axiosInstance.post('/admin/signup', {
+        username: data.username,
+        password: data.password,
+        email: data.email,
+        contact: data.phone,
+      });
 
-      // console.log(res);
+      console.log(res);
 
-      // const msg = res.data.message;
-      // handleSuccess(msg);
+      const msg = res.data.message;
+      handleSuccess(msg);
       reset();
+      navigate('/admin-login');
     } catch (error) {
       console.log(error);
       const message = error.response.data.message;
