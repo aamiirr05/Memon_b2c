@@ -114,10 +114,7 @@ const Footer = ({ isMenuOpen }) => {
               >
                 <MessageCircleMore />
               </a>
-              <a
-                aria-label="Call +91 8108404376"
-                href="tel:+918108404376"
-              >
+              <a aria-label="Call +91 8108404376" href="tel:+918108404376">
                 <div className="link-hover-peach">+91 8108404376</div>
               </a>
             </div>
@@ -130,10 +127,7 @@ const Footer = ({ isMenuOpen }) => {
               >
                 <MessageCircleMore />
               </a>
-              <a
-                aria-label="Call +91 9022549162"
-                href="tel:+919022549162"
-              >
+              <a aria-label="Call +91 9022549162" href="tel:+919022549162">
                 <div className="link-hover-peach">+91 9022549162</div>
               </a>
             </div>
@@ -146,11 +140,34 @@ const Footer = ({ isMenuOpen }) => {
               >
                 <MessageCircleMore />
               </a>
-              <a
-                aria-label="Call +91 8268979705"
-                href="tel:+918268979705"
-              >
+              <a aria-label="Call +91 8268979705" href="tel:+918268979705">
                 <div className="link-hover-peach">+91 8268979705</div>
+              </a>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                aria-label="Chat on WhatsApp"
+                href="https://wa.me/919324645151?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircleMore />
+              </a>
+              <a aria-label="Call +91 9324645151" href="tel:+919324645151">
+                <div className="link-hover-peach">+91 9324645151</div>
+              </a>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                aria-label="Chat on WhatsApp"
+                href="https://wa.me/919136361985?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20your%20Umrah%20and%20Haj%20Packages."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageCircleMore />
+              </a>
+              <a aria-label="Call +91 9136361985" href="tel:+919136361985">
+                <div className="link-hover-peach">+91 9136361985</div>
               </a>
             </div>
           </div>
