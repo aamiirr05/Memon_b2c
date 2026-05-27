@@ -311,25 +311,25 @@ const CreatePackageImgs = () => {
       <Dropzone
         images={packageImages}
         setImages={setPackageImages}
-        label="Package Images (3)"
+        label="Package Images (Upload as many as you want)"
         error={errors.packageImages}
-        MAX_FILES={3}
+        MAX_FILES={50}
         loading={loading}
       />
       <Dropzone
         images={meccaHotelImages}
         setImages={setMeccaHotelImages}
-        label="Mecca Hotel Images (5)"
+        label="Mecca Hotel Images (Upload as many as you want)"
         error={errors.meccaHotelImages}
-        MAX_FILES={5}
+        MAX_FILES={50}
         loading={loading}
       />
       <Dropzone
         images={medinaHotelImages}
         setImages={setMedinaHotelImages}
-        label="Medina Hotel Images (5)"
+        label="Medina Hotel Images (Upload as many as you want)"
         error={errors.medinaHotelImages}
-        MAX_FILES={5}
+        MAX_FILES={50}
         loading={loading}
       />
 
