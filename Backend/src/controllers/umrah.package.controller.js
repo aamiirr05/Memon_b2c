@@ -170,9 +170,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files?.packageimage) &&
     req.files?.packageimage.length > 0
   ) {
-    if (req.files?.packageimage.length !== 3) {
+    if (req.files?.packageimage.length < 1) {
       deleteTempFiles();
-      throw new ApiError(400, "All 3 Package Images are required.");
+      throw new ApiError(400, "At least 1 Package Image is required.");
     }
     packageImagePath = req.files?.packageimage?.map((file) => file.path);
   }
@@ -182,9 +182,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files?.makkahhotelimage) &&
     req.files?.makkahhotelimage.length > 0
   ) {
-    if (req.files?.makkahhotelimage.length !== 5) {
+    if (req.files?.makkahhotelimage.length < 1) {
       deleteTempFiles();
-      throw new ApiError(400, "All 5 Makkah Hotel Images are required.");
+      throw new ApiError(400, "At least 1 Makkah Hotel Image is required.");
     }
     makkahHotelImagePath = req.files?.makkahhotelimage?.map(
       (file) => file.path
@@ -196,9 +196,9 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files?.medinahotelimage) &&
     req.files?.medinahotelimage.length > 0
   ) {
-    if (req.files?.medinahotelimage.length !== 5) {
+    if (req.files?.medinahotelimage.length < 1) {
       deleteTempFiles();
-      throw new ApiError(400, "All 5 Medina Hotel Images are required.");
+      throw new ApiError(400, "At least 1 Medina Hotel Image is required.");
     }
     medinaHotelImagePath = req.files?.medinahotelimage?.map(
       (file) => file.path

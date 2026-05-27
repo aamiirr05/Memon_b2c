@@ -141,9 +141,9 @@ const createHolidayPackage = asyncHandler(async (req, res) => {
     Array.isArray(req.files?.packageimage) &&
     req.files?.packageimage.length > 0
   ) {
-    if (req.files?.packageimage.length !== 3) {
+    if (req.files?.packageimage.length < 1) {
       deleteTempFiles();
-      throw new ApiError(400, "All 3 Package Images are required.");
+      throw new ApiError(400, "At least 1 Package Image is required.");
     }
     packageImagePath = req.files?.packageimage?.map((file) => file.path);
   }
