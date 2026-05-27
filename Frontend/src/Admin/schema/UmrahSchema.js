@@ -8,7 +8,7 @@ const umrahSchema = yup.object().shape({
   departurecity: yup.string().required('Departure City is required'),
   meccahotelname: yup.string().required('Makkah Hotel Name is required'),
   madinahotelname: yup.string().required('Madina Hotel Name is required'),
-  bookingdeadline: yup.string().required('Booking Deadline is required.'),
+
   totaldays: yup
     .number()
     .typeError('Total Days must be a number')
