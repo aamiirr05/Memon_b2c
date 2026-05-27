@@ -407,22 +407,7 @@ const CreatePackagesForm = () => {
           Add Dates
         </div>
 
-        <div className="mt-10 w-full flex flex-col gap-3">
-          <label htmlFor="booking-deadline" className="custom-label">
-            Booking Deadline
-          </label>
-          <input
-            type="date"
-            name="bookingdeadline"
-            id="bookingdeadline"
-            className="w-full lg:w-1/3 custom-input"
-            {...register('bookingdeadline')}
-            defaultValue={previewData?.packageDetails.bookingdeadline}
-          />
-          <span className="text-sm text-red-600 my-2">
-            {errors?.bookingdeadline?.message}
-          </span>
-        </div>
+
 
         {/* Total Days and Nights  */}
         <div className="flex mt-5 flex-col gap-5 md:flex-row items-center w-full">
