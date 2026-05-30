@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const BentoGrid = ({ images }) => {
   // Initialize the main image to be the first in the array
-  const [mainImage, setMainImage] = useState(images[0].secure_url);
+  const [mainImage, setMainImage] = useState(images?.[0]?.secure_url || '');
 
   // Function to update the large image
   const changeImage = (imageSrc) => {

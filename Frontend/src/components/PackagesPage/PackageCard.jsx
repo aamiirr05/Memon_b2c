@@ -19,7 +19,7 @@ const PackageCard = ({ pkg }) => {
       {/* Image Section */}
       <div className="w-full md:w-[40%] h-56  md:max-h-56 flex-shrink-0">
         <img
-          src={`${pkg.package_image[1].secure_url}`}
+          src={pkg?.package_image?.[0]?.secure_url || pkg?.package_image?.[1]?.secure_url || 'https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png'}
           alt={pkg?.package_name}
           className="w-full h-full object-cover"
         />

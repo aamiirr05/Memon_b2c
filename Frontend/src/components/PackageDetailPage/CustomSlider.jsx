@@ -25,7 +25,7 @@ const CustomSlider = ({ images }) => {
       {/* Image Container */}
       <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
         <img
-          src={images[currentIndex].secure_url}
+          src={images?.[currentIndex]?.secure_url || ''}
           alt={`Hotel Image ${currentIndex + 1}`}
           className="w-full h-full object-cover rounded-md"
         />

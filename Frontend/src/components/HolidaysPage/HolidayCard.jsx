@@ -19,7 +19,7 @@ const HolidayCard = ({ pkg }) => {
       {/* Image Section */}
       <div className="w-full md:w-[40%] h-56 md:max-h-56 flex-shrink-0">
         <img
-          src={`${pkg.package_images[1].secure_url}`}
+          src={`${pkg?.package_images?.[0]?.secure_url || ''}`}
           alt={pkg?.package_name}
           className="w-full h-full object-cover"
         />

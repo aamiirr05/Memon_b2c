@@ -17,7 +17,7 @@ const HotelCard = ({ hotel }) => {
       {/* Hotel image */}
       <div className="h-56 md:h-full w-full md:w-72 flex-shrink-0">
         <img
-          src={hotel.hotel_images[0].secure_url}
+          src={hotel?.hotel_images?.[0]?.secure_url || ''}
           alt={hotel.hotel_name}
           className="w-[90%] h-[90%] my-3 mx-3 rounded-lg object-cover"
         />

@@ -205,7 +205,7 @@ const UmrahPackages = () => {
             <AboutUsCard
               key={index}
               description={i?.description}
-              image={i?.package_image[0].secure_url}
+              image={i?.package_image?.[0]?.secure_url || ''}
               price={i?.prices[0].quint_price}
               activeIndex={activeIndex}
               cardRef={cardRef}
