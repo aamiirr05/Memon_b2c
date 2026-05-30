@@ -15,9 +15,9 @@ export const useHotelStore = create((set) => ({
 
     try {
       const res = await axiosInstance.get('/users/fetch-all-hotels');
-      set({ hotels: res.data.data, areHotelsFetched: true });
+      set({ hotels: res.data.data || [], areHotelsFetched: true });
     } catch (error) {
-      toast.error(error.response.data.message || 'Error while fetching hotels');
+      toast.error(error?.response?.data?.message || 'Something went wrong' || 'Error while fetching hotels');
       console.log(error);
     } finally {
       set({ isFetching: false });
@@ -30,7 +30,7 @@ export const useHotelStore = create((set) => ({
       const res = await axiosInstance.get(`/users/fetch-hotel/${id}`);
       set({ selectedHotel: res.data.data });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
     } finally {
       set({ isFetching: false });
     }

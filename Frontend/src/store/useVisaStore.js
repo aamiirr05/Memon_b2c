@@ -14,9 +14,9 @@ export const useVisaStore = create((set) => ({
     set({ isFetching: true });
     try {
       const res = await axiosInstance.get('/users/fetch-all-visas');
-      set({ visas: res.data.data, areVisasFetched: true });
+      set({ visas: res.data.data || [], areVisasFetched: true });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
     } finally {
       set({ isFetching: false });
     }
@@ -28,7 +28,7 @@ export const useVisaStore = create((set) => ({
       const res = await axiosInstance.get(`/users/fetch-visa/${id}`);
       set({ selectedVisa: res.data.data });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
     } finally {
       set({ isFetching: false });
     }

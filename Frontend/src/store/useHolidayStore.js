@@ -17,9 +17,9 @@ export const useHolidayStore = create((set) => ({
 
     try {
       const res = await axiosInstance.get('/users/fetch-all-holiday-packages');
-      set({ holidays: res.data.data, areHolidaysFetched: true });
+      set({ holidays: res.data.data || [], areHolidaysFetched: true });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
       console.error('Error fetching holidays:', error);
     } finally {
       set({ isFetching: false });
@@ -34,7 +34,7 @@ export const useHolidayStore = create((set) => ({
       );
       set({ selectedHoliday: res.data.data });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
       console.error('Error fetching holiday by ID:', error);
     } finally {
       set({ isFetching: false });
@@ -48,9 +48,9 @@ export const useHolidayStore = create((set) => ({
       const res = await axiosInstance.get(
         '/users/fetch-holiday-by-type/ziyarat'
       );
-      set({ holidays: res.data.data, areHolidaysFetched: true });
+      set({ holidays: res.data.data || [], areHolidaysFetched: true });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
       console.error('Error fetching holidays:', error);
     } finally {
       set({ isFetching: false });

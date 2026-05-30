@@ -24,7 +24,7 @@ export const useUmrahEnquiryFormStore = create((set) => ({
       const res = await axiosInstance.post('/users/enquiry/umrah', prepareData);
       toast.success(res.data.message);
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
     } finally {
       set({ isSubmitting: false });
       closeModal();

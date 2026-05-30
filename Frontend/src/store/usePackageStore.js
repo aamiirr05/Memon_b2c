@@ -14,12 +14,11 @@ export const usePackageStore = create((set) => ({
 
   fetchUmrahPackages: async () => {
     set({ isFetching: true });
-
     try {
       const res = await axiosInstance.get('/users/fetch-all-umrah-packages');
-      set({ packages: res.data.data, areUmrahPackagesFetched: true });
+      set({ packages: res.data.data || [], areUmrahPackagesFetched: true });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || 'Failed to load packages');
       console.error('Error fetching packages:', error);
     } finally {
       set({ isFetching: false });
@@ -28,12 +27,11 @@ export const usePackageStore = create((set) => ({
 
   fetchRamadanPackages: async () => {
     set({ isFetching: true });
-
     try {
       const res = await axiosInstance.get('/users/fetch-umrah-by-type/ramadan');
-      set({ packages: res.data.data, areRamadanPackagesFetched: true });
+      set({ packages: res.data.data || [], areRamadanPackagesFetched: true });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || 'Failed to load packages');
       console.error('Error fetching packages:', error);
     } finally {
       set({ isFetching: false });
@@ -42,12 +40,11 @@ export const usePackageStore = create((set) => ({
 
   fetchHajjPackages: async () => {
     set({ isFetching: true });
-
     try {
       const res = await axiosInstance.get('/users/fetch-umrah-by-type/hajj');
-      set({ packages: res.data.data, areRamadanPackagesFetched: true });
+      set({ packages: res.data.data || [], areRamadanPackagesFetched: true });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || 'Failed to load packages');
       console.error('Error fetching packages:', error);
     } finally {
       set({ isFetching: false });
@@ -58,9 +55,9 @@ export const usePackageStore = create((set) => ({
     set({ isFetching: true });
     try {
       const res = await axiosInstance.get(`/users/fetch-umrah-packages/${id}`);
-      set({ selectedPackage: res.data.data });
+      set({ selectedPackage: res.data.data || null });
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || 'Failed to load package');
       console.error('Error fetching package by ID:', error);
     } finally {
       set({ isFetching: false });
