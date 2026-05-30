@@ -659,10 +659,10 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   if (
     req.files?.packageimage &&
     Array.isArray(req.files?.packageimage) &&
-    req.files?.packageimage.length < 3
+    req.files?.packageimage.length < 1
   ) {
     deleteTempFiles();
-    throw new ApiError(401, "All Package Images is Required");
+    throw new ApiError(401, "At least 1 Package Image is required");
   }
 
   packageImagePath = req.files?.packageimage?.map((file) => file.path);
@@ -670,10 +670,10 @@ const updateUmrahPackageImages = asyncHandler(async (req, res) => {
   if (
     !packageImagePath ||
     packageImagePath.length === 0 ||
-    packageImagePath.length < 3
+    packageImagePath.length < 1
   ) {
     deleteTempFiles();
-    throw new ApiError(400, "At least 3 Package Images are required.");
+    throw new ApiError(400, "At least 1 Package Image is required.");
   }
 
   for (const imagePath of packageImagePath) {
@@ -764,7 +764,7 @@ const updateUmrahMakHotelImages = asyncHandler(async (req, res) => {
     req.files?.makhotelimage.length < 5
   ) {
     deleteTempFiles();
-    throw new ApiError(401, "All Makkah Hotel Images is Required");
+    throw new ApiError(401, "At least 1 Makkah Hotel Image is required");
   } else {
     makHotelImagePaths = req.files?.makhotelimage?.map((file) => file.path);
   }
@@ -865,7 +865,7 @@ const updateUmrahMedHotelImages = asyncHandler(async (req, res) => {
     req.files?.medhotelimage.length < 5
   ) {
     deleteTempFiles();
-    throw new ApiError(401, "All Medina Hotel Images are Required");
+    throw new ApiError(401, "At least 1 Medina Hotel Image is required");
   } else {
     medHotelImagePaths = req.files?.medhotelimage?.map((file) => file.path);
   }
