@@ -17,11 +17,11 @@ const PackageCard = ({ pkg }) => {
   return (
     <div className="flex flex-col md:flex-row overflow-clip bg-darkgreen/10 rounded-xl shadow-md h-full font-jakarta ">
       {/* Image Section */}
-      <div className="w-full md:w-[280px] h-48 md:h-auto flex-shrink-0">
+      <div className="w-full md:w-[220px] md:min-w-[220px] h-44 md:h-auto flex-shrink-0 overflow-hidden">
         <img
           src={pkg?.package_image?.[0]?.secure_url || pkg?.package_image?.[1]?.secure_url || 'https://res.cloudinary.com/memonb2c/image/upload/v1739885803/rmf00msx8vhusevuc2iv.png'}
           alt={pkg?.package_name}
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-top"
         />
       </div>
 
