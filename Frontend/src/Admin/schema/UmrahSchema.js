@@ -21,10 +21,9 @@ const umrahSchema = yup.object().shape({
     .min(1, 'Base Price must be at least 1'),
   discount: yup
     .number()
-    .typeError('Discount must be a number')
-    .required('Discount is required')
-    .min(0, 'Discount should not be less than zero.')
-    .max(100, 'Discount should be atmost 100.'),
+    .typeError('Actual Price must be a number')
+    .required('Actual Price is required')
+    .min(0, 'Actual Price should not be less than zero.'),
   totalnights: yup
     .number()
     .typeError('Total Nights must be a number')
