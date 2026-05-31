@@ -57,12 +57,17 @@ const PackageCard = ({ pkg }) => {
 
         {/* Price Section */}
         <div className="flex justify-between items-center flex-wrap gap-2">
-          <p className="text-xl font-bold text-darkgreen">
-            INR {pkg?.final_price}/-{' '}
-            <i className="text-neutral-600 text-[12px] font-normal tracking-tight">
-              5 Sharing Basis
-            </i>
-          </p>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm text-neutral-400 line-through">
+              INR {pkg?.base_price}/-
+            </p>
+            <p className="text-xl font-bold text-darkgreen">
+              INR {pkg?.discount}/- {' '}
+              <i className="text-neutral-600 text-[12px] font-normal tracking-tight">
+                5 Sharing Basis
+              </i>
+            </p>
+          </div>
           <div className="flex gap-2">
             {/* View Details Button */}
             <Link

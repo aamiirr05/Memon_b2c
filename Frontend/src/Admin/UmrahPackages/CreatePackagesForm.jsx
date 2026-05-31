@@ -237,12 +237,12 @@ const CreatePackagesForm = () => {
           </span>
         </div>
 
-        {/* Base Price and Discount */}
+        {/* MRP Price and Actual Price */}
         <div className="flex mt-5 flex-col gap-5 md:flex-row items-center w-full">
-          {/* Base Price */}
-          <div className="flex gap-3  w-full flex-col">
+          {/* MRP / Fake Price */}
+          <div className="flex gap-3 w-full flex-col">
             <label htmlFor="baseprice" className="custom-label">
-              Base Price
+              MRP Price <span className="text-xs text-neutral-400">(Higher price — shown with strikethrough)</span>
             </label>
             <input
               type="number"
@@ -250,7 +250,7 @@ const CreatePackagesForm = () => {
               id="baseprice"
               min={0}
               className="custom-input"
-              placeholder="Enter Base Price"
+              placeholder="e.g. 90000"
               {...register('baseprice')}
               defaultValue={previewData?.packageDetails.baseprice}
             />
@@ -258,29 +258,21 @@ const CreatePackagesForm = () => {
               {errors?.baseprice?.message}
             </span>
           </div>
-          {/* Discount */}
+          {/* Actual / Selling Price */}
           <div className="flex gap-3 w-full flex-col">
             <label htmlFor="discount" className="custom-label">
-              Discount
+              Actual Price <span className="text-xs text-neutral-400">(Real price customer pays)</span>
             </label>
-            <div className="w-full flex gap-1">
-              <input
-                type="text"
-                value="%"
-                disabled
-                className="custom-input w-14 border-r-0"
-              />
-              <input
-                type="number"
-                name="discount"
-                id="discount"
-                min="0"
-                className="custom-input w-full"
-                placeholder="Enter Discount"
-                defaultValue={previewData?.packageDetails.discount}
-                {...register('discount')}
-              />
-            </div>
+            <input
+              type="number"
+              name="discount"
+              id="discount"
+              min="0"
+              className="custom-input w-full"
+              placeholder="e.g. 82000"
+              defaultValue={previewData?.packageDetails.discount}
+              {...register('discount')}
+            />
             <span className="text-sm text-red-600 my-2">
               {errors?.discount?.message}
             </span>

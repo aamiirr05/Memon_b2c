@@ -119,8 +119,8 @@ const createUmrahPackage = asyncHandler(async (req, res) => {
   const intChildWithoutBedPrice = safeConvertToNumber(childwithoutbedprice);
   const intInfantPrice = safeConvertToNumber(infantprice);
 
-  const finalPrice = baseprice - (baseprice * discount) / 100;
-  const youSaved = baseprice - finalPrice;
+  const finalPrice = safeConvertToNumber(discount); // discount field now holds actual selling price
+  const youSaved = intBasePrice - finalPrice;
 
   const inputError = umrahPackageValidation({
     packagename,
@@ -492,8 +492,8 @@ const updateUmrahPackageDetails = asyncHandler(async (req, res) => {
   const termCondArray = safeParseJSON(termcondition);
   const bookingTermArray = safeParseJSON(bookingterms);
 
-  const finalPrice = baseprice - (baseprice * discount) / 100;
-  const youSaved = baseprice - finalPrice;
+  const finalPrice = safeConvertToNumber(discount); // discount field now holds actual selling price
+  const youSaved = intBasePrice - finalPrice;
 
   const inputError = umrahPackageValidation({
     packagename,
