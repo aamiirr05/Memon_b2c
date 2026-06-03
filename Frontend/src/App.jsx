@@ -64,6 +64,10 @@ import EnquiryVisa from './Admin/Enquiry/EnquiryVisa';
 import EnquiryHoliday from './Admin/Enquiry/EnquiryHoliday';
 import EnquiryCustom from './Admin/Enquiry/EnquiryCustom';
 import EnquiryHotel from './Admin/Enquiry/EnquiryHotel';
+import Invoices from './Admin/Invoices/Invoices';
+import ViewInvoices from './Admin/Invoices/ViewInvoices';
+import CreateInvoice from './Admin/Invoices/CreateInvoice';
+import Agents from './Admin/Invoices/Agents';
 import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
 import { motion } from 'framer-motion';
@@ -439,6 +443,12 @@ const App = () => {
                       path="createvisa-form"
                       element={<CreateVisaForm />}
                     />
+                  </Route>
+                  {/* Invoice Routes */}
+                  <Route path="invoices" element={<Invoices />}>
+                    <Route path="view" element={<ViewInvoices />} />
+                    <Route path="create" element={<CreateInvoice />} />
+                    <Route path="agents" element={<Agents />} />
                   </Route>
                 </Route>
               )}

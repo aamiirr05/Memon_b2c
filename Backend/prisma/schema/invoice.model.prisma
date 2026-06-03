@@ -1,0 +1,59 @@
+model Agent {
+  agent_id       String    @id @default(uuid())
+  name           String    @unique @db.VarChar(100)
+  email          String?   @db.VarChar(100)
+  phone          String?   @db.VarChar(20)
+  address        String?
+  gst_number     String?   @db.VarChar(20)
+  bank_name      String?   @db.VarChar(100)
+  account_number String?   @db.VarChar(30)
+  ifsc_code      String?   @db.VarChar(20)
+  account_holder String?   @db.VarChar(100)
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+
+  invoices       Invoice[]
+}
+
+model Invoice {
+  invoice_id     String        @id @default(uuid())
+  invoice_number String        @unique @db.VarChar(30)
+  agent_id       String
+  agent          Agent         @relation(fields: [agent_id], references: [agent_id], onDelete: Cascade)
+  invoice_date   DateTime      @default(now())
+  hijri_year     String        @db.VarChar(30)
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+
+  items          InvoiceItem[]
+  payments       Payment[]
+
+  @@index([agent_id])
+  @@index([invoice_number])
+}
+
+model InvoiceItem {
+  item_id      String   @id @default(uuid())
+  invoice_id   String
+  invoice      Invoice  @relation(fields: [invoice_id], references: [invoice_id], onDelete: Cascade)
+  particulars  String
+  pax_quantity Int
+  rate_per_pax Decimal  @db.Decimal(10, 2)
+  total_amount Decimal  @db.Decimal(12, 2)
+  created_at   DateTime @default(now())
+
+  @@index([invoice_id])
+}
+
+model Payment {
+  payment_id   String   @id @default(uuid())
+  invoice_id   String
+  invoice      Invoice  @relation(fields: [invoice_id], references: [invoice_id], onDelete: Cascade)
+  payment_date DateTime
+  amount_paid  Decimal  @db.Decimal(12, 2)
+  received_by  String   @db.VarChar(100)
+  notes        String?
+  created_at   DateTime @default(now())
+
+  @@index([invoice_id])
+}

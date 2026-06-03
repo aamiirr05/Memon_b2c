@@ -9,6 +9,7 @@ import {
   FileUser,
   Hotel,
   LogOut,
+  Receipt,
 } from 'lucide-react';
 
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -43,6 +44,11 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
       icon: <FileCheck />,
       name: 'Visa',
       path: '/admin/visa',
+    },
+    {
+      icon: <Receipt />,
+      name: 'Invoices',
+      path: '/admin/invoices',
     },
   ];
 
