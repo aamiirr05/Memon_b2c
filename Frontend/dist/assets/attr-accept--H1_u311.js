@@ -1,0 +1,1 @@
+var s=function(n,t){if(n&&t){var a=Array.isArray(t)?t:t.split(",");if(a.length===0)return!0;var u=n.name||"",e=(n.type||"").toLowerCase(),o=e.replace(/\/.*$/,"");return a.some(function(v){var r=v.trim().toLowerCase();return r.charAt(0)==="."?u.toLowerCase().endsWith(r):r.endsWith("/*")?o===r.replace(/\/.*$/,""):e===r})}return!0};export{s as _};
