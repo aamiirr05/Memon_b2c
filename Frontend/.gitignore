@@ -29,4 +29,4 @@ coverage
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-fi
 
 
-node_modules
+node_modulesdist
