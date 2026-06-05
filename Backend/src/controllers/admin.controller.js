@@ -171,16 +171,24 @@ const loginAdmin = asyncHandler(async (req, res) => {
     },
   });
 
-  const options = {
+  const accessTokenOptions = {
     secure: true,
     httpOnly: true,
     sameSite: "None",
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+  };
+
+  const refreshTokenOptions = {
+    secure: true,
+    httpOnly: true,
+    sameSite: "None",
+    maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
   };
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("accessToken", accessToken, accessTokenOptions)
+    .cookie("refreshToken", refreshToken, refreshTokenOptions)
     .json(new ApiResponse(200, loggedInAdmin, "Logged In Sucessfully"));
 });
 
@@ -244,16 +252,24 @@ const refreshToken = asyncHandler(async (req, res) => {
     true
   );
 
-  const options = {
+  const accessTokenOptions = {
     secure: true,
     httpOnly: true,
     sameSite: "None",
+    maxAge: 24 * 60 * 60 * 1000,
+  };
+
+  const refreshTokenOptions = {
+    secure: true,
+    httpOnly: true,
+    sameSite: "None",
+    maxAge: 10 * 24 * 60 * 60 * 1000,
   };
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", newRefreshToken, options)
+    .cookie("accessToken", accessToken, accessTokenOptions)
+    .cookie("refreshToken", newRefreshToken, refreshTokenOptions)
     .json(
       new ApiResponse(
         200,

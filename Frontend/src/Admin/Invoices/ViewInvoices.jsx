@@ -4,10 +4,10 @@ import useInvoiceStore from '../store/useInvoiceStore';
 import logo from '../../assets/img/logo.png';
 import logoName from '../../assets/img/logoname.png';
 
-const GREEN = '#1B5E3B';
-const GREEN_DARK = '#0F3D25';
-const GREEN_LIGHT = '#E8F5EE';
-const GREEN_MID = '#C8E6D4';
+const GREEN = '#2E7D4F';
+const GREEN_DARK = '#1B5E3B';
+const GREEN_LIGHT = '#F0F9F4';
+const GREEN_MID = '#D4EDE0';
 
 const MEMON_BANK_DETAILS = [
   {
@@ -77,7 +77,7 @@ const InvoiceTemplate = ({ invoice, logoUrl, logoNameUrl }) => {
   return (
     <div
       id="invoice-template"
-      style={{ fontFamily: '"Arial Black", Arial, sans-serif', color: '#0a0a0a', padding: '28px 32px', width: '900px', background: '#fff' }}
+      style={{ fontFamily: '"Times New Roman", Times, Georgia, serif', color: '#0a0a0a', padding: '28px 32px', width: '900px', background: '#fff' }}
     >
       {/* ── HEADER ── */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `4px solid ${GREEN_DARK}`, paddingBottom: '18px', marginBottom: '22px' }}>
@@ -188,10 +188,6 @@ const InvoiceTemplate = ({ invoice, logoUrl, logoNameUrl }) => {
                   <td style={TD({ textAlign: 'right', fontWeight: '900', color: GREEN_DARK, background: i % 2 === 0 ? '#d4eddf' : '#e8f5ee' })}>₹{fmt(item.total_amount)}</td>
                 </tr>
               ))}
-              <tr>
-                <td colSpan={4} style={{ padding: '9px 11px', fontWeight: '900', fontSize: '12px', color: '#fff', textAlign: 'right', background: GREEN_DARK, textTransform: 'uppercase', letterSpacing: '0.5px' }}>GRAND TOTAL</td>
-                <td style={{ padding: '9px 11px', fontWeight: '900', fontSize: '14px', color: '#fff', textAlign: 'right', background: GREEN_DARK }}>₹{fmt(totalServices)}</td>
-              </tr>
             </tbody>
           </table>
         </div>
@@ -220,11 +216,6 @@ const InvoiceTemplate = ({ invoice, logoUrl, logoNameUrl }) => {
                     <td colSpan={3} style={{ padding: '14px', color: '#888', textAlign: 'center', border: `1px solid ${GREEN_MID}`, fontStyle: 'italic', fontSize: '11px' }}>NO PAYMENTS RECORDED</td>
                   </tr>
                 )}
-              <tr>
-                <td style={{ padding: '9px 11px', fontWeight: '900', fontSize: '12px', color: '#fff', textAlign: 'right', background: GREEN_DARK, textTransform: 'uppercase', letterSpacing: '0.5px' }}>TOTAL PAID</td>
-                <td style={{ padding: '9px 11px', fontWeight: '900', fontSize: '14px', color: '#fff', textAlign: 'right', background: GREEN_DARK }}>₹{fmt(totalPaid)}</td>
-                <td style={{ background: GREEN_DARK, border: `1px solid ${GREEN_DARK}` }}></td>
-              </tr>
             </tbody>
           </table>
 
