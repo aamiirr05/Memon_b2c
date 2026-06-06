@@ -133,27 +133,24 @@ export const InvoiceTemplate = ({ invoice, logoUrl, logoNameUrl }) => {
 
       {/* ── HEADER ── */}
       <div style={s.header}>
-        <div style={s.logoRow}>
-          {logoUrl && (
-            <img src={logoUrl} alt="" crossOrigin="anonymous"
-              style={{ height: '70px', width: '70px', objectFit: 'contain', flexShrink: 0 }} />
-          )}
-          <div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {/* Both logos on the same line */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {logoUrl && (
+              <img src={logoUrl} alt="" crossOrigin="anonymous"
+                style={{ height: '64px', width: '64px', objectFit: 'contain', flexShrink: 0 }} />
+            )}
             {logoNameUrl && (
               <img src={logoNameUrl} alt="Memon Haj Umrah Tours" crossOrigin="anonymous"
-                style={{ height: '38px', objectFit: 'contain', display: 'block', marginBottom: '7px' }} />
+                style={{ height: '52px', objectFit: 'contain', flexShrink: 0 }} />
             )}
-            <div style={s.companyInfo}>
-              <div>6/A, Asmita Ashirwad Apt, Naya Nagar, Opp Asmita Club, Mira Road(E), Thane - 401107</div>
-              <div>
-                <b>Ph:</b> +91 81084 04376 &nbsp;|&nbsp; +91 90225 49162 &nbsp;|&nbsp; +91 79772 15388
-              </div>
-              <div>
-                <b>Email:</b> memonhajumrahtours@gmail.com &nbsp;|&nbsp;
-                <b> Web:</b> memonhajumrahtours.com
-              </div>
-              <div><b>GST No:</b> 27ABXFM6264E1ZP</div>
-            </div>
+          </div>
+          {/* Company info below both logos */}
+          <div style={s.companyInfo}>
+            <div>6/A, Asmita Ashirwad Apt, Naya Nagar, Opp Asmita Club, Mira Road(E), Thane - 401107</div>
+            <div><b>Ph:</b> +91 81084 04376 &nbsp;|&nbsp; +91 90225 49162 &nbsp;|&nbsp; +91 79772 15388</div>
+            <div><b>Email:</b> memonhajumrahtours@gmail.com &nbsp;|&nbsp; <b>Web:</b> memonhajumrahtours.com</div>
+            <div><b>GST No:</b> 27ABXFM6264E1ZP</div>
           </div>
         </div>
 
@@ -360,9 +357,9 @@ const PreviewModal = ({ invoice, onClose, onDownload, isGenerating }) => (
     style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.65)', zIndex: 9999, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '24px', overflowY: 'auto' }}
     onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
   >
-    <div style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', maxWidth: '920px', width: '100%', boxShadow: '0 25px 60px rgba(0,0,0,0.3)' }}>
+    <div style={{ background: '#fff', borderRadius: '16px', overflow: 'hidden', maxWidth: '920px', width: '100%', boxShadow: '0 25px 60px rgba(0,0,0,0.3)', marginBottom: '24px' }}>
       {/* Modal Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px', background: B.green, color: '#fff' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px', background: B.green, color: '#fff', position: 'sticky', top: 0, zIndex: 10 }}>
         <div>
           <div style={{ fontWeight: '800', fontSize: '16px' }}>Invoice Preview</div>
           <div style={{ fontSize: '12px', opacity: 0.8, marginTop: '2px' }}>{invoice.invoice_number}</div>
@@ -380,8 +377,8 @@ const PreviewModal = ({ invoice, onClose, onDownload, isGenerating }) => (
           </button>
         </div>
       </div>
-      {/* Invoice Preview */}
-      <div style={{ overflowX: 'auto', padding: '24px', background: '#f9f9f9' }}>
+      {/* Invoice Preview — scrollable */}
+      <div style={{ overflowY: 'auto', overflowX: 'auto', padding: '24px', background: '#f9f9f9', maxHeight: '80vh' }}>
         <InvoiceTemplate invoice={invoice} logoUrl={logo} logoNameUrl={logoName} />
       </div>
     </div>
