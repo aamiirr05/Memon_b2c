@@ -394,7 +394,9 @@ const ViewInvoices = () => {
   } = useInvoiceStore();
 
   const [showPaymentForm, setShowPaymentForm] = useState(false);
-  const [paymentForm, setPaymentForm] = useState({ payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' });
+  const [paymentRows, setPaymentRows] = useState([
+    { payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' }
+  ]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
@@ -409,13 +411,24 @@ const ViewInvoices = () => {
     await fetchInvoiceById(inv.invoice_id);
   };
 
-  const handleAddPayment = async () => {
-    if (!paymentForm.payment_date || !paymentForm.amount_paid || !paymentForm.received_by) {
-      alert('Please fill all payment fields'); return;
+  const addPaymentRow    = () => setPaymentRows([...paymentRows, { payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' }]);
+  const removePaymentRow = (i) => { if (paymentRows.length > 1) setPaymentRows(paymentRows.filter((_, idx) => idx !== i)); };
+  const updatePaymentRow = (i, field, value) => {
+    const updated = [...paymentRows];
+    updated[i][field] = value;
+    setPaymentRows(updated);
+  };
+
+  const handleAddPayments = async () => {
+    const valid = paymentRows.filter(r => r.payment_date && r.amount_paid && r.received_by);
+    if (valid.length === 0) { alert('Please fill at least one complete payment row'); return; }
+    let allOk = true;
+    for (const row of valid) {
+      const ok = await addPayment(selectedInvoice.invoice_id, row);
+      if (!ok) { allOk = false; break; }
     }
-    const ok = await addPayment(selectedInvoice.invoice_id, paymentForm);
-    if (ok) {
-      setPaymentForm({ payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' });
+    if (allOk) {
+      setPaymentRows([{ payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' }]);
       setShowPaymentForm(false);
     }
   };
@@ -653,40 +666,67 @@ const ViewInvoices = () => {
                   </div>
 
                   {showPaymentForm && (
-                    <div className="bg-peach/20 rounded-xl p-4 mb-4 space-y-3 border border-darkgreen/15">
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <label className="text-xs font-bold font-jakarta text-darkgreen/60 mb-1 block">Date *</label>
-                          <input type="date" value={paymentForm.payment_date}
-                            onChange={(e) => setPaymentForm({ ...paymentForm, payment_date: e.target.value })}
-                            className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen bg-white" />
-                        </div>
-                        <div>
-                          <label className="text-xs font-bold font-jakarta text-darkgreen/60 mb-1 block">Amount (₹) *</label>
-                          <input type="number" placeholder="0" value={paymentForm.amount_paid}
-                            onChange={(e) => setPaymentForm({ ...paymentForm, amount_paid: e.target.value })}
-                            className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen bg-white"
-                            min="0" step="0.01" />
-                        </div>
+                    <div className="bg-peach/20 rounded-xl p-4 mb-4 border border-darkgreen/15">
+                      {/* Column Headers */}
+                      <div className="hidden md:grid grid-cols-12 gap-2 mb-2 px-1">
+                        <div className="col-span-3 text-xs font-bold font-jakarta text-darkgreen/50 uppercase tracking-wide">Date *</div>
+                        <div className="col-span-3 text-xs font-bold font-jakarta text-darkgreen/50 uppercase tracking-wide">Amount (₹) *</div>
+                        <div className="col-span-4 text-xs font-bold font-jakarta text-darkgreen/50 uppercase tracking-wide">Received By *</div>
+                        <div className="col-span-2 text-xs font-bold font-jakarta text-darkgreen/50 uppercase tracking-wide">Notes</div>
                       </div>
-                      <div>
-                        <label className="text-xs font-bold font-jakarta text-darkgreen/60 mb-1 block">Received By *</label>
-                        <select value={paymentForm.received_by}
-                          onChange={(e) => setPaymentForm({ ...paymentForm, received_by: e.target.value })}
-                          className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen bg-white">
-                          <option>MEMON</option>
-                          <option>CASH IN INR (MEMON OFFICE)</option>
-                          <option>BANK TRANSFER</option>
-                          <option>UPI</option>
-                        </select>
+
+                      {/* Payment Rows */}
+                      <div className="space-y-2 mb-3">
+                        {paymentRows.map((row, i) => (
+                          <div key={i} className="grid grid-cols-12 gap-2 items-center bg-white rounded-lg p-2 border border-darkgreen/10">
+                            <div className="col-span-12 md:col-span-3">
+                              <input type="date" value={row.payment_date}
+                                onChange={(e) => updatePaymentRow(i, 'payment_date', e.target.value)}
+                                className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" />
+                            </div>
+                            <div className="col-span-12 md:col-span-3">
+                              <input type="number" placeholder="Amount" value={row.amount_paid}
+                                onChange={(e) => updatePaymentRow(i, 'amount_paid', e.target.value)}
+                                className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen"
+                                min="0" step="0.01" />
+                            </div>
+                            <div className="col-span-12 md:col-span-4">
+                              <select value={row.received_by}
+                                onChange={(e) => updatePaymentRow(i, 'received_by', e.target.value)}
+                                className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen bg-white">
+                                <option>MEMON</option>
+                                <option>CASH IN INR (MEMON OFFICE)</option>
+                                <option>BANK TRANSFER</option>
+                                <option>UPI</option>
+                              </select>
+                            </div>
+                            <div className="col-span-11 md:col-span-1">
+                              <input type="text" placeholder="Notes" value={row.notes}
+                                onChange={(e) => updatePaymentRow(i, 'notes', e.target.value)}
+                                className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" />
+                            </div>
+                            <div className="col-span-1 flex justify-end">
+                              {paymentRows.length > 1 && (
+                                <button onClick={() => removePaymentRow(i)} className="text-red-400 hover:text-red-600 p-1 transition-all">
+                                  <X size={14} />
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                      <input type="text" placeholder="Notes (optional)" value={paymentForm.notes}
-                        onChange={(e) => setPaymentForm({ ...paymentForm, notes: e.target.value })}
-                        className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen bg-white" />
-                      <button onClick={handleAddPayment} disabled={isLoading}
-                        className="w-full bg-darkgreen text-peach font-jakarta font-bold py-2.5 rounded-lg hover:bg-darkgreen/90 disabled:opacity-50 transition-all text-sm">
-                        {isLoading ? 'Recording...' : 'Record Payment'}
-                      </button>
+
+                      {/* Add Row + Submit */}
+                      <div className="flex gap-2">
+                        <button onClick={addPaymentRow}
+                          className="flex items-center gap-1.5 text-xs font-jakarta font-bold text-darkgreen border border-darkgreen/30 px-3 py-2 rounded-lg hover:bg-peach/30 transition-all">
+                          <Plus size={13} /> Add Row
+                        </button>
+                        <button onClick={handleAddPayments} disabled={isLoading}
+                          className="flex-1 bg-darkgreen text-peach font-jakarta font-bold py-2 rounded-lg hover:bg-darkgreen/90 disabled:opacity-50 transition-all text-sm">
+                          {isLoading ? 'Recording...' : `Save ${paymentRows.filter(r => r.payment_date && r.amount_paid).length} Payment${paymentRows.filter(r => r.payment_date && r.amount_paid).length !== 1 ? 's' : ''}`}
+                        </button>
+                      </div>
                     </div>
                   )}
 
