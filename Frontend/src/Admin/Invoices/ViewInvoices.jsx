@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Trash2, Plus, X, Download, ChevronRight, RefreshCw, Mail, MessageCircle, Eye } from 'lucide-react';
+import { Trash2, Plus, X, Download, ChevronRight, RefreshCw, Mail, MessageCircle, Eye, Edit2 } from 'lucide-react';
 import useInvoiceStore from '../store/useInvoiceStore';
 import logo from '../../assets/img/logo.png';
 import logoName from '../../assets/img/logoname.png';
@@ -391,6 +391,7 @@ const ViewInvoices = () => {
     agents, invoices, selectedAgent, selectedInvoice, isLoading,
     fetchAgents, fetchAgentInvoices, fetchInvoiceById,
     setSelectedAgent, deleteInvoice, addPayment, deletePayment,
+    addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
   } = useInvoiceStore();
 
   const [showPaymentForm, setShowPaymentForm] = useState(false);
@@ -399,6 +400,11 @@ const ViewInvoices = () => {
   ]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+
+  // Services state
+  const [showAddService, setShowAddService] = useState(false);
+  const [editingItem, setEditingItem] = useState(null); // { item_id, particulars, pax_quantity, rate_per_pax }
+  const [newService, setNewService] = useState({ particulars: '', pax_quantity: '', rate_per_pax: '' });
 
   useEffect(() => { fetchAgents(); }, []);
 
@@ -431,6 +437,33 @@ const ViewInvoices = () => {
       setPaymentRows([{ payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' }]);
       setShowPaymentForm(false);
     }
+  };
+
+
+  // Service Handlers
+  const handleAddService = async () => {
+    if (!newService.particulars.trim() || !newService.pax_quantity || !newService.rate_per_pax) {
+      alert("Please fill all service fields"); return;
+    }
+    const ok = await addInvoiceItem(selectedInvoice.invoice_id, newService);
+    if (ok) {
+      setNewService({ particulars: "", pax_quantity: "", rate_per_pax: "" });
+      setShowAddService(false);
+    }
+  };
+
+  const handleUpdateService = async () => {
+    if (!editingItem.particulars.trim() || !editingItem.pax_quantity || !editingItem.rate_per_pax) {
+      alert("Please fill all fields"); return;
+    }
+    const ok = await updateInvoiceItem(editingItem.item_id, selectedInvoice.invoice_id, editingItem);
+    if (ok) setEditingItem(null);
+  };
+
+  const handleDeleteService = async (itemId) => {
+    if (selectedInvoice.items.length === 1) { alert("Invoice must have at least one service"); return; }
+    if (!confirm("Delete this service?")) return;
+    await deleteInvoiceItem(itemId, selectedInvoice.invoice_id);
   };
 
   // ── PDF Generation ──
@@ -641,15 +674,94 @@ const ViewInvoices = () => {
 
                 {/* Services */}
                 <div className="px-5 py-4 border-b border-darkgreen/10">
-                  <p className="text-xs font-bold font-jakarta text-darkgreen/50 uppercase tracking-widest mb-3">Services</p>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-xs font-bold font-jakarta text-darkgreen/50 uppercase tracking-widest">Services</p>
+                    <button onClick={() => { setShowAddService(!showAddService); setEditingItem(null); }}
+                      className="flex items-center gap-1 text-xs font-jakarta font-bold text-darkgreen border border-darkgreen/30 px-3 py-1.5 rounded-lg hover:bg-peach/30 transition-all">
+                      {showAddService ? <><X size={12} /> Cancel</> : <><Plus size={12} /> Add Service</>}
+                    </button>
+                  </div>
+
+                  {/* Add Service Form */}
+                  {showAddService && (
+                    <div className="bg-peach/20 rounded-xl p-3 mb-3 border border-darkgreen/15 space-y-2">
+                      <textarea placeholder="Particulars (e.g. 35ADT JUNE PACKAGE 15DAYS DELUXE)"
+                        value={newService.particulars}
+                        onChange={(e) => setNewService({ ...newService, particulars: e.target.value })}
+                        rows={2}
+                        className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen resize-none" />
+                      <div className="grid grid-cols-3 gap-2">
+                        <input type="number" placeholder="PAX / Qty" value={newService.pax_quantity}
+                          onChange={(e) => setNewService({ ...newService, pax_quantity: e.target.value })}
+                          className="border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" min="1" />
+                        <input type="number" placeholder="Rate per PAX" value={newService.rate_per_pax}
+                          onChange={(e) => setNewService({ ...newService, rate_per_pax: e.target.value })}
+                          className="border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" min="0" step="0.01" />
+                        <div className="flex items-center justify-center bg-darkgreen/5 rounded-lg px-3 py-2 text-sm font-bold text-darkgreen font-jakarta">
+                          ₹{((parseFloat(newService.pax_quantity) || 0) * (parseFloat(newService.rate_per_pax) || 0)).toLocaleString('en-IN')}
+                        </div>
+                      </div>
+                      <button onClick={handleAddService} disabled={isLoading}
+                        className="w-full bg-darkgreen text-peach font-jakarta font-bold py-2 rounded-lg hover:bg-darkgreen/90 disabled:opacity-50 transition-all text-sm">
+                        {isLoading ? 'Adding...' : 'Add Service'}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Services List */}
                   <div className="space-y-2">
                     {selectedInvoice.items?.map((item, i) => (
-                      <div key={i} className="flex justify-between items-center bg-peach/20 rounded-lg px-4 py-2.5 border border-darkgreen/10">
-                        <div>
-                          <p className="text-sm font-jakarta font-bold text-darkgreen">{item.particulars}</p>
-                          <p className="text-xs text-darkgreen/50 font-jakarta mt-0.5">{item.pax_quantity} PAX × ₹{fmt(item.rate_per_pax)}</p>
-                        </div>
-                        <p className="font-zodiak font-bold text-sm text-darkgreen">₹{fmt(item.total_amount)}</p>
+                      <div key={item.item_id || i}>
+                        {/* Edit Mode */}
+                        {editingItem?.item_id === item.item_id ? (
+                          <div className="bg-peach/30 rounded-xl p-3 border border-darkgreen/20 space-y-2">
+                            <textarea value={editingItem.particulars}
+                              onChange={(e) => setEditingItem({ ...editingItem, particulars: e.target.value })}
+                              rows={2}
+                              className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen resize-none" />
+                            <div className="grid grid-cols-3 gap-2">
+                              <input type="number" value={editingItem.pax_quantity}
+                                onChange={(e) => setEditingItem({ ...editingItem, pax_quantity: e.target.value })}
+                                className="border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" min="1" />
+                              <input type="number" value={editingItem.rate_per_pax}
+                                onChange={(e) => setEditingItem({ ...editingItem, rate_per_pax: e.target.value })}
+                                className="border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" min="0" step="0.01" />
+                              <div className="flex items-center justify-center bg-darkgreen/5 rounded-lg px-2 text-sm font-bold text-darkgreen font-jakarta">
+                                ₹{((parseFloat(editingItem.pax_quantity) || 0) * (parseFloat(editingItem.rate_per_pax) || 0)).toLocaleString('en-IN')}
+                              </div>
+                            </div>
+                            <div className="flex gap-2">
+                              <button onClick={handleUpdateService} disabled={isLoading}
+                                className="flex-1 bg-darkgreen text-peach font-jakarta font-bold py-2 rounded-lg hover:bg-darkgreen/90 disabled:opacity-50 text-sm transition-all">
+                                {isLoading ? 'Saving...' : 'Save'}
+                              </button>
+                              <button onClick={() => setEditingItem(null)}
+                                className="px-4 border border-darkgreen/30 text-darkgreen font-jakarta font-bold py-2 rounded-lg hover:bg-peach/20 text-sm transition-all">
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          /* View Mode */
+                          <div className="flex justify-between items-center bg-peach/20 rounded-lg px-4 py-2.5 border border-darkgreen/10 group">
+                            <div className="flex-1 min-w-0 mr-3">
+                              <p className="text-sm font-jakarta font-bold text-darkgreen truncate">{item.particulars}</p>
+                              <p className="text-xs text-darkgreen/50 font-jakarta mt-0.5">{item.pax_quantity} PAX × ₹{fmt(item.rate_per_pax)}</p>
+                            </div>
+                            <div className="flex items-center gap-2 flex-shrink-0">
+                              <p className="font-zodiak font-bold text-sm text-darkgreen">₹{fmt(item.total_amount)}</p>
+                              <button
+                                onClick={() => setEditingItem({ item_id: item.item_id, particulars: item.particulars, pax_quantity: item.pax_quantity, rate_per_pax: parseFloat(item.rate_per_pax) })}
+                                className="opacity-0 group-hover:opacity-100 p-1.5 text-darkgreen hover:bg-darkgreen/10 rounded-lg transition-all">
+                                <Edit2 size={12} />
+                              </button>
+                              <button onClick={() => handleDeleteService(item.item_id)}
+                                className="opacity-0 group-hover:opacity-100 p-1.5 text-red-400 hover:bg-red-50 rounded-lg transition-all">
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>

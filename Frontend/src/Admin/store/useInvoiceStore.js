@@ -164,6 +164,56 @@ const useInvoiceStore = create((set, get) => ({
       set({ isLoading: false });
     }
   },
+
+  // ---- INVOICE ITEMS ----
+  addInvoiceItem: async (invoiceId, itemData) => {
+    set({ isLoading: true });
+    try {
+      await axiosInstance.post(`/admin/invoices/${invoiceId}/items`, itemData);
+      toast.success('Service added');
+      await get().fetchInvoiceById(invoiceId);
+      const { selectedAgent } = get();
+      if (selectedAgent) await get().fetchAgentInvoices(selectedAgent.agent_id);
+      return true;
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to add service');
+      return false;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  updateInvoiceItem: async (itemId, invoiceId, itemData) => {
+    set({ isLoading: true });
+    try {
+      await axiosInstance.put(`/admin/invoices/items/${itemId}`, itemData);
+      toast.success('Service updated');
+      await get().fetchInvoiceById(invoiceId);
+      const { selectedAgent } = get();
+      if (selectedAgent) await get().fetchAgentInvoices(selectedAgent.agent_id);
+      return true;
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to update service');
+      return false;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  deleteInvoiceItem: async (itemId, invoiceId) => {
+    set({ isLoading: true });
+    try {
+      await axiosInstance.delete(`/admin/invoices/items/${itemId}`);
+      toast.success('Service deleted');
+      await get().fetchInvoiceById(invoiceId);
+      const { selectedAgent } = get();
+      if (selectedAgent) await get().fetchAgentInvoices(selectedAgent.agent_id);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to delete service');
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));
 
 export default useInvoiceStore;

@@ -216,15 +216,69 @@ const deletePayment = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, null, "Payment deleted successfully"));
 });
 
+// ==================== INVOICE ITEM CONTROLLERS ====================
+
+// Add item to existing invoice
+const addInvoiceItem = asyncHandler(async (req, res) => {
+  const { invoiceId } = req.params;
+  const { particulars, pax_quantity, rate_per_pax } = req.body;
+
+  if (!particulars) throw new ApiError(400, "Particulars are required");
+  if (!pax_quantity || !rate_per_pax) throw new ApiError(400, "PAX quantity and rate are required");
+
+  const invoice = await prisma.invoice.findUnique({ where: { invoice_id: invoiceId } });
+  if (!invoice) throw new ApiError(404, "Invoice not found");
+
+  const item = await prisma.invoiceItem.create({
+    data: {
+      invoice_id: invoiceId,
+      particulars,
+      pax_quantity: parseInt(pax_quantity),
+      rate_per_pax: parseFloat(rate_per_pax),
+      total_amount: parseInt(pax_quantity) * parseFloat(rate_per_pax),
+    },
+  });
+
+  return res.status(201).json(new ApiResponse(201, item, "Item added successfully"));
+});
+
+// Update existing invoice item
+const updateInvoiceItem = asyncHandler(async (req, res) => {
+  const { itemId } = req.params;
+  const { particulars, pax_quantity, rate_per_pax } = req.body;
+
+  const item = await prisma.invoiceItem.findUnique({ where: { item_id: itemId } });
+  if (!item) throw new ApiError(404, "Invoice item not found");
+
+  const updatedItem = await prisma.invoiceItem.update({
+    where: { item_id: itemId },
+    data: {
+      particulars: particulars ?? item.particulars,
+      pax_quantity: pax_quantity ? parseInt(pax_quantity) : item.pax_quantity,
+      rate_per_pax: rate_per_pax ? parseFloat(rate_per_pax) : item.rate_per_pax,
+      total_amount: (pax_quantity ? parseInt(pax_quantity) : item.pax_quantity) *
+                    (rate_per_pax ? parseFloat(rate_per_pax) : parseFloat(item.rate_per_pax)),
+    },
+  });
+
+  return res.status(200).json(new ApiResponse(200, updatedItem, "Item updated successfully"));
+});
+
+// Delete invoice item
+const deleteInvoiceItem = asyncHandler(async (req, res) => {
+  const { itemId } = req.params;
+
+  const item = await prisma.invoiceItem.findUnique({ where: { item_id: itemId } });
+  if (!item) throw new ApiError(404, "Invoice item not found");
+
+  await prisma.invoiceItem.delete({ where: { item_id: itemId } });
+
+  return res.status(200).json(new ApiResponse(200, null, "Item deleted successfully"));
+});
+
 export {
-  createAgent,
-  getAllAgents,
-  updateAgent,
-  deleteAgent,
-  createInvoice,
-  getAgentInvoices,
-  getInvoiceById,
-  deleteInvoice,
-  addPayment,
-  deletePayment,
+  createAgent, getAllAgents, updateAgent, deleteAgent,
+  createInvoice, getAgentInvoices, getInvoiceById, deleteInvoice,
+  addPayment, deletePayment,
+  addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
 };

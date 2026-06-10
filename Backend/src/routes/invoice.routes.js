@@ -1,21 +1,13 @@
 import { Router } from "express";
 import { verifyAdminJwt } from "../middlewares/admin.auth.middleware.js";
 import {
-  createAgent,
-  getAllAgents,
-  updateAgent,
-  deleteAgent,
-  createInvoice,
-  getAgentInvoices,
-  getInvoiceById,
-  deleteInvoice,
-  addPayment,
-  deletePayment,
+  createAgent, getAllAgents, updateAgent, deleteAgent,
+  createInvoice, getAgentInvoices, getInvoiceById, deleteInvoice,
+  addPayment, deletePayment,
+  addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
 } from "../controllers/invoice.controller.js";
 
 const router = Router();
-
-// All routes are admin-protected
 router.use(verifyAdminJwt);
 
 // ---- AGENT ROUTES ----
@@ -26,6 +18,10 @@ router.route("/agents/:agentId/invoices").get(getAgentInvoices);
 // ---- INVOICE ROUTES ----
 router.route("/").post(createInvoice);
 router.route("/:invoiceId").get(getInvoiceById).delete(deleteInvoice);
+
+// ---- INVOICE ITEM ROUTES ----
+router.route("/:invoiceId/items").post(addInvoiceItem);
+router.route("/items/:itemId").put(updateInvoiceItem).delete(deleteInvoiceItem);
 
 // ---- PAYMENT ROUTES ----
 router.route("/:invoiceId/payments").post(addPayment);
