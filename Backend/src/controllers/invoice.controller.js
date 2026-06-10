@@ -276,9 +276,55 @@ const deleteInvoiceItem = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, null, "Item deleted successfully"));
 });
 
+// ==================== PENDING BALANCES ====================
+
+const getPendingBalances = asyncHandler(async (req, res) => {
+  const allInvoices = await prisma.invoice.findMany({
+    include: {
+      agent: true,
+      items: true,
+      payments: true,
+    },
+    orderBy: { created_at: "desc" },
+  });
+
+  // Calculate balance for each invoice
+  const pendingInvoices = allInvoices
+    .map((inv) => {
+      const totalServices = inv.items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
+      const totalPaid     = inv.payments.reduce((sum, p)  => sum + parseFloat(p.amount_paid), 0);
+      const balance       = totalServices - totalPaid;
+      return { ...inv, totalServices, totalPaid, balance };
+    })
+    .filter((inv) => inv.balance > 0);
+
+  // Group by agent
+  const byAgent = {};
+  for (const inv of pendingInvoices) {
+    const id = inv.agent.agent_id;
+    if (!byAgent[id]) {
+      byAgent[id] = {
+        agent: inv.agent,
+        invoices: [],
+        totalPending: 0,
+      };
+    }
+    byAgent[id].invoices.push(inv);
+    byAgent[id].totalPending += inv.balance;
+  }
+
+  const grouped  = Object.values(byAgent).sort((a, b) => b.totalPending - a.totalPending);
+  const grandTotal = grouped.reduce((sum, a) => sum + a.totalPending, 0);
+
+  return res.status(200).json(
+    new ApiResponse(200, { agents: grouped, grandTotal, totalAgents: grouped.length, totalInvoices: pendingInvoices.length }, "Pending balances fetched")
+  );
+});
+
 export {
   createAgent, getAllAgents, updateAgent, deleteAgent,
   createInvoice, getAgentInvoices, getInvoiceById, deleteInvoice,
   addPayment, deletePayment,
   addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
+  getPendingBalances,
 };

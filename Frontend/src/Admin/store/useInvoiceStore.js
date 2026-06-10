@@ -8,6 +8,7 @@ const useInvoiceStore = create((set, get) => ({
   selectedAgent: null,
   selectedInvoice: null,
   isLoading: false,
+  pendingBalances: null,
 
   // ---- AGENTS ----
   fetchAgents: async () => {
@@ -160,6 +161,18 @@ const useInvoiceStore = create((set, get) => ({
       if (selectedAgent) await get().fetchAgentInvoices(selectedAgent.agent_id);
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Failed to delete payment');
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  fetchPendingBalances: async () => {
+    set({ isLoading: true });
+    try {
+      const res = await axiosInstance.get('/admin/invoices/pending-balances');
+      set({ pendingBalances: res.data.data });
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Failed to fetch pending balances');
     } finally {
       set({ isLoading: false });
     }

@@ -5,6 +5,7 @@ import {
   createInvoice, getAgentInvoices, getInvoiceById, deleteInvoice,
   addPayment, deletePayment,
   addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
+  getPendingBalances,
 } from "../controllers/invoice.controller.js";
 
 const router = Router();
@@ -17,6 +18,7 @@ router.route("/agents/:agentId/invoices").get(getAgentInvoices);
 
 // ---- INVOICE ROUTES ----
 router.route("/").post(createInvoice);
+router.route("/pending-balances").get(getPendingBalances);
 router.route("/:invoiceId").get(getInvoiceById).delete(deleteInvoice);
 
 // ---- INVOICE ITEM ROUTES ----

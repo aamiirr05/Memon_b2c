@@ -12,9 +12,10 @@ const Invoices = () => {
   }, [location.pathname, navigate]);
 
   const tabs = [
-    { label: 'Invoices', route: '/admin/invoices/view' },
-    { label: 'Create Invoice', route: '/admin/invoices/create' },
-    { label: 'Agents', route: '/admin/invoices/agents' },
+    { label: 'Invoices',          route: '/admin/invoices/view' },
+    { label: 'Create Invoice',    route: '/admin/invoices/create' },
+    { label: 'Agents',            route: '/admin/invoices/agents' },
+    { label: 'Pending Balances',  route: '/admin/invoices/pending' },
   ];
 
   return (

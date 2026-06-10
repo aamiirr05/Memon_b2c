@@ -68,6 +68,7 @@ import Invoices from './Admin/Invoices/Invoices';
 import ViewInvoices from './Admin/Invoices/ViewInvoices';
 import CreateInvoice from './Admin/Invoices/CreateInvoice';
 import Agents from './Admin/Invoices/Agents';
+import PendingBalances from './Admin/Invoices/PendingBalances';
 import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
 import { motion } from 'framer-motion';
@@ -449,6 +450,7 @@ const App = () => {
                     <Route path="view" element={<ViewInvoices />} />
                     <Route path="create" element={<CreateInvoice />} />
                     <Route path="agents" element={<Agents />} />
+                    <Route path="pending" element={<PendingBalances />} />
                   </Route>
                 </Route>
               )}
