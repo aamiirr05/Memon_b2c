@@ -661,13 +661,13 @@ const ViewInvoices = () => {
                 {/* Summary Cards */}
                 <div className="grid grid-cols-3 border-b border-darkgreen/10">
                   {[
-                    { label: 'Total',   value: `₹${fmt(selectedInvoice.totalServices)}`, color: 'text-darkgreen' },
-                    { label: 'Paid',    value: `₹${fmt(selectedInvoice.totalPaid)}`,     color: 'text-green-700' },
-                    { label: 'Balance', value: `₹${fmt(selectedInvoice.balance)}`,       color: parseFloat(selectedInvoice.balance) > 0 ? 'text-maroon' : 'text-green-700' },
+                    { label: 'Total Amount', value: `₹${fmt(selectedInvoice.totalServices)}`, color: 'text-darkgreen' },
+                    { label: 'Amount Paid',  value: `₹${fmt(selectedInvoice.totalPaid)}`,     color: 'text-green-700' },
+                    { label: 'Balance Due',  value: `₹${fmt(selectedInvoice.balance)}`,        color: parseFloat(selectedInvoice.balance) > 0 ? 'text-maroon' : 'text-green-700' },
                   ].map((c) => (
-                    <div key={c.label} className="px-4 py-3 text-center border-r last:border-r-0 border-darkgreen/10">
-                      <p className="text-xs font-jakarta text-darkgreen/50 uppercase tracking-wide">{c.label}</p>
-                      <p className={`font-zodiak font-bold text-sm mt-0.5 ${c.color}`}>{c.value}</p>
+                    <div key={c.label} className="px-3 py-3 text-center border-r last:border-r-0 border-darkgreen/10">
+                      <p className="text-xs font-jakarta text-darkgreen/50 uppercase tracking-wide mb-1">{c.label}</p>
+                      <p className={`font-jakarta font-bold text-xs leading-tight ${c.color}`}>{c.value}</p>
                     </div>
                   ))}
                 </div>
