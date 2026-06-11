@@ -223,83 +223,119 @@ export const InvoiceTemplate = ({ invoice, logoUrl, logoNameUrl }) => {
       </div>
 
       {/* ── TABLES ── */}
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '24px', alignItems: 'flex-start' }}>
-
-        {/* Services */}
-        <div style={{ flex: '0 0 55%' }}>
-          <div style={s.sectionLabel}>Services Provided</div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', border: `2px solid ${B.green}`, borderRadius: '8px', overflow: 'hidden' }}>
-            <thead>
-              <tr>
-                {['SR', 'Particulars', 'PAX', 'Rate', 'Amount'].map((h, i) => (
-                  <th key={h} style={{ ...s.th, textAlign: h === 'Particulars' ? 'left' : 'center', width: h === 'SR' ? '6%' : h === 'Particulars' ? '42%' : '17%' }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {invoice.items?.map((item, i) => (
-                <tr key={i}>
-                  <td style={s.td(i)}>{i + 1}</td>
-                  <td style={{ ...s.td(i, 'left'), fontWeight: '700' }}>{item.particulars?.toUpperCase()}</td>
-                  <td style={s.td(i)}>{item.pax_quantity}</td>
-                  <td style={s.td(i)}>₹{fmt(item.rate_per_pax)}</td>
-                  <td style={{ ...s.td(i), fontWeight: '800', color: B.green }}>₹{fmt(item.total_amount)}</td>
+      {/* ── TABLES — side-by-side if few payments, stacked if many ── */}
+      {invoice.payments?.length <= 5 ? (
+        /* Side by side layout */
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '24px', alignItems: 'flex-start' }}>
+          {/* Services */}
+          <div style={{ flex: '0 0 55%' }}>
+            <div style={s.sectionLabel}>Services Provided</div>
+            <table style={{ width: '100%', borderCollapse: 'collapse', border: `2px solid ${B.green}` }}>
+              <thead>
+                <tr>
+                  {['SR', 'Particulars', 'PAX', 'Rate', 'Amount'].map((h) => (
+                    <th key={h} style={{ ...s.th, textAlign: h === 'Particulars' ? 'left' : 'center', width: h === 'SR' ? '6%' : h === 'Particulars' ? '42%' : '17%' }}>{h}</th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Payments */}
-        <div style={{ flex: '0 0 43%' }}>
-          <div style={s.sectionLabel}>Payments Received</div>
-          <table style={{ width: '100%', borderCollapse: 'collapse', border: `2px solid ${B.green}`, borderRadius: '8px', overflow: 'hidden' }}>
-            <thead>
-              <tr>
-                {['Date', 'Amount', 'Received By'].map((h) => (
-                  <th key={h} style={{ ...s.th, textAlign: 'center' }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {invoice.payments?.length > 0
-                ? invoice.payments.map((p, i) => (
-                    <tr key={i}>
-                      <td style={s.td(i)}>{new Date(p.payment_date).toLocaleDateString('en-IN')}</td>
-                      <td style={{ ...s.td(i), fontWeight: '800', color: B.green }}>₹{fmt(p.amount_paid)}</td>
-                      <td style={s.td(i)}>{p.received_by?.toUpperCase()}</td>
-                    </tr>
-                  ))
-                : (
-                  <tr>
-                    <td colSpan={3} style={{ padding: '16px', textAlign: 'center', color: B.inkLight, fontSize: '12px', fontStyle: 'italic', background: B.peachLight, border: `1px solid ${B.greenMid}` }}>
-                      No payments recorded
-                    </td>
+              </thead>
+              <tbody>
+                {invoice.items?.map((item, i) => (
+                  <tr key={i}>
+                    <td style={s.td(i)}>{i + 1}</td>
+                    <td style={{ ...s.td(i, 'left'), fontWeight: '700' }}>{item.particulars?.toUpperCase()}</td>
+                    <td style={s.td(i)}>{item.pax_quantity}</td>
+                    <td style={s.td(i)}>₹{fmt(item.rate_per_pax)}</td>
+                    <td style={{ ...s.td(i), fontWeight: '800', color: B.green }}>₹{fmt(item.total_amount)}</td>
                   </tr>
-                )}
-            </tbody>
-          </table>
-
-          {/* Balance Due */}
-          <div style={{
-            marginTop: '12px',
-            padding: '12px 16px',
-            borderRadius: '10px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            background: balance > 0 ? '#fff5f5' : '#f0fdf4',
-            border: `2px solid ${balance > 0 ? B.maroon : B.green}`,
-          }}>
-            <span style={{ fontWeight: '800', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.5px', color: balance > 0 ? B.maroon : B.green }}>
-              Balance Due
-            </span>
-            <span style={{ fontWeight: '900', fontSize: '17px', color: balance > 0 ? B.maroon : B.green }}>
-              ₹{fmt(balance)}
-            </span>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* Payments */}
+          <div style={{ flex: '0 0 43%' }}>
+            <div style={s.sectionLabel}>Payments Received</div>
+            <table style={{ width: '100%', borderCollapse: 'collapse', border: `2px solid ${B.green}` }}>
+              <thead>
+                <tr>
+                  {['Date', 'Amount', 'Received By'].map((h) => (
+                    <th key={h} style={{ ...s.th, textAlign: 'center' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {invoice.payments?.length > 0
+                  ? invoice.payments.map((p, i) => (
+                      <tr key={i}>
+                        <td style={s.td(i)}>{new Date(p.payment_date).toLocaleDateString('en-IN')}</td>
+                        <td style={{ ...s.td(i), fontWeight: '800', color: B.green }}>₹{fmt(p.amount_paid)}</td>
+                        <td style={s.td(i)}>{p.received_by?.toUpperCase()}</td>
+                      </tr>
+                    ))
+                  : <tr><td colSpan={3} style={{ padding: '16px', textAlign: 'center', color: B.inkLight, fontSize: '12px', fontStyle: 'italic', background: B.peachLight, border: `1px solid ${B.greenMid}` }}>No payments recorded</td></tr>}
+              </tbody>
+            </table>
+            <div style={{ marginTop: '12px', padding: '12px 16px', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: balance > 0 ? '#fff5f5' : '#f0fdf4', border: `2px solid ${balance > 0 ? B.maroon : B.green}` }}>
+              <span style={{ fontWeight: '800', fontSize: '12px', textTransform: 'uppercase', color: balance > 0 ? B.maroon : B.green }}>Balance Due</span>
+              <span style={{ fontWeight: '900', fontSize: '17px', color: balance > 0 ? B.maroon : B.green }}>₹{fmt(balance)}</span>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        /* Stacked layout for many payments */
+        <div style={{ marginBottom: '24px' }}>
+          {/* Services full width */}
+          <div style={{ marginBottom: '20px' }}>
+            <div style={s.sectionLabel}>Services Provided</div>
+            <table style={{ width: '100%', borderCollapse: 'collapse', border: `2px solid ${B.green}` }}>
+              <thead>
+                <tr>
+                  {['SR', 'Particulars', 'PAX', 'Rate', 'Amount'].map((h) => (
+                    <th key={h} style={{ ...s.th, textAlign: h === 'Particulars' ? 'left' : 'center', width: h === 'SR' ? '5%' : h === 'Particulars' ? '50%' : '15%' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {invoice.items?.map((item, i) => (
+                  <tr key={i}>
+                    <td style={s.td(i)}>{i + 1}</td>
+                    <td style={{ ...s.td(i, 'left'), fontWeight: '700' }}>{item.particulars?.toUpperCase()}</td>
+                    <td style={s.td(i)}>{item.pax_quantity}</td>
+                    <td style={s.td(i)}>₹{fmt(item.rate_per_pax)}</td>
+                    <td style={{ ...s.td(i), fontWeight: '800', color: B.green }}>₹{fmt(item.total_amount)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* Payments full width */}
+          <div style={{ marginBottom: '14px' }}>
+            <div style={s.sectionLabel}>Payments Received</div>
+            <table style={{ width: '100%', borderCollapse: 'collapse', border: `2px solid ${B.green}` }}>
+              <thead>
+                <tr>
+                  {['Date', 'Amount', 'Received By'].map((h) => (
+                    <th key={h} style={{ ...s.th, textAlign: 'center' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {invoice.payments.map((p, i) => (
+                  <tr key={i}>
+                    <td style={s.td(i)}>{new Date(p.payment_date).toLocaleDateString('en-IN')}</td>
+                    <td style={{ ...s.td(i), fontWeight: '800', color: B.green }}>₹{fmt(p.amount_paid)}</td>
+                    <td style={s.td(i)}>{p.received_by?.toUpperCase()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* Balance Due full width */}
+          <div style={{ padding: '12px 16px', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: balance > 0 ? '#fff5f5' : '#f0fdf4', border: `2px solid ${balance > 0 ? B.maroon : B.green}` }}>
+            <span style={{ fontWeight: '800', fontSize: '13px', textTransform: 'uppercase', color: balance > 0 ? B.maroon : B.green }}>Balance Due</span>
+            <span style={{ fontWeight: '900', fontSize: '20px', color: balance > 0 ? B.maroon : B.green }}>₹{fmt(balance)}</span>
+          </div>
+        </div>
+      )}
 
       {/* ── BANK DETAILS ── */}
       <div style={{ marginBottom: '24px' }}>
@@ -470,7 +506,7 @@ const ViewInvoices = () => {
   const generatePDF = async () => {
     setIsGenerating(true);
     try {
-      await new Promise(r => setTimeout(r, 500)); // let images load
+      await new Promise(r => setTimeout(r, 500));
       const { default: html2canvas } = await import('html2canvas');
       const { default: jsPDF }       = await import('jspdf');
       const el     = document.getElementById('invoice-template');
@@ -479,9 +515,27 @@ const ViewInvoices = () => {
       const pdf    = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const pw     = pdf.internal.pageSize.getWidth();
       const ph     = pdf.internal.pageSize.getHeight();
-      const iw     = pw - 10;
-      const ih     = Math.min((canvas.height * iw) / canvas.width, ph - 10);
-      pdf.addImage(img, 'JPEG', 5, 5, iw, ih);
+      const margin = 5;
+      const iw     = pw - margin * 2;
+      const ih     = (canvas.height * iw) / canvas.width;
+
+      if (ih <= ph - margin * 2) {
+        // Fits in one page
+        pdf.addImage(img, 'JPEG', margin, margin, iw, ih);
+      } else {
+        // Multi-page
+        let heightLeft = ih;
+        let yPos       = margin;
+        let page       = 0;
+        while (heightLeft > 0) {
+          if (page > 0) pdf.addPage();
+          pdf.addImage(img, 'JPEG', margin, yPos, iw, ih);
+          heightLeft -= (ph - margin * 2);
+          yPos        = margin - (ih - heightLeft);
+          page++;
+        }
+      }
+
       pdf.save(`${selectedInvoice.invoice_number}.pdf`);
       setShowPreview(false);
     } catch (err) {
