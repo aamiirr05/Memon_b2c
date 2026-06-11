@@ -21,7 +21,7 @@ router.route("/check-auth-admin").get(checkAuthAdmin);
 // ************************** PROTECTED ROUTES *******************************
 
 router.route("/logout").post(verifyAdminJwt, logoutAdmin);
-router.route("/refresh-token").post(verifyAdminJwt, refreshToken);
+router.route("/refresh-token").post(refreshToken);
 router.route("/get-admin").get(verifyAdminJwt, getAdmin);
 
 export default router;

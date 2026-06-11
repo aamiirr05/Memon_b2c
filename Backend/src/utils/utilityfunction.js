@@ -461,7 +461,7 @@ const sendMailOnStatusUpdate = async (
 // **************************** RATE LIMITER ****************************************
 
 const limiter = rateLimit({
-  limit: 4,
+  limit: 10,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests, please try again later.",
   statusCode: 429,
