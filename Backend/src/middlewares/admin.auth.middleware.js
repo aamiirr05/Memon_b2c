@@ -7,7 +7,12 @@ import prisma from "../db/db.config.js";
 
 export const verifyAdminJwt = asyncHandler(async (req, _, next) => {
   try {
-    const token = req.cookies?.accessToken;
+    const authHeader = req.headers?.authorization || req.headers?.Authorization;
+    const headerToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
+
+    const token = req.cookies?.accessToken || headerToken;
 
     if (!token) {
       throw new ApiError(401, "Unauthorized request");

@@ -77,7 +77,12 @@ const registerAdmin = asyncHandler(async (req, res) => {
 
 const checkAuthAdmin = asyncHandler(async (req, res) => {
   try {
-    const token = req.cookies?.accessToken;
+    const authHeader = req.headers?.authorization || req.headers?.Authorization;
+    const headerToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
+
+    const token = req.cookies?.accessToken || headerToken;
 
     if (!token) {
       throw new ApiError(401, "Token not found");
@@ -189,7 +194,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
     .status(200)
     .cookie("accessToken", accessToken, accessTokenOptions)
     .cookie("refreshToken", refreshToken, refreshTokenOptions)
-    .json(new ApiResponse(200, loggedInAdmin, "Logged In Sucessfully"));
+    .json(new ApiResponse(200, { ...loggedInAdmin, accessToken }, "Logged In Sucessfully"));
 });
 
 // ********** Logout **********

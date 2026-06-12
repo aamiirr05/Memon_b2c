@@ -21,7 +21,9 @@ const useAdminAuthStore = create((set, get) => ({
         withCredentials: true,
       });
       if (res.data) set({ AuthAdmin: res.data.data });
-      console.log(res);
+      if (res.data?.data?.accessToken) {
+        localStorage.setItem('adminAccessToken', res.data.data.accessToken);
+      }
       toast.success(res.data.message);
       navigate('/admin/enquiry/umrah');
     } catch (error) {
@@ -35,10 +37,10 @@ const useAdminAuthStore = create((set, get) => ({
     set({ isCheckingAuth: true });
     try {
       const res = await axiosInstance.get('/admin/check-auth-admin');
-      console.log(res.data);
       set({ AuthAdmin: res.data });
     } catch (error) {
       set({ AuthAdmin: null });
+      localStorage.removeItem('adminAccessToken');
     } finally {
       set({ isCheckingAuth: false });
     }
@@ -47,18 +49,21 @@ const useAdminAuthStore = create((set, get) => ({
   refreshToken: async () => {
     try {
       const res = await axiosInstance.post('/admin/refresh-token');
-      const { accessToken } = res.data;
-      console.log(res);
+      const accessToken = res.data?.data?.accessToken;
       if (accessToken) {
-        // Update access token in store and axios instance
         get().setAuthAdminAccessToken(accessToken);
-        axiosInstance.defaults.headers.common['Authorization'] =
-          `Bearer ${accessToken}`;
+        localStorage.setItem('adminAccessToken', accessToken);
       }
     } catch (error) {
-      useAdminAuthStore.getState().logout();
+      localStorage.removeItem('adminAccessToken');
+      useAdminAuthStore.getState().logout?.();
       throw error;
     }
+  },
+
+  logout: () => {
+    localStorage.removeItem('adminAccessToken');
+    set({ AuthAdmin: null });
   },
 }));
 

@@ -7,6 +7,16 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+// Attach Bearer token from localStorage as a fallback to cookies
+// (some mobile browsers block cross-site SameSite=None cookies)
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('adminAccessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 // Auto-refresh access token on 401
 let isRefreshing = false;
 let failedQueue = [];
@@ -43,11 +53,16 @@ axiosInstance.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        await axiosInstance.post('/admin/refresh-token');
+        const refreshRes = await axiosInstance.post('/admin/refresh-token');
+        const newToken = refreshRes.data?.data?.accessToken;
+        if (newToken) {
+          localStorage.setItem('adminAccessToken', newToken);
+        }
         processQueue(null);
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError);
+        localStorage.removeItem('adminAccessToken');
         if (
           typeof window !== 'undefined' &&
           !window.location.pathname.includes('/login')
