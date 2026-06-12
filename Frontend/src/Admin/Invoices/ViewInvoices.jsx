@@ -862,6 +862,7 @@ const ViewInvoices = () => {
                                 className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen bg-white">
                                 <option>MEMON</option>
                                 <option>CASH IN INR (MEMON OFFICE)</option>
+                                <option>CASH IN SAR</option>
                                 <option>BANK TRANSFER</option>
                                 <option>UPI</option>
                               </select>
