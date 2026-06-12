@@ -175,7 +175,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
     secure: true,
     httpOnly: true,
     sameSite: "None",
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
 
   const refreshTokenOptions = {
@@ -247,36 +247,21 @@ const refreshToken = asyncHandler(async (req, res) => {
     true
   );
 
-  const newRefreshToken = await generateRefreshTokenForAdmin(
-    admin.admin_id,
-    true
-  );
-
+  // Do NOT rotate the refresh token — this allows multiple devices to stay logged in
   const accessTokenOptions = {
     secure: true,
     httpOnly: true,
     sameSite: "None",
-    maxAge: 24 * 60 * 60 * 1000,
-  };
-
-  const refreshTokenOptions = {
-    secure: true,
-    httpOnly: true,
-    sameSite: "None",
-    maxAge: 10 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   };
 
   return res
     .status(200)
     .cookie("accessToken", accessToken, accessTokenOptions)
-    .cookie("refreshToken", newRefreshToken, refreshTokenOptions)
     .json(
       new ApiResponse(
         200,
-        {
-          accessToken,
-          newRefreshToken,
-        },
+        { accessToken },
         "Access token refreshed"
       )
     );
