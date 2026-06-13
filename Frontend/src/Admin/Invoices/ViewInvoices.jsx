@@ -530,8 +530,35 @@ const ViewInvoices = () => {
         let renderedHeightPX = 0;
         let page = 0;
 
+        // Collect bottom edges (in canvas px) of every table row, so page
+        // breaks can snap to these and never cut a row in half
+        const scale = canvas.width / el.offsetWidth;
+        const rowBottoms = Array.from(el.querySelectorAll('tr, li'))
+          .map((node) => {
+            const rect = node.getBoundingClientRect();
+            const elRect = el.getBoundingClientRect();
+            return (rect.bottom - elRect.top) * scale;
+          })
+          .filter((y) => y > 0 && y <= canvas.height)
+          .sort((a, b) => a - b);
+
         while (renderedHeightPX < canvas.height) {
-          const sliceHeightPX = Math.min(pageContentHeightPX, canvas.height - renderedHeightPX);
+          const maxSliceEnd = renderedHeightPX + pageContentHeightPX;
+          let sliceEnd;
+
+          if (maxSliceEnd >= canvas.height) {
+            sliceEnd = canvas.height;
+          } else {
+            // Find the largest row-boundary that fits within this page
+            const candidates = rowBottoms.filter(
+              (y) => y > renderedHeightPX && y <= maxSliceEnd
+            );
+            sliceEnd = candidates.length > 0
+              ? candidates[candidates.length - 1]
+              : maxSliceEnd; // fallback: no row boundary found, hard cut
+          }
+
+          const sliceHeightPX = sliceEnd - renderedHeightPX;
 
           const pageCanvas = document.createElement('canvas');
           pageCanvas.width  = canvas.width;
