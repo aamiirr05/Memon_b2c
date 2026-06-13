@@ -865,6 +865,7 @@ const ViewInvoices = () => {
                                 <option>CASH IN SAR</option>
                                 <option>BANK TRANSFER</option>
                                 <option>UPI</option>
+                                <option>OTHER</option>
                               </select>
                             </div>
                             <div className="col-span-11 md:col-span-1">

@@ -16,7 +16,6 @@ import CreatePackagesForm from './Admin/UmrahPackages/CreatePackagesForm';
 import CreatePackageImgs from './Admin/UmrahPackages/CreatePackageImgs';
 import CreatePreview from './Admin/UmrahPackages/CreatePreview';
 import { CircleCheck, CircleX } from 'lucide-react';
-import AdminSignup from './Admin/Admin Auth/AdminSignup';
 import AdminLogin from './Admin/Admin Auth/AdminLogin';
 import HolidayPackages from './Admin/Holidays/HolidayPackages';
 import CreateHolidayForm from './Admin/Holidays/Forms/CreateHolidayForm';
@@ -336,7 +335,6 @@ const App = () => {
               {/* Admin Routes */}
 
               <Route path="admin-login" element={<AdminLogin />} />
-              <Route path="admin-signup" element={<AdminSignup />} />
 
               {AuthAdmin && (
                 <Route path="admin" element={<AdminLayout />}>

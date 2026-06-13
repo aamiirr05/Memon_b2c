@@ -6,72 +6,15 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {
   adminLoginInputValidation,
-  adminSignupInputValidation,
 } from "../validator/admin.validator.js";
 import {
   generateAccessTokenForAdmin,
   generateRefreshTokenForAdmin,
+  sendOtp,
+  otpStorage,
 } from "../utils/utilityfunction.js";
 
 // ****************** All Admin Auth Routes ******************
-
-// ********** Register **********
-
-const registerAdmin = asyncHandler(async (req, res) => {
-  const { username, password, email, contact } = req.body;
-
-  if (
-    [username, password, email, contact].some(
-      (field) => !field || field.trim() === ""
-    )
-  ) {
-    throw new ApiError(400, "All fields must be filled");
-  }
-
-  const inputError = adminSignupInputValidation({
-    username,
-    password,
-    email,
-    contact,
-  });
-
-  if (inputError) {
-    throw new ApiError(400, `Validation Error: ${inputError[0].message}`);
-  }
-
-  const normalizedEmail = email?.toLowerCase();
-
-  const adminExists = await prisma.admin.findUnique({
-    where: {
-      email: normalizedEmail,
-    },
-  });
-
-  if (adminExists) {
-    throw new ApiError(400, "Admin with this email exists");
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const newAdmin = await prisma.admin.create({
-    data: {
-      admin_username: username,
-      password: hashedPassword,
-      email: normalizedEmail,
-      contact,
-    },
-    select: {
-      admin_username: true,
-      email: true,
-      contact: true,
-      created_at: true,
-    },
-  });
-
-  return res
-    .status(200)
-    .json(new ApiResponse(201, newAdmin, "Account Created Sucessfully"));
-});
 
 // *************** Check Auth ***************
 
@@ -117,7 +60,7 @@ const checkAuthAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-// ********** Login **********
+// ********** Login (Step 1 — verify credentials, send OTP) **********
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -151,6 +94,55 @@ const loginAdmin = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid user credentials");
   }
 
+  await sendOtp(adminExist.email, adminExist.admin_username);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        { email: adminExist.email },
+        "OTP sent to your registered email"
+      )
+    );
+});
+
+// ********** Verify Login OTP (Step 2 — issue tokens) **********
+
+const verifyAdminLoginOtp = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+
+  if (!email || !otp) {
+    throw new ApiError(400, "Email and OTP are required");
+  }
+
+  const normalizedEmail = email.toLowerCase();
+  const record = otpStorage.get(normalizedEmail);
+
+  if (!record) {
+    throw new ApiError(400, "OTP expired or not requested. Please login again.");
+  }
+
+  if (Date.now() > record.expiresAt) {
+    otpStorage.delete(normalizedEmail);
+    throw new ApiError(400, "OTP expired. Please login again.");
+  }
+
+  if (String(record.otp) !== String(otp)) {
+    throw new ApiError(400, "Invalid OTP");
+  }
+
+  // OTP correct — clear it (one-time use)
+  otpStorage.delete(normalizedEmail);
+
+  const adminExist = await prisma.admin.findUnique({
+    where: { email: normalizedEmail },
+  });
+
+  if (!adminExist) {
+    throw new ApiError(404, "Admin not found");
+  }
+
   const accessToken = await generateAccessTokenForAdmin(
     adminExist.admin_id,
     adminExist.email,
@@ -171,7 +163,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
       admin_username: true,
       email: true,
       contact: true,
-      email: true,
       created_at: true,
     },
   });
@@ -287,9 +278,9 @@ const getAdmin = asyncHandler(async (req, res) => {
 // *************** Export Controller ***************
 
 export {
-  registerAdmin,
   checkAuthAdmin,
   loginAdmin,
+  verifyAdminLoginOtp,
   logoutAdmin,
   refreshToken,
   getAdmin,
