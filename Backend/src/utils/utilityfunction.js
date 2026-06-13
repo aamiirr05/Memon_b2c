@@ -21,6 +21,9 @@ const transporter = nodemailer.createTransport({
     user: process.env.NODEMAILER_USER,
     pass: process.env.NODEMAILER_APP_PASSWORD,
   },
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
 
 // ****************** OTP Generation and Storing Logic ******************
