@@ -511,27 +511,48 @@ const ViewInvoices = () => {
       const { default: jsPDF }       = await import('jspdf');
       const el     = document.getElementById('invoice-template');
       const canvas = await html2canvas(el, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: '#ffffff', logging: false });
-      const img    = canvas.toDataURL('image/jpeg', 0.97);
+
       const pdf    = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
       const pw     = pdf.internal.pageSize.getWidth();
       const ph     = pdf.internal.pageSize.getHeight();
       const margin = 5;
       const iw     = pw - margin * 2;
-      const ih     = (canvas.height * iw) / canvas.width;
+      const ih     = (canvas.height * iw) / canvas.width; // full image height in mm
+      const pageContentHeightMM = ph - margin * 2;
 
-      if (ih <= ph - margin * 2) {
+      if (ih <= pageContentHeightMM) {
         // Fits in one page
+        const img = canvas.toDataURL('image/jpeg', 0.97);
         pdf.addImage(img, 'JPEG', margin, margin, iw, ih);
       } else {
-        // Multi-page
-        let heightLeft = ih;
-        let yPos       = margin;
-        let page       = 0;
-        while (heightLeft > 0) {
+        // Multi-page: slice the canvas into page-sized chunks (no overlap)
+        const pageContentHeightPX = (pageContentHeightMM * canvas.width) / iw; // px per page slice
+        let renderedHeightPX = 0;
+        let page = 0;
+
+        while (renderedHeightPX < canvas.height) {
+          const sliceHeightPX = Math.min(pageContentHeightPX, canvas.height - renderedHeightPX);
+
+          const pageCanvas = document.createElement('canvas');
+          pageCanvas.width  = canvas.width;
+          pageCanvas.height = sliceHeightPX;
+
+          const ctx = pageCanvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+          ctx.drawImage(
+            canvas,
+            0, renderedHeightPX, canvas.width, sliceHeightPX, // source rect
+            0, 0, canvas.width, sliceHeightPX                  // dest rect
+          );
+
+          const sliceImg = pageCanvas.toDataURL('image/jpeg', 0.97);
+          const sliceHeightMM = (sliceHeightPX * iw) / canvas.width;
+
           if (page > 0) pdf.addPage();
-          pdf.addImage(img, 'JPEG', margin, yPos, iw, ih);
-          heightLeft -= (ph - margin * 2);
-          yPos        = margin - (ih - heightLeft);
+          pdf.addImage(sliceImg, 'JPEG', margin, margin, iw, sliceHeightMM);
+
+          renderedHeightPX += sliceHeightPX;
           page++;
         }
       }
