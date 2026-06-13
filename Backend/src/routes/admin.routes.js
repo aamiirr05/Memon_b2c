@@ -3,7 +3,6 @@ import {
   checkAuthAdmin,
   getAdmin,
   loginAdmin,
-  verifyAdminLoginOtp,
   logoutAdmin,
   refreshToken,
 } from "../controllers/admin.controller.js";
@@ -15,7 +14,6 @@ const router = Router();
 // *************************** AUTH ROUTES **********************************
 
 router.route("/login").post(limiter, loginAdmin);
-router.route("/verify-login-otp").post(limiter, verifyAdminLoginOtp);
 router.route("/check-auth-admin").get(checkAuthAdmin);
 
 // ************************** PROTECTED ROUTES *******************************

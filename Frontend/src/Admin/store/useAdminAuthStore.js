@@ -14,26 +14,10 @@ const useAdminAuthStore = create((set, get) => ({
       AuthAdmin: { ...state.AuthAdmin, accessToken },
     })),
 
-  login: async (data) => {
+  login: async (data, navigate) => {
     set({ isAdminLoggingIn: true });
     try {
       const res = await axiosInstance.post('/admin/login', data, {
-        withCredentials: true,
-      });
-      toast.success(res.data.message || 'OTP sent to your email');
-      return true;
-    } catch (error) {
-      toast.error(error.response?.data.message);
-      return false;
-    } finally {
-      set({ isAdminLoggingIn: false });
-    }
-  },
-
-  verifyLoginOtp: async (data, navigate) => {
-    set({ isAdminLoggingIn: true });
-    try {
-      const res = await axiosInstance.post('/admin/verify-login-otp', data, {
         withCredentials: true,
       });
       if (res.data) set({ AuthAdmin: res.data.data });
@@ -42,10 +26,8 @@ const useAdminAuthStore = create((set, get) => ({
       }
       toast.success(res.data.message);
       navigate('/admin/enquiry/umrah');
-      return true;
     } catch (error) {
       toast.error(error.response?.data.message);
-      return false;
     } finally {
       set({ isAdminLoggingIn: false });
     }

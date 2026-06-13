@@ -10,8 +10,6 @@ import {
 import {
   generateAccessTokenForAdmin,
   generateRefreshTokenForAdmin,
-  sendOtp,
-  otpStorage,
 } from "../utils/utilityfunction.js";
 
 // ****************** All Admin Auth Routes ******************
@@ -60,7 +58,7 @@ const checkAuthAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-// ********** Login (Step 1 — verify credentials, send OTP) **********
+// ********** Login **********
 
 const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -92,55 +90,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
   if (!isValidPassword) {
     throw new ApiError(401, "Invalid user credentials");
-  }
-
-  await sendOtp(adminExist.email, adminExist.admin_username);
-
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        { email: adminExist.email },
-        "OTP sent to your registered email"
-      )
-    );
-});
-
-// ********** Verify Login OTP (Step 2 — issue tokens) **********
-
-const verifyAdminLoginOtp = asyncHandler(async (req, res) => {
-  const { email, otp } = req.body;
-
-  if (!email || !otp) {
-    throw new ApiError(400, "Email and OTP are required");
-  }
-
-  const normalizedEmail = email.toLowerCase();
-  const record = otpStorage.get(normalizedEmail);
-
-  if (!record) {
-    throw new ApiError(400, "OTP expired or not requested. Please login again.");
-  }
-
-  if (Date.now() > record.expiresAt) {
-    otpStorage.delete(normalizedEmail);
-    throw new ApiError(400, "OTP expired. Please login again.");
-  }
-
-  if (String(record.otp) !== String(otp)) {
-    throw new ApiError(400, "Invalid OTP");
-  }
-
-  // OTP correct — clear it (one-time use)
-  otpStorage.delete(normalizedEmail);
-
-  const adminExist = await prisma.admin.findUnique({
-    where: { email: normalizedEmail },
-  });
-
-  if (!adminExist) {
-    throw new ApiError(404, "Admin not found");
   }
 
   const accessToken = await generateAccessTokenForAdmin(
@@ -280,7 +229,6 @@ const getAdmin = asyncHandler(async (req, res) => {
 export {
   checkAuthAdmin,
   loginAdmin,
-  verifyAdminLoginOtp,
   logoutAdmin,
   refreshToken,
   getAdmin,
