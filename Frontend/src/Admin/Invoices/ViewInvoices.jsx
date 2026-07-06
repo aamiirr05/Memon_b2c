@@ -432,10 +432,13 @@ const ViewInvoices = () => {
 
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [paymentRows, setPaymentRows] = useState([
-    { payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' }
+    { payment_date: '', amount_paid: '', received_by: 'MEMON', bracket: '', notes: '' }
   ]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+
+  // Which methods show the bracket detail input
+  const BRACKET_OPTIONS = ['CASH IN SAR', 'UPI', 'OTHER', 'BANK TRANSFER'];
 
   // Services state
   const [showAddService, setShowAddService] = useState(false);
@@ -453,12 +456,24 @@ const ViewInvoices = () => {
     await fetchInvoiceById(inv.invoice_id);
   };
 
-  const addPaymentRow    = () => setPaymentRows([...paymentRows, { payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' }]);
+  const addPaymentRow    = () => setPaymentRows([...paymentRows, { payment_date: '', amount_paid: '', received_by: 'MEMON', bracket: '', notes: '' }]);
   const removePaymentRow = (i) => { if (paymentRows.length > 1) setPaymentRows(paymentRows.filter((_, idx) => idx !== i)); };
   const updatePaymentRow = (i, field, value) => {
     const updated = [...paymentRows];
     updated[i][field] = value;
+    // Clear bracket when switching to a method that doesn't use it
+    if (field === 'received_by' && !BRACKET_OPTIONS.includes(value)) {
+      updated[i].bracket = '';
+    }
     setPaymentRows(updated);
+  };
+
+  // Build final received_by string: "UPI (WAHID)" or "CASH IN SAR (2600*26)"
+  const buildReceivedBy = (row) => {
+    if (row.bracket?.trim() && BRACKET_OPTIONS.includes(row.received_by)) {
+      return `${row.received_by} (${row.bracket.trim()})`;
+    }
+    return row.received_by;
   };
 
   const handleAddPayments = async () => {
@@ -466,11 +481,14 @@ const ViewInvoices = () => {
     if (valid.length === 0) { alert('Please fill at least one complete payment row'); return; }
     let allOk = true;
     for (const row of valid) {
-      const ok = await addPayment(selectedInvoice.invoice_id, row);
+      const ok = await addPayment(selectedInvoice.invoice_id, {
+        ...row,
+        received_by: buildReceivedBy(row),
+      });
       if (!ok) { allOk = false; break; }
     }
     if (allOk) {
-      setPaymentRows([{ payment_date: '', amount_paid: '', received_by: 'MEMON', notes: '' }]);
+      setPaymentRows([{ payment_date: '', amount_paid: '', received_by: 'MEMON', bracket: '', notes: '' }]);
       setShowPaymentForm(false);
     }
   };
@@ -915,6 +933,21 @@ const ViewInvoices = () => {
                                 <option>UPI</option>
                                 <option>OTHER</option>
                               </select>
+                              {/* Bracket detail input — shows for SAR, UPI, OTHER, BANK TRANSFER */}
+                              {BRACKET_OPTIONS.includes(row.received_by) && (
+                                <input
+                                  type="text"
+                                  placeholder={
+                                    row.received_by === 'CASH IN SAR' ? 'e.g. 2600*26' :
+                                    row.received_by === 'UPI' ? 'e.g. WAHID' :
+                                    row.received_by === 'BANK TRANSFER' ? 'e.g. HDFC / REF NO' :
+                                    'Details...'
+                                  }
+                                  value={row.bracket}
+                                  onChange={(e) => updatePaymentRow(i, 'bracket', e.target.value)}
+                                  className="w-full mt-1 border border-darkgreen/20 rounded-lg px-3 py-1.5 text-xs font-jakarta focus:outline-none focus:border-darkgreen bg-peach/20"
+                                />
+                              )}
                             </div>
                             <div className="col-span-11 md:col-span-1">
                               <input type="text" placeholder="Notes" value={row.notes}
