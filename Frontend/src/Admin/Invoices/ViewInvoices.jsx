@@ -998,6 +998,55 @@ const ViewInvoices = () => {
                             </div>
                           </div>
                         ))}
+
+                        {/* ── Collection Summary ── */}
+                        {(() => {
+                          // Build method → label → total map
+                          const methodMap = {};
+                          selectedInvoice.payments.forEach(p => {
+                            const method = p.received_by.includes('(')
+                              ? p.received_by.split('(')[0].trim()
+                              : p.received_by;
+                            const label = p.received_by;
+                            const amt = parseFloat(p.amount_paid);
+                            if (!methodMap[method]) methodMap[method] = { total: 0, labels: {} };
+                            methodMap[method].total += amt;
+                            if (!methodMap[method].labels[label]) methodMap[method].labels[label] = 0;
+                            methodMap[method].labels[label] += amt;
+                          });
+
+                          return (
+                            <div className="mt-4 bg-darkgreen/5 rounded-xl border border-darkgreen/15 overflow-hidden">
+                              <div className="px-4 py-2 bg-darkgreen/10 border-b border-darkgreen/10">
+                                <p className="text-xs font-bold font-jakarta text-darkgreen uppercase tracking-widest">Collection Summary</p>
+                              </div>
+                              <div className="divide-y divide-darkgreen/10">
+                                {Object.entries(methodMap).map(([method, data]) => {
+                                  const labels = Object.entries(data.labels);
+                                  const hasSubGroups = labels.length > 1 || labels[0]?.[0] !== method;
+                                  return (
+                                    <div key={method} className="px-4 py-2.5">
+                                      {/* Method total row */}
+                                      <div className="flex justify-between items-center">
+                                        <p className="text-sm font-jakarta font-bold text-darkgreen">{method}</p>
+                                        <p className="font-zodiak font-bold text-sm text-darkgreen">₹{fmt(data.total)}</p>
+                                      </div>
+                                      {/* Sub-groups */}
+                                      {hasSubGroups && labels.map(([label, total]) => (
+                                        label !== method && (
+                                          <div key={label} className="flex justify-between items-center mt-1 pl-3 border-l-2 border-darkgreen/20">
+                                            <p className="text-xs font-jakarta text-darkgreen/60">{label}</p>
+                                            <p className="text-xs font-jakarta font-semibold text-darkgreen/70">₹{fmt(total)}</p>
+                                          </div>
+                                        )
+                                      ))}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          );
+                        })()}
                       </div>
                     )}
                 </div>
