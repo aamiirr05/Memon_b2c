@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Trash2, Plus, X, Download, ChevronRight, RefreshCw, Mail, MessageCircle, Eye, Edit2 } from 'lucide-react';
+import { Trash2, Plus, X, Download, ChevronRight, RefreshCw, Mail, MessageCircle, Eye, Edit2, FileSpreadsheet } from 'lucide-react';
 import useInvoiceStore from '../store/useInvoiceStore';
 import logo from '../../assets/img/logo.png';
 import logoName from '../../assets/img/logoname.png';
@@ -611,6 +611,64 @@ const ViewInvoices = () => {
     }
   };
 
+  // ── Export to Excel ──
+  const handleExportExcel = async () => {
+    if (!selectedInvoice) return;
+    const { utils, writeFile } = await import('xlsx');
+
+    const wb = utils.book_new();
+
+    // Sheet 1 — Services
+    const serviceRows = [
+      ['SR NO.', 'PARTICULARS', 'PAX / QTY', 'RATE PER PAX (₹)', 'TOTAL (₹)'],
+      ...selectedInvoice.items.map((item, i) => [
+        i + 1,
+        item.particulars,
+        item.pax_quantity,
+        parseFloat(item.rate_per_pax),
+        parseFloat(item.total_amount),
+      ]),
+      [],
+      ['', '', '', 'TOTAL AMOUNT', selectedInvoice.totalServices],
+    ];
+    const ws1 = utils.aoa_to_sheet(serviceRows);
+    ws1['!cols'] = [{ wch: 6 }, { wch: 45 }, { wch: 12 }, { wch: 18 }, { wch: 15 }];
+    utils.book_append_sheet(wb, ws1, 'Services');
+
+    // Sheet 2 — Payments
+    const paymentRows = [
+      ['DATE', 'AMOUNT (₹)', 'RECEIVED BY'],
+      ...selectedInvoice.payments.map(p => [
+        new Date(p.payment_date).toLocaleDateString('en-IN'),
+        parseFloat(p.amount_paid),
+        p.received_by,
+      ]),
+      [],
+      ['', 'TOTAL PAID', selectedInvoice.totalPaid],
+      ['', 'BALANCE DUE', selectedInvoice.balance],
+    ];
+    const ws2 = utils.aoa_to_sheet(paymentRows);
+    ws2['!cols'] = [{ wch: 14 }, { wch: 16 }, { wch: 30 }];
+    utils.book_append_sheet(wb, ws2, 'Payments');
+
+    // Sheet 3 — Summary
+    const summaryRows = [
+      ['INVOICE NO.', selectedInvoice.invoice_number],
+      ['DATE', new Date(selectedInvoice.invoice_date).toLocaleDateString('en-IN')],
+      ['HIJRI YEAR', selectedInvoice.hijri_year],
+      ['AGENT', selectedInvoice.agent?.name],
+      [],
+      ['TOTAL AMOUNT', selectedInvoice.totalServices],
+      ['AMOUNT PAID', selectedInvoice.totalPaid],
+      ['BALANCE DUE', selectedInvoice.balance],
+    ];
+    const ws3 = utils.aoa_to_sheet(summaryRows);
+    ws3['!cols'] = [{ wch: 18 }, { wch: 30 }];
+    utils.book_append_sheet(wb, ws3, 'Summary');
+
+    writeFile(wb, `${selectedInvoice.invoice_number}.xlsx`);
+  };
+
   // ── WhatsApp ──
   // Note: WhatsApp Web does not support direct file attachments via URL.
   // We open WhatsApp with invoice details as text. User can manually attach the downloaded PDF.
@@ -769,6 +827,10 @@ const ViewInvoices = () => {
                       <button onClick={handleGmail}
                         className="flex items-center gap-1.5 text-xs font-jakarta font-bold bg-[#EA4335] text-white px-3 py-2 rounded-lg hover:bg-[#d33426] transition-all">
                         <Mail size={14} /> Gmail
+                      </button>
+                      <button onClick={handleExportExcel}
+                        className="flex items-center gap-1.5 text-xs font-jakarta font-bold bg-emerald-700 text-white px-3 py-2 rounded-lg hover:bg-emerald-800 transition-all">
+                        <FileSpreadsheet size={14} /> Excel
                       </button>
                       <button onClick={handleDelete}
                         className="flex items-center gap-1.5 text-xs font-jakarta font-bold border border-red-200 text-red-500 px-3 py-2 rounded-lg hover:bg-red-50 transition-all">
