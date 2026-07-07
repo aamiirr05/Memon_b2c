@@ -614,59 +614,233 @@ const ViewInvoices = () => {
   // ── Export to Excel ──
   const handleExportExcel = async () => {
     if (!selectedInvoice) return;
-    const { utils, writeFile } = await import('xlsx');
+    const ExcelJS = (await import('exceljs')).default;
+    const wb = new ExcelJS.Workbook();
+    const ws = wb.addWorksheet('Invoice');
 
-    const wb = utils.book_new();
+    const GREEN  = '1B5E3B';
+    const PEACH  = 'F2E8CF';
+    const LGRAY  = 'F0F7F2';
+    const WHITE  = 'FFFFFF';
+    const fmt    = (n) => parseFloat(n || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 });
 
-    // Sheet 1 — Services
-    const serviceRows = [
-      ['SR NO.', 'PARTICULARS', 'PAX / QTY', 'RATE PER PAX (₹)', 'TOTAL (₹)'],
-      ...selectedInvoice.items.map((item, i) => [
-        i + 1,
-        item.particulars,
-        item.pax_quantity,
-        parseFloat(item.rate_per_pax),
-        parseFloat(item.total_amount),
-      ]),
-      [],
-      ['', '', '', 'TOTAL AMOUNT', selectedInvoice.totalServices],
+    // Column widths
+    ws.columns = [
+      { width: 5  },  // A - SR
+      { width: 42 },  // B - Particulars / Label
+      { width: 10 },  // C - PAX
+      { width: 16 },  // D - Rate / Amount
+      { width: 16 },  // E - Total / Received By
+      { width: 4  },  // F - spacer
+      { width: 16 },  // G - Payment Date
+      { width: 16 },  // H - Payment Amount
+      { width: 22 },  // I - Received By
     ];
-    const ws1 = utils.aoa_to_sheet(serviceRows);
-    ws1['!cols'] = [{ wch: 6 }, { wch: 45 }, { wch: 12 }, { wch: 18 }, { wch: 15 }];
-    utils.book_append_sheet(wb, ws1, 'Services');
 
-    // Sheet 2 — Payments
-    const paymentRows = [
-      ['DATE', 'AMOUNT (₹)', 'RECEIVED BY'],
-      ...selectedInvoice.payments.map(p => [
-        new Date(p.payment_date).toLocaleDateString('en-IN'),
-        parseFloat(p.amount_paid),
-        p.received_by,
-      ]),
-      [],
-      ['', 'TOTAL PAID', selectedInvoice.totalPaid],
-      ['', 'BALANCE DUE', selectedInvoice.balance],
+    const header = (cell, val, bg = GREEN, fg = WHITE, size = 11, bold = true) => {
+      ws.getCell(cell).value = val;
+      ws.getCell(cell).font  = { bold, size, color: { argb: fg }, name: 'Arial' };
+      ws.getCell(cell).fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: bg } };
+      ws.getCell(cell).alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+      ws.getCell(cell).border = {
+        top:    { style: 'thin', color: { argb: GREEN } },
+        bottom: { style: 'thin', color: { argb: GREEN } },
+        left:   { style: 'thin', color: { argb: GREEN } },
+        right:  { style: 'thin', color: { argb: GREEN } },
+      };
+    };
+
+    const cell = (ref, val, bg = WHITE, bold = false, align = 'left', size = 10) => {
+      ws.getCell(ref).value = val;
+      ws.getCell(ref).font  = { bold, size, name: 'Arial', color: { argb: '1a1a1a' } };
+      ws.getCell(ref).fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: bg } };
+      ws.getCell(ref).alignment = { vertical: 'middle', horizontal: align, wrapText: true };
+      ws.getCell(ref).border = {
+        top:    { style: 'thin', color: { argb: 'C8E6D4' } },
+        bottom: { style: 'thin', color: { argb: 'C8E6D4' } },
+        left:   { style: 'thin', color: { argb: 'C8E6D4' } },
+        right:  { style: 'thin', color: { argb: 'C8E6D4' } },
+      };
+    };
+
+    // ── ROW 1-2: Company Header ──
+    ws.mergeCells('A1:E1');
+    ws.getCell('A1').value = 'MEMON HAJ UMRAH TOURS & TRAVELS';
+    ws.getCell('A1').font  = { bold: true, size: 14, color: { argb: GREEN }, name: 'Arial' };
+    ws.getCell('A1').alignment = { horizontal: 'left', vertical: 'middle' };
+    ws.getRow(1).height = 24;
+
+    ws.mergeCells('G1:I1');
+    ws.getCell('G1').value = `INVOICE: ${selectedInvoice.invoice_number}`;
+    ws.getCell('G1').font  = { bold: true, size: 11, color: { argb: WHITE }, name: 'Arial' };
+    ws.getCell('G1').fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: GREEN } };
+    ws.getCell('G1').alignment = { horizontal: 'center', vertical: 'middle' };
+
+    ws.mergeCells('A2:E2');
+    ws.getCell('A2').value = '6/A, Asmita Ashirwad Apt, Naya Nagar, Mira Road(E), Thane-401107  |  Ph: 8108404376 / 9022549162  |  GST: 27ABXFM6264E1ZP';
+    ws.getCell('A2').font  = { size: 9, color: { argb: '444444' }, name: 'Arial' };
+    ws.getRow(2).height = 16;
+
+    ws.mergeCells('G2:I2');
+    ws.getCell('G2').value = `DATE: ${new Date(selectedInvoice.invoice_date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}   |   HIJRI: ${selectedInvoice.hijri_year}`;
+    ws.getCell('G2').font  = { size: 9, color: { argb: WHITE }, name: 'Arial' };
+    ws.getCell('G2').fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: GREEN } };
+    ws.getCell('G2').alignment = { horizontal: 'center', vertical: 'middle' };
+
+    ws.getRow(3).height = 8; // spacer
+
+    // ── ROW 4-5: Bill To + Summary ──
+    ws.getRow(4).height = 14;
+    ws.getRow(5).height = 14;
+
+    header('A4', 'BILL TO', GREEN, PEACH, 9);
+    ws.mergeCells('A4:E4');
+
+    ws.mergeCells('A5:E5');
+    ws.getCell('A5').value = selectedInvoice.agent?.name?.toUpperCase();
+    ws.getCell('A5').font  = { bold: true, size: 12, name: 'Arial' };
+    ws.getCell('A5').alignment = { horizontal: 'left', vertical: 'middle' };
+    ws.getCell('A5').fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: PEACH } };
+
+    if (selectedInvoice.agent?.phone) {
+      ws.addRow([]);
+      const r = ws.lastRow.number;
+      ws.mergeCells(`A${r}:E${r}`);
+      ws.getCell(`A${r}`).value = `Ph: ${selectedInvoice.agent.phone}`;
+      ws.getCell(`A${r}`).font  = { size: 9, name: 'Arial' };
+      ws.getCell(`A${r}`).fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: PEACH } };
+      ws.getRow(r).height = 13;
+    }
+
+    // Summary on right side (rows 4-6)
+    header('G4', 'SUMMARY', GREEN, PEACH, 9);
+    ws.mergeCells('G4:I4');
+
+    const summaryData = [
+      ['Amount Received', `Rs. ${fmt(selectedInvoice.totalPaid)}`],
+      ['Balance Amount', `Rs. ${fmt(selectedInvoice.balance)}`],
+      ['TOTAL AMOUNT', `Rs. ${fmt(selectedInvoice.totalServices)}`],
     ];
-    const ws2 = utils.aoa_to_sheet(paymentRows);
-    ws2['!cols'] = [{ wch: 14 }, { wch: 16 }, { wch: 30 }];
-    utils.book_append_sheet(wb, ws2, 'Payments');
+    summaryData.forEach(([label, val], i) => {
+      const r = 5 + i;
+      const isTotal = i === 2;
+      ws.getCell(`G${r}`).value = label;
+      ws.getCell(`H${r}`).value = val;
+      ws.mergeCells(`H${r}:I${r}`);
+      [ws.getCell(`G${r}`), ws.getCell(`H${r}`)].forEach(c => {
+        c.font = { bold: isTotal, size: 10, name: 'Arial', color: { argb: isTotal ? GREEN : '1a1a1a' } };
+        c.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: isTotal ? LGRAY : WHITE } };
+        c.border = { top: { style: 'thin', color: { argb: 'C8E6D4' } }, bottom: { style: 'thin', color: { argb: 'C8E6D4' } }, left: { style: 'thin', color: { argb: 'C8E6D4' } }, right: { style: 'thin', color: { argb: 'C8E6D4' } } };
+        c.alignment = { vertical: 'middle', horizontal: i === 2 ? 'center' : 'left' };
+      });
+      ws.getRow(r).height = 16;
+    });
 
-    // Sheet 3 — Summary
-    const summaryRows = [
-      ['INVOICE NO.', selectedInvoice.invoice_number],
-      ['DATE', new Date(selectedInvoice.invoice_date).toLocaleDateString('en-IN')],
-      ['HIJRI YEAR', selectedInvoice.hijri_year],
-      ['AGENT', selectedInvoice.agent?.name],
-      [],
-      ['TOTAL AMOUNT', selectedInvoice.totalServices],
-      ['AMOUNT PAID', selectedInvoice.totalPaid],
-      ['BALANCE DUE', selectedInvoice.balance],
+    ws.addRow([]); // spacer
+
+    // ── SERVICES TABLE HEADER ──
+    const sHeader = ws.lastRow.number + 1;
+    ws.getRow(sHeader).height = 18;
+    ['SR', 'PARTICULARS', 'PAX', 'RATE (Rs.)', 'TOTAL (Rs.)'].forEach((h, i) => {
+      const col = ['A', 'B', 'C', 'D', 'E'][i];
+      header(`${col}${sHeader}`, h, GREEN, WHITE, 10);
+    });
+    // Payments header same row
+    ['DATE', 'AMOUNT (Rs.)', 'RECEIVED BY'].forEach((h, i) => {
+      const col = ['G', 'H', 'I'][i];
+      header(`${col}${sHeader}`, h, GREEN, WHITE, 10);
+    });
+
+    // ── SERVICE ROWS ──
+    selectedInvoice.items.forEach((item, idx) => {
+      const r = ws.lastRow.number + 1;
+      const bg = idx % 2 === 0 ? LGRAY : WHITE;
+      cell(`A${r}`, idx + 1, bg, true, 'center');
+      cell(`B${r}`, item.particulars?.toUpperCase(), bg, false, 'left');
+      cell(`C${r}`, item.pax_quantity, bg, false, 'center');
+      cell(`D${r}`, `Rs. ${fmt(item.rate_per_pax)}`, bg, false, 'right');
+      cell(`E${r}`, `Rs. ${fmt(item.total_amount)}`, bg, true, 'right');
+      ws.getRow(r).height = 16;
+    });
+
+    // ── PAYMENT ROWS (same rows as services, offset G-I) ──
+    // Rewind to services start row to align payments beside services
+    const servicesStart = sHeader + 1;
+    selectedInvoice.payments.forEach((p, idx) => {
+      const r = servicesStart + idx;
+      // If row doesn't exist yet, it means there are more payments than services — add empty row
+      const bg = idx % 2 === 0 ? LGRAY : WHITE;
+      cell(`G${r}`, new Date(p.payment_date).toLocaleDateString('en-IN'), bg, false, 'center');
+      cell(`H${r}`, `Rs. ${fmt(p.amount_paid)}`, bg, true, 'right');
+      cell(`I${r}`, p.received_by, bg, false, 'left');
+    });
+
+    ws.addRow([]); // spacer
+
+    // ── BANK DETAILS ──
+    const bankRow = ws.lastRow.number + 1;
+    ws.getRow(bankRow).height = 18;
+    ws.mergeCells(`A${bankRow}:E${bankRow}`);
+    header(`A${bankRow}`, 'ACCOUNT DETAILS — PAY TO', GREEN, PEACH, 9);
+    ws.mergeCells(`G${bankRow}:I${bankRow}`);
+    header(`G${bankRow}`, 'BALANCE DUE', parseFloat(selectedInvoice.balance) > 0 ? 'FFF0F0' : 'F0FDF4', parseFloat(selectedInvoice.balance) > 0 ? 'B91C1C' : '15803D', 11);
+
+    const banks = [
+      ['A/C Name', 'MEMON HAJ UMRAH TOURS AND TRAVELS'],
+      ['A/C No.', '45810200000462'],
+      ['Bank', 'Bank of Baroda'],
+      ['IFSC', 'BARB0MIRBHA'],
     ];
-    const ws3 = utils.aoa_to_sheet(summaryRows);
-    ws3['!cols'] = [{ wch: 18 }, { wch: 30 }];
-    utils.book_append_sheet(wb, ws3, 'Summary');
+    banks.forEach(([label, val]) => {
+      const r = ws.lastRow.number + 1;
+      cell(`A${r}`, label, LGRAY, true, 'left', 9);
+      ws.mergeCells(`B${r}:E${r}`);
+      cell(`B${r}`, val, LGRAY, false, 'left', 9);
+      ws.getRow(r).height = 14;
+    });
 
-    writeFile(wb, `${selectedInvoice.invoice_number}.xlsx`);
+    // Balance value
+    ws.mergeCells(`G${bankRow + 1}:I${bankRow + 1}`);
+    ws.getCell(`G${bankRow + 1}`).value = `Rs. ${fmt(selectedInvoice.balance)}`;
+    ws.getCell(`G${bankRow + 1}`).font = { bold: true, size: 14, name: 'Arial', color: { argb: parseFloat(selectedInvoice.balance) > 0 ? 'B91C1C' : '15803D' } };
+    ws.getCell(`G${bankRow + 1}`).alignment = { horizontal: 'center', vertical: 'middle' };
+    ws.getCell(`G${bankRow + 1}`).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: parseFloat(selectedInvoice.balance) > 0 ? 'FFF0F0' : 'F0FDF4' } };
+    ws.getRow(bankRow + 1).height = 24;
+
+    ws.addRow([]); // spacer
+
+    // ── TERMS ──
+    const termRow = ws.lastRow.number + 1;
+    ws.mergeCells(`A${termRow}:I${termRow}`);
+    header(`A${termRow}`, 'TERMS & CONDITIONS', GREEN, PEACH, 9);
+    ws.getRow(termRow).height = 16;
+
+    const terms = [
+      '1. Any additional cost due to flight cancellations, delays, visa changes, or currency fluctuations will not be borne by our company.',
+      '2. Agents will be responsible for extra expenses from unforeseen situations.',
+      '3. Package rates are subject to change per airline, visa, and Saudi authority updates.',
+      '4. In case of extended stay due to disruptions, additional expenses are chargeable.',
+      '5. By confirming, the agent agrees to all above terms.',
+    ];
+    terms.forEach(t => {
+      const r = ws.lastRow.number + 1;
+      ws.mergeCells(`A${r}:I${r}`);
+      ws.getCell(`A${r}`).value = t;
+      ws.getCell(`A${r}`).font  = { size: 8, name: 'Arial', color: { argb: '444444' } };
+      ws.getCell(`A${r}`).fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: LGRAY } };
+      ws.getCell(`A${r}`).alignment = { wrapText: true, vertical: 'middle' };
+      ws.getRow(r).height = 13;
+    });
+
+    // ── Download ──
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob   = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url    = URL.createObjectURL(blob);
+    const a      = document.createElement('a');
+    a.href     = url;
+    a.download = `${selectedInvoice.invoice_number}.xlsx`;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   // ── WhatsApp ──
