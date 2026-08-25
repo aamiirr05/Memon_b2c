@@ -242,7 +242,7 @@ export const InvoiceTemplate = ({ invoice, logoUrl, logoNameUrl }) => {
                 {invoice.items?.map((item, i) => (
                   <tr key={i}>
                     <td style={s.td(i)}>{i + 1}</td>
-                    <td style={{ ...s.td(i, 'left'), fontWeight: '700' }}>{item.particulars?.toUpperCase()}</td>
+                    <td style={{ ...s.td(i, 'left'), fontWeight: '700', whiteSpace: 'pre-line' }}>{item.particulars?.toUpperCase()}</td>
                     <td style={s.td(i)}>{item.pax_quantity}</td>
                     <td style={s.td(i)}>₹{fmt(item.rate_per_pax)}</td>
                     <td style={{ ...s.td(i), fontWeight: '800', color: B.green }}>₹{fmt(item.total_amount)}</td>
@@ -298,7 +298,7 @@ export const InvoiceTemplate = ({ invoice, logoUrl, logoNameUrl }) => {
                 {invoice.items?.map((item, i) => (
                   <tr key={i}>
                     <td style={s.td(i)}>{i + 1}</td>
-                    <td style={{ ...s.td(i, 'left'), fontWeight: '700' }}>{item.particulars?.toUpperCase()}</td>
+                    <td style={{ ...s.td(i, 'left'), fontWeight: '700', whiteSpace: 'pre-line' }}>{item.particulars?.toUpperCase()}</td>
                     <td style={s.td(i)}>{item.pax_quantity}</td>
                     <td style={s.td(i)}>₹{fmt(item.rate_per_pax)}</td>
                     <td style={{ ...s.td(i), fontWeight: '800', color: B.green }}>₹{fmt(item.total_amount)}</td>
@@ -756,7 +756,11 @@ const ViewInvoices = () => {
       const r = ws.lastRow.number + 1;
       const bg = idx % 2 === 0 ? LGRAY : WHITE;
       cell(`A${r}`, idx + 1, bg, true, 'center');
-      cell(`B${r}`, item.particulars?.toUpperCase(), bg, false, 'left');
+      ws.getCell(`B${r}`).value = item.particulars?.toUpperCase() || '';
+      ws.getCell(`B${r}`).font  = { bold: false, size: 10, name: 'Arial', color: { argb: '1a1a1a' } };
+      ws.getCell(`B${r}`).fill  = { type: 'pattern', pattern: 'solid', fgColor: { argb: idx % 2 === 0 ? LGRAY : WHITE } };
+      ws.getCell(`B${r}`).alignment = { vertical: 'top', horizontal: 'left', wrapText: true };
+      ws.getCell(`B${r}`).border = { top: { style: 'thin', color: { argb: 'C8E6D4' } }, bottom: { style: 'thin', color: { argb: 'C8E6D4' } }, left: { style: 'thin', color: { argb: 'C8E6D4' } }, right: { style: 'thin', color: { argb: 'C8E6D4' } } };
       cell(`C${r}`, item.pax_quantity, bg, false, 'center');
       cell(`D${r}`, `Rs. ${fmt(item.rate_per_pax)}`, bg, false, 'right');
       cell(`E${r}`, `Rs. ${fmt(item.total_amount)}`, bg, true, 'right');
@@ -1086,11 +1090,11 @@ const ViewInvoices = () => {
                   {/* Add Service Form */}
                   {showAddService && (
                     <div className="bg-peach/20 rounded-xl p-3 mb-3 border border-darkgreen/15 space-y-2">
-                      <textarea placeholder="Particulars (e.g. 35ADT JUNE PACKAGE 15DAYS DELUXE)"
+                      <textarea placeholder={"19PAX 05SEP MAKKAH: DURRAT SALAH\nMADINA: MARKAZIYA 4N\nLAND PACKAGE\nTICKET NOT INCLUDED"}
                         value={newService.particulars}
                         onChange={(e) => setNewService({ ...newService, particulars: e.target.value })}
-                        rows={2}
-                        className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen resize-none" />
+                        rows={4}
+                        className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen resize-y" />
                       <div className="grid grid-cols-3 gap-2">
                         <input type="number" placeholder="PAX / Qty" value={newService.pax_quantity}
                           onChange={(e) => setNewService({ ...newService, pax_quantity: e.target.value })}
@@ -1118,7 +1122,7 @@ const ViewInvoices = () => {
                           <div className="bg-peach/30 rounded-xl p-3 border border-darkgreen/20 space-y-2">
                             <textarea value={editingItem.particulars}
                               onChange={(e) => setEditingItem({ ...editingItem, particulars: e.target.value })}
-                              rows={2}
+                              rows={4}
                               className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen resize-none" />
                             <div className="grid grid-cols-3 gap-2">
                               <input type="number" value={editingItem.pax_quantity}
@@ -1146,7 +1150,7 @@ const ViewInvoices = () => {
                           /* View Mode */
                           <div className="flex justify-between items-center bg-peach/20 rounded-lg px-4 py-2.5 border border-darkgreen/10 group">
                             <div className="flex-1 min-w-0 mr-3">
-                              <p className="text-sm font-jakarta font-bold text-darkgreen truncate">{item.particulars}</p>
+                              <p className="text-sm font-jakarta font-bold text-darkgreen" style={{whiteSpace: "pre-line"}}>{item.particulars}</p>
                               <p className="text-xs text-darkgreen/50 font-jakarta mt-0.5">{item.pax_quantity} PAX × ₹{fmt(item.rate_per_pax)}</p>
                             </div>
                             <div className="flex items-center gap-2 flex-shrink-0">

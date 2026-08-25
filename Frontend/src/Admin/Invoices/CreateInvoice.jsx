@@ -107,14 +107,14 @@ const CreateInvoice = () => {
 
           <div className="space-y-2">
             {form.items.map((item, index) => (
-              <div key={index} className="grid grid-cols-12 gap-2 items-center bg-white border border-darkgreen/15 rounded-lg p-2">
+              <div key={index} className="grid grid-cols-12 gap-2 items-start bg-white border border-darkgreen/15 rounded-lg p-2">
                 <div className="col-span-12 md:col-span-6">
-                  <input
-                    type="text"
-                    placeholder="e.g. 35ADT JUNE PACKAGE 15DAYS DELUXE"
+                  <textarea
+                    placeholder="e.g. 35ADT JUNE PACKAGE 15DAYS DELUXE&#10;MAKKAH: DURRAT SALAH&#10;MADINA: MARKAZIYA"
                     value={item.particulars}
                     onChange={(e) => handleItemChange(index, 'particulars', e.target.value)}
-                    className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen"
+                    rows={3}
+                    className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen resize-none"
                   />
                 </div>
                 <div className="col-span-4 md:col-span-2">
