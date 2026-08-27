@@ -98,9 +98,11 @@ app.use((err, req, res, next) => {
   }
 
   if (err.name === "PrismaClientValidationError") {
+    console.error("Prisma Validation Error Details:", err.message);
+    const detail = err.message ? err.message.split("\n").filter(Boolean).pop() : "Invalid data provided";
     return res.status(400).json({
       success: false,
-      message: "Validation Error",
+      message: `Validation Error: ${detail}`,
     });
   }
 

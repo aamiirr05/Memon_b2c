@@ -37,13 +37,24 @@ const getAllAgents = asyncHandler(async (req, res) => {
 // Update Agent
 const updateAgent = asyncHandler(async (req, res) => {
   const { agentId } = req.params;
+  const { name, email, phone, address, gst_number, bank_name, account_number, ifsc_code, account_holder } = req.body;
 
   const agent = await prisma.agent.findUnique({ where: { agent_id: agentId } });
   if (!agent) throw new ApiError(404, "Agent not found");
 
   const updatedAgent = await prisma.agent.update({
     where: { agent_id: agentId },
-    data: req.body,
+    data: {
+      ...(name !== undefined && { name }),
+      ...(email !== undefined && { email }),
+      ...(phone !== undefined && { phone }),
+      ...(address !== undefined && { address }),
+      ...(gst_number !== undefined && { gst_number }),
+      ...(bank_name !== undefined && { bank_name }),
+      ...(account_number !== undefined && { account_number }),
+      ...(ifsc_code !== undefined && { ifsc_code }),
+      ...(account_holder !== undefined && { account_holder }),
+    },
   });
 
   return res.status(200).json(new ApiResponse(200, updatedAgent, "Agent updated successfully"));
@@ -76,7 +87,9 @@ const generateInvoiceNumber = async (agentName) => {
   if (lastInvoice) {
     const parts = lastInvoice.invoice_number.split("-");
     const lastNum = parseInt(parts[parts.length - 1]);
-    nextNumber = lastNum + 1;
+    if (!isNaN(lastNum)) {
+      nextNumber = lastNum + 1;
+    }
   }
 
   return `${prefix}-${String(nextNumber).padStart(4, "0")}`;
@@ -101,12 +114,16 @@ const createInvoice = asyncHandler(async (req, res) => {
       agent_id,
       hijri_year,
       items: {
-        create: items.map((item) => ({
-          particulars: item.particulars,
-          pax_quantity: parseInt(item.pax_quantity),
-          rate_per_pax: parseFloat(item.rate_per_pax),
-          total_amount: parseInt(item.pax_quantity) * parseFloat(item.rate_per_pax),
-        })),
+        create: items.map((item) => {
+          const qty = parseInt(item.pax_quantity) || 1;
+          const rate = parseFloat(item.rate_per_pax) || 0;
+          return {
+            particulars: item.particulars || "",
+            pax_quantity: qty,
+            rate_per_pax: rate,
+            total_amount: qty * rate,
+          };
+        }),
       },
     },
     include: { items: true, agent: true },
@@ -133,8 +150,8 @@ const getAgentInvoices = asyncHandler(async (req, res) => {
 
   // Add computed totals to each invoice
   const invoicesWithTotals = invoices.map((inv) => {
-    const totalServices = inv.items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
-    const totalPaid = inv.payments.reduce((sum, p) => sum + parseFloat(p.amount_paid), 0);
+    const totalServices = inv.items.reduce((sum, item) => sum + (parseFloat(item.total_amount) || 0), 0);
+    const totalPaid = inv.payments.reduce((sum, p) => sum + (parseFloat(p.amount_paid) || 0), 0);
     return { ...inv, totalServices, totalPaid, balance: totalServices - totalPaid };
   });
 
@@ -156,8 +173,8 @@ const getInvoiceById = asyncHandler(async (req, res) => {
 
   if (!invoice) throw new ApiError(404, "Invoice not found");
 
-  const totalServices = invoice.items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
-  const totalPaid = invoice.payments.reduce((sum, p) => sum + parseFloat(p.amount_paid), 0);
+  const totalServices = invoice.items.reduce((sum, item) => sum + (parseFloat(item.total_amount) || 0), 0);
+  const totalPaid = invoice.payments.reduce((sum, p) => sum + (parseFloat(p.amount_paid) || 0), 0);
   const balance = totalServices - totalPaid;
 
   return res.status(200).json(
@@ -185,7 +202,11 @@ const addPayment = asyncHandler(async (req, res) => {
   const { payment_date, amount_paid, received_by, notes } = req.body;
 
   if (!payment_date) throw new ApiError(400, "Payment date is required");
-  if (!amount_paid || parseFloat(amount_paid) <= 0) throw new ApiError(400, "Valid amount is required");
+  const parsedDate = new Date(payment_date);
+  if (isNaN(parsedDate.getTime())) throw new ApiError(400, "Invalid payment date");
+
+  const parsedAmount = parseFloat(amount_paid);
+  if (isNaN(parsedAmount) || parsedAmount <= 0) throw new ApiError(400, "Valid amount is required");
   if (!received_by) throw new ApiError(400, "Received by is required");
 
   const invoice = await prisma.invoice.findUnique({ where: { invoice_id: invoiceId } });
@@ -194,10 +215,10 @@ const addPayment = asyncHandler(async (req, res) => {
   const payment = await prisma.payment.create({
     data: {
       invoice_id: invoiceId,
-      payment_date: new Date(payment_date),
-      amount_paid: parseFloat(amount_paid),
-      received_by,
-      notes,
+      payment_date: parsedDate,
+      amount_paid: parsedAmount,
+      received_by: String(received_by),
+      notes: notes ? String(notes) : null,
     },
   });
 
@@ -223,8 +244,9 @@ const addInvoiceItem = asyncHandler(async (req, res) => {
   const { invoiceId } = req.params;
   const { particulars, pax_quantity, rate_per_pax } = req.body;
 
-  if (!particulars) throw new ApiError(400, "Particulars are required");
-  if (!pax_quantity || !rate_per_pax) throw new ApiError(400, "PAX quantity and rate are required");
+  if (!particulars || particulars.trim() === "") throw new ApiError(400, "Particulars is required");
+  const qty = parseInt(pax_quantity) || 1;
+  const rate = parseFloat(rate_per_pax) || 0;
 
   const invoice = await prisma.invoice.findUnique({ where: { invoice_id: invoiceId } });
   if (!invoice) throw new ApiError(404, "Invoice not found");
@@ -240,9 +262,9 @@ const addInvoiceItem = asyncHandler(async (req, res) => {
     data: {
       invoice_id: invoiceId,
       particulars,
-      pax_quantity: parseInt(pax_quantity),
-      rate_per_pax: parseFloat(rate_per_pax),
-      total_amount: parseInt(pax_quantity) * parseFloat(rate_per_pax),
+      pax_quantity: qty,
+      rate_per_pax: rate,
+      total_amount: qty * rate,
       sort_order: nextOrder,
     },
   });
@@ -280,14 +302,16 @@ const updateInvoiceItem = asyncHandler(async (req, res) => {
   const item = await prisma.invoiceItem.findUnique({ where: { item_id: itemId } });
   if (!item) throw new ApiError(404, "Invoice item not found");
 
+  const qty = pax_quantity !== undefined ? (parseInt(pax_quantity) || 1) : item.pax_quantity;
+  const rate = rate_per_pax !== undefined ? (parseFloat(rate_per_pax) || 0) : parseFloat(item.rate_per_pax);
+
   const updatedItem = await prisma.invoiceItem.update({
     where: { item_id: itemId },
     data: {
-      particulars: particulars ?? item.particulars,
-      pax_quantity: pax_quantity ? parseInt(pax_quantity) : item.pax_quantity,
-      rate_per_pax: rate_per_pax ? parseFloat(rate_per_pax) : item.rate_per_pax,
-      total_amount: (pax_quantity ? parseInt(pax_quantity) : item.pax_quantity) *
-                    (rate_per_pax ? parseFloat(rate_per_pax) : parseFloat(item.rate_per_pax)),
+      ...(particulars !== undefined && { particulars }),
+      pax_quantity: qty,
+      rate_per_pax: rate,
+      total_amount: qty * rate,
     },
   });
 

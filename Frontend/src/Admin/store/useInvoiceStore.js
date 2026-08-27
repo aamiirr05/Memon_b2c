@@ -72,14 +72,20 @@ const useInvoiceStore = create((set, get) => ({
     }
   },
 
-  setSelectedAgent: (agent) => set({ selectedAgent: agent }),
+  setSelectedAgent: (agent) => set({ selectedAgent: agent, selectedInvoice: null }),
 
   // ---- INVOICES ----
   fetchAgentInvoices: async (agentId) => {
     set({ isLoading: true });
     try {
       const res = await axiosInstance.get(`/admin/invoices/agents/${agentId}/invoices`);
-      set({ invoices: res.data.data.invoices });
+      const fetchedInvoices = res.data.data.invoices || [];
+      set({ invoices: fetchedInvoices });
+      if (fetchedInvoices.length > 0) {
+        await get().fetchInvoiceById(fetchedInvoices[0].invoice_id);
+      } else {
+        set({ selectedInvoice: null });
+      }
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Failed to fetch invoices');
     } finally {
