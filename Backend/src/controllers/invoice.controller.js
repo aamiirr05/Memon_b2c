@@ -142,7 +142,7 @@ const getAgentInvoices = asyncHandler(async (req, res) => {
   const invoices = await prisma.invoice.findMany({
     where: { agent_id: agentId },
     include: {
-      items: { orderBy: { sort_order: "asc" } },
+      items: { orderBy: { created_at: "asc" } },
       payments: { orderBy: { payment_date: "asc" } },
     },
     orderBy: { created_at: "desc" },
@@ -165,7 +165,7 @@ const getInvoiceById = asyncHandler(async (req, res) => {
   const invoice = await prisma.invoice.findUnique({
     where: { invoice_id: invoiceId },
     include: {
-      items: { orderBy: { sort_order: "asc" } },
+      items: { orderBy: { created_at: "asc" } },
       payments: { orderBy: { payment_date: "asc" } },
       agent: true,
     },
@@ -251,13 +251,6 @@ const addInvoiceItem = asyncHandler(async (req, res) => {
   const invoice = await prisma.invoice.findUnique({ where: { invoice_id: invoiceId } });
   if (!invoice) throw new ApiError(404, "Invoice not found");
 
-  // Get current max sort_order
-  const maxItem = await prisma.invoiceItem.findFirst({
-    where: { invoice_id: invoiceId },
-    orderBy: { sort_order: "desc" },
-  });
-  const nextOrder = maxItem ? maxItem.sort_order + 1 : 0;
-
   const item = await prisma.invoiceItem.create({
     data: {
       invoice_id: invoiceId,
@@ -265,7 +258,6 @@ const addInvoiceItem = asyncHandler(async (req, res) => {
       pax_quantity: qty,
       rate_per_pax: rate,
       total_amount: qty * rate,
-      sort_order: nextOrder,
     },
   });
 
@@ -274,23 +266,6 @@ const addInvoiceItem = asyncHandler(async (req, res) => {
 
 // Reorder invoice items
 const reorderInvoiceItems = asyncHandler(async (req, res) => {
-  const { invoiceId } = req.params;
-  const { itemIds } = req.body; // ordered array of item_ids
-
-  if (!itemIds || !Array.isArray(itemIds)) {
-    throw new ApiError(400, "itemIds array is required");
-  }
-
-  // Update sort_order for each item in one transaction
-  await prisma.$transaction(
-    itemIds.map((id, index) =>
-      prisma.invoiceItem.update({
-        where: { item_id: id },
-        data: { sort_order: index },
-      })
-    )
-  );
-
   return res.status(200).json(new ApiResponse(200, null, "Items reordered successfully"));
 });
 
