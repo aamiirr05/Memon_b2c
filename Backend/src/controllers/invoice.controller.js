@@ -125,7 +125,7 @@ const getAgentInvoices = asyncHandler(async (req, res) => {
   const invoices = await prisma.invoice.findMany({
     where: { agent_id: agentId },
     include: {
-      items: true,
+      items: { orderBy: { sort_order: "asc" } },
       payments: { orderBy: { payment_date: "asc" } },
     },
     orderBy: { created_at: "desc" },
@@ -148,7 +148,7 @@ const getInvoiceById = asyncHandler(async (req, res) => {
   const invoice = await prisma.invoice.findUnique({
     where: { invoice_id: invoiceId },
     include: {
-      items: true,
+      items: { orderBy: { sort_order: "asc" } },
       payments: { orderBy: { payment_date: "asc" } },
       agent: true,
     },
@@ -229,6 +229,13 @@ const addInvoiceItem = asyncHandler(async (req, res) => {
   const invoice = await prisma.invoice.findUnique({ where: { invoice_id: invoiceId } });
   if (!invoice) throw new ApiError(404, "Invoice not found");
 
+  // Get current max sort_order
+  const maxItem = await prisma.invoiceItem.findFirst({
+    where: { invoice_id: invoiceId },
+    orderBy: { sort_order: "desc" },
+  });
+  const nextOrder = maxItem ? maxItem.sort_order + 1 : 0;
+
   const item = await prisma.invoiceItem.create({
     data: {
       invoice_id: invoiceId,
@@ -236,10 +243,33 @@ const addInvoiceItem = asyncHandler(async (req, res) => {
       pax_quantity: parseInt(pax_quantity),
       rate_per_pax: parseFloat(rate_per_pax),
       total_amount: parseInt(pax_quantity) * parseFloat(rate_per_pax),
+      sort_order: nextOrder,
     },
   });
 
   return res.status(201).json(new ApiResponse(201, item, "Item added successfully"));
+});
+
+// Reorder invoice items
+const reorderInvoiceItems = asyncHandler(async (req, res) => {
+  const { invoiceId } = req.params;
+  const { itemIds } = req.body; // ordered array of item_ids
+
+  if (!itemIds || !Array.isArray(itemIds)) {
+    throw new ApiError(400, "itemIds array is required");
+  }
+
+  // Update sort_order for each item in one transaction
+  await prisma.$transaction(
+    itemIds.map((id, index) =>
+      prisma.invoiceItem.update({
+        where: { item_id: id },
+        data: { sort_order: index },
+      })
+    )
+  );
+
+  return res.status(200).json(new ApiResponse(200, null, "Items reordered successfully"));
 });
 
 // Update existing invoice item
@@ -282,7 +312,7 @@ const getPendingBalances = asyncHandler(async (req, res) => {
   const allInvoices = await prisma.invoice.findMany({
     include: {
       agent: true,
-      items: true,
+      items: { orderBy: { sort_order: "asc" } },
       payments: true,
     },
     orderBy: { created_at: "desc" },
@@ -325,6 +355,6 @@ export {
   createAgent, getAllAgents, updateAgent, deleteAgent,
   createInvoice, getAgentInvoices, getInvoiceById, deleteInvoice,
   addPayment, deletePayment,
-  addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
+  addInvoiceItem, updateInvoiceItem, deleteInvoiceItem, reorderInvoiceItems,
   getPendingBalances,
 };

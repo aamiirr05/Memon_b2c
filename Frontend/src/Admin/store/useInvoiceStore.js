@@ -227,6 +227,15 @@ const useInvoiceStore = create((set, get) => ({
       set({ isLoading: false });
     }
   },
+
+  reorderInvoiceItems: async (invoiceId, itemIds) => {
+    try {
+      await axiosInstance.patch(`/admin/invoices/${invoiceId}/items/reorder`, { itemIds });
+      await get().fetchInvoiceById(invoiceId);
+    } catch (error) {
+      toast.error('Failed to reorder items');
+    }
+  },
 }));
 
 export default useInvoiceStore;

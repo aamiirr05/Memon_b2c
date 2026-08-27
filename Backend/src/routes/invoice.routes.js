@@ -4,7 +4,7 @@ import {
   createAgent, getAllAgents, updateAgent, deleteAgent,
   createInvoice, getAgentInvoices, getInvoiceById, deleteInvoice,
   addPayment, deletePayment,
-  addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
+  addInvoiceItem, updateInvoiceItem, deleteInvoiceItem, reorderInvoiceItems,
   getPendingBalances,
 } from "../controllers/invoice.controller.js";
 
@@ -23,6 +23,7 @@ router.route("/:invoiceId").get(getInvoiceById).delete(deleteInvoice);
 
 // ---- INVOICE ITEM ROUTES ----
 router.route("/:invoiceId/items").post(addInvoiceItem);
+router.route("/:invoiceId/items/reorder").patch(reorderInvoiceItems);
 router.route("/items/:itemId").put(updateInvoiceItem).delete(deleteInvoiceItem);
 
 // ---- PAYMENT ROUTES ----

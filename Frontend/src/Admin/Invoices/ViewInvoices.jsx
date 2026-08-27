@@ -1,5 +1,19 @@
 import { useEffect, useState } from 'react';
-import { Trash2, Plus, X, Download, ChevronRight, RefreshCw, Mail, MessageCircle, Eye, Edit2, FileSpreadsheet } from 'lucide-react';
+import { Trash2, Plus, X, Download, ChevronRight, RefreshCw, Mail, MessageCircle, Eye, Edit2, FileSpreadsheet, GripVertical } from 'lucide-react';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  arrayMove,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import useInvoiceStore from '../store/useInvoiceStore';
 import logo from '../../assets/img/logo.png';
 import logoName from '../../assets/img/logoname.png';
@@ -422,13 +436,100 @@ const PreviewModal = ({ invoice, onClose, onDownload, isGenerating }) => (
 );
 
 // ─── Main Component ───────────────────────────────────────────────────────────
+// ─── Sortable Service Row ─────────────────────────────────────────────────────
+const SortableServiceItem = ({ item, editingItem, setEditingItem, handleUpdateService, handleDeleteService, isLoading, fmt }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.item_id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 999 : undefined,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      {editingItem?.item_id === item.item_id ? (
+        <div className="bg-peach/30 rounded-xl p-3 border border-darkgreen/20 space-y-2">
+          <textarea value={editingItem.particulars}
+            onChange={(e) => setEditingItem({ ...editingItem, particulars: e.target.value })}
+            rows={4}
+            className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen resize-y" />
+          <div className="grid grid-cols-3 gap-2">
+            <input type="number" value={editingItem.pax_quantity}
+              onChange={(e) => setEditingItem({ ...editingItem, pax_quantity: e.target.value })}
+              className="border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" min="1" />
+            <input type="number" value={editingItem.rate_per_pax}
+              onChange={(e) => setEditingItem({ ...editingItem, rate_per_pax: e.target.value })}
+              className="border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" min="0" step="0.01" />
+            <div className="flex items-center justify-center bg-darkgreen/5 rounded-lg px-2 text-sm font-bold text-darkgreen font-jakarta">
+              ₹{((parseFloat(editingItem.pax_quantity) || 0) * (parseFloat(editingItem.rate_per_pax) || 0)).toLocaleString('en-IN')}
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={handleUpdateService} disabled={isLoading}
+              className="flex-1 bg-darkgreen text-peach font-jakarta font-bold py-2 rounded-lg hover:bg-darkgreen/90 disabled:opacity-50 text-sm transition-all">
+              {isLoading ? 'Saving...' : 'Save'}
+            </button>
+            <button onClick={() => setEditingItem(null)}
+              className="px-4 border border-darkgreen/30 text-darkgreen font-jakarta font-bold py-2 rounded-lg hover:bg-peach/20 text-sm transition-all">
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-between items-start bg-peach/20 rounded-lg px-3 py-2.5 border border-darkgreen/10 group">
+          {/* Drag handle */}
+          <div
+            {...attributes}
+            {...listeners}
+            className="flex-shrink-0 mr-2 mt-0.5 text-darkgreen/30 hover:text-darkgreen/60 cursor-grab active:cursor-grabbing transition-colors"
+            title="Drag to reorder"
+          >
+            <GripVertical size={16} />
+          </div>
+          <div className="flex-1 min-w-0 mr-3">
+            <p className="text-sm font-jakarta font-bold text-darkgreen" style={{ whiteSpace: 'pre-line' }}>{item.particulars}</p>
+            <p className="text-xs text-darkgreen/50 font-jakarta mt-0.5">{item.pax_quantity} PAX × ₹{fmt(item.rate_per_pax)}</p>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <p className="font-zodiak font-bold text-sm text-darkgreen">₹{fmt(item.total_amount)}</p>
+            <button
+              onClick={() => setEditingItem({ item_id: item.item_id, particulars: item.particulars, pax_quantity: item.pax_quantity, rate_per_pax: parseFloat(item.rate_per_pax) })}
+              className="opacity-0 group-hover:opacity-100 p-1.5 text-darkgreen hover:bg-darkgreen/10 rounded-lg transition-all">
+              <Edit2 size={12} />
+            </button>
+            <button onClick={() => handleDeleteService(item.item_id)}
+              className="opacity-0 group-hover:opacity-100 p-1.5 text-red-400 hover:bg-red-50 rounded-lg transition-all">
+              <Trash2 size={12} />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ViewInvoices = () => {
   const {
     agents, invoices, selectedAgent, selectedInvoice, isLoading,
     fetchAgents, fetchAgentInvoices, fetchInvoiceById,
     setSelectedAgent, deleteInvoice, addPayment, deletePayment,
     addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
+    reorderInvoiceItems,
   } = useInvoiceStore();
+
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
+
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const items = selectedInvoice.items;
+    const oldIndex = items.findIndex(i => i.item_id === active.id);
+    const newIndex = items.findIndex(i => i.item_id === over.id);
+    const reordered = arrayMove(items, oldIndex, newIndex);
+    await reorderInvoiceItems(selectedInvoice.invoice_id, reordered.map(i => i.item_id));
+  };
 
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [paymentRows, setPaymentRows] = useState([
@@ -1113,63 +1214,25 @@ const ViewInvoices = () => {
                     </div>
                   )}
 
-                  {/* Services List */}
-                  <div className="space-y-2">
-                    {selectedInvoice.items?.map((item, i) => (
-                      <div key={item.item_id || i}>
-                        {/* Edit Mode */}
-                        {editingItem?.item_id === item.item_id ? (
-                          <div className="bg-peach/30 rounded-xl p-3 border border-darkgreen/20 space-y-2">
-                            <textarea value={editingItem.particulars}
-                              onChange={(e) => setEditingItem({ ...editingItem, particulars: e.target.value })}
-                              rows={4}
-                              className="w-full border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen resize-none" />
-                            <div className="grid grid-cols-3 gap-2">
-                              <input type="number" value={editingItem.pax_quantity}
-                                onChange={(e) => setEditingItem({ ...editingItem, pax_quantity: e.target.value })}
-                                className="border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" min="1" />
-                              <input type="number" value={editingItem.rate_per_pax}
-                                onChange={(e) => setEditingItem({ ...editingItem, rate_per_pax: e.target.value })}
-                                className="border border-darkgreen/20 rounded-lg px-3 py-2 text-sm font-jakarta focus:outline-none focus:border-darkgreen" min="0" step="0.01" />
-                              <div className="flex items-center justify-center bg-darkgreen/5 rounded-lg px-2 text-sm font-bold text-darkgreen font-jakarta">
-                                ₹{((parseFloat(editingItem.pax_quantity) || 0) * (parseFloat(editingItem.rate_per_pax) || 0)).toLocaleString('en-IN')}
-                              </div>
-                            </div>
-                            <div className="flex gap-2">
-                              <button onClick={handleUpdateService} disabled={isLoading}
-                                className="flex-1 bg-darkgreen text-peach font-jakarta font-bold py-2 rounded-lg hover:bg-darkgreen/90 disabled:opacity-50 text-sm transition-all">
-                                {isLoading ? 'Saving...' : 'Save'}
-                              </button>
-                              <button onClick={() => setEditingItem(null)}
-                                className="px-4 border border-darkgreen/30 text-darkgreen font-jakarta font-bold py-2 rounded-lg hover:bg-peach/20 text-sm transition-all">
-                                Cancel
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          /* View Mode */
-                          <div className="flex justify-between items-center bg-peach/20 rounded-lg px-4 py-2.5 border border-darkgreen/10 group">
-                            <div className="flex-1 min-w-0 mr-3">
-                              <p className="text-sm font-jakarta font-bold text-darkgreen" style={{whiteSpace: "pre-line"}}>{item.particulars}</p>
-                              <p className="text-xs text-darkgreen/50 font-jakarta mt-0.5">{item.pax_quantity} PAX × ₹{fmt(item.rate_per_pax)}</p>
-                            </div>
-                            <div className="flex items-center gap-2 flex-shrink-0">
-                              <p className="font-zodiak font-bold text-sm text-darkgreen">₹{fmt(item.total_amount)}</p>
-                              <button
-                                onClick={() => setEditingItem({ item_id: item.item_id, particulars: item.particulars, pax_quantity: item.pax_quantity, rate_per_pax: parseFloat(item.rate_per_pax) })}
-                                className="opacity-0 group-hover:opacity-100 p-1.5 text-darkgreen hover:bg-darkgreen/10 rounded-lg transition-all">
-                                <Edit2 size={12} />
-                              </button>
-                              <button onClick={() => handleDeleteService(item.item_id)}
-                                className="opacity-0 group-hover:opacity-100 p-1.5 text-red-400 hover:bg-red-50 rounded-lg transition-all">
-                                <Trash2 size={12} />
-                              </button>
-                            </div>
-                          </div>
-                        )}
+                  {/* Services List — drag ⠿ handle to reorder */}
+                  <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                    <SortableContext items={selectedInvoice.items?.map(i => i.item_id) || []} strategy={verticalListSortingStrategy}>
+                      <div className="space-y-2">
+                        {selectedInvoice.items?.map((item) => (
+                          <SortableServiceItem
+                            key={item.item_id}
+                            item={item}
+                            editingItem={editingItem}
+                            setEditingItem={setEditingItem}
+                            handleUpdateService={handleUpdateService}
+                            handleDeleteService={handleDeleteService}
+                            isLoading={isLoading}
+                            fmt={fmt}
+                          />
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </SortableContext>
+                  </DndContext>
                 </div>
 
                 {/* Payments */}
