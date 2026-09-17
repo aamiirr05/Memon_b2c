@@ -79,6 +79,10 @@ import TestimonialForm from './pages/TestimonialForm';
 import FloatingButtons from './components/FoatingButtons';
 import { HelmetProvider } from 'react-helmet-async';
 import backgroundImg from './assets/img/hero-bg.webp';
+import DeparturePage from './pages/DeparturePage';
+import Departures from './Admin/Departures/Departures';
+import ManageDepartures from './Admin/Departures/ManageDepartures';
+import CreateDeparture from './Admin/Departures/CreateDeparture';
 const useOnlineStatus = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -331,6 +335,7 @@ const App = () => {
               />
               <Route path="/partners" element={<OurPartnersPage />} />
               <Route path="/nusuk" element={<NusukPage />} />
+              <Route path="/umrah-departures" element={<DeparturePage />} />
 
               {/* Admin Routes */}
 
@@ -449,6 +454,14 @@ const App = () => {
                     <Route path="create" element={<CreateInvoice />} />
                     <Route path="agents" element={<Agents />} />
                     <Route path="pending" element={<PendingBalances />} />
+                  </Route>
+
+                  {/* Departure Management Routes */}
+                  <Route path="departures" element={<Departures />}>
+                    <Route index element={<ManageDepartures />} />
+                    <Route path="manage" element={<ManageDepartures />} />
+                    <Route path="create" element={<CreateDeparture />} />
+                    <Route path="edit/:id" element={<CreateDeparture />} />
                   </Route>
                 </Route>
               )}

@@ -227,6 +227,15 @@ const Footer = ({ isMenuOpen }) => {
             Umrah
           </NavLink>
           <NavLink
+            to="/umrah-departures"
+            className={({ isActive }) =>
+              `rounded-full cursor-pointer
+              ${isActive ? 'bg-peach text-darkgreen py-2 px-6 lg:py-1 lg:px-4 font-semibold' : ''}`
+            }
+          >
+            Departures
+          </NavLink>
+          <NavLink
             to="/holidays"
             className={({ isActive }) =>
               `rounded-full cursor-pointer

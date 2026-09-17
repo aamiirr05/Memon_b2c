@@ -1,0 +1,42 @@
+model Departure {
+  id              String        @id @default(uuid())
+  departure_date  DateTime
+  return_date     DateTime
+  departure_city  String
+  status          String        @default("active")
+  is_published    Boolean       @default(false)
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+
+  flights         Flight[]
+  tiers           PackageTier[]
+
+  @@index([departure_date])
+  @@index([is_published])
+}
+
+model Flight {
+  id              String     @id @default(uuid())
+  departure_id    String
+  departure       Departure  @relation(fields: [departure_id], references: [id], onDelete: Cascade)
+  airline         String
+  flight_number   String
+  created_at      DateTime   @default(now())
+
+  @@index([departure_id])
+}
+
+model PackageTier {
+  id               String     @id @default(uuid())
+  departure_id     String
+  departure        Departure  @relation(fields: [departure_id], references: [id], onDelete: Cascade)
+  tier_name        String
+  total_seats      Int
+  available_seats  Int
+  makkah_hotel     String
+  madina_hotel     String
+  created_at       DateTime   @default(now())
+  updated_at       DateTime   @updatedAt
+
+  @@index([departure_id])
+}

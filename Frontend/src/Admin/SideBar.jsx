@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import {
   CableCar,
+  Calendar,
   ChevronFirst,
   ChevronLast,
   FileBox,
@@ -24,6 +25,11 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
       icon: <FileUser />,
       name: 'Enquiry',
       path: '/admin/enquiry',
+    },
+    {
+      icon: <Calendar />,
+      name: 'Departures',
+      path: '/admin/departures',
     },
     {
       icon: <Hotel />,

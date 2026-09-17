@@ -70,6 +70,10 @@ import hotelRoute from "./routes/hotel.routes.js";
 import visaRoute from "./routes/visa.routes.js";
 import adminEnquiryRoutes from "./routes/adminenquiry.routes.js";
 import invoiceRoutes from "./routes/invoice.routes.js";
+import {
+  departurePublicRoutes,
+  departureAdminRoutes,
+} from "./routes/departure.routes.js";
 
 // ******** Rate Limiter ********
 
@@ -84,6 +88,8 @@ app.use("/api/v1/admin/hotel", hotelRoute);
 app.use("/api/v1/admin/visa", visaRoute);
 app.use("/api/v1/admin/enquiry", adminEnquiryRoutes);
 app.use("/api/v1/admin/invoices", invoiceRoutes);
+app.use("/api/v1/departures", departurePublicRoutes);
+app.use("/api/v1/admin/departures", departureAdminRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

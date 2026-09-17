@@ -33,6 +33,7 @@ const navLinks = [
     path: '/umrah-packages',
     dropdown: [
       { name: 'Umrah Packages', path: '/umrah-packages' },
+      { name: 'Live Departures', path: '/umrah-departures' },
       { name: 'Customize Package', path: '/customized-package' },
     ],
   },

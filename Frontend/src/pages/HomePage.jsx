@@ -9,6 +9,7 @@ import HolidayGrid from '../components/HomePage/HoildayGrid';
 import Testimonials from '../components/HomePage/Testimonials';
 import Marquees from '../components/HomePage/Marquees';
 import RecommendedPackages from '../components/HomePage/RecommendedPackages';
+import UpcomingDepartures from '../components/HomePage/UpcomingDepartures';
 import { Helmet } from 'react-helmet-async';
 
 const Homepage = () => {
@@ -37,6 +38,9 @@ const Homepage = () => {
         {/* About Us Section */}
 
         <AboutUs />
+
+        {/* Live Upcoming Departures Section */}
+        <UpcomingDepartures />
 
         {/* Package Slider  */}
 
