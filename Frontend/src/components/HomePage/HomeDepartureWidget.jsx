@@ -140,6 +140,21 @@ const HomeDepartureWidget = () => {
     return publicDepartures[0];
   }, [publicDepartures, selectedDepId]);
 
+  if (isLoading && (!publicDepartures || publicDepartures.length === 0)) {
+    return (
+      <section className="relative z-20 py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto -mt-6 md:-mt-10 mb-12">
+        <div className="bg-white/95 backdrop-blur-md rounded-3xl border border-darkgreen/20 shadow-xl p-5 sm:p-8 animate-pulse space-y-4">
+          <div className="h-5 w-48 bg-darkgreen/15 rounded-full" />
+          <div className="h-7 w-80 bg-darkgreen/20 rounded-xl" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+            <div className="lg:col-span-7 h-64 bg-peach/30 rounded-2xl" />
+            <div className="lg:col-span-5 h-64 bg-peach/20 rounded-2xl" />
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (!isLoading && (!publicDepartures || publicDepartures.length === 0)) {
     return null;
   }

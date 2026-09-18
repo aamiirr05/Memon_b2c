@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Plane, Sparkles, Share2 } from 'lucide-react';
 import { WhatsappLogo } from '@phosphor-icons/react';
 import toast from 'react-hot-toast';
@@ -21,6 +21,35 @@ const DepartureCalendar = ({ departures = [], onSelectDate, selectedDate }) => {
 
   const [currentMonth, setCurrentMonth] = useState(initialDate.getMonth());
   const [currentYear, setCurrentYear] = useState(initialDate.getFullYear());
+
+  // Auto-sync calendar month and year when departures finish loading from API
+  useEffect(() => {
+    if (departures && departures.length > 0) {
+      const validDep = departures.find((d) => !isNaN(new Date(d.departure_date).getTime())) || departures[0];
+      if (validDep) {
+        const d = new Date(validDep.departure_date);
+        if (!isNaN(d.getTime())) {
+          setCurrentMonth(d.getMonth());
+          setCurrentYear(d.getFullYear());
+        }
+      }
+    }
+  }, [departures]);
+
+  // If a specific date is selected, navigate calendar to that month/year
+  useEffect(() => {
+    if (selectedDate) {
+      const parts = selectedDate.split('-');
+      if (parts.length >= 2) {
+        const y = Number(parts[0]);
+        const m = Number(parts[1]) - 1;
+        if (!isNaN(y) && !isNaN(m)) {
+          setCurrentYear(y);
+          setCurrentMonth(m);
+        }
+      }
+    }
+  }, [selectedDate]);
 
   // Map departure dates for quick lookup: 'YYYY-MM-DD' => array of departures
   const departureMap = useMemo(() => {
