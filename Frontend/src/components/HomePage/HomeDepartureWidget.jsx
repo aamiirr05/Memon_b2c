@@ -148,10 +148,36 @@ const HomeDepartureWidget = () => {
   const activeReturnFormatted = activeDeparture ? formatDateStr(activeDeparture.return_date) : '';
   const activeDays = activeDeparture ? calculateDays(activeDeparture.departure_date, activeDeparture.return_date) : null;
   const activeFlight = activeDeparture?.flights?.[0];
-  const activeWaText = encodeURIComponent(
-    `Hi, I saw the ${activeDateFormatted} Umrah departure on your homepage calendar. Please share package details and seat booking.`
+
+  const isActiveDeparted = activeDeparture?.status === 'departed';
+  const activeTotalAvailable = (activeDeparture?.tiers || []).reduce(
+    (sum, t) => sum + (Number(t.available_seats) || 0),
+    0
   );
-  const activeWaUrl = `https://wa.me/918268979705?text=${activeWaText}`;
+  const isActiveFull =
+    activeDeparture?.status === 'full' ||
+    (!isActiveDeparted && (activeDeparture?.tiers || []).length > 0 && activeTotalAvailable === 0);
+  const isActiveNewGroup = activeDeparture?.status === 'new_group';
+
+  let activeWaMsg = `Hi, I saw the ${activeDateFormatted} Umrah departure on your homepage calendar. Please share package details and seat booking.`;
+  let activeBtnLabel = `Enquire for ${activeDateFormatted} on WhatsApp`;
+  let activeBtnBg = 'bg-darkgreen hover:bg-mediumgreen text-peach';
+
+  if (isActiveDeparted) {
+    activeWaMsg = `Assalamu Alaikum, I saw your past departure for ${activeDateFormatted}. Please let me know your next upcoming Umrah group tour dates.`;
+    activeBtnLabel = 'Enquire for Next Dates on WhatsApp';
+    activeBtnBg = 'bg-stone-800 hover:bg-stone-900 text-white';
+  } else if (isActiveFull) {
+    activeWaMsg = `Assalamu Alaikum, I saw the ${activeDateFormatted} Umrah tour is full. Please add me to the waitlist if any seat opens up.`;
+    activeBtnLabel = 'Join Waitlist on WhatsApp';
+    activeBtnBg = 'bg-rose-700 hover:bg-rose-800 text-white';
+  } else if (isActiveNewGroup) {
+    activeWaMsg = `Hi, I am interested in booking the new Umrah group departure on ${activeDateFormatted}. Please share package details.`;
+    activeBtnLabel = 'Enquire for New Group on WhatsApp';
+    activeBtnBg = 'bg-darkgreen hover:bg-mediumgreen text-peach';
+  }
+
+  const activeWaUrl = `https://wa.me/918268979705?text=${encodeURIComponent(activeWaMsg)}`;
 
   return (
     <section className="relative z-20 py-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto -mt-6 md:-mt-10 mb-12">
@@ -236,31 +262,40 @@ const HomeDepartureWidget = () => {
                 const isSelected =
                   hasDep && cell.departures.some((d) => d.id === selectedDepId);
 
-                // Total seats calculation
+                const firstDep = hasDep ? cell.departures[0] : null;
                 const totalSeatsLeft = hasDep
-                  ? cell.departures[0]?.tiers?.reduce(
+                  ? firstDep?.tiers?.reduce(
                       (sum, t) => sum + (Number(t.available_seats) || 0),
                       0
                     )
                   : 0;
 
+                const isCellDeparted = firstDep?.status === 'departed';
+                const isCellFull =
+                  firstDep?.status === 'full' || (!isCellDeparted && hasDep && totalSeatsLeft === 0);
+                const isCellNewGroup = firstDep?.status === 'new_group';
                 const isUrgent = totalSeatsLeft > 0 && totalSeatsLeft <= 5;
-                const isSoldOut = hasDep && totalSeatsLeft === 0;
-                const airlineName = cell.departures?.[0]?.flights?.[0]?.airline || 'Flight';
+                const airlineName = firstDep?.flights?.[0]?.airline || 'Flight';
 
                 return (
                   <div
                     key={idx}
                     onClick={() => {
-                      if (hasDep && cell.departures[0]) {
-                        setSelectedDepId(cell.departures[0].id);
+                      if (hasDep && firstDep) {
+                        setSelectedDepId(firstDep.id);
                       }
                     }}
                     className={`min-h-[64px] sm:min-h-[74px] p-1 rounded-xl border transition-all flex flex-col justify-between select-none ${
                       !cell.isCurrentMonth
                         ? 'bg-stone-50/40 border-stone-100 text-stone-300 pointer-events-none'
                         : hasDep
-                        ? 'bg-white border-darkgreen/30 hover:border-darkgreen hover:shadow-md cursor-pointer hover:scale-[1.02]'
+                        ? isCellDeparted
+                          ? 'bg-stone-100/80 border-stone-300 hover:border-stone-500 cursor-pointer hover:scale-[1.02]'
+                          : isCellFull
+                          ? 'bg-rose-50/80 border-rose-200 hover:border-rose-400 cursor-pointer hover:scale-[1.02]'
+                          : isCellNewGroup
+                          ? 'bg-amber-50/80 border-amber-300 ring-1 ring-amber-300 hover:border-amber-400 cursor-pointer hover:scale-[1.02]'
+                          : 'bg-white border-darkgreen/30 hover:border-darkgreen hover:shadow-md cursor-pointer hover:scale-[1.02]'
                         : 'bg-white/60 border-stone-100 text-stone-600'
                     } ${
                       isSelected
@@ -272,7 +307,13 @@ const HomeDepartureWidget = () => {
                       <span
                         className={`text-[10px] sm:text-xs font-semibold rounded-full w-5 h-5 flex items-center justify-center font-jakarta ${
                           hasDep
-                            ? 'bg-darkgreen text-peach font-bold'
+                            ? isCellDeparted
+                              ? 'bg-stone-600 text-white font-bold'
+                              : isCellFull
+                              ? 'bg-rose-600 text-white font-bold'
+                              : isCellNewGroup
+                              ? 'bg-amber-600 text-white font-bold'
+                              : 'bg-darkgreen text-peach font-bold'
                             : cell.isCurrentMonth
                             ? 'text-stone-700'
                             : 'text-stone-300'
@@ -281,27 +322,61 @@ const HomeDepartureWidget = () => {
                         {cell.dayNumber}
                       </span>
                       {hasDep && (
-                        <Plane size={11} className="text-darkgreen rotate-45 flex-shrink-0" />
+                        <Plane
+                          size={11}
+                          className={`rotate-45 flex-shrink-0 ${
+                            isCellDeparted
+                              ? 'text-stone-500'
+                              : isCellFull
+                              ? 'text-rose-500'
+                              : isCellNewGroup
+                              ? 'text-amber-600'
+                              : 'text-darkgreen'
+                          }`}
+                        />
                       )}
                     </div>
 
                     {/* Seats & Airline on the cell */}
                     {hasDep && (
                       <div className="mt-1 flex flex-col gap-0.5">
-                        <span className="text-[8px] sm:text-[9px] font-jakarta font-semibold truncate bg-darkgreen/15 text-darkgreen px-1 rounded text-center">
-                          {airlineName}
-                        </span>
                         <span
-                          className={`text-[7px] sm:text-[8px] font-jakarta font-bold px-0.5 rounded text-center truncate ${
-                            isSoldOut
-                              ? 'bg-stone-200 text-stone-600'
-                              : isUrgent
-                              ? 'bg-rose-500 text-white animate-pulse'
-                              : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          className={`text-[8px] sm:text-[9px] font-jakarta font-semibold truncate px-1 rounded text-center ${
+                            isCellDeparted
+                              ? 'bg-stone-200 text-stone-700'
+                              : isCellFull
+                              ? 'bg-rose-200 text-rose-800'
+                              : isCellNewGroup
+                              ? 'bg-amber-100 text-amber-900'
+                              : 'bg-darkgreen/15 text-darkgreen'
                           }`}
                         >
-                          {isSoldOut ? 'Sold Out' : `${totalSeatsLeft} Left`}
+                          {airlineName}
                         </span>
+
+                        {isCellDeparted ? (
+                          <span className="text-[7px] sm:text-[8px] font-jakarta font-bold px-0.5 rounded text-center truncate bg-stone-200 text-stone-700 border border-stone-300">
+                            ✈ Departed
+                          </span>
+                        ) : isCellFull ? (
+                          <span className="text-[7px] sm:text-[8px] font-jakarta font-bold px-0.5 rounded text-center truncate bg-rose-100 text-rose-800 border border-rose-300">
+                            ⛔ Full
+                          </span>
+                        ) : isCellNewGroup ? (
+                          <span className="text-[7px] sm:text-[8px] font-jakarta font-bold px-0.5 rounded text-center truncate bg-amber-200 text-amber-900 border border-amber-300">
+                            ✨ {totalSeatsLeft} Left
+                          </span>
+                        ) : (
+                          <span
+                            className={`text-[7px] sm:text-[8px] font-jakarta font-bold px-0.5 rounded text-center truncate ${
+                              isUrgent
+                                ? 'bg-rose-500 text-white animate-pulse'
+                                : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                            }`}
+                          >
+                            {totalSeatsLeft} Left
+                          </span>
+                        )}
                       </div>
                     )}
                   </div>
@@ -319,9 +394,25 @@ const HomeDepartureWidget = () => {
                 {/* Header info */}
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-peach text-darkgreen text-[11px] font-bold font-jakarta">
-                      {activeDays ? `${activeDays} Days Group Tour` : 'Umrah Tour'}
-                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="px-2.5 py-0.5 rounded-full bg-peach text-darkgreen text-[11px] font-bold font-jakarta">
+                        {activeDays ? `${activeDays} Days Group Tour` : 'Umrah Tour'}
+                      </span>
+                      {isActiveDeparted ? (
+                        <span className="px-2 py-0.5 rounded-full bg-stone-200 text-stone-800 text-[10px] font-bold font-jakarta">
+                          ✈ Departed
+                        </span>
+                      ) : isActiveFull ? (
+                        <span className="px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[10px] font-bold font-jakarta">
+                          ⛔ Full
+                        </span>
+                      ) : isActiveNewGroup ? (
+                        <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[10px] font-bold font-jakarta flex items-center gap-0.5">
+                          <Sparkles size={10} className="text-amber-700" />
+                          <span>New Group</span>
+                        </span>
+                      ) : null}
+                    </div>
                     <span className="inline-flex items-center gap-1 text-[11px] font-jakarta text-stone-500">
                       <MapPin size={12} className="text-stone-400" />
                       From {activeDeparture.departure_city || 'Mumbai'}
@@ -387,10 +478,10 @@ const HomeDepartureWidget = () => {
                     href={activeWaUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 bg-darkgreen hover:bg-mediumgreen text-peach py-2.5 rounded-xl font-jakarta font-semibold text-xs shadow-md transition-all active:scale-98"
+                    className={`w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl font-jakarta font-semibold text-xs shadow-md transition-all active:scale-98 ${activeBtnBg}`}
                   >
                     <WhatsappLogo size={18} weight="fill" className="text-emerald-400" />
-                    <span>Enquire for {activeDateFormatted} on WhatsApp</span>
+                    <span>{activeBtnLabel}</span>
                   </a>
                 </div>
               </div>

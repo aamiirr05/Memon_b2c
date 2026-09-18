@@ -150,6 +150,35 @@ export const useDepartureStore = create((set, get) => ({
     }
   },
 
+  updateDepartureStatus: async (id, status) => {
+    try {
+      const res = await axiosInstance.patch(`/admin/departures/${id}/status`, {
+        status,
+      });
+      const updated = res.data?.data;
+      set((state) => ({
+        adminDepartures: state.adminDepartures.map((d) =>
+          d.id === id ? { ...d, status: updated?.status || status } : d
+        ),
+      }));
+      const label =
+        status === 'new_group'
+          ? 'New Group'
+          : status === 'full'
+          ? 'Full / Closed'
+          : status === 'departed'
+          ? 'Departed'
+          : 'Booking Open';
+      toast.success(`Status set to ${label}`);
+      return true;
+    } catch (err) {
+      console.error('Error updating status:', err);
+      const msg = err.response?.data?.message || 'Failed to update status';
+      toast.error(msg);
+      return false;
+    }
+  },
+
   updateTierSeats: async (tierId, { available_seats, total_seats }) => {
     try {
       const res = await axiosInstance.put(`/admin/departures/tiers/${tierId}`, {

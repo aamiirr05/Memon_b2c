@@ -25,12 +25,14 @@ const ManageDepartures = () => {
     fetchAdminDepartures,
     deleteDeparture,
     togglePublish,
+    updateDepartureStatus,
     updateTierSeats,
   } = useDepartureStore();
 
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [editingSeatsTier, setEditingSeatsTier] = useState(null); // { tierId, tierName, availableSeats, totalSeats }
   const [newAvailableSeats, setNewAvailableSeats] = useState(0);
+  const [statusFilter, setStatusFilter] = useState('all');
 
   useEffect(() => {
     fetchAdminDepartures();
@@ -49,16 +51,33 @@ const ManageDepartures = () => {
     setEditingSeatsTier(null);
   };
 
+  const counts = {
+    all: adminDepartures.length,
+    upcoming: adminDepartures.filter(
+      (d) => !d.status || d.status === 'upcoming' || d.status === 'active'
+    ).length,
+    new_group: adminDepartures.filter((d) => d.status === 'new_group').length,
+    full: adminDepartures.filter((d) => d.status === 'full').length,
+    departed: adminDepartures.filter((d) => d.status === 'departed').length,
+  };
+
+  const filteredDepartures = adminDepartures.filter((dep) => {
+    if (statusFilter === 'all') return true;
+    const st = dep.status || 'upcoming';
+    if (statusFilter === 'upcoming') return st === 'upcoming' || st === 'active';
+    return st === statusFilter;
+  });
+
   return (
     <div className="w-full space-y-6">
       {/* Top action bar */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold font-zodiak text-darkgreen">
             All Scheduled Departures ({adminDepartures.length})
           </h2>
           <p className="text-xs font-jakarta text-stone-500">
-            Publish/unpublish live, manage flights, and manually adjust seat availability
+            Publish live, quick-switch status, manage flights, and manually adjust seat counts
           </p>
         </div>
 
@@ -80,6 +99,60 @@ const ManageDepartures = () => {
         </div>
       </div>
 
+      {/* Admin Status Filter Tabs */}
+      <div className="flex flex-wrap items-center gap-2 pt-1 border-b border-darkgreen/10 pb-3">
+        <button
+          onClick={() => setStatusFilter('all')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-semibold font-jakarta transition-colors ${
+            statusFilter === 'all'
+              ? 'bg-darkgreen text-peach shadow-sm'
+              : 'bg-white border border-darkgreen/20 text-stone-600 hover:bg-peach/40'
+          }`}
+        >
+          All ({counts.all})
+        </button>
+        <button
+          onClick={() => setStatusFilter('upcoming')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-semibold font-jakarta transition-colors ${
+            statusFilter === 'upcoming'
+              ? 'bg-darkgreen text-peach shadow-sm'
+              : 'bg-white border border-darkgreen/20 text-stone-600 hover:bg-peach/40'
+          }`}
+        >
+          🟢 Booking Open ({counts.upcoming})
+        </button>
+        <button
+          onClick={() => setStatusFilter('new_group')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-semibold font-jakarta transition-colors ${
+            statusFilter === 'new_group'
+              ? 'bg-amber-600 text-white shadow-sm'
+              : 'bg-white border border-amber-300 text-amber-900 hover:bg-amber-50'
+          }`}
+        >
+          ✨ New Groups ({counts.new_group})
+        </button>
+        <button
+          onClick={() => setStatusFilter('full')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-semibold font-jakarta transition-colors ${
+            statusFilter === 'full'
+              ? 'bg-rose-600 text-white shadow-sm'
+              : 'bg-white border border-rose-300 text-rose-800 hover:bg-rose-50'
+          }`}
+        >
+          ⛔ Full / Closed ({counts.full})
+        </button>
+        <button
+          onClick={() => setStatusFilter('departed')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-semibold font-jakarta transition-colors ${
+            statusFilter === 'departed'
+              ? 'bg-stone-700 text-white shadow-sm'
+              : 'bg-white border border-stone-300 text-stone-700 hover:bg-stone-100'
+          }`}
+        >
+          ✈ Departed ({counts.departed})
+        </button>
+      </div>
+
       {/* Loading state */}
       {isLoading && adminDepartures.length === 0 && (
         <div className="space-y-4">
@@ -97,14 +170,16 @@ const ManageDepartures = () => {
       )}
 
       {/* Empty State */}
-      {!isLoading && adminDepartures.length === 0 && (
+      {!isLoading && filteredDepartures.length === 0 && (
         <div className="bg-white/90 border border-darkgreen/15 rounded-2xl p-12 text-center">
           <Calendar size={40} className="text-darkgreen/40 mx-auto mb-3" />
           <h3 className="text-base font-bold font-zodiak text-darkgreen">
             No Departures Found
           </h3>
           <p className="text-xs font-jakarta text-stone-500 mt-1 mb-5">
-            You haven&apos;t added any departures yet. Create your first group departure now.
+            {statusFilter === 'all'
+              ? "You haven't added any departures yet. Create your first group departure now."
+              : `No departures with status '${statusFilter}'.`}
           </p>
           <button
             onClick={() => navigate('/admin/departures/create')}
@@ -118,7 +193,7 @@ const ManageDepartures = () => {
 
       {/* Departures List */}
       <div className="space-y-4">
-        {adminDepartures.map((dep) => {
+        {filteredDepartures.map((dep) => {
           const depFormatted = formatDateStr(dep.departure_date);
           const retFormatted = formatDateStr(dep.return_date);
           const days = calculateDays(dep.departure_date, dep.return_date);
@@ -133,9 +208,9 @@ const ManageDepartures = () => {
               }`}
             >
               {/* Top Row: Date range & Status Actions */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-darkgreen/10">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-darkgreen/10">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <h3 className="font-zodiak font-bold text-lg text-darkgreen">
                       {depFormatted} – {retFormatted}
                     </h3>
@@ -144,22 +219,68 @@ const ManageDepartures = () => {
                         {days} Days
                       </span>
                     )}
+
+                    {/* Prominent Status Pill */}
+                    {dep.status === 'new_group' && (
+                      <span className="text-[11px] font-jakarta font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300 flex items-center gap-1">
+                        ✨ New Group
+                      </span>
+                    )}
+                    {dep.status === 'full' && (
+                      <span className="text-[11px] font-jakarta font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300 flex items-center gap-1">
+                        ⛔ Full
+                      </span>
+                    )}
+                    {dep.status === 'departed' && (
+                      <span className="text-[11px] font-jakarta font-bold px-2.5 py-0.5 rounded-full bg-stone-200 text-stone-700 border border-stone-400 flex items-center gap-1">
+                        ✈ Departed
+                      </span>
+                    )}
+                    {(!dep.status || dep.status === 'upcoming' || dep.status === 'active') && (
+                      <span className="text-[11px] font-jakarta font-semibold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300">
+                        🟢 Booking Open
+                      </span>
+                    )}
                   </div>
                   <div className="text-xs font-jakarta text-stone-600 flex items-center gap-3">
                     <span className="font-semibold text-stone-800">
                       City: {dep.departure_city || 'Mumbai'}
                     </span>
-                    <span>•</span>
-                    <span>Status: {dep.status || 'active'}</span>
                   </div>
                 </div>
 
-                {/* Status Toggle & Action buttons */}
-                <div className="flex items-center gap-3">
+                {/* Status Quick-Change, Publish Toggle & Action buttons */}
+                <div className="flex flex-wrap items-center gap-2.5">
+                  {/* 1-Click Status Dropdown Selector */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-[11px] font-jakarta font-semibold text-stone-500 hidden sm:inline">
+                      Status:
+                    </span>
+                    <select
+                      value={dep.status || 'upcoming'}
+                      onChange={(e) => updateDepartureStatus(dep.id, e.target.value)}
+                      className={`text-xs font-jakarta font-semibold px-2.5 py-1.5 rounded-xl border transition-colors cursor-pointer focus:outline-none ${
+                        dep.status === 'new_group'
+                          ? 'bg-amber-50 text-amber-950 border-amber-300 font-bold'
+                          : dep.status === 'full'
+                          ? 'bg-rose-50 text-rose-900 border-rose-300 font-bold'
+                          : dep.status === 'departed'
+                          ? 'bg-stone-100 text-stone-800 border-stone-300 font-medium'
+                          : 'bg-emerald-50 text-emerald-900 border-emerald-300 font-semibold'
+                      }`}
+                      title="Change Group Status"
+                    >
+                      <option value="upcoming">🟢 Booking Open</option>
+                      <option value="new_group">✨ New Group</option>
+                      <option value="full">⛔ Full / Closed</option>
+                      <option value="departed">✈ Departed</option>
+                    </select>
+                  </div>
+
                   {/* Publish/Draft Toggle Button */}
                   <button
                     onClick={() => togglePublish(dep.id, dep.is_published)}
-                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold font-jakarta transition-colors border ${
+                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold font-jakarta transition-colors border ${
                       dep.is_published
                         ? 'bg-emerald-100 text-emerald-800 border-emerald-300 hover:bg-emerald-200'
                         : 'bg-stone-100 text-stone-600 border-stone-300 hover:bg-stone-200'

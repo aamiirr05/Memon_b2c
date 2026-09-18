@@ -15,25 +15,47 @@ export const getSeatStatus = (available, total) => {
 };
 
 // ****************** Helper: Public Data Sanitizer ******************
-// STRICT SECURITY RULE: NEVER return total_seats, price, status, is_published, created_at, updated_at
-export const formatPublicDeparture = (dep) => ({
-  id: dep.id,
-  departure_date: dep.departure_date,
-  return_date: dep.return_date,
-  departure_city: dep.departure_city,
-  flights: (dep.flights || []).map((f) => ({
-    airline: f.airline,
-    flight_number: f.flight_number,
-  })),
-  tiers: (dep.tiers || []).map((t) => ({
-    id: t.id,
-    tier_name: t.tier_name,
-    available_seats: t.available_seats,
-    makkah_hotel: t.makkah_hotel,
-    madina_hotel: t.madina_hotel,
-    seat_status: getSeatStatus(t.available_seats, t.total_seats),
-  })),
-});
+// STRICT SECURITY RULE: NEVER return total_seats, price, is_published, created_at, updated_at
+export const formatPublicDeparture = (dep) => {
+  let status = dep.status || "upcoming";
+  if (status === "active") status = "upcoming";
+
+  const totalAvailable = (dep.tiers || []).reduce(
+    (sum, t) => sum + (Number(t.available_seats) || 0),
+    0
+  );
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const depDate = new Date(dep.departure_date);
+
+  // If date has passed, mark as departed unless already marked
+  if (depDate < today) {
+    status = "departed";
+  } else if (status === "upcoming" && (dep.tiers || []).length > 0 && totalAvailable === 0) {
+    status = "full";
+  }
+
+  return {
+    id: dep.id,
+    departure_date: dep.departure_date,
+    return_date: dep.return_date,
+    departure_city: dep.departure_city,
+    status,
+    flights: (dep.flights || []).map((f) => ({
+      airline: f.airline,
+      flight_number: f.flight_number,
+    })),
+    tiers: (dep.tiers || []).map((t) => ({
+      id: t.id,
+      tier_name: t.tier_name,
+      available_seats: t.available_seats,
+      makkah_hotel: t.makkah_hotel,
+      madina_hotel: t.madina_hotel,
+      seat_status: getSeatStatus(t.available_seats, t.total_seats),
+    })),
+  };
+};
 
 // ============================================================================
 // PUBLIC CONTROLLERS (No Auth Required)
@@ -361,6 +383,40 @@ export const togglePublishDeparture = asyncHandler(async (req, res) => {
         `Departure ${newPublishState ? "published" : "unpublished"} successfully`
       )
     );
+});
+
+/**
+ * PATCH /api/v1/admin/departures/:id/status
+ * Quick update departure status ('upcoming', 'new_group', 'full', 'departed')
+ */
+export const updateDepartureStatus = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!status) {
+    throw new ApiError(400, "status is required");
+  }
+
+  const existing = await prisma.departure.findUnique({
+    where: { id },
+  });
+
+  if (!existing) {
+    throw new ApiError(404, "Departure not found");
+  }
+
+  const updated = await prisma.departure.update({
+    where: { id },
+    data: { status },
+    include: {
+      flights: true,
+      tiers: true,
+    },
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, updated, `Departure status updated to ${status}`));
 });
 
 /**

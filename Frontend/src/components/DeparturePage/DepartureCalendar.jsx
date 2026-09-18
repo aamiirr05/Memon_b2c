@@ -231,16 +231,28 @@ const DepartureCalendar = ({ departures = [], onSelectDate, selectedDate }) => {
                 !cell.isCurrentMonth
                   ? 'bg-stone-50/50 border-stone-100 text-stone-300 pointer-events-none'
                   : hasDep
-                  ? 'bg-emerald-50/60 border-darkgreen/30 hover:border-darkgreen hover:shadow-md cursor-pointer hover:bg-emerald-100/50 hover:scale-[1.01]'
+                  ? cell.departures?.[0]?.status === 'departed'
+                    ? 'bg-stone-100/80 border-stone-300 hover:border-stone-500 cursor-pointer hover:bg-stone-200/70 hover:scale-[1.01]'
+                    : cell.departures?.[0]?.status === 'full'
+                    ? 'bg-rose-50/80 border-rose-200 hover:border-rose-400 cursor-pointer hover:bg-rose-100/70 hover:scale-[1.01]'
+                    : cell.departures?.[0]?.status === 'new_group'
+                    ? 'bg-amber-50/80 border-amber-300 ring-1 ring-amber-300 hover:border-amber-500 cursor-pointer hover:bg-amber-100/70 hover:scale-[1.01]'
+                    : 'bg-emerald-50/60 border-darkgreen/30 hover:border-darkgreen hover:shadow-md cursor-pointer hover:bg-emerald-100/50 hover:scale-[1.01]'
                   : 'bg-white border-stone-100 text-stone-700'
-              } ${isSelected ? 'ring-2 ring-darkgreen border-darkgreen bg-emerald-100' : ''}`}
+              } ${isSelected ? 'ring-2 ring-darkgreen border-darkgreen bg-emerald-100 shadow-sm' : ''}`}
             >
-              {/* Top row in cell: Date Number + Plane icon */}
+              {/* Top row in cell: Date Number + Status Icon */}
               <div className="flex items-center justify-between">
                 <span
                   className={`text-[11px] sm:text-xs font-semibold rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center font-jakarta ${
                     hasDep
-                      ? 'bg-darkgreen text-peach font-bold'
+                      ? cell.departures?.[0]?.status === 'departed'
+                        ? 'bg-stone-600 text-white font-bold'
+                        : cell.departures?.[0]?.status === 'full'
+                        ? 'bg-rose-600 text-white font-bold'
+                        : cell.departures?.[0]?.status === 'new_group'
+                        ? 'bg-amber-600 text-white font-bold'
+                        : 'bg-darkgreen text-peach font-bold'
                       : cell.isCurrentMonth
                       ? 'text-stone-700'
                       : 'text-stone-300'
@@ -250,54 +262,86 @@ const DepartureCalendar = ({ departures = [], onSelectDate, selectedDate }) => {
                 </span>
 
                 {hasDep && (
-                  <Plane size={13} className="text-darkgreen rotate-45 flex-shrink-0" />
+                  <Plane
+                    size={13}
+                    className={`rotate-45 flex-shrink-0 ${
+                      cell.departures?.[0]?.status === 'departed'
+                        ? 'text-stone-500'
+                        : cell.departures?.[0]?.status === 'full'
+                        ? 'text-rose-500'
+                        : cell.departures?.[0]?.status === 'new_group'
+                        ? 'text-amber-600'
+                        : 'text-darkgreen'
+                    }`}
+                  />
                 )}
               </div>
 
-              {/* Middle & Bottom: Airline Name + SEATS PENDING BADGE */}
+              {/* Middle & Bottom: Airline Name + SEATS / STATUS BADGE */}
               {hasDep && cell.departures && (
                 <div className="mt-1 flex flex-col gap-1 w-full">
                   {cell.departures.slice(0, 1).map((dep) => {
-                    // Total available seats across all tiers
                     const totalAvailable = (dep.tiers || []).reduce(
                       (sum, t) => sum + (Number(t.available_seats) || 0),
                       0
                     );
-                    const isSoldOut = totalAvailable === 0;
+                    const isDeparted = dep.status === 'departed';
+                    const isFull = dep.status === 'full' || (!isDeparted && totalAvailable === 0);
+                    const isNewGroup = dep.status === 'new_group';
                     const isUrgent = totalAvailable > 0 && totalAvailable <= 5;
                     const isLimited = totalAvailable > 5 && totalAvailable <= 15;
-                    const airlineName = dep.flights?.[0]?.airline || 'Departure';
+                    const airlineName = dep.flights?.[0]?.airline || 'Tour';
 
                     return (
                       <div key={dep.id} className="flex flex-col gap-0.5">
+                        {/* New Group highlight tag */}
+                        {isNewGroup && (
+                          <div className="text-[7px] sm:text-[8px] font-jakarta font-bold px-1 py-0.2 rounded bg-amber-200 text-amber-900 text-center uppercase tracking-wider flex items-center justify-center gap-0.5 shadow-2xs">
+                            <Sparkles size={8} className="text-amber-700" />
+                            <span>New</span>
+                          </div>
+                        )}
+
                         {/* Airline Pill */}
-                        <div className="text-[9px] sm:text-[10px] md:text-xs font-jakarta font-semibold truncate px-1.5 py-0.5 rounded bg-darkgreen text-peach text-center shadow-2xs">
+                        <div
+                          className={`text-[9px] sm:text-[10px] md:text-xs font-jakarta font-semibold truncate px-1.5 py-0.5 rounded text-center shadow-2xs ${
+                            isDeparted
+                              ? 'bg-stone-500 text-white'
+                              : isFull
+                              ? 'bg-rose-700 text-white'
+                              : isNewGroup
+                              ? 'bg-darkgreen text-peach'
+                              : 'bg-darkgreen text-peach'
+                          }`}
+                        >
                           {airlineName}
                         </div>
 
-                        {/* Seats Pending Badge */}
-                        <div
-                          className={`text-[8px] sm:text-[9px] md:text-[10px] font-jakarta font-bold px-1 py-0.5 rounded flex items-center justify-center gap-1 text-center shadow-2xs ${
-                            isSoldOut
-                              ? 'bg-stone-200 text-stone-600 border border-stone-300'
-                              : isUrgent
-                              ? 'bg-rose-500 text-white animate-pulse'
-                              : isLimited
-                              ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                              : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                          }`}
-                        >
-                          {isSoldOut ? (
-                            <span>Sold Out</span>
-                          ) : (
-                            <>
-                              <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0 hidden sm:inline-block" />
-                              <span className="truncate">
-                                {totalAvailable} {totalAvailable === 1 ? 'Seat' : 'Seats'} Left
-                              </span>
-                            </>
-                          )}
-                        </div>
+                        {/* Status / Seats Left Badge */}
+                        {isDeparted ? (
+                          <div className="text-[8px] sm:text-[9px] font-jakarta font-bold px-1 py-0.5 rounded flex items-center justify-center gap-1 text-center bg-stone-200 text-stone-700 border border-stone-300 shadow-2xs">
+                            <span>✈ Departed</span>
+                          </div>
+                        ) : isFull ? (
+                          <div className="text-[8px] sm:text-[9px] font-jakarta font-bold px-1 py-0.5 rounded flex items-center justify-center gap-1 text-center bg-rose-100 text-rose-800 border border-rose-300 shadow-2xs">
+                            <span>⛔ Full</span>
+                          </div>
+                        ) : (
+                          <div
+                            className={`text-[8px] sm:text-[9px] md:text-[10px] font-jakarta font-bold px-1 py-0.5 rounded flex items-center justify-center gap-1 text-center shadow-2xs ${
+                              isUrgent
+                                ? 'bg-rose-500 text-white animate-pulse'
+                                : isLimited
+                                ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                                : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                            }`}
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0 hidden sm:inline-block" />
+                            <span className="truncate">
+                              {totalAvailable} {totalAvailable === 1 ? 'Seat' : 'Seats'} Left
+                            </span>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -316,23 +360,33 @@ const DepartureCalendar = ({ departures = [], onSelectDate, selectedDate }) => {
 
       {/* Legend */}
       <div className="flex flex-wrap items-center justify-between gap-3 mt-4 pt-3 border-t border-darkgreen/10 text-[11px] sm:text-xs font-jakarta text-stone-600">
-        <div className="flex flex-wrap items-center gap-3 sm:gap-5">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-1.5">
+            <span className="px-1.5 py-0.5 rounded bg-amber-100 border border-amber-300 text-amber-900 font-bold text-[10px]">
+              ✨ New
+            </span>
+            <span>New Group</span>
+          </div>
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
-            <span>Available Seats</span>
+            <span>Seats Available</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
-            <span>Limited</span>
+            <span className="px-1.5 py-0.5 rounded bg-rose-100 border border-rose-300 text-rose-800 font-bold text-[10px]">
+              ⛔ Full
+            </span>
+            <span>Full / Closed</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
-            <span>Few Seats Left (Urgent)</span>
+            <span className="px-1.5 py-0.5 rounded bg-stone-200 border border-stone-300 text-stone-700 font-bold text-[10px]">
+              ✈ Departed
+            </span>
+            <span>Completed Tour</span>
           </div>
         </div>
 
         <span className="text-[11px] text-stone-400 font-medium">
-          Click any date to view hotels & WhatsApp booking
+          Click any date to view hotels & package info
         </span>
       </div>
     </div>

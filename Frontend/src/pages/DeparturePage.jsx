@@ -11,6 +11,7 @@ const DeparturePage = () => {
   const { publicDepartures, isLoading, error, fetchPublicDepartures } = useDepartureStore();
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedCity, setSelectedCity] = useState('all');
+  const [selectedStatus, setSelectedStatus] = useState('all');
   const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'cards' on mobile
 
   useEffect(() => {
@@ -23,10 +24,27 @@ const DeparturePage = () => {
     new Set(publicDepartures.map((d) => d.departure_city).filter(Boolean))
   );
 
+  // Status counts
+  const counts = {
+    all: publicDepartures.length,
+    upcoming: publicDepartures.filter(
+      (d) => !d.status || d.status === 'upcoming' || d.status === 'active'
+    ).length,
+    new_group: publicDepartures.filter((d) => d.status === 'new_group').length,
+    full: publicDepartures.filter((d) => d.status === 'full').length,
+    departed: publicDepartures.filter((d) => d.status === 'departed').length,
+  };
+
   // Filtered departures
   const filteredDepartures = publicDepartures.filter((dep) => {
-    if (selectedCity === 'all') return true;
-    return dep.departure_city?.toLowerCase() === selectedCity.toLowerCase();
+    if (selectedCity !== 'all' && dep.departure_city?.toLowerCase() !== selectedCity.toLowerCase()) {
+      return false;
+    }
+    if (selectedStatus === 'all') return true;
+    if (selectedStatus === 'upcoming') {
+      return !dep.status || dep.status === 'upcoming' || dep.status === 'active';
+    }
+    return dep.status === selectedStatus;
   });
 
   const handleSelectCalendarDate = (dateKey) => {
@@ -95,6 +113,72 @@ const DeparturePage = () => {
                 ))}
               </div>
             )}
+
+            {/* Group Status Filter Tabs */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+              <button
+                onClick={() => setSelectedStatus('all')}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
+                  selectedStatus === 'all'
+                    ? 'bg-darkgreen text-peach shadow-sm'
+                    : 'bg-white/90 text-darkgreen border border-darkgreen/20 hover:bg-peach/50'
+                }`}
+              >
+                All Tours ({counts.all})
+              </button>
+
+              {counts.new_group > 0 && (
+                <button
+                  onClick={() => setSelectedStatus('new_group')}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
+                    selectedStatus === 'new_group'
+                      ? 'bg-amber-600 text-white shadow-sm'
+                      : 'bg-white/90 text-amber-900 border border-amber-300 hover:bg-amber-50'
+                  }`}
+                >
+                  ✨ New Groups ({counts.new_group})
+                </button>
+              )}
+
+              {counts.upcoming > 0 && (
+                <button
+                  onClick={() => setSelectedStatus('upcoming')}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
+                    selectedStatus === 'upcoming'
+                      ? 'bg-emerald-700 text-white shadow-sm'
+                      : 'bg-white/90 text-emerald-900 border border-emerald-300 hover:bg-emerald-50'
+                  }`}
+                >
+                  🟢 Booking Open ({counts.upcoming})
+                </button>
+              )}
+
+              {counts.full > 0 && (
+                <button
+                  onClick={() => setSelectedStatus('full')}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
+                    selectedStatus === 'full'
+                      ? 'bg-rose-600 text-white shadow-sm'
+                      : 'bg-white/90 text-rose-800 border border-rose-300 hover:bg-rose-50'
+                  }`}
+                >
+                  ⛔ Full ({counts.full})
+                </button>
+              )}
+
+              {counts.departed > 0 && (
+                <button
+                  onClick={() => setSelectedStatus('departed')}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
+                    selectedStatus === 'departed'
+                      ? 'bg-stone-700 text-white shadow-sm'
+                      : 'bg-white/90 text-stone-700 border border-stone-300 hover:bg-stone-100'
+                  }`}
+                >
+                  ✈ Past Departed Tours ({counts.departed})
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Loading State */}

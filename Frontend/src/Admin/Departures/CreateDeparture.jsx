@@ -37,7 +37,7 @@ const CreateDeparture = () => {
   const [departureDate, setDepartureDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
   const [departureCity, setDepartureCity] = useState('Mumbai');
-  const [status, setStatus] = useState('active');
+  const [status, setStatus] = useState('upcoming');
   const [isPublished, setIsPublished] = useState(false);
 
   // Flights State
@@ -223,7 +223,7 @@ const CreateDeparture = () => {
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {/* Departure Date */}
             <div className="space-y-1.5">
               <label className="text-xs font-semibold font-jakarta text-stone-700">
@@ -266,6 +266,30 @@ const CreateDeparture = () => {
                 className="w-full px-3.5 py-2.5 border border-darkgreen/20 rounded-xl text-xs font-jakarta focus:outline-none focus:ring-2 focus:ring-darkgreen/30"
               />
             </div>
+
+            {/* Group Status */}
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold font-jakarta text-stone-700">
+                Group Status <span className="text-rose-500">*</span>
+              </label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full px-3 py-2.5 border border-darkgreen/20 rounded-xl text-xs font-jakarta font-semibold focus:outline-none focus:ring-2 focus:ring-darkgreen/30 bg-white"
+              >
+                <option value="upcoming">🟢 Booking Open / Upcoming</option>
+                <option value="new_group">✨ New Group (Highlighted)</option>
+                <option value="full">⛔ Full / Housefull (Closed)</option>
+                <option value="departed">✈ Departed / Completed Tour</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="bg-peach/30 border border-darkgreen/10 rounded-xl p-3 text-[11px] font-jakarta text-stone-600 flex items-start gap-2">
+            <span className="text-darkgreen font-bold">💡 Tip:</span>
+            <span>
+              <strong>Past dates & track record:</strong> You can enter past dates and select <em>&apos;Departed / Completed Tour&apos;</em> to showcase your past successful Umrah tours to website visitors.
+            </span>
           </div>
         </div>
 

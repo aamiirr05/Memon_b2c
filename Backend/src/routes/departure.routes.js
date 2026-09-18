@@ -7,6 +7,7 @@ import {
   updateDeparture,
   deleteDeparture,
   togglePublishDeparture,
+  updateDepartureStatus,
   addFlight,
   deleteFlight,
   addTier,
@@ -42,6 +43,7 @@ departureAdminRoutes
   .delete(deleteDeparture);
 
 departureAdminRoutes.route("/:id/publish").patch(togglePublishDeparture);
+departureAdminRoutes.route("/:id/status").patch(updateDepartureStatus);
 
 // Flight sub-resources
 departureAdminRoutes.route("/:id/flights").post(addFlight);
