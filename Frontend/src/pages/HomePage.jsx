@@ -10,6 +10,7 @@ import Testimonials from '../components/HomePage/Testimonials';
 import Marquees from '../components/HomePage/Marquees';
 import RecommendedPackages from '../components/HomePage/RecommendedPackages';
 import UpcomingDepartures from '../components/HomePage/UpcomingDepartures';
+import HomeDepartureWidget from '../components/HomePage/HomeDepartureWidget';
 import { Helmet } from 'react-helmet-async';
 
 const Homepage = () => {
@@ -35,11 +36,14 @@ const Homepage = () => {
 
         {/* Main content  */}
         <MainContent />
-        {/* About Us Section */}
 
+        {/* Live Interactive Departure Mini-Calendar Widget */}
+        <HomeDepartureWidget />
+
+        {/* About Us Section */}
         <AboutUs />
 
-        {/* Live Upcoming Departures Section */}
+        {/* Live Upcoming Departures Showcase */}
         <UpcomingDepartures />
 
         {/* Package Slider  */}
