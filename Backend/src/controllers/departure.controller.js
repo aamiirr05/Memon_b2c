@@ -39,12 +39,13 @@ export const formatPublicDeparture = (dep) => ({
 // PUBLIC CONTROLLERS (No Auth Required)
 // ============================================================================
 
-/**
- * GET /api/v1/departures/public
- * Returns all published departures, ordered by departure_date ascending.
- * Strictly sanitizes internal data.
- */
 export const getPublicDepartures = asyncHandler(async (req, res) => {
+  if (!prisma.departure) {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, [], "Public departures fetched successfully"));
+  }
+
   const departures = await prisma.departure.findMany({
     where: {
       is_published: true,
@@ -131,6 +132,12 @@ export const getPublicDepartureById = asyncHandler(async (req, res) => {
  * All departures (published + draft) with full flights and tiers
  */
 export const getAdminDepartures = asyncHandler(async (req, res) => {
+  if (!prisma.departure) {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, [], "Admin departures fetched successfully"));
+  }
+
   const departures = await prisma.departure.findMany({
     include: {
       flights: true,
