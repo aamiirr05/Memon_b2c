@@ -4,13 +4,14 @@ import { useDepartureStore } from '../store/useDepartureStore';
 import DepartureCalendar from '../components/DeparturePage/DepartureCalendar';
 import DepartureCard from '../components/DeparturePage/DepartureCard';
 import DepartureSkeleton from '../components/DeparturePage/DepartureSkeleton';
-import { Calendar, Compass, RefreshCw, AlertCircle, Plane } from 'lucide-react';
+import { Calendar as CalendarIcon, RefreshCw, AlertCircle, Plane, LayoutGrid, List } from 'lucide-react';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 
 const DeparturePage = () => {
   const { publicDepartures, isLoading, error, fetchPublicDepartures } = useDepartureStore();
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedCity, setSelectedCity] = useState('all');
+  const [viewMode, setViewMode] = useState('calendar'); // 'calendar' or 'cards' on mobile
 
   useEffect(() => {
     fetchPublicDepartures();
@@ -38,40 +39,40 @@ const DeparturePage = () => {
         <title>Live Umrah Departure Calendar | Memon Haj Umrah Tours & Travels</title>
         <meta
           name="description"
-          content="View verified live departure dates for Umrah from Mumbai and other cities. Compare flight details, available seats, and package hotel tiers."
+          content="Live Umrah group departure calendar with real-time seat availability, confirmed flights, and hotel tiers. Book via WhatsApp."
         />
-        <meta property="og:title" content="Upcoming Umrah Departures - Memon Tours" />
+        <meta property="og:title" content="Live Umrah Departure Calendar - Memon Tours" />
         <meta
           property="og:description"
           content="Check live seat availability, direct flights, and package options for upcoming Umrah groups."
         />
       </Helmet>
 
-      <div className="min-h-screen bg-peach/20 pt-28 pb-20 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-peach/20 pt-24 md:pt-28 pb-20 px-3 sm:px-6 lg:px-8">
         <ScrollToTopButton />
 
         <div className="max-w-6xl mx-auto">
           {/* Header Section */}
-          <div className="text-center max-w-3xl mx-auto mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach/70 border border-darkgreen/20 text-darkgreen font-jakarta font-semibold text-xs mb-3 shadow-2xs">
-              <Calendar size={14} className="text-darkgreen" />
-              <span>Verified Fixed Group Departures</span>
+          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-10">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-peach/70 border border-darkgreen/20 text-darkgreen font-jakarta font-semibold text-xs mb-3 shadow-2xs">
+              <CalendarIcon size={14} className="text-darkgreen" />
+              <span>Live Seat Availability Calendar</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-zodiak text-darkgreen tracking-tight">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold font-zodiak text-darkgreen tracking-tight">
               Upcoming Umrah Departures
             </h1>
 
-            <p className="mt-3 text-sm sm:text-base font-jakarta text-stone-600 leading-relaxed">
-              Explore our scheduled group departure dates with confirmed flights, curated hotel tiers, and real-time seat availability. Click on any date to enquire directly via WhatsApp.
+            <p className="mt-2.5 text-xs sm:text-base font-jakarta text-stone-600 leading-relaxed max-w-2xl mx-auto">
+              Direct flights, confirmed dates, and real-time seat status. Check seats left directly on the calendar below.
             </p>
 
-            {/* Filter pills */}
+            {/* City Filter Pills */}
             {departureCities.length > 1 && (
-              <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
+              <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
                 <button
                   onClick={() => setSelectedCity('all')}
-                  className={`px-4 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
                     selectedCity === 'all'
                       ? 'bg-darkgreen text-peach shadow-sm'
                       : 'bg-white/80 text-darkgreen border border-darkgreen/20 hover:bg-peach/50'
@@ -83,7 +84,7 @@ const DeparturePage = () => {
                   <button
                     key={city}
                     onClick={() => setSelectedCity(city)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-jakarta font-semibold transition-all ${
                       selectedCity.toLowerCase() === city.toLowerCase()
                         ? 'bg-darkgreen text-peach shadow-sm'
                         : 'bg-white/80 text-darkgreen border border-darkgreen/20 hover:bg-peach/50'
@@ -131,7 +132,7 @@ const DeparturePage = () => {
                     No Departures Scheduled
                   </h3>
                   <p className="text-xs font-jakarta text-stone-600 mt-2 mb-6">
-                    New group departure dates will be announced shortly. You can still reach out to us for customized dates and private Umrah packages.
+                    New group departure dates will be announced shortly. You can also reach out to us for custom dates and private packages.
                   </p>
                   <a
                     href="https://wa.me/918268979705?text=Assalamu%20Alaikum%2C%20I%20am%20interested%20in%20custom%20Umrah%20departure%20dates."
@@ -143,9 +144,35 @@ const DeparturePage = () => {
                   </a>
                 </div>
               ) : (
-                <div className="space-y-10">
-                  {/* Desktop Only: Calendar Month View (Hidden on mobile) */}
-                  <div className="hidden md:block">
+                <div className="space-y-8">
+                  {/* Mobile View Toggle Switch (Shown only on small screens) */}
+                  <div className="flex sm:hidden items-center justify-center gap-2 bg-peach/40 p-1 rounded-xl border border-darkgreen/15 max-w-xs mx-auto">
+                    <button
+                      onClick={() => setViewMode('calendar')}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-jakarta font-semibold transition-all ${
+                        viewMode === 'calendar'
+                          ? 'bg-darkgreen text-peach shadow-xs'
+                          : 'text-darkgreen hover:bg-white/50'
+                      }`}
+                    >
+                      <LayoutGrid size={14} />
+                      <span>Calendar View</span>
+                    </button>
+                    <button
+                      onClick={() => setViewMode('cards')}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-jakarta font-semibold transition-all ${
+                        viewMode === 'cards'
+                          ? 'bg-darkgreen text-peach shadow-xs'
+                          : 'text-darkgreen hover:bg-white/50'
+                      }`}
+                    >
+                      <List size={14} />
+                      <span>Cards View</span>
+                    </button>
+                  </div>
+
+                  {/* Calendar View (Always on desktop; on mobile shown when viewMode is 'calendar') */}
+                  <div className={viewMode === 'cards' ? 'hidden sm:block' : 'block'}>
                     <DepartureCalendar
                       departures={filteredDepartures}
                       onSelectDate={handleSelectCalendarDate}
@@ -156,11 +183,11 @@ const DeparturePage = () => {
                   {/* Section Title for Cards */}
                   <div className="flex items-center justify-between pt-4 border-t border-darkgreen/10">
                     <div>
-                      <h2 className="text-2xl font-bold font-zodiak text-darkgreen">
-                        All Available Departures
+                      <h2 className="text-xl sm:text-2xl font-bold font-zodiak text-darkgreen">
+                        Departure Details & Booking
                       </h2>
                       <p className="text-xs text-stone-500 font-jakarta mt-0.5">
-                        Showing {filteredDepartures.length} scheduled {filteredDepartures.length === 1 ? 'tour' : 'tours'} sorted chronologically
+                        Showing {filteredDepartures.length} scheduled {filteredDepartures.length === 1 ? 'tour' : 'tours'} with flight and hotel tiers
                       </p>
                     </div>
 
@@ -169,12 +196,12 @@ const DeparturePage = () => {
                         onClick={() => setSelectedDate(null)}
                         className="text-xs font-semibold text-darkgreen underline hover:text-mediumgreen font-jakarta"
                       >
-                        Clear date highlight
+                        Show all dates
                       </button>
                     )}
                   </div>
 
-                  {/* Departure Cards List (Visible on all viewports, primary on mobile) */}
+                  {/* Departure Cards List */}
                   <div className="space-y-6">
                     {filteredDepartures.map((departure) => {
                       const d = new Date(departure.departure_date);
