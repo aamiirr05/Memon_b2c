@@ -87,6 +87,10 @@ export const getPublicDepartures = asyncHandler(async (req, res) => {
 export const getPublicDepartureById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
+  if (!prisma.departure) {
+    throw new ApiError(503, "Departure service initializing. Please try again in a few moments.");
+  }
+
   const departure = await prisma.departure.findFirst({
     where: {
       id,
@@ -158,6 +162,10 @@ export const getAdminDepartures = asyncHandler(async (req, res) => {
  * Create new departure with optional flights and tiers
  */
 export const createDeparture = asyncHandler(async (req, res) => {
+  if (!prisma.departure) {
+    throw new ApiError(503, "Departure service initializing. Please try again in a few moments.");
+  }
+
   const {
     departure_date,
     return_date,
