@@ -48,7 +48,8 @@ const initDepartureTables = async () => {
       IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'PackageTier_departure_id_fkey') THEN
         ALTER TABLE "PackageTier" ADD CONSTRAINT "PackageTier_departure_id_fkey" FOREIGN KEY ("departure_id") REFERENCES "Departure"("id") ON DELETE CASCADE ON UPDATE CASCADE;
       END IF;
-    END $$;`
+    END $$;`,
+    `ALTER TABLE "InvoiceItem" ADD COLUMN IF NOT EXISTS "sort_order" INTEGER NOT NULL DEFAULT 0;`
   ];
 
   for (const sql of statements) {

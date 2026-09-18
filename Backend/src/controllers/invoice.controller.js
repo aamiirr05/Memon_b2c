@@ -311,7 +311,7 @@ const getPendingBalances = asyncHandler(async (req, res) => {
   const allInvoices = await prisma.invoice.findMany({
     include: {
       agent: true,
-      items: { orderBy: { sort_order: "asc" } },
+      items: { orderBy: { created_at: "asc" } },
       payments: true,
     },
     orderBy: { created_at: "desc" },
