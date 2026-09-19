@@ -62,7 +62,7 @@ const HotelCard = ({ hotel }) => {
               Starting from:
             </p>
             <p className="text-xl font-medium text-neutral-800 flex justify-start items-start">
-              <span className="text-sm leading-loose"> ₹</span>
+              <span className="text-sm leading-loose"> SAR</span>
               {lowestPrice}
             </p>
           </div>

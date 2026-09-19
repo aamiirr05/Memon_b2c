@@ -13,7 +13,7 @@ const RoomsTab = () => {
       <thead>
         <tr>
           <th className="border border-darkgreen/30 px-4 py-2">Room Type</th>
-          <th className="border border-darkgreen/30 px-4 py-2">Price (INR)</th>
+          <th className="border border-darkgreen/30 px-4 py-2">Price (SAR)</th>
         </tr>
       </thead>
       <tbody>
@@ -25,7 +25,7 @@ const RoomsTab = () => {
                   Quintuple
                 </td>
                 <td className="border border-darkgreen/30 px-4 py-2">
-                  <span className="text-sm">₹ </span>
+                  <span className="text-sm">SAR </span>
                   {room.quint_price}
                 </td>
               </tr>
@@ -36,7 +36,7 @@ const RoomsTab = () => {
                   Quadruple
                 </td>
                 <td className="border border-darkgreen/30 px-4 py-2">
-                  <span className="text-sm">₹ </span>
+                  <span className="text-sm">SAR </span>
                   {room.quad_price}
                 </td>
               </tr>
@@ -45,7 +45,7 @@ const RoomsTab = () => {
               <tr>
                 <td className="border border-darkgreen/30 px-4 py-2">Triple</td>
                 <td className="border border-darkgreen/30 px-4 py-2">
-                  <span className="text-sm">₹ </span>
+                  <span className="text-sm">SAR </span>
                   {room.triple_price}
                 </td>
               </tr>
@@ -54,7 +54,7 @@ const RoomsTab = () => {
               <tr>
                 <td className="border border-darkgreen/30 px-4 py-2">Double</td>
                 <td className="border border-darkgreen/30 px-4 py-2">
-                  <span className="text-sm">₹ </span>
+                  <span className="text-sm">SAR </span>
                   {room.double_price}
                 </td>
               </tr>

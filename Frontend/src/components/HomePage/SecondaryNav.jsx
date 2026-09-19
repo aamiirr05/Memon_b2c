@@ -48,7 +48,7 @@ const navLinks = [
 
 const navLinkTwo = [
   { name: 'Holidays', path: '/holidays', icon: <Island size={20} /> },
-  // { name: 'Hotels', path: '/hotels', icon: <BuildingApartment size={20} /> },
+  { name: 'Hotels', path: '/hotels', icon: <BuildingApartment size={20} /> },
   { name: 'Visa', path: '/visas', icon: <GlobeHemisphereEast size={20} /> },
   { name: 'Forex', path: '/forex', icon: <Money size={20} /> },
   { name: 'Contact Us', path: '/contact', icon: <PhoneOutgoing size={18} /> },
@@ -313,7 +313,7 @@ const SecondaryNav = () => {
                   key={link.name}
                   className=""
                   onClick={() => {
-                    !link.dropdowntwo && setIsMore(!isMore);
+                    !link.dropdowntwo && setMenuOpen(!menuOpen);
                   }}
                 >
                   {link.dropdowntwo ? (
@@ -325,7 +325,7 @@ const SecondaryNav = () => {
                       <div className="px-4 pb-2">
                         {link.dropdowntwo.map((dropdownLink) => (
                           <NavLink
-                            onClick={() => setIsMore(!isMore)}
+                            onClick={() => setMenuOpen(!menuOpen)}
                             key={dropdownLink.name}
                             to={dropdownLink.path}
                             className="block px-4 py-2 text-sm text-neutral-600 hover:bg-darkgreen/40 hover:text-darkgreen rounded-md"
