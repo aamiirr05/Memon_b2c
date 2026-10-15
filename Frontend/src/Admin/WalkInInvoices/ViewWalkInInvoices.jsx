@@ -237,6 +237,8 @@ const SortableServiceItem = ({
             <button
               {...attributes}
               {...listeners}
+              type="button"
+              style={{ touchAction: 'none' }}
               className="cursor-grab active:cursor-grabbing text-darkgreen/30 hover:text-darkgreen p-0.5 mt-0.5"
             >
               <GripVertical size={14} />
@@ -286,6 +288,7 @@ const ViewWalkInInvoices = () => {
     fetchCustomerInvoices,
     fetchInvoiceById,
     setSelectedCustomer,
+    setSelectedInvoice,
     deleteInvoice,
     addPayment,
     deletePayment,
@@ -303,7 +306,9 @@ const ViewWalkInInvoices = () => {
     const items = selectedInvoice.items;
     const oldIndex = items.findIndex((i) => i.id === active.id);
     const newIndex = items.findIndex((i) => i.id === over.id);
+    if (oldIndex === -1 || newIndex === -1) return;
     const reordered = arrayMove(items, oldIndex, newIndex);
+    setSelectedInvoice({ ...selectedInvoice, items: reordered });
     await reorderInvoiceItems(selectedInvoice.id, reordered.map((i) => i.id));
   };
 

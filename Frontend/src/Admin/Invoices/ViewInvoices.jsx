@@ -483,6 +483,7 @@ const SortableServiceItem = ({ item, editingItem, setEditingItem, handleUpdateSe
           <div
             {...attributes}
             {...listeners}
+            style={{ touchAction: 'none' }}
             className="flex-shrink-0 mr-2 mt-0.5 text-darkgreen/30 hover:text-darkgreen/60 cursor-grab active:cursor-grabbing transition-colors"
             title="Drag to reorder"
           >
@@ -514,7 +515,7 @@ const ViewInvoices = () => {
   const {
     agents, invoices, selectedAgent, selectedInvoice, isLoading,
     fetchAgents, fetchAgentInvoices, fetchInvoiceById,
-    setSelectedAgent, deleteInvoice, addPayment, deletePayment,
+    setSelectedAgent, setSelectedInvoice, deleteInvoice, addPayment, deletePayment,
     addInvoiceItem, updateInvoiceItem, deleteInvoiceItem,
     reorderInvoiceItems,
   } = useInvoiceStore();
@@ -527,7 +528,9 @@ const ViewInvoices = () => {
     const items = selectedInvoice.items;
     const oldIndex = items.findIndex(i => i.item_id === active.id);
     const newIndex = items.findIndex(i => i.item_id === over.id);
+    if (oldIndex === -1 || newIndex === -1) return;
     const reordered = arrayMove(items, oldIndex, newIndex);
+    setSelectedInvoice({ ...selectedInvoice, items: reordered });
     await reorderInvoiceItems(selectedInvoice.invoice_id, reordered.map(i => i.item_id));
   };
 
