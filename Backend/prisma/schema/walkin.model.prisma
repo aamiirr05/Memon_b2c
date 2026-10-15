@@ -1,0 +1,55 @@
+model WalkInCustomer {
+  id          String           @id @default(uuid())
+  name        String
+  phone       String
+  email       String?
+  address     String?
+  created_at  DateTime         @default(now())
+  updated_at  DateTime         @updatedAt
+
+  invoices    WalkInInvoice[]
+}
+
+model WalkInInvoice {
+  id              String              @id @default(uuid())
+  invoice_number  String              @unique
+  customer_id     String
+  customer        WalkInCustomer      @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+  invoice_date    DateTime            @default(now())
+  hijri_year      String
+  created_at      DateTime            @default(now())
+  updated_at      DateTime            @updatedAt
+
+  items           WalkInInvoiceItem[]
+  payments        WalkInPayment[]
+
+  @@index([customer_id])
+  @@index([invoice_number])
+}
+
+model WalkInInvoiceItem {
+  id            String        @id @default(uuid())
+  invoice_id    String
+  invoice       WalkInInvoice @relation(fields: [invoice_id], references: [id], onDelete: Cascade)
+  particulars   String
+  pax_quantity  Int
+  rate_per_pax  Decimal       @db.Decimal(10, 2)
+  total_amount  Decimal       @db.Decimal(12, 2)
+  sort_order    Int           @default(0)
+  created_at    DateTime      @default(now())
+
+  @@index([invoice_id])
+}
+
+model WalkInPayment {
+  id            String        @id @default(uuid())
+  invoice_id    String
+  invoice       WalkInInvoice @relation(fields: [invoice_id], references: [id], onDelete: Cascade)
+  payment_date  DateTime
+  amount_paid   Decimal       @db.Decimal(12, 2)
+  received_by   String
+  notes         String?
+  created_at    DateTime      @default(now())
+
+  @@index([invoice_id])
+}

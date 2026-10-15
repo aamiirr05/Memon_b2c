@@ -70,6 +70,7 @@ import hotelRoute from "./routes/hotel.routes.js";
 import visaRoute from "./routes/visa.routes.js";
 import adminEnquiryRoutes from "./routes/adminenquiry.routes.js";
 import invoiceRoutes from "./routes/invoice.routes.js";
+import walkInRoutes from "./routes/walkin.routes.js";
 import {
   departurePublicRoutes,
   departureAdminRoutes,
@@ -88,6 +89,7 @@ app.use("/api/v1/admin/hotel", hotelRoute);
 app.use("/api/v1/admin/visa", visaRoute);
 app.use("/api/v1/admin/enquiry", adminEnquiryRoutes);
 app.use("/api/v1/admin/invoices", invoiceRoutes);
+app.use("/api/v1/admin/walkin", walkInRoutes);
 app.use("/api/v1/departures", departurePublicRoutes);
 app.use("/api/v1/admin/departures", departureAdminRoutes);
 

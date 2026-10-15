@@ -68,6 +68,11 @@ import ViewInvoices from './Admin/Invoices/ViewInvoices';
 import CreateInvoice from './Admin/Invoices/CreateInvoice';
 import Agents from './Admin/Invoices/Agents';
 import PendingBalances from './Admin/Invoices/PendingBalances';
+import WalkInInvoices from './Admin/WalkInInvoices/WalkInInvoices';
+import ViewWalkInInvoices from './Admin/WalkInInvoices/ViewWalkInInvoices';
+import CreateWalkInInvoice from './Admin/WalkInInvoices/CreateWalkInInvoice';
+import WalkInCustomers from './Admin/WalkInInvoices/WalkInCustomers';
+import WalkInPendingBalances from './Admin/WalkInInvoices/WalkInPendingBalances';
 import HolidaysPage from './pages/HolidaysPage';
 import HolidayDetailPage from './pages/HolidayDetailPage';
 import { motion } from 'framer-motion';
@@ -454,6 +459,14 @@ const App = () => {
                     <Route path="create" element={<CreateInvoice />} />
                     <Route path="agents" element={<Agents />} />
                     <Route path="pending" element={<PendingBalances />} />
+                  </Route>
+
+                  {/* Walk-in Customer Invoice Routes */}
+                  <Route path="walkin-invoices" element={<WalkInInvoices />}>
+                    <Route path="view" element={<ViewWalkInInvoices />} />
+                    <Route path="create" element={<CreateWalkInInvoice />} />
+                    <Route path="customers" element={<WalkInCustomers />} />
+                    <Route path="pending" element={<WalkInPendingBalances />} />
                   </Route>
 
                   {/* Departure Management Routes */}

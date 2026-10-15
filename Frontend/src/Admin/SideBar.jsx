@@ -11,6 +11,7 @@ import {
   Hotel,
   LogOut,
   Receipt,
+  UserRound,
 } from 'lucide-react';
 
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -55,6 +56,11 @@ const SideBar = ({ isMenuOpen, setIsMenuOpen }) => {
       icon: <Receipt />,
       name: 'Invoices',
       path: '/admin/invoices',
+    },
+    {
+      icon: <UserRound />,
+      name: 'Walk-in Invoices',
+      path: '/admin/walkin-invoices',
     },
   ];
 

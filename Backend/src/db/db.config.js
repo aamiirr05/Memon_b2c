@@ -62,6 +62,79 @@ const initDepartureTables = async () => {
   console.log("Departure tables initialized successfully.");
 };
 
+// ******** Auto-Verify WalkIn Tables ********
+const initWalkInTables = async () => {
+  const statements = [
+    `CREATE TABLE IF NOT EXISTS "WalkInCustomer" (
+      "id" TEXT NOT NULL,
+      "name" TEXT NOT NULL,
+      "phone" TEXT NOT NULL,
+      "email" TEXT,
+      "address" TEXT,
+      "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "WalkInCustomer_pkey" PRIMARY KEY ("id")
+    )`,
+    `CREATE TABLE IF NOT EXISTS "WalkInInvoice" (
+      "id" TEXT NOT NULL,
+      "invoice_number" TEXT NOT NULL,
+      "customer_id" TEXT NOT NULL,
+      "invoice_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "hijri_year" TEXT NOT NULL,
+      "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "WalkInInvoice_pkey" PRIMARY KEY ("id")
+    )`,
+    `CREATE UNIQUE INDEX IF NOT EXISTS "WalkInInvoice_invoice_number_key" ON "WalkInInvoice"("invoice_number")`,
+    `CREATE INDEX IF NOT EXISTS "WalkInInvoice_customer_id_idx" ON "WalkInInvoice"("customer_id")`,
+    `CREATE INDEX IF NOT EXISTS "WalkInInvoice_invoice_number_idx" ON "WalkInInvoice"("invoice_number")`,
+    `CREATE TABLE IF NOT EXISTS "WalkInInvoiceItem" (
+      "id" TEXT NOT NULL,
+      "invoice_id" TEXT NOT NULL,
+      "particulars" TEXT NOT NULL,
+      "pax_quantity" INTEGER NOT NULL,
+      "rate_per_pax" DECIMAL(10, 2) NOT NULL,
+      "total_amount" DECIMAL(12, 2) NOT NULL,
+      "sort_order" INTEGER NOT NULL DEFAULT 0,
+      "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "WalkInInvoiceItem_pkey" PRIMARY KEY ("id")
+    )`,
+    `CREATE INDEX IF NOT EXISTS "WalkInInvoiceItem_invoice_id_idx" ON "WalkInInvoiceItem"("invoice_id")`,
+    `CREATE TABLE IF NOT EXISTS "WalkInPayment" (
+      "id" TEXT NOT NULL,
+      "invoice_id" TEXT NOT NULL,
+      "payment_date" TIMESTAMP(3) NOT NULL,
+      "amount_paid" DECIMAL(12, 2) NOT NULL,
+      "received_by" TEXT NOT NULL,
+      "notes" TEXT,
+      "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      CONSTRAINT "WalkInPayment_pkey" PRIMARY KEY ("id")
+    )`,
+    `CREATE INDEX IF NOT EXISTS "WalkInPayment_invoice_id_idx" ON "WalkInPayment"("invoice_id")`,
+    `DO $$
+    BEGIN
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'WalkInInvoice_customer_id_fkey') THEN
+        ALTER TABLE "WalkInInvoice" ADD CONSTRAINT "WalkInInvoice_customer_id_fkey" FOREIGN KEY ("customer_id") REFERENCES "WalkInCustomer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+      END IF;
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'WalkInInvoiceItem_invoice_id_fkey') THEN
+        ALTER TABLE "WalkInInvoiceItem" ADD CONSTRAINT "WalkInInvoiceItem_invoice_id_fkey" FOREIGN KEY ("invoice_id") REFERENCES "WalkInInvoice"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+      END IF;
+      IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'WalkInPayment_invoice_id_fkey') THEN
+        ALTER TABLE "WalkInPayment" ADD CONSTRAINT "WalkInPayment_invoice_id_fkey" FOREIGN KEY ("invoice_id") REFERENCES "WalkInInvoice"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+      END IF;
+    END $$;`
+  ];
+
+  for (const sql of statements) {
+    try {
+      await prisma.$executeRawUnsafe(sql);
+    } catch (err) {
+      console.error("WalkIn table init error on statement:", err?.message || err);
+    }
+  }
+  console.log("WalkIn tables initialized successfully.");
+};
+
 // ******** DB Connection ********
 
 const connectDB = async () => {
@@ -69,6 +142,7 @@ const connectDB = async () => {
     await prisma.$connect();
     console.log("Connected to DB!!");
     await initDepartureTables();
+    await initWalkInTables();
   } catch (error) {
     console.log("Connection to DB Failed:", error);
     process.exit(1);
