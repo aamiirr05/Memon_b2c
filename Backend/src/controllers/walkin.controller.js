@@ -92,22 +92,45 @@ const generateInvoiceNumber = async () => {
   return `${prefix}-${String(nextNumber).padStart(4, "0")}`;
 };
 
-// Create Invoice
+// Create Invoice (All-in-One: Customer + Invoice + Services + Initial Payment)
 const createInvoice = asyncHandler(async (req, res) => {
-  const { customer_id, hijri_year, items } = req.body;
+  let { customer_id, customer_name, customer_phone, customer_email, customer_address, customer: customerData, hijri_year, items, payment } = req.body;
 
-  if (!customer_id) throw new ApiError(400, "Customer is required");
+  let targetCustomer = null;
+
+  // 1. Resolve or Create Customer
+  if (customer_id) {
+    targetCustomer = await prisma.walkInCustomer.findUnique({ where: { id: customer_id } });
+    if (!targetCustomer) throw new ApiError(404, "Selected customer not found");
+  } else {
+    const name = (customer_name || customerData?.name || "").trim();
+    const phone = (customer_phone || customerData?.phone || "").trim();
+    const email = (customer_email || customerData?.email || "").trim() || null;
+    const address = (customer_address || customerData?.address || "").trim() || null;
+
+    if (!name) throw new ApiError(400, "Customer name is required");
+    if (!phone) throw new ApiError(400, "Customer phone number is required");
+
+    // Check if customer with this phone already exists to avoid duplicates
+    targetCustomer = await prisma.walkInCustomer.findFirst({
+      where: { phone },
+    });
+
+    if (!targetCustomer) {
+      targetCustomer = await prisma.walkInCustomer.create({
+        data: { name, phone, email, address },
+      });
+    }
+  }
+
   if (!hijri_year) throw new ApiError(400, "Hijri year is required");
   if (!items || !Array.isArray(items) || items.length === 0) {
     throw new ApiError(400, "At least one item is required");
   }
 
-  const customer = await prisma.walkInCustomer.findUnique({ where: { id: customer_id } });
-  if (!customer) throw new ApiError(404, "Customer not found");
-
+  // 2. Generate Invoice Number
   let invoice_number = await generateInvoiceNumber();
 
-  // Ensure unique invoice number in case of race condition
   let existing = await prisma.walkInInvoice.findUnique({ where: { invoice_number } });
   let attempts = 0;
   while (existing && attempts < 10) {
@@ -118,10 +141,23 @@ const createInvoice = asyncHandler(async (req, res) => {
     attempts++;
   }
 
+  // 3. Prepare initial payment if provided
+  const initialPayments = [];
+  if (payment && parseFloat(payment.amount_paid) > 0) {
+    const pDate = payment.payment_date ? new Date(payment.payment_date) : new Date();
+    initialPayments.push({
+      payment_date: isNaN(pDate.getTime()) ? new Date() : pDate,
+      amount_paid: parseFloat(payment.amount_paid),
+      received_by: String(payment.received_by || "MEMON"),
+      notes: payment.notes ? String(payment.notes) : null,
+    });
+  }
+
+  // 4. Create Invoice with Items and Payments
   const invoice = await prisma.walkInInvoice.create({
     data: {
       invoice_number,
-      customer_id,
+      customer_id: targetCustomer.id,
       hijri_year: String(hijri_year),
       items: {
         create: items.map((item, index) => {
@@ -136,11 +172,26 @@ const createInvoice = asyncHandler(async (req, res) => {
           };
         }),
       },
+      ...(initialPayments.length > 0 && {
+        payments: {
+          create: initialPayments,
+        },
+      }),
     },
-    include: { items: true, customer: true },
+    include: {
+      customer: true,
+      items: { orderBy: [{ sort_order: "asc" }, { created_at: "asc" }] },
+      payments: true,
+    },
   });
 
-  return res.status(201).json(new ApiResponse(201, invoice, "Invoice created successfully"));
+  const totalServices = invoice.items.reduce((sum, item) => sum + parseFloat(item.total_amount), 0);
+  const totalPaid = invoice.payments.reduce((sum, p) => sum + parseFloat(p.amount_paid), 0);
+  const balance = totalServices - totalPaid;
+
+  return res.status(201).json(
+    new ApiResponse(201, { ...invoice, totalServices, totalPaid, balance }, "Invoice created successfully")
+  );
 });
 
 // Get All Invoices for a Customer

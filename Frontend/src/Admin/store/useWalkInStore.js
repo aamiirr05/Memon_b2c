@@ -112,13 +112,17 @@ const useWalkInStore = create((set, get) => ({
   createInvoice: async (invoiceData) => {
     set({ isLoading: true });
     try {
-      await axiosInstance.post('/admin/walkin/invoices', invoiceData);
+      const res = await axiosInstance.post('/admin/walkin/invoices', invoiceData);
       toast.success('Invoice created successfully');
-      await get().fetchCustomerInvoices(invoiceData.customer_id);
-      return true;
+      const created = res.data.data;
+      if (created?.customer_id) {
+        await get().fetchCustomerInvoices(created.customer_id);
+      }
+      set({ selectedInvoice: created, selectedCustomer: created.customer });
+      return created;
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Failed to create invoice');
-      return false;
+      return null;
     } finally {
       set({ isLoading: false });
     }

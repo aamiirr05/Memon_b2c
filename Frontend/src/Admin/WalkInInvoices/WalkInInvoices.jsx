@@ -7,13 +7,13 @@ const WalkInInvoices = () => {
 
   useEffect(() => {
     if (location.pathname === '/admin/walkin-invoices' || location.pathname === '/admin/walkin-invoices/') {
-      navigate('/admin/walkin-invoices/view');
+      navigate('/admin/walkin-invoices/create');
     }
   }, [location.pathname, navigate]);
 
   const tabs = [
-    { label: 'Invoices', route: '/admin/walkin-invoices/view' },
-    { label: 'Create Invoice', route: '/admin/walkin-invoices/create' },
+    { label: '⚡ Quick Billing (Create)', route: '/admin/walkin-invoices/create' },
+    { label: 'All Invoices', route: '/admin/walkin-invoices/view' },
     { label: 'Customers', route: '/admin/walkin-invoices/customers' },
     { label: 'Pending Balances', route: '/admin/walkin-invoices/pending' },
   ];
