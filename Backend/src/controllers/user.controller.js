@@ -220,7 +220,12 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const checkAuth = asyncHandler(async (req, res) => {
   try {
-    const token = req.cookies?.accessToken;
+    const authHeader = req.headers?.authorization || req.headers?.Authorization;
+    const headerToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
+
+    const token = req.cookies?.accessToken || headerToken;
 
     if (!token) {
       throw new ApiError(401, "Token not found");
@@ -228,9 +233,13 @@ const checkAuth = asyncHandler(async (req, res) => {
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
+    if (!decodedToken || !decodedToken.registrationId) {
+      throw new ApiError(401, "Invalid Access Token");
+    }
+
     const user = await prisma.user.findUnique({
       where: {
-        registration_id: decodedToken?.registrationId,
+        registration_id: decodedToken.registrationId,
       },
       select: {
         registration_id: true,
@@ -251,7 +260,10 @@ const checkAuth = asyncHandler(async (req, res) => {
       .status(200)
       .json(new ApiResponse(200, user, "User Authenticated"));
   } catch (error) {
-    throw new ApiError(401, error?.message || "Invalid Access Token");
+    if (error instanceof ApiError) {
+      throw error;
+    }
+    throw new ApiError(401, "Invalid or expired Access Token");
   }
 });
 
