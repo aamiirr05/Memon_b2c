@@ -38,10 +38,8 @@ const checkAuthAdmin = asyncHandler(async (req, res) => {
       select: {
         admin_id: true,
         admin_username: true,
-        password: true,
         email: true,
         contact: true,
-        refresh_token: true,
         created_at: true,
       },
     });
@@ -120,7 +118,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
     secure: true,
     httpOnly: true,
     sameSite: "None",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
   };
 
   const refreshTokenOptions = {
@@ -197,7 +195,7 @@ const refreshToken = asyncHandler(async (req, res) => {
     secure: true,
     httpOnly: true,
     sameSite: "None",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
   };
 
   return res

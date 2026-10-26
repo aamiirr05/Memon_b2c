@@ -38,7 +38,7 @@ const otpStorage = new Map();
 
 const storeOTP = (email, otp) => {
   const expiresAt = Date.now() + 5 * 60 * 1000; // OTP valid for 5 minutes
-  otpStorage.set(email, { otp, expiresAt });
+  otpStorage.set(email.toLowerCase(), { otp, expiresAt, attempts: 0 });
 };
 
 // ******************* Send OTP *******************
@@ -461,12 +461,33 @@ const sendMailOnStatusUpdate = async (
   }
 };
 
-// **************************** RATE LIMITER ****************************************
+// **************************** RATE LIMITERS ****************************************
 
 const limiter = rateLimit({
   limit: 10,
-  windowMs: 60 * 60 * 1000,
-  message: "Too many requests, please try again later.",
+  windowMs: 10 * 60 * 1000,
+  message: { success: false, message: "Too many requests, please try again later." },
+  statusCode: 429,
+});
+
+const authLimiter = rateLimit({
+  limit: 15,
+  windowMs: 15 * 60 * 1000,
+  message: { success: false, message: "Too many login/signup attempts. Please try again after 15 minutes." },
+  statusCode: 429,
+});
+
+const otpLimiter = rateLimit({
+  limit: 5,
+  windowMs: 5 * 60 * 1000,
+  message: { success: false, message: "Too many OTP requests. Please wait a few minutes before trying again." },
+  statusCode: 429,
+});
+
+const apiLimiter = rateLimit({
+  limit: 500,
+  windowMs: 15 * 60 * 1000,
+  message: { success: false, message: "Too many requests. Please slow down." },
   statusCode: 429,
 });
 
@@ -489,5 +510,8 @@ export {
   uploadImages,
   sendMailOnEnquiry,
   limiter,
+  authLimiter,
+  otpLimiter,
+  apiLimiter,
   sendMailOnStatusUpdate,
 };

@@ -7,13 +7,13 @@ import {
   refreshToken,
 } from "../controllers/admin.controller.js";
 import { verifyAdminJwt } from "../middlewares/admin.auth.middleware.js";
-import { limiter } from "../utils/utilityfunction.js";
+import { authLimiter } from "../utils/utilityfunction.js";
 
 const router = Router();
 
 // *************************** AUTH ROUTES **********************************
 
-router.route("/login").post(limiter, loginAdmin);
+router.route("/login").post(authLimiter, loginAdmin);
 router.route("/check-auth-admin").get(checkAuthAdmin);
 
 // ************************** PROTECTED ROUTES *******************************

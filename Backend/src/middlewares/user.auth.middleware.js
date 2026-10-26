@@ -7,10 +7,15 @@ import prisma from "../db/db.config.js";
 
 export const verifyJwt = asyncHandler(async (req, _, next) => {
   try {
-    const token = req.cookies?.accessToken;
+    const authHeader = req.headers?.authorization || req.headers?.Authorization;
+    const headerToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
+
+    const token = req.cookies?.accessToken || headerToken;
 
     if (!token) {
-      return next();
+      throw new ApiError(401, "Unauthorized request: Token not found");
     }
 
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);

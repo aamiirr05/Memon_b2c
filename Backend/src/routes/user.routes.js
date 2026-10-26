@@ -20,15 +20,15 @@ import {
   verifyOtp,
 } from "../controllers/user.controller.js";
 import { verifyJwt } from "../middlewares/user.auth.middleware.js";
-import { limiter } from "../utils/utilityfunction.js";
+import { authLimiter, otpLimiter } from "../utils/utilityfunction.js";
 
 const router = Router();
 
-router.route("/signup").post(registerUser);
-router.route("/login").post(limiter, loginUser);
+router.route("/signup").post(authLimiter, registerUser);
+router.route("/login").post(authLimiter, loginUser);
 router.route("/check-auth").get(checkAuth);
-router.route("/resend-otp").post(resendOtp);
-router.route("/verify-otp").post(verifyOtp);
+router.route("/resend-otp").post(otpLimiter, resendOtp);
+router.route("/verify-otp").post(otpLimiter, verifyOtp);
 router.route("/fetch-all-umrah-packages").get(getAllUmrahPackages);
 router.route("/fetch-umrah-packages/:id").get(getUmrahPackageById);
 router.route("/fetch-all-holiday-packages").get(getAllHolidayPackages);

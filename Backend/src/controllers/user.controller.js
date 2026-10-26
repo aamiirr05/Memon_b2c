@@ -314,26 +314,45 @@ const verifyOtp = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Email and Otp is required");
   }
 
-  const record = await otpStorage.get(email);
+  const normalizedEmail = email?.toLowerCase();
+  const record = otpStorage.get(normalizedEmail);
 
   if (!record) {
     throw new ApiError(404, "No OTP request found for this email.");
   }
 
-  const { otp: storedOtp, expiresAt } = record;
+  const { otp: storedOtp, expiresAt, attempts = 0 } = record;
 
   if (Date.now() > expiresAt) {
-    otpStorage.delete(email);
-    throw new ApiError(400, "OTP expired");
+    otpStorage.delete(normalizedEmail);
+    throw new ApiError(400, "OTP expired. Please request a new one.");
+  }
+
+  if (attempts >= 5) {
+    otpStorage.delete(normalizedEmail);
+    throw new ApiError(
+      429,
+      "Too many failed attempts. This OTP has been invalidated. Please request a new one."
+    );
   }
 
   if (storedOtp !== parseInt(inputOtp, 10)) {
-    throw new ApiError(400, "Invalid OTP");
+    record.attempts = attempts + 1;
+    const remaining = 5 - record.attempts;
+    if (remaining <= 0) {
+      otpStorage.delete(normalizedEmail);
+      throw new ApiError(
+        429,
+        "Too many failed attempts. This OTP has been invalidated. Please request a new one."
+      );
+    }
+    throw new ApiError(400, `Invalid OTP. ${remaining} attempt(s) remaining.`);
   }
-  otpStorage.delete(email);
+
+  otpStorage.delete(normalizedEmail);
 
   const updatedUser = await prisma.user.update({
-    where: { email },
+    where: { email: normalizedEmail },
     data: { is_verified: true },
     select: {
       salutation: true,
